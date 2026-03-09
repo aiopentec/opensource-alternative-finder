@@ -1,0 +1,239 @@
+# .github/workflows/pipeline.yml
+# Main pipeline: runs daily at 6 AM UTC.
+# Also triggerable manually from the GitHub Actions tab.
+
+name: Open Source Alternative Pipeline
+
+on:
+  schedule:
+    - cron: "0 6 * * *"   # Daily at 6 AM UTC
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'What to run'
+        required: true
+        default: 'full'
+        type: choice
+        options:
+          - full       # Scrape + Generate + Publish
+          - scrape     # Only scrape data
+          - generate   # Only generate comparisons
+          - publish    # Only build and publish site
+
+concurrency:
+  group: pipeline-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHON_VERSION: "3.11"
+
+jobs:
+
+  # ──────────────────────────────────────────────
+  # JOB 1: SETUP — install dependencies, verify scripts
+  # ──────────────────────────────────────────────
+  setup:
+    name: Prepare Environment
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: pip install -q -r requirements.txt
+
+      - name: Create Directories
+        run: |
+          mkdir -p .cache/scrape .cache/publish
+          mkdir -p dlq/failed dlq/dead dlq/success
+          mkdir -p site data/comparisons
+
+      - name: Verify Scripts Load
+        run: |
+          python -c "import sys; sys.path.insert(0,'scripts'); from utils_resilience import DeadLetterQueue; print('✅ utils_resilience OK')"
+          python -c "import sys; sys.path.insert(0,'scripts'); print('✅ Python path OK')"
+
+
+  # ──────────────────────────────────────────────
+  # JOB 2: SCRAPE — fetch from GitHub and Reddit
+  # Skipped if mode is 'generate' or 'publish'
+  # ──────────────────────────────────────────────
+  scrape:
+    name: Scrape Data Sources
+    needs: setup
+    runs-on: ubuntu-latest
+    if: |
+      github.event.inputs.mode == 'full' ||
+      github.event.inputs.mode == 'scrape' ||
+      github.event.inputs.mode == ''
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+
+      - run: pip install -q -r requirements.txt
+
+      - name: Create cache directories
+        run: mkdir -p .cache/scrape
+
+      - name: Scrape GitHub
+        run: python scripts/scrape_sources.py --source github --output .cache/scrape
+
+      - name: Scrape Reddit
+        run: python scripts/scrape_sources.py --source reddit --output .cache/scrape
+
+      - name: Upload Scrape Cache
+        uses: actions/upload-artifact@v4
+        with:
+          name: scrape-cache
+          path: .cache/scrape/
+          retention-days: 1
+
+
+  # ──────────────────────────────────────────────
+  # JOB 3: GENERATE — runs 2 batches in parallel
+  # Matrix lets both batches run simultaneously
+  # ──────────────────────────────────────────────
+  generate:
+    name: Generate Comparisons
+    needs: [setup, scrape]
+    runs-on: ubuntu-latest
+    if: |
+      always() && (
+        github.event.inputs.mode == 'full' ||
+        github.event.inputs.mode == 'generate' ||
+        github.event.inputs.mode == ''
+      )
+    strategy:
+      fail-fast: false      # If batch 2 fails, batch 1 still completes
+      matrix:
+        batch_index: [1, 2]
+    env:
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+
+      - run: pip install -q -r requirements.txt
+
+      - name: Create directories
+        run: mkdir -p .cache/scrape .cache/publish dlq/failed dlq/dead dlq/success
+
+      - name: Download Scrape Cache
+        uses: actions/download-artifact@v4
+        with:
+          name: scrape-cache
+          path: .cache/scrape/
+        continue-on-error: true   # OK if scrape was skipped
+
+      - name: Generate Comparisons (Batch ${{ matrix.batch_index }})
+        run: |
+          python scripts/generate_comparison.py \
+            --index ${{ matrix.batch_index }} \
+            --output .cache/publish \
+            --dlq-dir ./dlq
+
+      - name: Upload Generated Comparisons
+        uses: actions/upload-artifact@v4
+        with:
+          name: generated-batch-${{ matrix.batch_index }}
+          path: .cache/publish/
+          retention-days: 1
+
+      - name: Upload DLQ (if any failures)
+        uses: actions/upload-artifact@v4
+        with:
+          name: dlq-batch-${{ matrix.batch_index }}
+          path: dlq/
+          retention-days: 7
+        continue-on-error: true
+
+
+  # ──────────────────────────────────────────────
+  # JOB 4: PUBLISH — build site and deploy to GitHub Pages
+  # ──────────────────────────────────────────────
+  publish:
+    name: Build and Publish Site
+    needs: [setup, generate]
+    runs-on: ubuntu-latest
+    if: |
+      always() && (
+        github.event.inputs.mode == 'full' ||
+        github.event.inputs.mode == 'publish' ||
+        github.event.inputs.mode == ''
+      )
+    permissions:
+      contents: write     # Required to push to gh-pages branch
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+
+      - run: pip install -q -r requirements.txt
+
+      - name: Create directories
+        run: mkdir -p .cache/publish site
+
+      - name: Download All Generated Comparisons
+        uses: actions/download-artifact@v4
+        with:
+          pattern: generated-batch-*
+          merge-multiple: true
+          path: .cache/publish/
+        continue-on-error: true
+
+      - name: Build Static Site
+        run: python scripts/publish_github_pages.py
+
+      - name: Count Pages Built
+        run: |
+          PAGES=$(find site -name "index.html" | wc -l)
+          echo "Built $PAGES pages"
+          echo "PAGES=$PAGES" >> $GITHUB_ENV
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+          commit_message: "Auto-update #${{ github.run_number }}: ${{ env.PAGES }} pages"
+
+
+  # ──────────────────────────────────────────────
+  # JOB 5: SUMMARY — always runs, reports results
+  # ──────────────────────────────────────────────
+  summary:
+    name: Pipeline Summary
+    needs: [scrape, generate, publish]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Write Summary
+        run: |
+          echo "## 🚀 Pipeline Run #${{ github.run_number }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Job | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Scrape    | ${{ needs.scrape.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Generate  | ${{ needs.generate.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Publish   | ${{ needs.publish.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "⏰ Completed: $(date -u '+%Y-%m-%d %H:%M UTC')" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 Mode: ${{ github.event.inputs.mode || 'scheduled' }}" >> $GITHUB_STEP_SUMMARY

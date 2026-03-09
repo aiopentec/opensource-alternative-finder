@@ -1,0 +1,79 @@
+# .github/workflows/weekly-update.yml
+# Runs every Sunday at 2 AM UTC — refreshes GitHub star counts and metrics
+
+name: Weekly Metrics Update
+
+on:
+  schedule:
+    - cron: "0 2 * * 0"   # Every Sunday at 2 AM UTC
+  workflow_dispatch:
+
+jobs:
+  update-metrics:
+    name: Refresh Tool Metrics
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: 'pip'
+
+      - run: pip install -q requests
+
+      - name: Fetch Current GitHub Stars
+        run: |
+          python << 'SCRIPT'
+          import requests, json
+          from datetime import datetime
+
+          # Open-source tools and their GitHub repos
+          REPOS = {
+              'Element':    'element-hq/element-web',
+              'Mattermost': 'mattermost/mattermost',
+              'Zulip':      'zulip/zulip',
+              'AppFlowy':   'AppFlowy-IO/AppFlowy',
+              'Logseq':     'logseq/logseq',
+              'GitLab':     'gitlabhq/gitlabhq',
+              'Gitea':      'go-gitea/gitea',
+              'Penpot':     'penpot/penpot',
+              'Plane':      'makeplane/plane',
+              'WeKan':      'wekan/wekan',
+              'Nextcloud':  'nextcloud/server',
+              'Jitsi Meet': 'jitsi/jitsi-meet',
+              'Taiga':      'taigaio/taiga-back',
+          }
+
+          import os
+          headers = {"Accept": "application/vnd.github.v3+json"}
+          token = os.getenv("GITHUB_TOKEN")
+          if token:
+              headers["Authorization"] = f"token {token}"
+
+          results = []
+          print(f"\n{'Tool':<15} {'Stars':>8}  {'Forks':>7}  {'Issues':>7}")
+          print("-" * 45)
+          for tool, repo in REPOS.items():
+              try:
+                  r = requests.get(
+                      f'https://api.github.com/repos/{repo}',
+                      headers=headers,
+                      timeout=10
+                  )
+                  if r.status_code == 200:
+                      data = r.json()
+                      stars  = data.get('stargazers_count', 0)
+                      forks  = data.get('forks_count', 0)
+                      issues = data.get('open_issues_count', 0)
+                      print(f"{tool:<15} {stars:>8,}  {forks:>7,}  {issues:>7,}")
+                      results.append({'tool': tool, 'repo': repo, 'stars': stars, 'forks': forks, 'open_issues': issues, 'checked_at': datetime.utcnow().isoformat() + 'Z'})
+                  else:
+                      print(f"{tool:<15}  HTTP {r.status_code}")
+              except Exception as e:
+                  print(f"{tool:<15}  ERROR: {e}")
+
+          print(f"\n✅ Checked {len(results)}/{len(REPOS)} repos at {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}")
+          SCRIPT
