@@ -3,15 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Open Source Alternative Finder — Free Tool Comparisons</title>
-  <meta name="description" content="Find free, open-source alternatives to popular paid software. AI-powered comparisons updated daily.">
+
+  <!-- SEO -->
+  <title>Open Source Alternative Finder — Free Replacements for Popular Paid Tools</title>
+  <meta name="description" content="Discover free, open-source alternatives to Slack, Notion, Figma, Jira, Dropbox and more. AI-powered comparisons updated daily. Save thousands per year.">
+  <meta name="keywords" content="open source alternatives, free software alternatives, self-hosted tools, slack alternative, notion alternative, figma alternative">
+  <link rel="canonical" href="https://aiopentec.github.io/opensource-alternative-finder/">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Open Source Alternative Finder">
+  <meta property="og:description" content="Find free, open-source replacements for popular paid tools. AI-powered comparisons updated daily.">
+  <meta property="og:url" content="https://aiopentec.github.io/opensource-alternative-finder/">
+  <meta property="og:site_name" content="Open Source Alternative Finder">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Open Source Alternative Finder">
+  <meta name="twitter:description" content="Find free, open-source replacements for Slack, Notion, Figma, and more.">
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Open Source Alternative Finder",
+    "url": "https://aiopentec.github.io/opensource-alternative-finder/",
+    "description": "AI-powered comparisons of open-source alternatives to popular paid software",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://aiopentec.github.io/opensource-alternative-finder/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <!-- AdSense: set ADSENSE_ID env var to enable -->
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
     :root { --blue: #1F5C99; --blue-light: #2980B9; --green: #1A7A3F; --bg: #F0F4F8; --card: #fff; --border: #E2E8F0; --text: #1A202C; --text-muted: #718096; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-
-    /* HERO */
     .hero { background: linear-gradient(135deg, var(--blue) 0%, var(--blue-light) 100%); color: #fff; padding: 4rem 1.5rem 3rem; text-align: center; }
     .hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; margin-bottom: 0.75rem; }
     .hero p { opacity: 0.88; font-size: 1.1rem; max-width: 580px; margin: 0 auto 2rem; }
@@ -19,15 +52,14 @@
     .stat { text-align: center; }
     .stat .num { font-size: 2rem; font-weight: 900; }
     .stat .label { font-size: 0.82rem; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.05em; }
-
-    /* FILTER BAR */
-    .filter-bar { background: #fff; border-bottom: 1px solid var(--border); padding: 1rem 1.5rem; position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-    .filter-bar-inner { max-width: 1200px; margin: 0 auto; display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+    /* Search bar */
+    .search-bar { background: #fff; border-bottom: 1px solid var(--border); padding: 1rem 1.5rem; }
+    .search-bar-inner { max-width: 1200px; margin: 0 auto; display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
+    .search-input { flex: 1; padding: 0.55rem 1rem; border: 2px solid var(--border); border-radius: 8px; font-size: 0.9rem; min-width: 200px; }
+    .search-input:focus { outline: none; border-color: var(--blue); }
     .filter-btn { padding: 0.4rem 1rem; border-radius: 20px; border: 2px solid var(--border); background: #fff; cursor: pointer; font-size: 0.82rem; font-weight: 600; color: var(--text-muted); transition: all 0.15s; }
     .filter-btn:hover, .filter-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
-    .filter-label { font-size: 0.82rem; font-weight: 700; color: var(--text-muted); margin-right: 0.25rem; }
-
-    /* GRID */
+    .filter-label { font-size: 0.82rem; font-weight: 700; color: var(--text-muted); white-space: nowrap; }
     .grid { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
     .card { background: var(--card); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; }
     .card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
@@ -42,11 +74,9 @@
     .card-footer { padding: 0.75rem 1.25rem 1.25rem; }
     .cta { display: block; text-align: center; background: var(--blue); color: #fff; padding: 0.6rem 1rem; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.88rem; transition: background 0.15s; }
     .cta:hover { background: var(--blue-light); }
-
-    /* FOOTER */
+    .no-results { text-align: center; padding: 3rem; color: var(--text-muted); display: none; }
     footer { text-align: center; padding: 3rem 1rem 2rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border); background: #fff; margin-top: 1rem; }
     footer a { color: var(--blue); }
-
     @media (max-width: 600px) {
       .grid { grid-template-columns: 1fr; padding: 1rem; }
       .hero { padding: 2.5rem 1rem 2rem; }
@@ -57,7 +87,7 @@
 
 <div class="hero">
   <h1>🔍 Open Source Alternative Finder</h1>
-  <p>Discover free, open-source replacements for popular paid tools — with detailed AI-powered comparisons.</p>
+  <p>Discover free, open-source replacements for popular paid tools — with detailed AI-powered comparisons. Save thousands per year.</p>
   <div class="hero-stats">
     <div class="stat"><div class="num">16</div><div class="label">Comparisons</div></div>
     <div class="stat"><div class="num">25</div><div class="label">Tools Covered</div></div>
@@ -66,23 +96,24 @@
   </div>
 </div>
 
-<div class="filter-bar">
-  <div class="filter-bar-inner">
+<div class="search-bar">
+  <div class="search-bar-inner">
+    <input class="search-input" type="search" placeholder="🔎  Search tools... (e.g. Slack, Notion, Figma)" oninput="handleSearch(this.value)" aria-label="Search comparisons">
     <span class="filter-label">Filter:</span>
-    <button class="filter-btn active" onclick="filterCards('all')">All</button>
-    <button class="filter-btn" onclick="filterCards('communication')">💬 Communication (4)</button>
-<button class="filter-btn" onclick="filterCards('design')">🎨 Design (1)</button>
-<button class="filter-btn" onclick="filterCards('developer-tools')">⚙️ Developer Tools (2)</button>
-<button class="filter-btn" onclick="filterCards('file-storage')">☁️ File Storage (1)</button>
-<button class="filter-btn" onclick="filterCards('productivity')">📝 Productivity (3)</button>
-<button class="filter-btn" onclick="filterCards('project-management')">📋 Project Management (4)</button>
-<button class="filter-btn" onclick="filterCards('video-conferencing')">🎥 Video Conferencing (1)</button>
+    <button class="filter-btn active" onclick="filterCards('all', this)">All</button>
+    <button class="filter-btn" onclick="filterCards('communication', this)">💬 Communication (4)</button>
+<button class="filter-btn" onclick="filterCards('design', this)">🎨 Design (1)</button>
+<button class="filter-btn" onclick="filterCards('developer-tools', this)">⚙️ Developer Tools (2)</button>
+<button class="filter-btn" onclick="filterCards('file-storage', this)">☁️ File Storage (1)</button>
+<button class="filter-btn" onclick="filterCards('productivity', this)">📝 Productivity (3)</button>
+<button class="filter-btn" onclick="filterCards('project-management', this)">📋 Project Management (4)</button>
+<button class="filter-btn" onclick="filterCards('video-conferencing', this)">🎥 Video Conferencing (1)</button>
   </div>
 </div>
 
 <div class="grid" id="card-grid">
 
-  <div class="card" data-category="communication">
+  <div class="card" data-category="communication" data-search="slack element communication">
     <div class="card-category" style="background:#2ECC71">💬 Communication</div>
     <div class="card-body">
       <div class="vs-line">
@@ -99,7 +130,7 @@
       <a class="cta" href="slack-vs-element/">Compare Now →</a>
     </div>
   </div>
-  <div class="card" data-category="communication">
+  <div class="card" data-category="communication" data-search="slack mattermost communication">
     <div class="card-category" style="background:#2ECC71">💬 Communication</div>
     <div class="card-body">
       <div class="vs-line">
@@ -116,7 +147,7 @@
       <a class="cta" href="slack-vs-mattermost/">Compare Now →</a>
     </div>
   </div>
-  <div class="card" data-category="communication">
+  <div class="card" data-category="communication" data-search="slack zulip communication">
     <div class="card-category" style="background:#2ECC71">💬 Communication</div>
     <div class="card-body">
       <div class="vs-line">
@@ -133,7 +164,7 @@
       <a class="cta" href="slack-vs-zulip/">Compare Now →</a>
     </div>
   </div>
-  <div class="card" data-category="communication">
+  <div class="card" data-category="communication" data-search="discord element communication">
     <div class="card-category" style="background:#2ECC71">💬 Communication</div>
     <div class="card-body">
       <div class="vs-line">
@@ -150,7 +181,7 @@
       <a class="cta" href="discord-vs-element/">Compare Now →</a>
     </div>
   </div>
-  <div class="card" data-category="productivity">
+  <div class="card" data-category="productivity" data-search="notion appflowy productivity">
     <div class="card-category" style="background:#3498DB">📝 Productivity</div>
     <div class="card-body">
       <div class="vs-line">
@@ -167,7 +198,7 @@
       <a class="cta" href="notion-vs-appflowy/">Compare Now →</a>
     </div>
   </div>
-  <div class="card" data-category="productivity">
+  <div class="card" data-category="productivity" data-search="notion obsidian productivity">
     <div class="card-category" style="background:#3498DB">📝 Productivity</div>
     <div class="card-body">
       <div class="vs-line">
@@ -184,7 +215,7 @@
       <a class="cta" href="notion-vs-obsidian/">Compare Now →</a>
     </div>
   </div>
-  <div class="card" data-category="productivity">
+  <div class="card" data-category="productivity" data-search="notion logseq productivity">
     <div class="card-category" style="background:#3498DB">📝 Productivity</div>
     <div class="card-body">
       <div class="vs-line">
@@ -201,7 +232,7 @@
       <a class="cta" href="notion-vs-logseq/">Compare Now →</a>
     </div>
   </div>
-  <div class="card" data-category="developer-tools">
+  <div class="card" data-category="developer-tools" data-search="github gitlab developer tools">
     <div class="card-category" style="background:#9B59B6">⚙️ Developer Tools</div>
     <div class="card-body">
       <div class="vs-line">
@@ -218,7 +249,7 @@
       <a class="cta" href="github-vs-gitlab/">Compare Now →</a>
     </div>
   </div>
-  <div class="card" data-category="developer-tools">
+  <div class="card" data-category="developer-tools" data-search="github gitea developer tools">
     <div class="card-category" style="background:#9B59B6">⚙️ Developer Tools</div>
     <div class="card-body">
       <div class="vs-line">
@@ -235,7 +266,7 @@
       <a class="cta" href="github-vs-gitea/">Compare Now →</a>
     </div>
   </div>
-  <div class="card" data-category="design">
+  <div class="card" data-category="design" data-search="figma penpot design">
     <div class="card-category" style="background:#E91E63">🎨 Design</div>
     <div class="card-body">
       <div class="vs-line">
@@ -252,7 +283,7 @@
       <a class="cta" href="figma-vs-penpot/">Compare Now →</a>
     </div>
   </div>
-  <div class="card" data-category="project-management">
+  <div class="card" data-category="project-management" data-search="jira plane project management">
     <div class="card-category" style="background:#F39C12">📋 Project Management</div>
     <div class="card-body">
       <div class="vs-line">
@@ -269,7 +300,7 @@
       <a class="cta" href="jira-vs-plane/">Compare Now →</a>
     </div>
   </div>
-  <div class="card" data-category="project-management">
+  <div class="card" data-category="project-management" data-search="trello wekan project management">
     <div class="card-category" style="background:#F39C12">📋 Project Management</div>
     <div class="card-body">
       <div class="vs-line">
@@ -286,7 +317,7 @@
       <a class="cta" href="trello-vs-wekan/">Compare Now →</a>
     </div>
   </div>
-  <div class="card" data-category="file-storage">
+  <div class="card" data-category="file-storage" data-search="dropbox nextcloud file storage">
     <div class="card-category" style="background:#1ABC9C">☁️ File Storage</div>
     <div class="card-body">
       <div class="vs-line">
@@ -303,7 +334,7 @@
       <a class="cta" href="dropbox-vs-nextcloud/">Compare Now →</a>
     </div>
   </div>
-  <div class="card" data-category="video-conferencing">
+  <div class="card" data-category="video-conferencing" data-search="zoom jitsi meet video conferencing">
     <div class="card-category" style="background:#E74C3C">🎥 Video Conferencing</div>
     <div class="card-body">
       <div class="vs-line">
@@ -320,7 +351,7 @@
       <a class="cta" href="zoom-vs-jitsi/">Compare Now →</a>
     </div>
   </div>
-  <div class="card" data-category="project-management">
+  <div class="card" data-category="project-management" data-search="linear plane project management">
     <div class="card-category" style="background:#F39C12">📋 Project Management</div>
     <div class="card-body">
       <div class="vs-line">
@@ -337,7 +368,7 @@
       <a class="cta" href="linear-vs-plane/">Compare Now →</a>
     </div>
   </div>
-  <div class="card" data-category="project-management">
+  <div class="card" data-category="project-management" data-search="asana taiga project management">
     <div class="card-category" style="background:#F39C12">📋 Project Management</div>
     <div class="card-body">
       <div class="vs-line">
@@ -355,22 +386,40 @@
     </div>
   </div>
 </div>
+<div class="no-results" id="no-results">No comparisons found. Try a different search term.</div>
 
 <footer>
   <strong>Open Source Alternative Finder</strong><br>
   Powered by <a href="https://groq.com">Groq</a> + <a href="https://ai.google.dev">Gemini</a> APIs &nbsp;·&nbsp;
   Hosted on <a href="https://pages.github.com">GitHub Pages</a> &nbsp;·&nbsp;
-  <a href="https://github.com/YOUR-USERNAME/opensource-alternative-finder">View Source</a><br>
+  <a href="https://github.com/aiopentec/opensource-alternative-finder">View Source on GitHub</a><br>
   <span style="font-size:0.8rem; opacity:0.7">Updated March 09, 2026 &nbsp;·&nbsp; $0/month to operate &nbsp;·&nbsp; Content for informational purposes only</span>
 </footer>
 
 <script>
-function filterCards(category) {
+let activeCategory = 'all';
+
+function filterCards(category, btn) {
+  activeCategory = category;
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
+  if (btn) btn.classList.add('active');
+  applyFilters();
+}
+
+function handleSearch(query) {
+  applyFilters(query.toLowerCase());
+}
+
+function applyFilters(query) {
+  const q = query || document.querySelector('.search-input').value.toLowerCase();
+  let visible = 0;
   document.querySelectorAll('#card-grid .card').forEach(card => {
-    card.style.display = (category === 'all' || card.dataset.category === category) ? '' : 'none';
+    const matchCat = activeCategory === 'all' || card.dataset.category === activeCategory;
+    const matchQ   = !q || card.dataset.search.includes(q);
+    card.style.display = (matchCat && matchQ) ? '' : 'none';
+    if (matchCat && matchQ) visible++;
   });
+  document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
 }
 </script>
 
