@@ -449,6 +449,7 @@ INDEX_PAGE = """<!DOCTYPE html>
   <meta name="description" content="Discover free, open-source alternatives to Slack, Notion, Figma, Jira, Dropbox and more. AI-powered comparisons updated daily. Save thousands per year.">
   <meta name="keywords" content="open source alternatives, free software alternatives, self-hosted tools, slack alternative, notion alternative, figma alternative">
   <link rel="canonical" href="{site_base_url}/">
+  <meta name="google-site-verification" content="{google_verification}">
   <meta name="robots" content="index, follow">
 
   <!-- Open Graph -->
@@ -811,6 +812,7 @@ Open Source Alternative Finder · Updated {updated}</footer></body></html>"""
         filter_buttons=filter_buttons,
         cards=cards_html,
         adsense_script=adsense_script,
+        google_verification=os.getenv("GOOGLE_SITE_VERIFICATION", ""),
     )
     with open(Path(site_dir) / 'index.html', 'w') as f:
         f.write(index_html)
