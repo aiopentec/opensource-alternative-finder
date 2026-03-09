@@ -137,6 +137,10 @@ def markdown_to_html(md: str) -> str:
     return '\n'.join(wrapped)
 
 
+# NOTE: All links use relative paths (../) so the site works correctly
+# when hosted in a subdirectory on GitHub Pages, e.g.:
+# https://username.github.io/opensource-alternative-finder/
+
 COMPARISON_PAGE = """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -146,7 +150,7 @@ COMPARISON_PAGE = """<!DOCTYPE html>
   <meta name="description" content="Detailed comparison: {title}. Pricing, features, migration guide, and when to choose each.">
   <meta property="og:title" content="{title}">
   <meta property="og:description" content="Free open-source alternative finder. Compare {title}.">
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
   <style>
     :root {{
       --blue: #1F5C99; --blue-light: #2980B9; --blue-bg: #EBF4FA;
@@ -224,9 +228,9 @@ COMPARISON_PAGE = """<!DOCTYPE html>
 <body>
 
 <nav>
-  <a href="/">🔍 OS Alternative Finder</a>
+  <a href="../">🔍 OS Alternative Finder</a>
   <span class="sep">/</span>
-  <a href="/{category_slug}/">{category_label}</a>
+  <a href="../{category_slug}/">{category_label}</a>
   <span class="sep">/</span>
   <span style="color:#fff;opacity:0.7">{title}</span>
 </nav>
@@ -268,7 +272,7 @@ COMPARISON_PAGE = """<!DOCTYPE html>
 
   <div class="card" style="text-align:center; padding: 1.5rem;">
     <p style="font-size:0.9rem; color:#718096; margin-bottom:1rem;">Found this helpful? Explore more comparisons.</p>
-    <a href="/" style="display:inline-block; background:var(--blue); color:#fff; padding:0.65rem 1.75rem; border-radius:6px; text-decoration:none; font-weight:600; font-size:0.9rem;">← View All Comparisons</a>
+    <a href="../" style="display:inline-block; background:var(--blue); color:#fff; padding:0.65rem 1.75rem; border-radius:6px; text-decoration:none; font-weight:600; font-size:0.9rem;">← View All Comparisons</a>
   </div>
 </div>
 
@@ -288,7 +292,7 @@ INDEX_PAGE = """<!DOCTYPE html>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Open Source Alternative Finder — Free Tool Comparisons</title>
   <meta name="description" content="Find free, open-source alternatives to popular paid software. AI-powered comparisons updated daily.">
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
     :root {{ --blue: #1F5C99; --blue-light: #2980B9; --green: #1A7A3F; --bg: #F0F4F8; --card: #fff; --border: #E2E8F0; --text: #1A202C; --text-muted: #718096; }}
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
@@ -431,9 +435,9 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
     category_page_counts = {}
 
     for comp in all_comparisons:
-        slug     = comp['slug']
-        category = comp.get('category', 'general')
-        cat_icon = CATEGORY_ICONS.get(category, '🔧')
+        slug      = comp['slug']
+        category  = comp.get('category', 'general')
+        cat_icon  = CATEGORY_ICONS.get(category, '🔧')
         cat_color = CATEGORY_COLORS.get(category, '#95A5A6')
         cat_label = category.replace('-', ' ').title()
 
@@ -470,7 +474,7 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
 
         category_page_counts[category] = category_page_counts.get(category, 0) + 1
 
-        # Build index card
+        # Build index card — relative path from index.html to slug/
         cards_html += f"""
   <div class="card" data-category="{category}">
     <div class="card-category" style="background:{cat_color}">{cat_icon} {cat_label}</div>
@@ -486,7 +490,7 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
       </div>
     </div>
     <div class="card-footer">
-      <a class="cta" href="/{slug}/">Compare Now →</a>
+      <a class="cta" href="{slug}/">Compare Now →</a>
     </div>
   </div>"""
 
@@ -495,15 +499,16 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
         cat_comps = [c for c in all_comparisons if c.get('category', 'general') == category]
         cat_dir = Path(site_dir) / category
         cat_dir.mkdir(exist_ok=True)
+        # Links go up one level (../) to reach individual comparison pages
         cat_cards = '\n'.join(
-            f'<li><a href="/{c["slug"]}/">{c["title"]}</a> — {c.get("oss_pricing","Free")}</li>'
+            f'<li><a href="../{c["slug"]}/">{c["title"]}</a> — {c.get("oss_pricing","Free")}</li>'
             for c in cat_comps
         )
         cat_page = f"""<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{category.replace('-',' ').title()} Tools — Open Source Alternatives</title>
 <style>body{{font-family:system-ui,sans-serif;max-width:800px;margin:2rem auto;padding:0 1rem;}}a{{color:#1F5C99;}}</style></head>
 <body><h1>{CATEGORY_ICONS.get(category,'🔧')} {category.replace('-',' ').title()} Comparisons</h1>
-<p><a href="/">← All categories</a></p><ul style="margin:1.5rem 0 0 1.5rem;line-height:2.2">{cat_cards}</ul>
+<p><a href="../">← All categories</a></p><ul style="margin:1.5rem 0 0 1.5rem;line-height:2.2">{cat_cards}</ul>
 <footer style="margin-top:3rem;color:#888;font-size:0.85rem;border-top:1px solid #eee;padding-top:1rem">
 Open Source Alternative Finder · Updated {updated}</footer></body></html>"""
         with open(cat_dir / 'index.html', 'w') as f:
