@@ -812,7 +812,9 @@ Open Source Alternative Finder · Updated {updated}</footer></body></html>"""
         filter_buttons=filter_buttons,
         cards=cards_html,
         adsense_script=adsense_script,
-        google_verification=os.getenv("GOOGLE_SITE_VERIFICATION", ""),
+        # ── CHANGED: hardcoded verification code as fallback ──────────────────
+        google_verification=os.getenv("GOOGLE_SITE_VERIFICATION", "sgWLzv3yQVjDBJUjSqkzfFW2WDtfpWNMzQ-_pEw9sqQ"),
+        # ─────────────────────────────────────────────────────────────────────
     )
     with open(Path(site_dir) / 'index.html', 'w') as f:
         f.write(index_html)
