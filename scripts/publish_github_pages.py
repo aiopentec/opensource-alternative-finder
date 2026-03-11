@@ -450,7 +450,7 @@ INDEX_PAGE = """<!DOCTYPE html>
   <meta name="keywords" content="open source alternatives, free software alternatives, self-hosted tools, slack alternative, notion alternative, figma alternative">
   <link rel="canonical" href="{site_base_url}/">
     <meta name="google-site-verification" content="{google_verification}">
-    <meta name='impact-site-verification' value='e966ad45-df5a-41e8-9d33-b8f8527e8f93'>
+     <meta name='impact-site-verification' value='e966ad45-df5a-41e8-9d33-b8f8527e8f93'>
   <meta name="robots" content="index, follow">
 
   <!-- Open Graph -->
