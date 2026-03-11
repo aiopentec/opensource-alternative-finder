@@ -215,6 +215,11 @@ jobs:
           publish_dir: ./site
           commit_message: "Auto-update #${{ github.run_number }}: ${{ env.PAGES }} pages"
 
+      - name: Build Static Site
+        env:
+          GOOGLE_SITE_VERIFICATION: ${{ secrets.GOOGLE_SITE_VERIFICATION }}
+          SITE_BASE_URL: https://aiopentec.github.io/opensource-alternative-finder
+        run: python scripts/publish_github_pages.py
 
   # ──────────────────────────────────────────────
   # JOB 5: SUMMARY — always runs, reports results
