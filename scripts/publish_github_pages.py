@@ -451,6 +451,7 @@ INDEX_PAGE = """<!DOCTYPE html>
   <link rel="canonical" href="{site_base_url}/">
     <meta name="google-site-verification" content="{google_verification}">
      <meta name='impact-site-verification' value='e966ad45-df5a-41e8-9d33-b8f8527e8f93'>
+     <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta name="robots" content="index, follow">
 
   <!-- Open Graph -->
