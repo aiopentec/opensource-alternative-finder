@@ -14,6 +14,8 @@ Improvements over v1:
   - "Related comparisons" on every page
   - Performance: preconnect hints, lazy loading
   - 404 page
+  - Privacy Policy page (required for AdSense)
+  - Privacy Policy link in all page footers
   - Better page titles for search ranking
 
 Usage: python scripts/publish_github_pages.py
@@ -323,11 +325,9 @@ COMPARISON_PAGE = """<!DOCTYPE html>
     tbody td {{ padding: 0.65rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.9rem; }}
     tbody tr:last-child td {{ border-bottom: none; }}
     tbody tr:nth-child(even) td {{ background: #F8FAFC; }}
-    /* Related comparisons */
     .related-grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem; margin-top: 0.75rem; }}
     .related-link {{ display: block; padding: 0.65rem 0.9rem; background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; color: var(--blue); transition: all 0.15s; }}
     .related-link:hover {{ background: var(--blue); color: #fff; border-color: var(--blue); }}
-    /* Email capture */
     .email-box {{ background: linear-gradient(135deg, #1F5C99, #2980B9); color: #fff; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; text-align: center; }}
     .email-box h3 {{ font-size: 1.1rem; font-weight: 800; margin-bottom: 0.4rem; }}
     .email-box p {{ opacity: 0.85; font-size: 0.88rem; margin-bottom: 1rem; }}
@@ -416,7 +416,8 @@ COMPARISON_PAGE = """<!DOCTYPE html>
 
 <footer>
   Open Source Alternative Finder &nbsp;·&nbsp; Powered by free AI APIs &nbsp;·&nbsp;
-  Hosted on <a href="https://pages.github.com">GitHub Pages</a> &nbsp;·&nbsp; $0/month to operate<br>
+  Hosted on <a href="https://pages.github.com">GitHub Pages</a> &nbsp;·&nbsp; $0/month to operate &nbsp;·&nbsp;
+  <a href="../privacy/">Privacy Policy</a><br>
   <span style="font-size:0.8rem; opacity:0.7">Content is AI-generated for informational purposes. Verify all details at official websites before making purchasing decisions.</span>
 </footer>
 
@@ -449,9 +450,9 @@ INDEX_PAGE = """<!DOCTYPE html>
   <meta name="description" content="Discover free, open-source alternatives to Slack, Notion, Figma, Jira, Dropbox and more. AI-powered comparisons updated daily. Save thousands per year.">
   <meta name="keywords" content="open source alternatives, free software alternatives, self-hosted tools, slack alternative, notion alternative, figma alternative">
   <link rel="canonical" href="{site_base_url}/">
-    <meta name="google-site-verification" content="{google_verification}">
-     <meta name='impact-site-verification' value='e966ad45-df5a-41e8-9d33-b8f8527e8f93'>
-     <meta name="google-adsense-account" content="ca-pub-4633315697698743">
+  <meta name="google-site-verification" content="{google_verification}">
+  <meta name='impact-site-verification' value='e966ad45-df5a-41e8-9d33-b8f8527e8f93'>
+  <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta name="robots" content="index, follow">
 
   <!-- Open Graph -->
@@ -495,7 +496,6 @@ INDEX_PAGE = """<!DOCTYPE html>
     .stat {{ text-align: center; }}
     .stat .num {{ font-size: 2rem; font-weight: 900; }}
     .stat .label {{ font-size: 0.82rem; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.05em; }}
-    /* Search bar */
     .search-bar {{ background: #fff; border-bottom: 1px solid var(--border); padding: 1rem 1.5rem; }}
     .search-bar-inner {{ max-width: 1200px; margin: 0 auto; display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }}
     .search-input {{ flex: 1; padding: 0.55rem 1rem; border: 2px solid var(--border); border-radius: 8px; font-size: 0.9rem; min-width: 200px; }}
@@ -557,7 +557,8 @@ INDEX_PAGE = """<!DOCTYPE html>
   <strong>Open Source Alternative Finder</strong><br>
   Powered by <a href="https://groq.com">Groq</a> + <a href="https://ai.google.dev">Gemini</a> APIs &nbsp;·&nbsp;
   Hosted on <a href="https://pages.github.com">GitHub Pages</a> &nbsp;·&nbsp;
-  <a href="https://github.com/aiopentec/opensource-alternative-finder">View Source on GitHub</a><br>
+  <a href="https://github.com/aiopentec/opensource-alternative-finder">View Source on GitHub</a> &nbsp;·&nbsp;
+  <a href="privacy/">Privacy Policy</a><br>
   <span style="font-size:0.8rem; opacity:0.7">Updated {updated} &nbsp;·&nbsp; $0/month to operate &nbsp;·&nbsp; Content for informational purposes only</span>
 </footer>
 
@@ -639,11 +640,14 @@ def build_sitemap(all_comparisons: List[Dict], site_dir: str, categories: List[s
         urls.append(f'  <url><loc>{SITE_BASE_URL}/{cat}/</loc><changefreq>weekly</changefreq><priority>0.7</priority><lastmod>{today}</lastmod></url>')
     for comp in all_comparisons:
         urls.append(f'  <url><loc>{SITE_BASE_URL}/{comp["slug"]}/</loc><changefreq>weekly</changefreq><priority>0.9</priority><lastmod>{today}</lastmod></url>')
+    # Add privacy policy to sitemap
+    urls.append(f'  <url><loc>{SITE_BASE_URL}/privacy/</loc><changefreq>monthly</changefreq><priority>0.3</priority><lastmod>{today}</lastmod></url>')
     sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     sitemap += '\n'.join(urls) + '\n</urlset>'
     with open(Path(site_dir) / 'sitemap.xml', 'w') as f:
         f.write(sitemap)
-    logger.info(f"   🗺️  sitemap.xml ({len(all_comparisons) + len(categories) + 1} URLs)")
+    logger.info(f"   🗺️  sitemap.xml ({len(all_comparisons) + len(categories) + 2} URLs)")
+
 
 def build_privacy_policy(site_dir: str, updated: str):
     """Generate a Privacy Policy page required for AdSense."""
@@ -719,6 +723,8 @@ def build_privacy_policy(site_dir: str, updated: str):
 </html>"""
     with open(privacy_dir / 'index.html', 'w') as f:
         f.write(html)
+
+
 def build_404_page(site_dir: str):
     """GitHub Pages serves 404.html for missing pages."""
     html = f"""<!DOCTYPE html>
@@ -832,7 +838,6 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
 
         category_page_counts[category] = category_page_counts.get(category, 0) + 1
 
-        # Search data attributes for live filtering
         search_data = f"{prop_name} {oss_name} {cat_label}".lower()
         cards_html += f"""
   <div class="card" data-category="{category}" data-search="{search_data}">
@@ -870,7 +875,7 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
 <body><h1>{CATEGORY_ICONS.get(category,'🔧')} {category.replace('-',' ').title()} Comparisons</h1>
 <p><a href="../">← All categories</a></p><ul style="margin:1.5rem 0 0 1.5rem;line-height:2.2">{cat_cards}</ul>
 <footer style="margin-top:3rem;color:#888;font-size:0.85rem;border-top:1px solid #eee;padding-top:1rem">
-Open Source Alternative Finder · Updated {updated}</footer></body></html>"""
+Open Source Alternative Finder · Updated {updated} · <a href="../privacy/">Privacy Policy</a></footer></body></html>"""
         with open(cat_dir / 'index.html', 'w') as f:
             f.write(cat_page)
 
@@ -887,9 +892,7 @@ Open Source Alternative Finder · Updated {updated}</footer></body></html>"""
         filter_buttons=filter_buttons,
         cards=cards_html,
         adsense_script=adsense_script,
-        # ── CHANGED: hardcoded verification code as fallback ──────────────────
         google_verification=os.getenv("GOOGLE_SITE_VERIFICATION", "sgWLzv3yQVjDBJUjSqkzfFW2WDtfpWNMzQ-_pEw9sqQ"),
-        # ─────────────────────────────────────────────────────────────────────
     )
     with open(Path(site_dir) / 'index.html', 'w') as f:
         f.write(index_html)
@@ -911,7 +914,7 @@ Open Source Alternative Finder · Updated {updated}</footer></body></html>"""
     logger.info(f"✅ Site built successfully!")
     logger.info(f"   📄 {len(all_comparisons)} comparison pages")
     logger.info(f"   🗂️  {len(categories)} category pages")
-    logger.info(f"   🏠 index.html + 404.html")
+    logger.info(f"   🏠 index.html + 404.html + privacy/index.html")
     logger.info(f"   🗺️  sitemap.xml")
     logger.info(f"   📁 Output: {site_dir}/")
 
