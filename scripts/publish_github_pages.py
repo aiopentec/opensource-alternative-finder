@@ -828,6 +828,8 @@ Open Source Alternative Finder · Updated {updated}</footer></body></html>"""
         f.write("# Rename to CNAME and add your custom domain, e.g.: alternatives.yourdomain.com\n")
     with open(Path(site_dir) / 'robots.txt', 'w') as f:
         f.write(f"User-agent: *\nAllow: /\nSitemap: {SITE_BASE_URL}/sitemap.xml\n")
+    with open(Path(site_dir) / 'ads.txt', 'w') as f:
+        f.write("google.com, pub-4633315697698743, DIRECT, f08c47fec0942fa0\n")
 
     build_sitemap(all_comparisons, site_dir, categories)
     build_404_page(site_dir)
