@@ -73,6 +73,13 @@ COMPARISON_PAIRS = [
     ('zoom',    'jitsi'),
     ('linear',  'plane'),
     ('asana',   'taiga'),
+    ('microsoft-teams', 'mattermost'),
+    ('google-workspace', 'nextcloud'),
+    ('airtable', 'nocodb'),
+    ('monday', 'plane'),
+    ('hubspot', 'suitecrm'),
+    ('mailchimp', 'listmonk'),
+    ('wordpress-com', 'ghost'),
 ]
 
 
