@@ -645,7 +645,80 @@ def build_sitemap(all_comparisons: List[Dict], site_dir: str, categories: List[s
         f.write(sitemap)
     logger.info(f"   🗺️  sitemap.xml ({len(all_comparisons) + len(categories) + 1} URLs)")
 
+def build_privacy_policy(site_dir: str, updated: str):
+    """Generate a Privacy Policy page required for AdSense."""
+    privacy_dir = Path(site_dir) / 'privacy'
+    privacy_dir.mkdir(exist_ok=True)
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy | Open Source Alternative Finder</title>
+  <meta name="description" content="Privacy Policy for Open Source Alternative Finder.">
+  <link rel="canonical" href="{SITE_BASE_URL}/privacy/">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <style>
+    body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; color: #1A202C; line-height: 1.8; background: #F0F4F8; }}
+    nav {{ background: #1F5C99; padding: 0.75rem 1.5rem; border-radius: 8px; margin-bottom: 2rem; }}
+    nav a {{ color: #fff; text-decoration: none; font-size: 0.9rem; }}
+    h1 {{ font-size: 2rem; font-weight: 900; color: #1F5C99; margin-bottom: 0.5rem; }}
+    h2 {{ font-size: 1.2rem; font-weight: 700; color: #1F5C99; margin: 2rem 0 0.5rem; border-bottom: 2px solid #EBF4FA; padding-bottom: 0.4rem; }}
+    p, li {{ color: #2D3748; margin: 0.5rem 0; }}
+    ul {{ margin-left: 1.5rem; }}
+    .card {{ background: #fff; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: 1px solid #E2E8F0; }}
+    .updated {{ color: #718096; font-size: 0.85rem; margin-bottom: 2rem; }}
+    a {{ color: #1F5C99; }}
+    footer {{ text-align: center; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #E2E8F0; color: #718096; font-size: 0.85rem; }}
+  </style>
+</head>
+<body>
+  <nav><a href="../">← Open Source Alternative Finder</a></nav>
+  <div class="card">
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: {updated}</p>
 
+    <p>Open Source Alternative Finder ("we", "our", or "us") operates the website at <a href="{SITE_BASE_URL}/">{SITE_BASE_URL}/</a>. This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our site.</p>
+
+    <h2>Information We Collect</h2>
+    <p>We do not directly collect any personally identifiable information. However, third-party services we use may collect data as described below.</p>
+
+    <h2>Google AdSense</h2>
+    <p>We use Google AdSense to display advertisements. Google AdSense uses cookies to serve ads based on your prior visits to our website or other websites. You may opt out of personalised advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google Ads Settings</a>.</p>
+    <p>Google's use of advertising cookies enables it and its partners to serve ads based on your visit to our site and/or other sites on the Internet. For more information, see <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">Google's advertising policies</a>.</p>
+
+    <h2>Cookies</h2>
+    <p>Cookies are small data files stored on your device. We use cookies for the following purposes:</p>
+    <ul>
+      <li><strong>Analytics:</strong> To understand how visitors interact with our site</li>
+      <li><strong>Advertising:</strong> Google AdSense uses cookies to show relevant ads</li>
+    </ul>
+    <p>You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent. However, some features of our site may not function properly without cookies.</p>
+
+    <h2>Google Analytics</h2>
+    <p>We may use Google Analytics to monitor and analyse web traffic. Google Analytics collects information such as how often users visit our site, what pages they visit, and what other sites they visited prior to arriving. We use this information to improve our site. Google Analytics collects only the IP address assigned to you on the date you visit our site, not your name or other identifying information.</p>
+
+    <h2>Affiliate Links</h2>
+    <p>Our site contains affiliate links. If you click on an affiliate link and make a purchase, we may receive a commission at no additional cost to you. We only recommend products and services we believe are valuable to our readers.</p>
+
+    <h2>Third-Party Links</h2>
+    <p>Our site may contain links to third-party websites. We have no control over and assume no responsibility for the content, privacy policies, or practices of any third-party sites or services.</p>
+
+    <h2>Children's Privacy</h2>
+    <p>Our site does not address anyone under the age of 13. We do not knowingly collect personally identifiable information from children under 13.</p>
+
+    <h2>Changes to This Privacy Policy</h2>
+    <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date.</p>
+
+    <h2>Contact Us</h2>
+    <p>If you have any questions about this Privacy Policy, please contact us via our <a href="https://github.com/aiopentec/opensource-alternative-finder" target="_blank" rel="noopener">GitHub repository</a>.</p>
+  </div>
+  <footer>Open Source Alternative Finder · <a href="../">Home</a> · Updated {updated}</footer>
+</body>
+</html>"""
+    with open(privacy_dir / 'index.html', 'w') as f:
+        f.write(html)
 def build_404_page(site_dir: str):
     """GitHub Pages serves 404.html for missing pages."""
     html = f"""<!DOCTYPE html>
@@ -833,6 +906,7 @@ Open Source Alternative Finder · Updated {updated}</footer></body></html>"""
 
     build_sitemap(all_comparisons, site_dir, categories)
     build_404_page(site_dir)
+    build_privacy_policy(site_dir, updated)
 
     logger.info(f"✅ Site built successfully!")
     logger.info(f"   📄 {len(all_comparisons)} comparison pages")
