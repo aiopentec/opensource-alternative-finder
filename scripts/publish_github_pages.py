@@ -498,7 +498,9 @@ COMPARISON_PAGE = """<!DOCTYPE html>
 <footer>
   Open Source Alternative Finder &nbsp;·&nbsp; Powered by free AI APIs &nbsp;·&nbsp;
   Hosted on <a href="https://pages.github.com">GitHub Pages</a> &nbsp;·&nbsp; $0/month to operate &nbsp;·&nbsp;
-  <a href="../privacy/">Privacy Policy</a><br>
+  <a href="../privacy/">Privacy Policy</a> &nbsp;·&nbsp;
+  <a href="../about/">About</a> &nbsp;·&nbsp;
+  <a href="../contact/">Contact</a><br>
   <span style="font-size:0.8rem; opacity:0.7">Content is AI-generated for informational purposes. Verify all details at official websites before making purchasing decisions.</span>
 </footer>
 
@@ -644,7 +646,9 @@ INDEX_PAGE = """<!DOCTYPE html>
   <strong>Open Source Alternative Finder</strong><br>
   Powered by <a href="https://groq.com">Groq</a> + <a href="https://ai.google.dev">Gemini</a> APIs &nbsp;·&nbsp;
   Hosted on <a href="https://pages.github.com">GitHub Pages</a> &nbsp;·&nbsp;
-  <a href="https://github.com/aiopentec/opensource-alternative-finder">View Source on GitHub</a> &nbsp;·&nbsp;
+  <a href="https://github.com/aiopentec/opensource-alternative-finder">View Source on GitHub</a><br>
+  <a href="about/">About Us</a> &nbsp;·&nbsp;
+  <a href="contact/">Contact</a> &nbsp;·&nbsp;
   <a href="privacy/">Privacy Policy</a> &nbsp;·&nbsp;
   <a href="changelog/">Changelog</a><br>
   <span style="font-size:0.8rem; opacity:0.7">Updated {updated} &nbsp;·&nbsp; $0/month to operate &nbsp;·&nbsp; Content for informational purposes only</span>
@@ -1034,6 +1038,8 @@ def build_sitemap(all_comparisons: List[Dict], site_dir: str, categories: List[s
     urls.append(f'  <url><loc>{SITE_BASE_URL}/privacy/</loc><changefreq>monthly</changefreq><priority>0.3</priority><lastmod>{today}</lastmod></url>')
     urls.append(f'  <url><loc>{SITE_BASE_URL}/savings-calculator/</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>{today}</lastmod></url>')
     urls.append(f'  <url><loc>{SITE_BASE_URL}/changelog/</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>{today}</lastmod></url>')
+    urls.append(f'  <url><loc>{SITE_BASE_URL}/about/</loc><changefreq>monthly</changefreq><priority>0.5</priority><lastmod>{today}</lastmod></url>')
+    urls.append(f'  <url><loc>{SITE_BASE_URL}/contact/</loc><changefreq>monthly</changefreq><priority>0.5</priority><lastmod>{today}</lastmod></url>')
     sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     sitemap += '\n'.join(urls) + '\n</urlset>'
     with open(Path(site_dir) / 'sitemap.xml', 'w') as f:
@@ -1523,6 +1529,240 @@ def build_changelog(site_dir: str, all_comparisons: List[Dict], updated: str):
     logger.info(f"   📋 changelog/index.html ({len(all_comparisons)} entries)")
 
 
+def build_about_page(site_dir: str, updated: str):
+    """Generate About Us page — required for AdSense approval."""
+    about_dir = Path(site_dir) / 'about'
+    about_dir.mkdir(exist_ok=True)
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us | Open Source Alternative Finder</title>
+  <meta name="description" content="Learn about Open Source Alternative Finder — an AI-powered site helping teams discover free, open-source alternatives to expensive SaaS tools.">
+  <link rel="canonical" href="{SITE_BASE_URL}/about/">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <style>
+    :root {{--blue:#1F5C99;--blue-light:#2980B9;--green:#1A7A3F;--bg:#F0F4F8;--card:#fff;--border:#E2E8F0;--text:#1A202C;--text-muted:#718096;--shadow:0 2px 8px rgba(0,0,0,0.08);}}
+    *{{box-sizing:border-box;margin:0;padding:0;}}
+    body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.8;}}
+    a{{color:var(--blue);}}
+    nav{{background:var(--blue);padding:0.75rem 1.5rem;display:flex;align-items:center;gap:1rem;}}
+    nav a{{color:#fff;text-decoration:none;font-size:0.9rem;opacity:0.9;}}
+    nav a:hover{{opacity:1;}}
+    nav .sep{{color:rgba(255,255,255,0.4);}}
+    .hero{{background:linear-gradient(135deg,var(--blue) 0%,var(--blue-light) 100%);color:#fff;padding:3rem 1.5rem 2.5rem;text-align:center;}}
+    .hero h1{{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;margin-bottom:0.75rem;}}
+    .hero p{{opacity:0.85;font-size:1rem;max-width:560px;margin:0 auto;}}
+    .content{{max-width:800px;margin:2rem auto;padding:0 1.5rem;}}
+    .card{{background:var(--card);border-radius:12px;padding:2rem;margin-bottom:1.5rem;box-shadow:var(--shadow);border:1px solid var(--border);}}
+    .card h2{{font-size:1.2rem;font-weight:700;color:var(--blue);margin:0 0 1rem;padding-bottom:0.5rem;border-bottom:2px solid #EBF4FA;}}
+    .card p{{color:var(--text);margin-bottom:0.75rem;}}
+    .card p:last-child{{margin-bottom:0;}}
+    .card ul{{margin:0.5rem 0 0.75rem 1.5rem;}}
+    .card li{{margin:0.4rem 0;}}
+    .mission-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;margin-top:1rem;}}
+    .mission-item{{background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:1.25rem;}}
+    .mission-item .icon{{font-size:1.5rem;margin-bottom:0.5rem;}}
+    .mission-item .title{{font-weight:700;font-size:0.95rem;margin-bottom:0.3rem;}}
+    .mission-item .desc{{font-size:0.85rem;color:var(--text-muted);}}
+    .tech-badge{{display:inline-block;background:#EBF4FA;border:1px solid #AED6F1;color:var(--blue);font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;border-radius:20px;margin:0.2rem;}}
+    footer{{text-align:center;padding:2.5rem 1rem;color:var(--text-muted);font-size:0.85rem;border-top:1px solid var(--border);margin-top:2rem;background:#fff;}}
+    footer a{{color:var(--blue);}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="../">🔍 OS Alternative Finder</a>
+  <span class="sep">/</span>
+  <span style="color:#fff;opacity:0.7">About Us</span>
+</nav>
+<div class="hero">
+  <h1>About Open Source Alternative Finder</h1>
+  <p>Helping teams and individuals discover free, open-source alternatives to expensive SaaS tools — since 2024.</p>
+</div>
+<div class="content">
+
+  <div class="card">
+    <h2>🎯 Our Mission</h2>
+    <p>Open Source Alternative Finder exists to help individuals, startups, and organizations save money without sacrificing quality. We believe powerful software should be accessible to everyone — not just those who can afford expensive per-seat SaaS subscriptions.</p>
+    <p>We provide detailed, AI-powered comparisons of open-source alternatives to popular paid tools. Every comparison covers pricing, features, data ownership, self-hosting difficulty, and a step-by-step migration guide.</p>
+    <div class="mission-grid">
+      <div class="mission-item"><div class="icon">💰</div><div class="title">Save Money</div><div class="desc">Find free alternatives to tools costing thousands per year.</div></div>
+      <div class="mission-item"><div class="icon">🔓</div><div class="title">Own Your Data</div><div class="desc">Self-hosted tools mean your data stays on your servers.</div></div>
+      <div class="mission-item"><div class="icon">🤖</div><div class="title">AI-Powered</div><div class="desc">Comparisons generated and updated daily by AI.</div></div>
+      <div class="mission-item"><div class="icon">🌍</div><div class="title">Open Source</div><div class="desc">We practice what we preach — our pipeline is open source.</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>⚙️ How It Works</h2>
+    <p>Our site is built and maintained by an automated pipeline that runs every day at 6 AM UTC:</p>
+    <ul>
+      <li><strong>Data collection</strong> — we scrape GitHub star counts and Reddit discussions to track tool popularity</li>
+      <li><strong>AI analysis</strong> — Groq (Llama 3.3) and Google Gemini Flash generate detailed, structured comparisons</li>
+      <li><strong>Static site generation</strong> — Python scripts build the HTML pages from the comparison data</li>
+      <li><strong>Automatic deployment</strong> — GitHub Actions publishes to GitHub Pages every day, keeping pricing and information current</li>
+    </ul>
+    <p>Total infrastructure cost: <strong>$0/month</strong>. All APIs used are on their free tiers.</p>
+  </div>
+
+  <div class="card">
+    <h2>🛠️ Built With</h2>
+    <p>Open Source Alternative Finder is itself built entirely with free, open-source tools:</p>
+    <div style="margin-top:0.75rem;">
+      <span class="tech-badge">Python 3.11</span>
+      <span class="tech-badge">GitHub Actions</span>
+      <span class="tech-badge">GitHub Pages</span>
+      <span class="tech-badge">Groq API (free)</span>
+      <span class="tech-badge">Google Gemini Flash (free)</span>
+      <span class="tech-badge">Static HTML/CSS/JS</span>
+      <span class="tech-badge">Zero dependencies on paid services</span>
+    </div>
+    <p style="margin-top:1rem;">The full source code is available on <a href="https://github.com/aiopentec/opensource-alternative-finder" target="_blank" rel="noopener">GitHub</a>.</p>
+  </div>
+
+  <div class="card">
+    <h2>📋 Content Policy</h2>
+    <p>All comparison content is AI-generated for informational purposes. We strive for accuracy but recommend verifying current pricing and features at each tool's official website before making purchasing or migration decisions.</p>
+    <p>We may earn affiliate commissions from some links on this site. This does not influence our comparisons — we cover all major open-source alternatives regardless of affiliate relationships.</p>
+    <p>Last updated: {updated}</p>
+  </div>
+
+  <div class="card" style="text-align:center;padding:1.5rem;">
+    <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">Have a question or suggestion? We'd love to hear from you.</p>
+    <a href="../contact/" style="display:inline-block;background:var(--blue);color:#fff;padding:0.65rem 1.75rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.9rem;margin-right:0.75rem;">Contact Us →</a>
+    <a href="../" style="display:inline-block;background:#F0F4F8;color:var(--blue);padding:0.65rem 1.75rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.9rem;border:1px solid var(--border);">View All Comparisons</a>
+  </div>
+
+</div>
+<footer>
+  Open Source Alternative Finder &nbsp;·&nbsp;
+  <a href="../">Home</a> &nbsp;·&nbsp;
+  <a href="../contact/">Contact</a> &nbsp;·&nbsp;
+  <a href="../privacy/">Privacy Policy</a><br>
+  <span style="font-size:0.8rem;opacity:0.7">Updated {updated}</span>
+</footer>
+</body>
+</html>"""
+    with open(about_dir / 'index.html', 'w') as f:
+        f.write(html)
+    logger.info("   ℹ️  about/index.html")
+
+
+def build_contact_page(site_dir: str, updated: str):
+    """Generate Contact Us page — required for AdSense approval."""
+    contact_dir = Path(site_dir) / 'contact'
+    contact_dir.mkdir(exist_ok=True)
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | Open Source Alternative Finder</title>
+  <meta name="description" content="Contact Open Source Alternative Finder. Suggest a new tool comparison, report an error, or ask about advertising and partnerships.">
+  <link rel="canonical" href="{SITE_BASE_URL}/contact/">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <style>
+    :root {{--blue:#1F5C99;--blue-light:#2980B9;--green:#1A7A3F;--bg:#F0F4F8;--card:#fff;--border:#E2E8F0;--text:#1A202C;--text-muted:#718096;--shadow:0 2px 8px rgba(0,0,0,0.08);}}
+    *{{box-sizing:border-box;margin:0;padding:0;}}
+    body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.8;}}
+    a{{color:var(--blue);}}
+    nav{{background:var(--blue);padding:0.75rem 1.5rem;display:flex;align-items:center;gap:1rem;}}
+    nav a{{color:#fff;text-decoration:none;font-size:0.9rem;opacity:0.9;}}
+    nav a:hover{{opacity:1;}}
+    nav .sep{{color:rgba(255,255,255,0.4);}}
+    .hero{{background:linear-gradient(135deg,var(--blue) 0%,var(--blue-light) 100%);color:#fff;padding:3rem 1.5rem 2.5rem;text-align:center;}}
+    .hero h1{{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;margin-bottom:0.75rem;}}
+    .hero p{{opacity:0.85;font-size:1rem;max-width:560px;margin:0 auto;}}
+    .content{{max-width:800px;margin:2rem auto;padding:0 1.5rem;}}
+    .card{{background:var(--card);border-radius:12px;padding:2rem;margin-bottom:1.5rem;box-shadow:var(--shadow);border:1px solid var(--border);}}
+    .card h2{{font-size:1.2rem;font-weight:700;color:var(--blue);margin:0 0 1rem;padding-bottom:0.5rem;border-bottom:2px solid #EBF4FA;}}
+    .card p{{color:var(--text);margin-bottom:0.75rem;}}
+    .contact-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;}}
+    .contact-item{{background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:1.25rem;text-align:center;}}
+    .contact-item .icon{{font-size:2rem;margin-bottom:0.5rem;}}
+    .contact-item .title{{font-weight:700;font-size:0.95rem;margin-bottom:0.3rem;color:var(--text);}}
+    .contact-item .desc{{font-size:0.82rem;color:var(--text-muted);margin-bottom:0.75rem;}}
+    .contact-item a{{display:inline-block;background:var(--blue);color:#fff;padding:0.45rem 1.1rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.82rem;}}
+    .reason-list{{list-style:none;margin:0;}}
+    .reason-list li{{display:flex;align-items:flex-start;gap:0.75rem;padding:0.65rem 0;border-bottom:1px solid var(--border);font-size:0.92rem;}}
+    .reason-list li:last-child{{border-bottom:none;}}
+    .reason-list .emoji{{font-size:1.1rem;flex-shrink:0;margin-top:0.1rem;}}
+    footer{{text-align:center;padding:2.5rem 1rem;color:var(--text-muted);font-size:0.85rem;border-top:1px solid var(--border);margin-top:2rem;background:#fff;}}
+    footer a{{color:var(--blue);}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="../">🔍 OS Alternative Finder</a>
+  <span class="sep">/</span>
+  <span style="color:#fff;opacity:0.7">Contact Us</span>
+</nav>
+<div class="hero">
+  <h1>Contact Us</h1>
+  <p>We'd love to hear from you — suggestions, corrections, partnerships, or just to say hello.</p>
+</div>
+<div class="content">
+
+  <div class="card">
+    <h2>📬 Get in Touch</h2>
+    <div class="contact-grid">
+      <div class="contact-item">
+        <div class="icon">🐙</div>
+        <div class="title">GitHub Issues</div>
+        <div class="desc">Bug reports, feature requests, and tool suggestions</div>
+        <a href="https://github.com/aiopentec/opensource-alternative-finder/issues" target="_blank" rel="noopener">Open an Issue</a>
+      </div>
+      <div class="contact-item">
+        <div class="icon">📧</div>
+        <div class="title">Email</div>
+        <div class="desc">Partnerships, advertising, and press enquiries</div>
+        <a href="mailto:openaltshub@gmail.com">Send Email</a>
+      </div>
+      <div class="contact-item">
+        <div class="icon">🔀</div>
+        <div class="title">Pull Requests</div>
+        <div class="desc">Contribute tool data, fix errors, or improve the site</div>
+        <a href="https://github.com/aiopentec/opensource-alternative-finder" target="_blank" rel="noopener">View Repo</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>💡 What to Contact Us About</h2>
+    <ul class="reason-list">
+      <li><span class="emoji">🔧</span><span><strong>Suggest a new comparison</strong> — know a great open-source tool we haven't covered? Tell us the proprietary tool and its open-source alternative.</span></li>
+      <li><span class="emoji">⚠️</span><span><strong>Report inaccurate information</strong> — pricing and features change. If something is wrong, please let us know via GitHub Issues.</span></li>
+      <li><span class="emoji">🤝</span><span><strong>Partnerships and sponsorships</strong> — we're open to working with open-source projects and relevant SaaS companies. Email us for details.</span></li>
+      <li><span class="emoji">📰</span><span><strong>Press and media</strong> — writing about open source or developer tools? We're happy to help. Reach out via email.</span></li>
+      <li><span class="emoji">🐛</span><span><strong>Technical issues</strong> — broken links, missing pages, or display problems? Open a GitHub issue and we'll fix it.</span></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>⏱️ Response Times</h2>
+    <p>This site is maintained by a small team. We aim to respond to GitHub issues within <strong>2–3 business days</strong> and emails within <strong>5 business days</strong>.</p>
+    <p>For urgent issues affecting site functionality, GitHub Issues is the fastest route to a fix.</p>
+  </div>
+
+</div>
+<footer>
+  Open Source Alternative Finder &nbsp;·&nbsp;
+  <a href="../">Home</a> &nbsp;·&nbsp;
+  <a href="../about/">About Us</a> &nbsp;·&nbsp;
+  <a href="../privacy/">Privacy Policy</a><br>
+  <span style="font-size:0.8rem;opacity:0.7">Updated {updated}</span>
+</footer>
+</body>
+</html>"""
+    with open(contact_dir / 'index.html', 'w') as f:
+        f.write(html)
+    logger.info("   📬 contact/index.html")
+
+
 def build_404_page(site_dir: str):
     """GitHub Pages serves 404.html for missing pages."""
     html = f"""<!DOCTYPE html>
@@ -1736,6 +1976,8 @@ Open Source Alternative Finder · Updated {updated} · <a href="../privacy/">Pri
     build_privacy_policy(site_dir, updated)
     build_savings_calculator(site_dir)
     build_changelog(site_dir, all_comparisons, updated)
+    build_about_page(site_dir, updated)
+    build_contact_page(site_dir, updated)
 
     logger.info(f"✅ Site built successfully!")
     logger.info(f"   📄 {len(all_comparisons)} comparison pages")
