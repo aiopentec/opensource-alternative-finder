@@ -477,6 +477,8 @@ COMPARISON_PAGE = """<!DOCTYPE html>
 
   {github_box}
 
+  {migration_link}
+
   <!-- EMAIL CAPTURE — MailerLite -->
   <div class="email-box">
     <h3>🔔 Get Weekly Open Source Picks</h3>
@@ -783,970 +785,139 @@ def build_verdict_box(prop_name: str, oss_name: str, verdict: dict) -> str:
   </div>'''
 
 
-def build_related_section(current_slug: str, current_prop: str, current_oss: str,
-                           all_comparisons: List[Dict]) -> str:
-    """Find comparisons that share a tool with the current page."""
-    related = []
-    for c in all_comparisons:
-        if c['slug'] == current_slug:
-            continue
-        if (c.get('proprietary_tool') == current_prop or
-            c.get('oss_tool') == current_oss or
-            c.get('proprietary_tool') == current_oss or
-            c.get('oss_tool') == current_prop):
-            related.append(c)
-    if not related:
-        return ''
-    links = ''.join(
-        f'<a class="related-link" href="../{c["slug"]}/">{c["title"]}</a>'
-        for c in related[:6]
-    )
-    return f"""
-  <div class="card">
-    <h2 style="font-size:1rem; font-weight:700; color:#1F5C99; margin-bottom:0.75rem;">🔗 Related Comparisons</h2>
-    <div class="related-grid">{links}</div>
-  </div>"""
+def extract_migration_steps(markdown: str) -> list:
+    """Extract migration steps from the Migration Path section of comparison markdown."""
+    steps = []
+    lines = markdown.split('\n')
+    in_migration = False
+    buffer = []
 
-
-def build_sitemap(all_comparisons: List[Dict], site_dir: str, categories: List[str]):
-    """Generate sitemap.xml for Google Search Console."""
-    today = datetime.utcnow().strftime('%Y-%m-%d')
-    urls = [f'  <url><loc>{SITE_BASE_URL}/</loc><changefreq>daily</changefreq><priority>1.0</priority><lastmod>{today}</lastmod></url>']
-    for cat in categories:
-        urls.append(f'  <url><loc>{SITE_BASE_URL}/{cat}/</loc><changefreq>weekly</changefreq><priority>0.7</priority><lastmod>{today}</lastmod></url>')
-    for comp in all_comparisons:
-        urls.append(f'  <url><loc>{SITE_BASE_URL}/{comp["slug"]}/</loc><changefreq>weekly</changefreq><priority>0.9</priority><lastmod>{today}</lastmod></url>')
-    # Add privacy policy and calculator to sitemap
-    urls.append(f'  <url><loc>{SITE_BASE_URL}/privacy/</loc><changefreq>monthly</changefreq><priority>0.3</priority><lastmod>{today}</lastmod></url>')
-    urls.append(f'  <url><loc>{SITE_BASE_URL}/savings-calculator/</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>{today}</lastmod></url>')
-    sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-    sitemap += '\n'.join(urls) + '\n</urlset>'
-    with open(Path(site_dir) / 'sitemap.xml', 'w') as f:
-        f.write(sitemap)
-    logger.info(f"   🗺️  sitemap.xml ({len(all_comparisons) + len(categories) + 2} URLs)")
-
-
-def build_privacy_policy(site_dir: str, updated: str):
-    """Generate a Privacy Policy page required for AdSense."""
-    privacy_dir = Path(site_dir) / 'privacy'
-    privacy_dir.mkdir(exist_ok=True)
-    html = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Privacy Policy | Open Source Alternative Finder</title>
-  <meta name="description" content="Privacy Policy for Open Source Alternative Finder.">
-  <link rel="canonical" href="{SITE_BASE_URL}/privacy/">
-  <meta name="robots" content="index, follow">
-  <link rel="icon" href="../favicon.ico" type="image/x-icon">
-  <style>
-    body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; color: #1A202C; line-height: 1.8; background: #F0F4F8; }}
-    nav {{ background: #1F5C99; padding: 0.75rem 1.5rem; border-radius: 8px; margin-bottom: 2rem; }}
-    nav a {{ color: #fff; text-decoration: none; font-size: 0.9rem; }}
-    h1 {{ font-size: 2rem; font-weight: 900; color: #1F5C99; margin-bottom: 0.5rem; }}
-    h2 {{ font-size: 1.2rem; font-weight: 700; color: #1F5C99; margin: 2rem 0 0.5rem; border-bottom: 2px solid #EBF4FA; padding-bottom: 0.4rem; }}
-    p, li {{ color: #2D3748; margin: 0.5rem 0; }}
-    ul {{ margin-left: 1.5rem; }}
-    .card {{ background: #fff; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: 1px solid #E2E8F0; }}
-    .updated {{ color: #718096; font-size: 0.85rem; margin-bottom: 2rem; }}
-    a {{ color: #1F5C99; }}
-    footer {{ text-align: center; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #E2E8F0; color: #718096; font-size: 0.85rem; }}
-  </style>
-</head>
-<body>
-  <nav><a href="../">← Open Source Alternative Finder</a></nav>
-  <div class="card">
-    <h1>Privacy Policy</h1>
-    <p class="updated">Last updated: {updated}</p>
-
-    <p>Open Source Alternative Finder ("we", "our", or "us") operates the website at <a href="{SITE_BASE_URL}/">{SITE_BASE_URL}/</a>. This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our site.</p>
-
-    <h2>Information We Collect</h2>
-    <p>We do not directly collect any personally identifiable information. However, third-party services we use may collect data as described below.</p>
-
-    <h2>Google AdSense</h2>
-    <p>We use Google AdSense to display advertisements. Google AdSense uses cookies to serve ads based on your prior visits to our website or other websites. You may opt out of personalised advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google Ads Settings</a>.</p>
-    <p>Google's use of advertising cookies enables it and its partners to serve ads based on your visit to our site and/or other sites on the Internet. For more information, see <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">Google's advertising policies</a>.</p>
-
-    <h2>Cookies</h2>
-    <p>Cookies are small data files stored on your device. We use cookies for the following purposes:</p>
-    <ul>
-      <li><strong>Analytics:</strong> To understand how visitors interact with our site</li>
-      <li><strong>Advertising:</strong> Google AdSense uses cookies to show relevant ads</li>
-    </ul>
-    <p>You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent. However, some features of our site may not function properly without cookies.</p>
-
-    <h2>Google Analytics</h2>
-    <p>We may use Google Analytics to monitor and analyse web traffic. Google Analytics collects information such as how often users visit our site, what pages they visit, and what other sites they visited prior to arriving. We use this information to improve our site. Google Analytics collects only the IP address assigned to you on the date you visit our site, not your name or other identifying information.</p>
-
-    <h2>Affiliate Links</h2>
-    <p>Our site contains affiliate links. If you click on an affiliate link and make a purchase, we may receive a commission at no additional cost to you. We only recommend products and services we believe are valuable to our readers.</p>
-
-    <h2>Third-Party Links</h2>
-    <p>Our site may contain links to third-party websites. We have no control over and assume no responsibility for the content, privacy policies, or practices of any third-party sites or services.</p>
-
-    <h2>Children's Privacy</h2>
-    <p>Our site does not address anyone under the age of 13. We do not knowingly collect personally identifiable information from children under 13.</p>
-
-    <h2>Changes to This Privacy Policy</h2>
-    <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date.</p>
-
-    <h2>Contact Us</h2>
-    <p>If you have any questions about this Privacy Policy, please contact us via our <a href="https://github.com/aiopentec/opensource-alternative-finder" target="_blank" rel="noopener">GitHub repository</a>.</p>
-  </div>
-  <footer>Open Source Alternative Finder · <a href="../">Home</a> · Updated {updated}</footer>
-</body>
-</html>"""
-    with open(privacy_dir / 'index.html', 'w') as f:
-        f.write(html)
-
-
-def build_savings_calculator(site_dir: str):
-    """Generate the SaaS Savings Calculator page — unique competitive differentiator."""
-    calc_dir = Path(site_dir) / 'savings-calculator'
-    calc_dir.mkdir(exist_ok=True)
-    calculator_src = Path(__file__).parent.parent / 'scripts' / 'savings_calculator.html'
-    # Read the calculator HTML template
-    calc_html = open(Path(__file__).parent.parent / 'savings_calculator.html').read() if (Path(__file__).parent.parent / 'savings_calculator.html').exists() else None
-    if calc_html is None:
-        # Inline fallback — full calculator
-        calc_html = """<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SaaS Savings Calculator — How Much Can You Save With Open Source?</title>
-  <meta name="description" content="Calculate exactly how much your team can save by switching from Slack, Notion, Figma, Jira and more to free open-source alternatives.">
-  <link rel="canonical" href="{site_base_url}/savings-calculator/">
-  <meta name="robots" content="index, follow">
-  <link rel="icon" href="../favicon.ico" type="image/x-icon">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    :root {{--blue:#1F5C99;--blue-light:#2980B9;--green:#0D9966;--green-light:#10b77a;--red:#e03e3e;--bg:#0a0f1e;--card:#111827;--card2:#1a2236;--border:rgba(255,255,255,0.08);--text:#f0f4ff;--muted:#8899bb;}}
-    *{{box-sizing:border-box;margin:0;padding:0;}}
-    body{{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6;}}
-    body::before{{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(31,92,153,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(31,92,153,0.07) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}}
-    nav{{position:relative;z-index:10;background:rgba(10,15,30,0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.9rem 1.5rem;display:flex;align-items:center;gap:.75rem;}}
-    nav a{{color:var(--muted);text-decoration:none;font-size:.85rem;}}
-    nav a:hover{{color:var(--text);}}
-    nav .sep{{color:var(--border);}}
-    nav .current{{color:var(--text);font-weight:600;}}
-    .hero{{position:relative;z-index:1;text-align:center;padding:4rem 1.5rem 2.5rem;}}
-    .hero-label{{display:inline-flex;align-items:center;gap:.5rem;background:rgba(13,153,102,.15);border:1px solid rgba(13,153,102,.3);color:var(--green-light);font-size:.78rem;font-weight:600;padding:.35rem .9rem;border-radius:20px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:1.25rem;}}
-    .hero h1{{font-family:'Syne',sans-serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:800;line-height:1.1;margin-bottom:1rem;background:linear-gradient(135deg,#fff 30%,#63b3ed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}}
-    .hero p{{color:var(--muted);font-size:1.05rem;max-width:540px;margin:0 auto 2.5rem;}}
-    .input-section{{position:relative;z-index:1;max-width:700px;margin:0 auto 2rem;padding:0 1.5rem;}}
-    .input-card{{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;}}
-    .input-label{{font-family:'Syne',sans-serif;font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:1rem;display:block;}}
-    .slider-row{{display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;}}
-    .slider-wrap{{flex:1;min-width:200px;}}
-    input[type=range]{{-webkit-appearance:none;width:100%;height:6px;background:linear-gradient(to right,var(--blue-light) 0%,var(--blue-light) var(--pct,5%),rgba(255,255,255,0.1) var(--pct,5%));border-radius:3px;outline:none;cursor:pointer;}}
-    input[type=range]::-webkit-slider-thumb{{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 0 0 3px var(--blue-light),0 4px 12px rgba(0,0,0,.4);cursor:pointer;}}
-    .team-display{{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:.6rem 1.2rem;text-align:center;min-width:100px;}}
-    .team-display .num{{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:#fff;line-height:1;}}
-    .team-display .lbl{{font-size:.72rem;color:var(--muted);}}
-    .quick-sizes{{display:flex;gap:.5rem;margin-top:1rem;flex-wrap:wrap;}}
-    .quick-btn{{background:var(--card2);border:1px solid var(--border);color:var(--muted);font-size:.8rem;font-weight:600;padding:.3rem .8rem;border-radius:6px;cursor:pointer;transition:all .15s;}}
-    .quick-btn:hover,.quick-btn.active{{background:var(--blue);color:#fff;border-color:var(--blue);}}
-    .total-banner{{position:relative;z-index:1;max-width:700px;margin:0 auto 2rem;padding:0 1.5rem;}}
-    .total-card{{background:linear-gradient(135deg,rgba(13,153,102,.2),rgba(13,153,102,.05));border:1px solid rgba(13,153,102,.4);border-radius:16px;padding:1.75rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}}
-    .total-left .label{{font-size:.8rem;color:var(--green-light);font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.25rem;}}
-    .total-left .amount{{font-family:'Syne',sans-serif;font-size:clamp(2rem,5vw,3rem);font-weight:800;color:#fff;line-height:1;}}
-    .total-left .period{{font-size:.9rem;color:var(--muted);margin-top:.2rem;}}
-    .total-right{{text-align:right;}}
-    .total-right .annual{{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;color:var(--green-light);}}
-    .total-right .annual-label,.total-right .coffee{{font-size:.78rem;color:var(--muted);}}
-    .tools-section{{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:0 1.5rem 4rem;}}
-    .section-title{{font-family:'Syne',sans-serif;font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:1.25rem;}}
-    .tools-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;}}
-    .tool-card{{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.25rem;transition:border-color .2s,transform .2s;cursor:pointer;}}
-    .tool-card:hover{{border-color:rgba(31,92,153,.5);transform:translateY(-2px);}}
-    .tool-card.active{{border-color:var(--green);background:rgba(13,153,102,.06);}}
-    .tool-header{{display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem;}}
-    .tool-names{{display:flex;align-items:center;gap:.5rem;}}
-    .tool-prop{{font-weight:700;font-size:1rem;color:var(--red);}}
-    .tool-vs{{font-size:.68rem;font-weight:800;color:var(--muted);background:var(--card2);padding:.15rem .45rem;border-radius:4px;}}
-    .tool-oss{{font-weight:700;font-size:1rem;color:var(--green-light);}}
-    .tool-toggle{{width:38px;height:22px;background:rgba(255,255,255,.1);border-radius:11px;position:relative;transition:background .2s;flex-shrink:0;}}
-    .tool-toggle::after{{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .2s;}}
-    .tool-card.active .tool-toggle{{background:var(--green);}}
-    .tool-card.active .tool-toggle::after{{transform:translateX(16px);}}
-    .tool-savings{{display:flex;align-items:baseline;justify-content:space-between;}}
-    .savings-amount{{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;}}
-    .tool-card.active .savings-amount{{color:var(--green-light);}}
-    .tool-card:not(.active) .savings-amount{{color:var(--muted);}}
-    .savings-detail{{font-size:.78rem;color:var(--muted);text-align:right;}}
-    .savings-per{{font-size:.75rem;color:var(--muted);margin-top:.2rem;}}
-    .cta-section{{position:relative;z-index:1;max-width:700px;margin:0 auto 4rem;padding:0 1.5rem;text-align:center;}}
-    .cta-card{{background:linear-gradient(135deg,var(--blue) 0%,#134a7a 100%);border-radius:16px;padding:2.5rem 2rem;}}
-    .cta-card h2{{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:.5rem;}}
-    .cta-card p{{color:rgba(255,255,255,.75);margin-bottom:1.5rem;font-size:.95rem;}}
-    .cta-btn{{display:inline-block;background:#fff;color:var(--blue);padding:.75rem 2rem;border-radius:8px;font-weight:700;font-size:.95rem;text-decoration:none;}}
-    footer{{position:relative;z-index:1;text-align:center;padding:2rem;border-top:1px solid var(--border);color:var(--muted);font-size:.82rem;}}
-    footer a{{color:var(--blue-light);}}
-    @media(max-width:600px){{.total-card{{flex-direction:column;}}.tools-grid{{grid-template-columns:1fr;}}}}
-  </style>
-</head>
-<body>
-<nav>
-  <a href="../">🔍 OS Alternative Finder</a>
-  <span class="sep">/</span>
-  <span class="current">💰 Savings Calculator</span>
-</nav>
-<div class="hero">
-  <div class="hero-label">💰 Free Calculator</div>
-  <h1>How Much Is Your<br>SaaS Stack Costing You?</h1>
-  <p>Enter your team size and see exactly how much you save by switching to free, open-source alternatives.</p>
-</div>
-<div class="input-section">
-  <div class="input-card">
-    <label class="input-label">👥 Team Size</label>
-    <div class="slider-row">
-      <div class="slider-wrap">
-        <input type="range" id="teamSlider" min="1" max="500" value="25" oninput="updateAll(this.value)">
-      </div>
-      <div class="team-display">
-        <div class="num" id="teamNum">25</div>
-        <div class="lbl">people</div>
-      </div>
-    </div>
-    <div class="quick-sizes">
-      <button class="quick-btn" onclick="setTeam(5)">5</button>
-      <button class="quick-btn" onclick="setTeam(10)">10</button>
-      <button class="quick-btn active" onclick="setTeam(25)">25</button>
-      <button class="quick-btn" onclick="setTeam(50)">50</button>
-      <button class="quick-btn" onclick="setTeam(100)">100</button>
-      <button class="quick-btn" onclick="setTeam(250)">250</button>
-      <button class="quick-btn" onclick="setTeam(500)">500</button>
-    </div>
-  </div>
-</div>
-<div class="total-banner">
-  <div class="total-card">
-    <div class="total-left">
-      <div class="label">💸 Total Monthly Savings</div>
-      <div class="amount" id="totalMonthly">$0</div>
-      <div class="period">across selected tools</div>
-    </div>
-    <div class="total-right">
-      <div class="annual" id="totalAnnual">$0/year</div>
-      <div class="annual-label">Annual savings</div>
-      <div class="coffee" id="coffeeEquiv"></div>
-    </div>
-  </div>
-</div>
-<div class="tools-section">
-  <div class="section-title">🔧 Toggle the tools your team uses</div>
-  <div class="tools-grid" id="toolsGrid"></div>
-</div>
-<div class="cta-section">
-  <div class="cta-card">
-    <h2>Ready to make the switch?</h2>
-    <p>Read our detailed comparisons — pricing, features, migration guides, and which is right for your team.</p>
-    <a class="cta-btn" href="../">View All Comparisons →</a>
-  </div>
-</div>
-<footer>
-  Open Source Alternative Finder &nbsp;·&nbsp;
-  <a href="../">Home</a> &nbsp;·&nbsp;
-  <a href="../privacy/">Privacy Policy</a><br>
-  <span style="opacity:0.6">Pricing estimates based on published rates. Actual costs vary by plan.</span>
-</footer>
-<script>
-const TOOLS=[
-  {{prop:'Slack',oss:'Mattermost',pricePerUser:8.75,slug:'slack-vs-mattermost'}},
-  {{prop:'Microsoft Teams',oss:'Mattermost',pricePerUser:6,slug:'microsoft-teams-vs-mattermost'}},
-  {{prop:'Discord',oss:'Element',pricePerUser:4.99,slug:'discord-vs-element'}},
-  {{prop:'Notion',oss:'AppFlowy',pricePerUser:10,slug:'notion-vs-appflowy'}},
-  {{prop:'Google Workspace',oss:'Nextcloud',pricePerUser:6,slug:'google-workspace-vs-nextcloud'}},
-  {{prop:'Airtable',oss:'NocoDB',pricePerUser:12,slug:'airtable-vs-nocodb'}},
-  {{prop:'Mailchimp',oss:'Listmonk',pricePerUser:4,slug:'mailchimp-vs-listmonk'}},
-  {{prop:'HubSpot',oss:'SuiteCRM',pricePerUser:15,slug:'hubspot-vs-suitecrm'}},
-  {{prop:'Figma',oss:'Penpot',pricePerUser:15,slug:'figma-vs-penpot'}},
-  {{prop:'GitHub',oss:'GitLab',pricePerUser:7,slug:'github-vs-gitlab'}},
-  {{prop:'Jira',oss:'Plane',pricePerUser:8.15,slug:'jira-vs-plane'}},
-  {{prop:'Trello',oss:'WeKan',pricePerUser:5,slug:'trello-vs-wekan'}},
-  {{prop:'Asana',oss:'Taiga',pricePerUser:10.99,slug:'asana-vs-taiga'}},
-  {{prop:'Monday.com',oss:'Plane',pricePerUser:9,slug:'monday-vs-plane'}},
-  {{prop:'Dropbox',oss:'Nextcloud',pricePerUser:12,slug:'dropbox-vs-nextcloud'}},
-  {{prop:'Zoom',oss:'Jitsi Meet',pricePerUser:13.33,slug:'zoom-vs-jitsi'}},
-  {{prop:'WordPress.com',oss:'Ghost',pricePerUser:25,slug:'wordpress-com-vs-ghost'}},
-  {{prop:'Linear',oss:'Plane',pricePerUser:8,slug:'linear-vs-plane'}},
-];
-const DEFAULT_ACTIVE=new Set(['Slack','Notion','Figma','Jira','Zoom','GitHub','Dropbox']);
-let activeTools=new Set(DEFAULT_ACTIVE);
-let teamSize=25;
-function fmt(n){{if(n>=1000000)return'$'+(n/1000000).toFixed(1)+'M';if(n>=1000)return'$'+(n/1000).toFixed(1)+'k';return'$'+Math.round(n).toLocaleString();}}
-function renderTools(){{
-  const grid=document.getElementById('toolsGrid');grid.innerHTML='';
-  TOOLS.forEach(t=>{{
-    const isActive=activeTools.has(t.prop);
-    const monthly=t.pricePerUser*teamSize;
-    const card=document.createElement('div');
-    card.className='tool-card'+(isActive?' active':'');
-    card.innerHTML=`<div class="tool-header"><div class="tool-names"><span class="tool-prop">${{t.prop}}</span><span class="tool-vs">VS</span><span class="tool-oss">${{t.oss}}</span></div><div class="tool-toggle"></div></div><div class="tool-savings"><div><div class="savings-amount">${{fmt(monthly)}}/mo</div><div class="savings-per">${{isActive?'✅ Saving this':'⬜ Not counting'}}</div></div><div class="savings-detail"><div>${{fmt(t.pricePerUser)}}/user</div><div style="color:var(--green-light);margin-top:2px">${{fmt(monthly*12)}}/yr</div><a href="../${{t.slug}}/" style="font-size:.72rem;color:var(--blue-light);text-decoration:none;display:block;margin-top:4px">See comparison →</a></div></div>`;
-    card.addEventListener('click',()=>{{if(activeTools.has(t.prop))activeTools.delete(t.prop);else activeTools.add(t.prop);renderTools();updateTotals();}});
-    grid.appendChild(card);
-  }});
-}}
-function updateTotals(){{
-  let monthly=0;
-  TOOLS.forEach(t=>{{if(activeTools.has(t.prop))monthly+=t.pricePerUser*teamSize;}});
-  const annual=monthly*12;
-  document.getElementById('totalMonthly').textContent=fmt(monthly);
-  document.getElementById('totalAnnual').textContent=fmt(annual)+'/year';
-  const equiv=annual>50000?`≈ ${{Math.round(annual/60000)}} engineer salaries/yr`:annual>10000?`≈ ${{Math.round(annual/500)}} MacBook Pros/yr`:`≈ ${{Math.round(annual/5).toLocaleString()}} ☕ coffees/yr`;
-  document.getElementById('coffeeEquiv').textContent=equiv;
-}}
-function updateAll(val){{
-  teamSize=parseInt(val);
-  document.getElementById('teamNum').textContent=teamSize;
-  const pct=((teamSize-1)/499*100).toFixed(1);
-  document.getElementById('teamSlider').style.setProperty('--pct',pct+'%');
-  document.querySelectorAll('.quick-btn').forEach(b=>b.classList.toggle('active',parseInt(b.textContent)===teamSize));
-  renderTools();updateTotals();
-}}
-function setTeam(n){{document.getElementById('teamSlider').value=n;updateAll(n);}}
-renderTools();updateTotals();
-</script>
-</body>
-</html>"""
-    calc_html = calc_html.replace('{site_base_url}', SITE_BASE_URL)
-    with open(calc_dir / 'index.html', 'w') as f:
-        f.write(calc_html)
-    logger.info("   💰 savings-calculator/index.html")
-
-
-def build_404_page(site_dir: str):
-    """GitHub Pages serves 404.html for missing pages."""
-    html = f"""<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Page Not Found | Open Source Alternative Finder</title>
-<style>body{{font-family:system-ui,sans-serif;text-align:center;padding:4rem 1rem;background:#F0F4F8;}}
-h1{{font-size:3rem;color:#1F5C99;}}p{{color:#718096;margin:1rem 0 2rem;}}
-a{{display:inline-block;background:#1F5C99;color:#fff;padding:0.65rem 1.5rem;border-radius:6px;text-decoration:none;font-weight:600;}}
-</style></head>
-<body>
-<h1>404</h1>
-<p>Oops — this page doesn't exist. The comparison you're looking for may have moved.</p>
-<a href="{SITE_BASE_URL}/">← Back to All Comparisons</a>
-</body></html>"""
-    with open(Path(site_dir) / '404.html', 'w') as f:
-        f.write(html)
-
-
-def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
-    Path(site_dir).mkdir(parents=True, exist_ok=True)
-
-    all_comparisons: List[Dict] = []
-    for json_file in sorted(Path(cache_dir).glob('comparisons_*.json')):
-        with open(json_file) as f:
-            all_comparisons.extend(json.load(f))
-
-    if not all_comparisons:
-        logger.warning("⚠️  No comparisons found in .cache/publish/")
-        return
-
-    logger.info(f"📦 Building site from {len(all_comparisons)} comparisons...")
-    updated   = datetime.utcnow().strftime('%B %d, %Y')
-    iso_date  = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-
-    data_dir = Path(site_dir) / 'data'
-    data_dir.mkdir(exist_ok=True)
-    with open(data_dir / 'comparisons.json', 'w') as f:
-        json.dump(all_comparisons, f, indent=2)
-
-    categories = sorted(set(c.get('category', 'general') for c in all_comparisons))
-    unique_tools = set()
-    for c in all_comparisons:
-        unique_tools.add(c.get('proprietary_tool', ''))
-        unique_tools.add(c.get('oss_tool', ''))
-
-    cards_html = ''
-    category_page_counts = {}
-    adsense_script = get_adsense_snippet()
-    adsense_unit   = get_adsense_unit()
-    carbon_ad      = get_carbon_ad()
-
-    for comp in all_comparisons:
-        slug        = comp['slug']
-        category    = comp.get('category', 'general')
-        cat_icon    = CATEGORY_ICONS.get(category, '🔧')
-        cat_color   = CATEGORY_COLORS.get(category, '#95A5A6')
-        cat_label   = category.replace('-', ' ').title()
-        prop_key    = comp.get('proprietary_key', '')
-        oss_key     = comp.get('oss_key', '')
-        prop_name   = comp.get('proprietary_tool', '')
-        oss_name    = comp.get('oss_tool', '')
-        canonical   = f"{SITE_BASE_URL}/{slug}/"
-
-        seo_title   = f"{prop_name} vs {oss_name} ({updated}) — Free Open Source Alternative"
-        seo_desc    = (f"Is {oss_name} a good free alternative to {prop_name}? "
-                       f"Detailed comparison of pricing, features, data ownership, and migration. "
-                       f"Save {comp.get('proprietary_pricing','money')} by switching.")
-
-        page_dir = Path(site_dir) / slug
-        page_dir.mkdir(parents=True, exist_ok=True)
-
-        body_html = markdown_to_html(comp.get('comparison_markdown', ''))
-
-        # Extract AI verdict from markdown
-        verdict = extract_verdict(comp.get('comparison_markdown', ''), prop_name, oss_name)
-        verdict_box_html = build_verdict_box(prop_name, oss_name, verdict)
-
-        # Build self-hosting difficulty card
-        difficulty_data = HOSTING_DIFFICULTY.get(oss_key, {})
-        difficulty_label = difficulty_data.get('label', 'Varies')
-        difficulty_card_html = build_difficulty_card(oss_key, oss_name)
-
-        github_box_html = ''
-        if comp.get('oss_github'):
-            github_box_html = GITHUB_BOX.format(
-                oss_name=oss_name,
-                github_repo=comp['oss_github'],
-                stars=comp.get('oss_stars', 'N/A')
-            )
-
-        related_html = build_related_section(slug, prop_name, oss_name, all_comparisons)
-
-        page_html = COMPARISON_PAGE.format(
-            title=comp['title'],
-            seo_title=seo_title,
-            seo_description=seo_desc,
-            canonical_url=canonical,
-            site_base_url=SITE_BASE_URL,
-            iso_date=iso_date,
-            category_slug=category,
-            category_label=cat_label,
-            category_icon=cat_icon,
-            category_color=cat_color,
-            updated=updated,
-            prop_name=prop_name,
-            prop_pricing=comp.get('proprietary_pricing', 'N/A'),
-            prop_affiliate=AFFILIATE_LINKS.get(prop_key, comp.get('proprietary_website', '#')),
-            oss_name=oss_name,
-            oss_pricing=comp.get('oss_pricing', 'Free'),
-            oss_website=AFFILIATE_LINKS.get(oss_key, comp.get('oss_website', '#')),
-            body=body_html,
-            github_box=github_box_html,
-            related_section=related_html,
-            adsense_script=adsense_script,
-            adsense_unit=adsense_unit,
-            carbon_ad=carbon_ad,
-            verdict_box=verdict_box_html,
-            difficulty_card=difficulty_card_html,
-            difficulty_label=difficulty_label,
-        )
-        with open(page_dir / 'index.html', 'w') as f:
-            f.write(page_html)
-
-        category_page_counts[category] = category_page_counts.get(category, 0) + 1
-
-        search_data = f"{prop_name} {oss_name} {cat_label}".lower()
-        cards_html += f"""
-  <div class="card" data-category="{category}" data-search="{search_data}">
-    <div class="card-category" style="background:{cat_color}">{cat_icon} {cat_label}</div>
-    <div class="card-body">
-      <div class="vs-line">
-        <span class="tool-name" style="color:#C0392B">{prop_name}</span>
-        <span class="vs">VS</span>
-        <span class="tool-name" style="color:{cat_color}">{oss_name}</span>
-      </div>
-      <div class="savings">
-        <span class="label">💰 Switch and save:</span>
-        <span class="value">{comp.get('proprietary_pricing', 'N/A')} → {comp.get('oss_pricing', 'Free')}</span>
-      </div>
-    </div>
-    <div class="card-footer">
-      <a class="cta" href="{slug}/">Compare Now →</a>
-    </div>
-  </div>"""
-
-    # Category index pages
-    for category in categories:
-        cat_comps = [c for c in all_comparisons if c.get('category', 'general') == category]
-        cat_dir = Path(site_dir) / category
-        cat_dir.mkdir(exist_ok=True)
-        cat_cards = '\n'.join(
-            f'<li><a href="../{c["slug"]}/">{c["title"]}</a> — {c.get("oss_pricing","Free")}</li>'
-            for c in cat_comps
-        )
-        cat_page = f"""<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{category.replace('-',' ').title()} Open Source Alternatives | OS Alternative Finder</title>
-<meta name="description" content="Free open-source alternatives to popular {category.replace('-',' ')} tools. Detailed comparisons with pricing and migration guides.">
-<link rel="canonical" href="{SITE_BASE_URL}/{category}/">
-<style>body{{font-family:system-ui,sans-serif;max-width:800px;margin:2rem auto;padding:0 1rem;}}a{{color:#1F5C99;}}</style></head>
-<body><h1>{CATEGORY_ICONS.get(category,'🔧')} {category.replace('-',' ').title()} Comparisons</h1>
-<p><a href="../">← All categories</a></p><ul style="margin:1.5rem 0 0 1.5rem;line-height:2.2">{cat_cards}</ul>
-<footer style="margin-top:3rem;color:#888;font-size:0.85rem;border-top:1px solid #eee;padding-top:1rem">
-Open Source Alternative Finder · Updated {updated} · <a href="../privacy/">Privacy Policy</a></footer></body></html>"""
-        with open(cat_dir / 'index.html', 'w') as f:
-            f.write(cat_page)
-
-    filter_buttons = '\n'.join(
-        f'<button class="filter-btn" onclick="filterCards(\'{cat}\', this)">{CATEGORY_ICONS.get(cat,"🔧")} {cat.replace("-"," ").title()} ({category_page_counts.get(cat, 0)})</button>'
-        for cat in categories
-    )
-
-    index_html = INDEX_PAGE.format(
-        total_comparisons=len(all_comparisons),
-        total_tools=len(unique_tools),
-        updated=updated,
-        site_base_url=SITE_BASE_URL,
-        filter_buttons=filter_buttons,
-        cards=cards_html,
-        adsense_script=adsense_script,
-        google_verification=os.getenv("GOOGLE_SITE_VERIFICATION", "sgWLzv3yQVjDBJUjSqkzfFW2WDtfpWNMzQ-_pEw9sqQ"),
-    )
-    with open(Path(site_dir) / 'index.html', 'w') as f:
-        f.write(index_html)
-
-    # Extra files
-    with open(Path(site_dir) / 'favicon.ico', 'wb') as f:
-        f.write(b'')
-    with open(Path(site_dir) / 'CNAME.example', 'w') as f:
-        f.write("# Rename to CNAME and add your custom domain, e.g.: alternatives.yourdomain.com\n")
-    with open(Path(site_dir) / 'robots.txt', 'w') as f:
-        f.write(f"User-agent: *\nAllow: /\nSitemap: {SITE_BASE_URL}/sitemap.xml\n")
-    with open(Path(site_dir) / 'ads.txt', 'w') as f:
-        f.write("google.com, pub-4633315697698743, DIRECT, f08c47fec0942fa0\n")
-
-    build_sitemap(all_comparisons, site_dir, categories)
-    build_404_page(site_dir)
-    build_privacy_policy(site_dir, updated)
-    build_savings_calculator(site_dir)
-
-    logger.info(f"✅ Site built successfully!")
-    logger.info(f"   📄 {len(all_comparisons)} comparison pages")
-    logger.info(f"   🗂️  {len(categories)} category pages")
-    logger.info(f"   🏠 index.html + 404.html + privacy/index.html")
-    logger.info(f"   🗺️  sitemap.xml")
-    logger.info(f"   📁 Output: {site_dir}/")
-
-
-if __name__ == "__main__":
-    build_site()#!/usr/bin/env python3
-"""
-publish_github_pages.py  —  OPTIMIZED VERSION
-Converts generated JSON comparisons into a complete static website.
-
-Improvements over v1:
-  - Full SEO: meta tags, Open Graph, Twitter Cards, canonical URLs
-  - Schema.org structured data (Article + BreadcrumbList)
-  - Auto-generated sitemap.xml
-  - Affiliate link injection for all major tools
-  - Google AdSense placeholder (swap in your publisher ID)
-  - Carbon Ads placeholder
-  - Email capture widget
-  - "Related comparisons" on every page
-  - Performance: preconnect hints, lazy loading
-  - 404 page
-  - Privacy Policy page (required for AdSense)
-  - Privacy Policy link in all page footers
-  - Better page titles for search ranking
-
-Usage: python scripts/publish_github_pages.py
-"""
-
-import json, logging, os, re
-from datetime import datetime
-from pathlib import Path
-from typing import Dict, List
-
-logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(levelname)-8s | %(message)s')
-logger = logging.getLogger(__name__)
-
-# ── CONFIG — edit these ───────────────────────────────────────────────────────
-SITE_BASE_URL  = os.getenv("SITE_BASE_URL", "https://aiopentec.github.io/opensource-alternative-finder")
-ADSENSE_ID     = os.getenv("ADSENSE_ID", "")          # e.g. ca-pub-XXXXXXXXXXXXXXXX
-CARBON_SERVE   = os.getenv("CARBON_SERVE", "")        # from carbonads.com
-CARBON_PLACEMENT = os.getenv("CARBON_PLACEMENT", "")  # from carbonads.com
-# ─────────────────────────────────────────────────────────────────────────────
-
-CATEGORY_ICONS = {
-    'communication':      '💬',
-    'productivity':       '📝',
-    'developer-tools':    '⚙️',
-    'design':             '🎨',
-    'project-management': '📋',
-    'file-storage':       '☁️',
-    'video-conferencing': '🎥',
-    'general':            '🔧',
-}
-
-CATEGORY_COLORS = {
-    'communication':      '#2ECC71',
-    'productivity':       '#3498DB',
-    'developer-tools':    '#9B59B6',
-    'design':             '#E91E63',
-    'project-management': '#F39C12',
-    'file-storage':       '#1ABC9C',
-    'video-conferencing': '#E74C3C',
-    'general':            '#95A5A6',
-}
-
-# ── AFFILIATE LINKS ───────────────────────────────────────────────────────────
-# Replace the # values with your actual affiliate URLs once you join each program
-AFFILIATE_LINKS = {
-    'slack':      'https://slack.com',           # slack.com/intl/affiliates
-    'notion':     'https://notion.so',           # notion.so/affiliates — $10-16/signup
-    'figma':      'https://figma.com',           # figma.com/affiliates — 20% first year
-    'jira':       'https://atlassian.com/software/jira', # atlassian affiliate program
-    'trello':     'https://trello.com',          # atlassian affiliate program
-    'dropbox':    'https://dropbox.com',         # dropbox.com/affiliates — 10-25%
-    'zoom':       'https://zoom.us',             # zoom.us/partners — 30% first year
-    'linear':     'https://linear.app',          # linear.app/affiliates — 30% recurring
-    'asana':      'https://asana.com',           # asana.com/partners
-    'github':     'https://github.com',
-    'discord':    'https://discord.com',
-    # OSS tools — link to their official sites (no affiliate but builds trust)
-    'element':    'https://element.io',
-    'mattermost': 'https://mattermost.com',
-    'zulip':      'https://zulip.com',
-    'appflowy':   'https://appflowy.io',
-    'obsidian':   'https://obsidian.md',
-    'logseq':     'https://logseq.com',
-    'gitlab':     'https://gitlab.com',
-    'gitea':      'https://gitea.io',
-    'penpot':     'https://penpot.app',
-    'plane':      'https://plane.so',
-    'wekan':      'https://wekan.github.io',
-    'nextcloud':  'https://nextcloud.com',
-    'jitsi':      'https://jitsi.org',
-    'taiga':      'https://taiga.io',
-}
-
-
-# ── SELF-HOSTING DIFFICULTY ───────────────────────────────────────────────────
-# Score 1-5: 1 = trivial (one click), 5 = expert only
-# label: short descriptor shown as badge
-# time: realistic setup time for a technical person
-# method: easiest deployment method
-HOSTING_DIFFICULTY = {
-    'element':    {'score': 3, 'label': 'Moderate',  'time': '~2 hours',   'method': 'Docker',        'note': 'Requires a server and domain. Docker setup is well documented.'},
-    'mattermost': {'score': 2, 'label': 'Easy',      'time': '~30 mins',   'method': 'Docker',        'note': 'Official Docker image makes setup straightforward on any VPS.'},
-    'zulip':      {'score': 3, 'label': 'Moderate',  'time': '~1-2 hours', 'method': 'Docker',        'note': 'Docker installer available. Requires a dedicated server with 2GB+ RAM.'},
-    'appflowy':   {'score': 1, 'label': 'Very Easy', 'time': '~5 mins',    'method': 'Desktop app',   'note': 'Download and run — no server needed. Local-first by default.'},
-    'obsidian':   {'score': 1, 'label': 'Very Easy', 'time': '~2 mins',    'method': 'Desktop app',   'note': 'Just download and install. Works entirely on your local machine.'},
-    'logseq':     {'score': 1, 'label': 'Very Easy', 'time': '~2 mins',    'method': 'Desktop app',   'note': 'Download and run. Files stored locally as plain text — no server needed.'},
-    'gitlab':     {'score': 4, 'label': 'Advanced',  'time': '~3-4 hours', 'method': 'Docker/Omnibus','note': 'Resource-heavy (4GB+ RAM recommended). Well documented but complex.'},
-    'gitea':      {'score': 2, 'label': 'Easy',      'time': '~20 mins',   'method': 'Docker',        'note': 'Single binary or Docker. Runs on a Raspberry Pi. Very lightweight.'},
-    'penpot':     {'score': 2, 'label': 'Easy',      'time': '~30 mins',   'method': 'Docker Compose','note': 'Official Docker Compose file provided. Needs a server with 2GB+ RAM.'},
-    'plane':      {'score': 2, 'label': 'Easy',      'time': '~30 mins',   'method': 'Docker Compose','note': 'Official Docker Compose setup. Good documentation for self-hosting.'},
-    'wekan':      {'score': 2, 'label': 'Easy',      'time': '~20 mins',   'method': 'Docker',        'note': 'Simple Docker setup. Can run on a small VPS or home server.'},
-    'nextcloud':  {'score': 3, 'label': 'Moderate',  'time': '~1-2 hours', 'method': 'Docker/AIO',    'note': 'All-in-One Docker installer simplifies setup. Needs 2GB+ RAM.'},
-    'jitsi':      {'score': 2, 'label': 'Easy',      'time': '~30 mins',   'method': 'Docker Compose','note': 'Official quick-install script. Works on Ubuntu 20.04+ out of the box.'},
-    'taiga':      {'score': 3, 'label': 'Moderate',  'time': '~1-2 hours', 'method': 'Docker Compose','note': 'Multi-container setup requires Docker Compose. Good official docs.'},
-    'nocodb':     {'score': 1, 'label': 'Very Easy', 'time': '~5 mins',    'method': 'Docker',        'note': 'Single Docker command. One of the easiest self-hosted tools available.'},
-    'suitecrm':   {'score': 3, 'label': 'Moderate',  'time': '~1-2 hours', 'method': 'Docker/LAMP',   'note': 'Requires a LAMP stack or Docker. More complex than modern alternatives.'},
-    'listmonk':   {'score': 2, 'label': 'Easy',      'time': '~20 mins',   'method': 'Docker',        'note': 'Single binary or Docker. Minimal dependencies. Very fast setup.'},
-    'ghost':      {'score': 2, 'label': 'Easy',      'time': '~20 mins',   'method': 'Docker',        'note': 'Official Docker image available. Ghost(Pro) also offers managed hosting.'},
-}
-
-DIFFICULTY_COLORS = {
-    1: {'bg': '#EAFAF1', 'border': '#A9DFBF', 'text': '#1A7A3F', 'stars': '⭐'},
-    2: {'bg': '#EBF5FB', 'border': '#AED6F1', 'text': '#1F5C99', 'stars': '⭐⭐'},
-    3: {'bg': '#FEF9E7', 'border': '#F9E79F', 'text': '#B7770D', 'stars': '⭐⭐⭐'},
-    4: {'bg': '#FDEDEC', 'border': '#F5B7B1', 'text': '#C0392B', 'stars': '⭐⭐⭐⭐'},
-    5: {'bg': '#FDEDEC', 'border': '#E74C3C', 'text': '#922B21', 'stars': '⭐⭐⭐⭐⭐'},
-}
-# ─────────────────────────────────────────────────────────────────────────────
-
-
-def get_adsense_snippet():
-    """Returns AdSense script tag if configured."""
-    if not ADSENSE_ID:
-        return '<!-- AdSense: set ADSENSE_ID env var to enable -->'
-    return f'<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={ADSENSE_ID}" crossorigin="anonymous"></script>'
-
-
-def get_adsense_unit():
-    """Returns an in-content AdSense ad unit if configured."""
-    if not ADSENSE_ID:
-        return ''
-    return f"""
-  <div class="ad-unit" style="text-align:center; margin: 1.5rem 0;">
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="{ADSENSE_ID}"
-         data-ad-slot="auto"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
-  </div>"""
-
-
-def get_carbon_ad():
-    """Returns Carbon Ads unit if configured."""
-    if not CARBON_SERVE:
-        return ''
-    return f"""
-  <div id="carbonads-container" style="margin: 1.5rem 0;">
-    <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve={CARBON_SERVE}&placement={CARBON_PLACEMENT}" id="_carbonads_js"></script>
-  </div>"""
-
-
-def markdown_to_html(md: str) -> str:
-    """Convert Markdown to HTML."""
-    try:
-        import markdown as md_lib
-        return md_lib.markdown(md, extensions=['tables', 'nl2br'])
-    except ImportError:
-        pass
-
-    html = md
-    html = re.sub(r'^#### (.+)$', r'<h4>\1</h4>', html, flags=re.MULTILINE)
-    html = re.sub(r'^### (.+)$',  r'<h3>\1</h3>', html, flags=re.MULTILINE)
-    html = re.sub(r'^## (.+)$',   r'<h2>\1</h2>', html, flags=re.MULTILINE)
-    html = re.sub(r'^# (.+)$',    r'<h1>\1</h1>', html, flags=re.MULTILINE)
-    html = re.sub(r'\*\*\*(.+?)\*\*\*', r'<strong><em>\1</em></strong>', html)
-    html = re.sub(r'\*\*(.+?)\*\*',     r'<strong>\1</strong>', html)
-    html = re.sub(r'\*(.+?)\*',         r'<em>\1</em>', html)
-    html = re.sub(r'`(.+?)`', r'<code>\1</code>', html)
-    html = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2" target="_blank" rel="noopener">\1</a>', html)
-    html = re.sub(r'^> (.+)$', r'<blockquote>\1</blockquote>', html, flags=re.MULTILINE)
-
-    lines = html.split('\n')
-    result = []
-    in_table = False
-    header_done = False
     for line in lines:
-        stripped = line.strip()
-        if stripped.startswith('|') and stripped.endswith('|'):
-            if not in_table:
-                result.append('<div class="table-wrapper"><table>')
-                in_table = True
-                header_done = False
-            if re.match(r'^\|[\s\-|]+\|$', stripped):
-                header_done = True
-                continue
-            cells = [c.strip() for c in stripped.strip('|').split('|')]
-            if not header_done:
-                result.append('<thead><tr>' + ''.join(f'<th>{c}</th>' for c in cells) + '</tr></thead><tbody>')
-                header_done = True
-            else:
-                result.append('<tr>' + ''.join(f'<td>{c}</td>' for c in cells) + '</tr>')
-        else:
-            if in_table:
-                result.append('</tbody></table></div>')
-                in_table = False
-                header_done = False
-            result.append(line)
-    if in_table:
-        result.append('</tbody></table></div>')
-    html = '\n'.join(result)
+        if re.search(r'#{1,3}\s+migration', line, re.IGNORECASE):
+            in_migration = True
+            continue
+        if in_migration and re.match(r'#{1,3}\s+', line):
+            break  # hit next section
+        if in_migration:
+            stripped = line.strip()
+            if stripped:
+                buffer.append(stripped)
 
-    def convert_list(text):
-        lines = text.split('\n')
-        out = []
-        in_ul = False
-        in_ol = False
-        for line in lines:
-            ul_match = re.match(r'^[-*] (.+)$', line)
-            ol_match = re.match(r'^\d+\. (.+)$', line)
-            if ul_match:
-                if not in_ul:
-                    if in_ol: out.append('</ol>'); in_ol = False
-                    out.append('<ul>')
-                    in_ul = True
-                out.append(f'<li>{ul_match.group(1)}</li>')
-            elif ol_match:
-                if not in_ol:
-                    if in_ul: out.append('</ul>'); in_ul = False
-                    out.append('<ol>')
-                    in_ol = True
-                out.append(f'<li>{ol_match.group(1)}</li>')
-            else:
-                if in_ul: out.append('</ul>'); in_ul = False
-                if in_ol: out.append('</ol>'); in_ol = False
-                out.append(line)
-        if in_ul: out.append('</ul>')
-        if in_ol: out.append('</ol>')
-        return '\n'.join(out)
+    # Parse bullet points or numbered list into steps
+    for line in buffer:
+        clean = re.sub(r'^[-*\d.]+\s*', '', line).strip()
+        clean = re.sub(r'\*\*(.+?)\*\*', r'\1', clean)
+        if len(clean) > 15:
+            steps.append(clean)
 
-    html = convert_list(html)
-    html = html.replace('---', '<hr>')
-    paras = re.split(r'\n{2,}', html)
-    wrapped = []
-    for p in paras:
-        p = p.strip()
-        if p and not re.match(r'^<(h[1-6]|ul|ol|table|div|blockquote|hr)', p):
-            p = f'<p>{p}</p>'
-        wrapped.append(p)
-    return '\n'.join(wrapped)
+    # If no structured steps found, split on sentences
+    if not steps and buffer:
+        text = ' '.join(buffer)
+        sentences = re.split(r'\. (?=[A-Z])', text)
+        steps = [s.strip().rstrip('.') for s in sentences if len(s.strip()) > 20]
+
+    return steps[:6]  # max 6 steps
 
 
-# ── COMPARISON PAGE TEMPLATE ──────────────────────────────────────────────────
-COMPARISON_PAGE = """<!DOCTYPE html>
+def build_migration_page(site_dir: str, comp: dict, updated: str):
+    """Build a standalone migration guide page for a comparison pair."""
+    prop_name = comp.get('proprietary_tool', '')
+    oss_name  = comp.get('oss_tool', '')
+    prop_key  = comp.get('proprietary_key', '')
+    oss_key   = comp.get('oss_key', '')
+    category  = comp.get('category', 'general')
+    comp_slug = comp.get('slug', '')
+
+    migrate_slug = f"migrate-{prop_key}-to-{oss_key}"
+    migrate_dir  = Path(site_dir) / migrate_slug
+    migrate_dir.mkdir(parents=True, exist_ok=True)
+
+    steps = extract_migration_steps(comp.get('comparison_markdown', ''))
+    if not steps:
+        steps = [
+            f"Export your data from {prop_name} using their built-in export tool (Settings → Export)",
+            f"Set up {oss_name} on your own server or use their hosted option",
+            f"Import your exported data into {oss_name} following their import documentation",
+            f"Invite your team members and recreate your workspace structure",
+            f"Run both tools in parallel for 1–2 weeks before fully switching",
+        ]
+
+    steps_html = ''
+    for i, step in enumerate(steps, 1):
+        steps_html += f"""
+    <div class="step-card">
+      <div class="step-num">{i}</div>
+      <div class="step-text">{step}</div>
+    </div>"""
+
+    oss_website  = AFFILIATE_LINKS.get(oss_key, comp.get('oss_website', '#'))
+    prop_website = AFFILIATE_LINKS.get(prop_key, comp.get('proprietary_website', '#'))
+    diff = HOSTING_DIFFICULTY.get(oss_key, {})
+    diff_badge = f'<span class="diff-badge">🖥️ Setup: {diff.get("label","Varies")} ({diff.get("time","varies")})</span>' if diff else ''
+
+    seo_title = f"How to Migrate from {prop_name} to {oss_name} ({updated}) — Step-by-Step Guide"
+    seo_desc  = f"Complete step-by-step guide to migrating from {prop_name} to {oss_name}. Export your data, set up {oss_name}, and switch your team — save {comp.get('proprietary_pricing','money')} per month."
+    canonical = f"{SITE_BASE_URL}/{migrate_slug}/"
+
+    html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- SEO -->
   <title>{seo_title}</title>
-  <meta name="description" content="{seo_description}">
-  <meta name="keywords" content="{prop_name} alternative, open source {prop_name}, free {prop_name} alternative, {oss_name} vs {prop_name}">
-  <link rel="canonical" href="{canonical_url}">
+  <meta name="description" content="{seo_desc}">
+  <meta name="keywords" content="migrate {prop_name} to {oss_name}, {prop_name} to {oss_name} migration, how to switch from {prop_name}, {oss_name} migration guide">
+  <link rel="canonical" href="{canonical}">
   <meta name="robots" content="index, follow">
-
-  <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:title" content="{seo_title}">
-  <meta property="og:description" content="{seo_description}">
-  <meta property="og:url" content="{canonical_url}">
-  <meta property="og:site_name" content="Open Source Alternative Finder">
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{seo_title}">
-  <meta name="twitter:description" content="{seo_description}">
-
-  <!-- Schema.org structured data -->
+  <meta property="og:description" content="{seo_desc}">
+  <meta property="og:url" content="{canonical}">
   <script type="application/ld+json">
   {{
     "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "{title}",
-    "description": "{seo_description}",
-    "dateModified": "{iso_date}",
-    "publisher": {{
-      "@type": "Organization",
-      "name": "Open Source Alternative Finder",
-      "url": "{site_base_url}"
-    }},
-    "breadcrumb": {{
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {{"@type":"ListItem","position":1,"name":"Home","item":"{site_base_url}/"}},
-        {{"@type":"ListItem","position":2,"name":"{category_label}","item":"{site_base_url}/{category_slug}/"}},
-        {{"@type":"ListItem","position":3,"name":"{title}","item":"{canonical_url}"}}
-      ]
-    }}
+    "@type": "HowTo",
+    "name": "How to Migrate from {prop_name} to {oss_name}",
+    "description": "{seo_desc}",
+    "totalTime": "{diff.get('time', 'PT2H')}",
+    "step": [{', '.join([f'{{"@type":"HowToStep","text":"{s}"}}' for s in steps])}]
   }}
   </script>
-
-  <!-- Performance hints -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
-
-  {adsense_script}
-
-  <!-- MailerLite Universal -->
-  <script>
-  (function(w,d,e,u,f,l,n){{w[f]=w[f]||function(){{(w[f].q=w[f].q||[])
-  .push(arguments);}},l=d.createElement(e),l.async=1,l.src=u,
-  n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);}})
-  (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
-  ml('account', '2194616');
-  </script>
-  <!-- End MailerLite Universal -->
-
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
   <style>
-    :root {{
-      --blue: #1F5C99; --blue-light: #2980B9; --blue-bg: #EBF4FA;
-      --green: #1A7A3F; --green-bg: #EAFAF1;
-      --category: {category_color};
-      --bg: #F0F4F8; --card: #FFFFFF;
-      --text: #1A202C; --text-muted: #718096;
-      --border: #E2E8F0; --shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }}
-    * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-    body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }}
-    a {{ color: var(--blue); }}
-    nav {{ background: var(--blue); padding: 0.75rem 1.5rem; display: flex; align-items: center; gap: 1rem; }}
-    nav a {{ color: #fff; text-decoration: none; font-size: 0.9rem; opacity: 0.9; }}
-    nav a:hover {{ opacity: 1; }}
-    nav .sep {{ color: rgba(255,255,255,0.4); }}
-    .hero {{ background: linear-gradient(135deg, var(--blue) 0%, var(--blue-light) 100%); color: #fff; padding: 3rem 1.5rem 2.5rem; text-align: center; }}
-    .hero .category-badge {{ display: inline-block; background: var(--category); color: #fff; font-size: 0.75rem; font-weight: 700; padding: 0.3rem 0.9rem; border-radius: 20px; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em; }}
-    .hero h1 {{ font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 800; margin-bottom: 0.75rem; }}
-    .hero .subtitle {{ opacity: 0.85; font-size: 1rem; max-width: 600px; margin: 0 auto 1.5rem; }}
-    .hero-badges {{ display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }}
-    .hero-badge {{ background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.3); padding: 0.35rem 0.9rem; border-radius: 20px; font-size: 0.82rem; backdrop-filter: blur(4px); }}
-    .quick-bar {{ background: #fff; border-bottom: 1px solid var(--border); padding: 1rem 1.5rem; }}
-    .quick-bar-inner {{ max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto 1fr; gap: 1rem; align-items: center; text-align: center; }}
-    .qb-tool {{ padding: 0.75rem; border-radius: 8px; border: 2px solid var(--border); }}
-    .qb-tool.proprietary {{ border-color: #E74C3C22; background: #FDF2F2; }}
-    .qb-tool.opensource {{ border-color: #1A7A3F22; background: var(--green-bg); }}
-    .qb-tool .label {{ font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 0.2rem; }}
-    .qb-tool .name {{ font-size: 1.1rem; font-weight: 800; }}
-    .qb-tool.proprietary .name {{ color: #C0392B; }}
-    .qb-tool.opensource .name {{ color: var(--green); }}
-    .qb-tool .price {{ font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem; }}
-    .qb-tool .visit-btn {{ display: inline-block; margin-top: 0.5rem; padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.78rem; font-weight: 600; text-decoration: none; }}
-    .qb-tool.proprietary .visit-btn {{ background: #FDE8E8; color: #C0392B; }}
-    .qb-tool.opensource .visit-btn {{ background: #D5F5E3; color: var(--green); }}
-    .vs-badge {{ font-size: 1.3rem; font-weight: 900; color: var(--blue); }}
-    .content {{ max-width: 900px; margin: 2rem auto; padding: 0 1.5rem; }}
-    .card {{ background: var(--card); border-radius: 12px; padding: 2rem; margin-bottom: 1.5rem; box-shadow: var(--shadow); border: 1px solid var(--border); }}
-    .card h1 {{ display: none; }}
-    .card h2 {{ font-size: 1.25rem; font-weight: 700; color: var(--blue); margin: 1.5rem 0 0.75rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--blue-bg); }}
-    .card h2:first-child {{ margin-top: 0; }}
-    .card h3 {{ font-size: 1.05rem; font-weight: 700; color: var(--text); margin: 1.25rem 0 0.5rem; }}
-    .card p {{ margin: 0.5rem 0; color: var(--text); }}
-    .card ul, .card ol {{ margin: 0.5rem 0 0.75rem 1.5rem; }}
-    .card li {{ margin: 0.35rem 0; }}
-    .card blockquote {{ background: var(--blue-bg); border-left: 4px solid var(--blue); padding: 0.75rem 1rem; border-radius: 0 6px 6px 0; margin: 0.75rem 0; font-size: 0.9rem; color: var(--text-muted); }}
-    .card hr {{ border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }}
-    .card em {{ color: var(--text-muted); font-size: 0.85rem; }}
-    .card code {{ background: #F7FAFC; padding: 0.15rem 0.4rem; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.85em; color: #E74C3C; }}
-    .table-wrapper {{ overflow-x: auto; margin: 1rem 0; border-radius: 8px; border: 1px solid var(--border); }}
-    table {{ width: 100%; border-collapse: collapse; }}
-    thead th {{ background: var(--blue); color: #fff; padding: 0.7rem 1rem; text-align: left; font-size: 0.88rem; font-weight: 600; }}
-    tbody td {{ padding: 0.65rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.9rem; }}
-    tbody tr:last-child td {{ border-bottom: none; }}
-    tbody tr:nth-child(even) td {{ background: #F8FAFC; }}
-    /* AI Verdict Box */
-    .verdict-box {{ background: var(--card); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--shadow); border: 2px solid var(--blue); }}
-    .verdict-header {{ font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--blue); margin-bottom: 1rem; }}
-    .verdict-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }}
-    .verdict-item {{ padding: 1rem; border-radius: 8px; }}
-    .verdict-switch {{ background: #EAFAF1; border: 1px solid #A9DFBF; }}
-    .verdict-stay {{ background: #FEF9E7; border: 1px solid #F9E79F; }}
-    .verdict-label {{ font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem; }}
-    .verdict-switch .verdict-label {{ color: #1A7A3F; }}
-    .verdict-stay .verdict-label {{ color: #B7770D; }}
-    .verdict-text {{ font-size: 0.9rem; color: var(--text); line-height: 1.5; }}
-    @media (max-width: 600px) {{ .verdict-grid {{ grid-template-columns: 1fr; }} }}
-    /* Self-hosting difficulty card */
-    .difficulty-card {{ border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; border: 1px solid; box-shadow: var(--shadow); }}
-    .difficulty-header {{ display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem; }}
-    .difficulty-title {{ font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); }}
-    .difficulty-badge {{ font-size: 0.75rem; font-weight: 800; padding: 0.2rem 0.7rem; border-radius: 20px; }}
-    .difficulty-dots {{ font-size: 1.4rem; letter-spacing: 0.1em; margin-bottom: 0.6rem; }}
-    .difficulty-meta {{ display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.5rem; flex-wrap: wrap; }}
-    .difficulty-meta strong {{ color: var(--text); }}
-    .difficulty-note {{ font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }}
-    .related-grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem; margin-top: 0.75rem; }}
-    .related-link {{ display: block; padding: 0.65rem 0.9rem; background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; color: var(--blue); transition: all 0.15s; }}
-    .related-link:hover {{ background: var(--blue); color: #fff; border-color: var(--blue); }}
-    .email-box {{ background: linear-gradient(135deg, #1F5C99, #2980B9); color: #fff; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; text-align: center; }}
-    .email-box h3 {{ font-size: 1.1rem; font-weight: 800; margin-bottom: 0.4rem; }}
-    .email-box p {{ opacity: 0.85; font-size: 0.88rem; margin-bottom: 1rem; }}
-    .email-form {{ display: flex; gap: 0.5rem; max-width: 400px; margin: 0 auto; flex-wrap: wrap; }}
-    .email-form input {{ flex: 1; padding: 0.6rem 0.9rem; border: none; border-radius: 6px; font-size: 0.9rem; min-width: 180px; }}
-    .email-form button {{ background: #27AE60; color: #fff; border: none; padding: 0.6rem 1.2rem; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.9rem; white-space: nowrap; }}
-    /* MailerLite form overrides — match site design */
-    .email-box .ml-embedded {{ margin-top: 0.5rem; }}
-    .email-box .ml-embedded .ml-form-embedWrapper {{ background: transparent !important; padding: 0 !important; }}
-    .email-box .ml-embedded .ml-form-embedBody {{ padding: 0 !important; }}
-    .email-box .ml-embedded .ml-form-fieldRow {{ margin: 0 !important; }}
-    .email-box .ml-embedded input[type=email] {{ background: #fff; border: none; border-radius: 6px; padding: 0.65rem 1rem; font-size: 0.9rem; width: 100%; max-width: 320px; color: #1A202C; }}
-    .email-box .ml-embedded button {{ background: #27AE60 !important; color: #fff !important; border: none !important; padding: 0.65rem 1.4rem !important; border-radius: 6px !important; font-weight: 700 !important; font-size: 0.9rem !important; cursor: pointer !important; margin-top: 0.5rem; }}
-    .email-box .ml-embedded .ml-form-embedSubmit {{ margin-top: 0.5rem; }}
-    .email-box .ml-embedded .ml-form-checkboxRow, .email-box .ml-embedded .ml-form-recaptcha {{ display: none !important; }}
-    .email-box .ml-embedded p, .email-box .ml-embedded h4, .email-box .ml-embedded .ml-form-embedBody-header {{ display: none !important; }}
-    footer {{ text-align: center; padding: 2.5rem 1rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 2rem; background: #fff; }}
-    footer a {{ color: var(--blue); }}
-    @media (max-width: 600px) {{
-      .quick-bar-inner {{ grid-template-columns: 1fr; }}
-      .vs-badge {{ display: none; }}
-      .card {{ padding: 1.25rem; }}
-    }}
+    :root {{--blue:#1F5C99;--blue-light:#2980B9;--green:#1A7A3F;--green-bg:#EAFAF1;--bg:#F0F4F8;--card:#fff;--border:#E2E8F0;--text:#1A202C;--text-muted:#718096;--shadow:0 2px 8px rgba(0,0,0,0.08);}}
+    *{{box-sizing:border-box;margin:0;padding:0;}}
+    body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;}}
+    a{{color:var(--blue);}}
+    nav{{background:var(--blue);padding:0.75rem 1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}}
+    nav a{{color:#fff;text-decoration:none;font-size:0.9rem;opacity:0.9;}}
+    nav a:hover{{opacity:1;}}
+    nav .sep{{color:rgba(255,255,255,0.4);}}
+    .hero{{background:linear-gradient(135deg,var(--blue) 0%,var(--blue-light) 100%);color:#fff;padding:3rem 1.5rem 2.5rem;text-align:center;}}
+    .hero .tag{{display:inline-block;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);font-size:0.75rem;font-weight:700;padding:0.3rem 0.9rem;border-radius:20px;margin-bottom:1rem;text-transform:uppercase;letter-spacing:0.05em;}}
+    .hero h1{{font-size:clamp(1.5rem,4vw,2.2rem);font-weight:800;margin-bottom:0.75rem;line-height:1.2;}}
+    .hero-meta{{display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;margin-top:1rem;}}
+    .hero-badge{{background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);padding:0.3rem 0.9rem;border-radius:20px;font-size:0.82rem;}}
+    .diff-badge{{background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);padding:0.3rem 0.9rem;border-radius:20px;font-size:0.82rem;}}
+    .content{{max-width:860px;margin:2rem auto;padding:0 1.5rem;}}
+    .card{{background:var(--card);border-radius:12px;padding:2rem;margin-bottom:1.5rem;box-shadow:var(--shadow);border:1px solid var(--border);}}
+    .card h2{{font-size:1.2rem;font-weight:700;color:var(--blue);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid #EBF4FA;}}
+    .savings-box{{background:var(--green-bg);border:1px solid #A9DFBF;border-radius:10px;padding:1.25rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}}
+    .savings-box .amount{{font-size:1.6rem;font-weight:900;color:var(--green);}}
+    .savings-box .desc{{font-size:0.88rem;color:var(--text-muted);}}
+    .step-card{{display:flex;gap:1rem;align-items:flex-start;padding:1rem 0;border-bottom:1px solid var(--border);}}
+    .step-card:last-child{{border-bottom:none;padding-bottom:0;}}
+    .step-num{{width:36px;height:36px;border-radius:50%;background:var(--blue);color:#fff;font-weight:800;font-size:0.9rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:0.1rem;}}
+    .step-text{{font-size:0.95rem;color:var(--text);line-height:1.6;padding-top:0.4rem;}}
+    .tool-links{{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}}
+    .tool-link{{display:block;padding:1rem;border-radius:8px;text-decoration:none;font-weight:700;text-align:center;font-size:0.9rem;transition:opacity 0.15s;}}
+    .tool-link:hover{{opacity:0.85;}}
+    .tool-link.leave{{background:#FDE8E8;color:#C0392B;border:1px solid #F5B7B1;}}
+    .tool-link.join{{background:var(--green-bg);color:var(--green);border:1px solid #A9DFBF;}}
+    .back-btn{{display:inline-block;background:var(--blue);color:#fff;padding:0.65rem 1.75rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.9rem;}}
+    footer{{text-align:center;padding:2.5rem 1rem;color:var(--text-muted);font-size:0.85rem;border-top:1px solid var(--border);margin-top:2rem;background:#fff;}}
+    footer a{{color:var(--blue);}}
+    @media(max-width:600px){{.tool-links{{grid-template-columns:1fr;}}}}
   </style>
 </head>
 <body>
@@ -1754,362 +925,69 @@ COMPARISON_PAGE = """<!DOCTYPE html>
 <nav>
   <a href="../">🔍 OS Alternative Finder</a>
   <span class="sep">/</span>
-  <a href="../{category_slug}/">{category_label}</a>
+  <a href="../{comp_slug}/">{prop_name} vs {oss_name}</a>
   <span class="sep">/</span>
-  <span style="color:#fff;opacity:0.7">{title}</span>
+  <span style="color:#fff;opacity:0.7">Migration Guide</span>
 </nav>
 
 <div class="hero">
-  <div class="category-badge">{category_icon} {category_label}</div>
-  <h1>{title}</h1>
-  <p class="subtitle">Detailed comparison: pricing, data ownership, features, migration path, and which is right for you.</p>
-  <div class="hero-badges">
-    <span class="hero-badge">✅ Free Alternative: {oss_pricing}</span>
-    <span class="hero-badge">🔓 Open Source</span>
-    <span class="hero-badge">🤖 AI-Analyzed</span>
-    <span class="hero-badge">🖥️ Setup: {difficulty_label}</span>
+  <div class="tag">📦 Migration Guide</div>
+  <h1>How to Migrate from {prop_name} to {oss_name}</h1>
+  <div class="hero-meta">
+    <span class="hero-badge">💰 Save {comp.get('proprietary_pricing','money')}/month</span>
+    <span class="hero-badge">🔓 Own your data</span>
+    {diff_badge}
     <span class="hero-badge">📅 {updated}</span>
-  </div>
-</div>
-
-<div class="quick-bar">
-  <div class="quick-bar-inner">
-    <div class="qb-tool proprietary">
-      <div class="label">Proprietary</div>
-      <div class="name">{prop_name}</div>
-      <div class="price">{prop_pricing}</div>
-      <a href="{prop_affiliate}" target="_blank" rel="noopener sponsored" class="visit-btn">Visit {prop_name} →</a>
-    </div>
-    <div class="vs-badge">VS</div>
-    <div class="qb-tool opensource">
-      <div class="label">Open Source ✅</div>
-      <div class="name">{oss_name}</div>
-      <div class="price">{oss_pricing}</div>
-      <a href="{oss_website}" target="_blank" rel="noopener" class="visit-btn">Visit {oss_name} →</a>
-    </div>
   </div>
 </div>
 
 <div class="content">
 
-  {carbon_ad}
+  <!-- SAVINGS BOX -->
+  <div class="savings-box">
+    <div class="amount">$0</div>
+    <div class="desc">
+      <strong>{oss_name} is free to self-host</strong> — vs {comp.get('proprietary_pricing','paid')} for {prop_name}.<br>
+      For a 50-person team that's a significant annual saving.
+    </div>
+  </div>
 
-  {verdict_box}
-
-  {difficulty_card}
-
+  <!-- STEPS -->
   <div class="card">
-    {body}
+    <h2>🗺️ Migration Steps</h2>
+    {steps_html}
   </div>
 
-  {adsense_unit}
-
-  {github_box}
-
-  <!-- EMAIL CAPTURE — MailerLite -->
-  <div class="email-box">
-    <h3>🔔 Get Weekly Open Source Picks</h3>
-    <p>New tool comparisons, self-hosting guides, and money-saving alternatives — every week. Free.</p>
-    <div class="ml-embedded" data-form="WsdYEl"></div>
+  <!-- LINKS -->
+  <div class="card">
+    <h2>🔗 Get Started</h2>
+    <div class="tool-links">
+      <a class="tool-link leave" href="{prop_website}" target="_blank" rel="noopener">Export from {prop_name} →</a>
+      <a class="tool-link join" href="{oss_website}" target="_blank" rel="noopener">Set up {oss_name} →</a>
+    </div>
   </div>
 
-  <!-- RELATED COMPARISONS -->
-  {related_section}
-
-  <div class="card" style="text-align:center; padding: 1.5rem;">
-    <p style="font-size:0.9rem; color:#718096; margin-bottom:1rem;">Found this helpful? Explore all comparisons.</p>
-    <a href="../" style="display:inline-block; background:var(--blue); color:#fff; padding:0.65rem 1.75rem; border-radius:6px; text-decoration:none; font-weight:600; font-size:0.9rem;">← View All Comparisons</a>
+  <!-- BACK TO COMPARISON -->
+  <div class="card" style="text-align:center;padding:1.5rem;">
+    <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">Want a full feature and pricing comparison before you switch?</p>
+    <a class="back-btn" href="../{comp_slug}/">Read the Full {prop_name} vs {oss_name} Comparison →</a>
   </div>
+
 </div>
 
 <footer>
-  Open Source Alternative Finder &nbsp;·&nbsp; Powered by free AI APIs &nbsp;·&nbsp;
-  Hosted on <a href="https://pages.github.com">GitHub Pages</a> &nbsp;·&nbsp; $0/month to operate &nbsp;·&nbsp;
+  Open Source Alternative Finder &nbsp;·&nbsp;
+  <a href="../">Home</a> &nbsp;·&nbsp;
   <a href="../privacy/">Privacy Policy</a><br>
-  <span style="font-size:0.8rem; opacity:0.7">Content is AI-generated for informational purposes. Verify all details at official websites before making purchasing decisions.</span>
+  <span style="font-size:0.8rem;opacity:0.7">Migration steps are AI-generated. Verify with official documentation before proceeding.</span>
 </footer>
-
-<script>
-// MailerLite handles form submission
-</script>
 
 </body>
 </html>"""
 
-
-# ── INDEX PAGE TEMPLATE ───────────────────────────────────────────────────────
-INDEX_PAGE = """<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- SEO -->
-  <title>Open Source Alternative Finder — Free Replacements for Popular Paid Tools</title>
-  <meta name="description" content="Discover free, open-source alternatives to Slack, Notion, Figma, Jira, Dropbox and more. AI-powered comparisons updated daily. Save thousands per year.">
-  <meta name="keywords" content="open source alternatives, free software alternatives, self-hosted tools, slack alternative, notion alternative, figma alternative">
-  <link rel="canonical" href="{site_base_url}/">
-  <meta name="google-site-verification" content="{google_verification}">
-  <meta name='impact-site-verification' value='e966ad45-df5a-41e8-9d33-b8f8527e8f93'>
-  <meta name="google-adsense-account" content="ca-pub-4633315697698743">
-  <meta name="robots" content="index, follow">
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Open Source Alternative Finder">
-  <meta property="og:description" content="Find free, open-source replacements for popular paid tools. AI-powered comparisons updated daily.">
-  <meta property="og:url" content="{site_base_url}/">
-  <meta property="og:site_name" content="Open Source Alternative Finder">
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Open Source Alternative Finder">
-  <meta name="twitter:description" content="Find free, open-source replacements for Slack, Notion, Figma, and more.">
-
-  <!-- Schema.org -->
-  <script type="application/ld+json">
-  {{
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Open Source Alternative Finder",
-    "url": "{site_base_url}/",
-    "description": "AI-powered comparisons of open-source alternatives to popular paid software",
-    "potentialAction": {{
-      "@type": "SearchAction",
-      "target": "{site_base_url}/?q={{search_term_string}}",
-      "query-input": "required name=search_term_string"
-    }}
-  }}
-  </script>
-
-  {adsense_script}
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-  <style>
-    :root {{ --blue: #1F5C99; --blue-light: #2980B9; --green: #1A7A3F; --bg: #F0F4F8; --card: #fff; --border: #E2E8F0; --text: #1A202C; --text-muted: #718096; }}
-    * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-    body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }}
-    .hero {{ background: linear-gradient(135deg, var(--blue) 0%, var(--blue-light) 100%); color: #fff; padding: 4rem 1.5rem 3rem; text-align: center; }}
-    .hero h1 {{ font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; margin-bottom: 0.75rem; }}
-    .hero p {{ opacity: 0.88; font-size: 1.1rem; max-width: 580px; margin: 0 auto 2rem; }}
-    .hero-stats {{ display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; }}
-    .stat {{ text-align: center; }}
-    .stat .num {{ font-size: 2rem; font-weight: 900; }}
-    .stat .label {{ font-size: 0.82rem; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.05em; }}
-    .search-bar {{ background: #fff; border-bottom: 1px solid var(--border); padding: 1rem 1.5rem; }}
-    .search-bar-inner {{ max-width: 1200px; margin: 0 auto; display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }}
-    .search-input {{ flex: 1; padding: 0.55rem 1rem; border: 2px solid var(--border); border-radius: 8px; font-size: 0.9rem; min-width: 200px; }}
-    .search-input:focus {{ outline: none; border-color: var(--blue); }}
-    .filter-btn {{ padding: 0.4rem 1rem; border-radius: 20px; border: 2px solid var(--border); background: #fff; cursor: pointer; font-size: 0.82rem; font-weight: 600; color: var(--text-muted); transition: all 0.15s; }}
-    .filter-btn:hover, .filter-btn.active {{ background: var(--blue); color: #fff; border-color: var(--blue); }}
-    .filter-label {{ font-size: 0.82rem; font-weight: 700; color: var(--text-muted); white-space: nowrap; }}
-    .grid {{ max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }}
-    .card {{ background: var(--card); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; }}
-    .card:hover {{ transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }}
-    .card-category {{ padding: 0.5rem 1rem; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #fff; }}
-    .card-body {{ padding: 1.25rem 1.25rem 0.75rem; flex: 1; }}
-    .vs-line {{ display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.5rem; }}
-    .vs-line .tool-name {{ font-weight: 700; font-size: 1.05rem; }}
-    .vs-line .vs {{ font-size: 0.72rem; font-weight: 900; color: var(--text-muted); background: #F0F4F8; padding: 0.2rem 0.5rem; border-radius: 4px; }}
-    .savings {{ display: flex; align-items: center; gap: 0.75rem; margin: 0.75rem 0; padding: 0.6rem 0.75rem; background: #EAFAF1; border-radius: 6px; border: 1px solid #A9DFBF; }}
-    .savings .label {{ font-size: 0.75rem; color: var(--text-muted); }}
-    .savings .value {{ font-size: 0.88rem; font-weight: 700; color: var(--green); }}
-    .card-footer {{ padding: 0.75rem 1.25rem 1.25rem; }}
-    .cta {{ display: block; text-align: center; background: var(--blue); color: #fff; padding: 0.6rem 1rem; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.88rem; transition: background 0.15s; }}
-    .cta:hover {{ background: var(--blue-light); }}
-    .calc-banner {{ max-width: 1200px; margin: 1.5rem auto 0; padding: 0 1.5rem; }}
-    .calc-banner-inner {{ background: linear-gradient(135deg, #0a1628 0%, #0d2040 100%); border: 1px solid rgba(31,92,153,0.4); border-radius: 12px; padding: 1.25rem 1.75rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }}
-    .calc-banner-text .title {{ font-weight: 800; font-size: 1rem; color: #fff; margin-bottom: 0.2rem; }}
-    .calc-banner-text .sub {{ font-size: 0.82rem; color: #8899bb; }}
-    .calc-banner-btn {{ background: linear-gradient(135deg, #1F5C99, #2980B9); color: #fff; padding: 0.6rem 1.4rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.88rem; white-space: nowrap; transition: opacity 0.15s; }}
-    .calc-banner-btn:hover {{ opacity: 0.9; }}
-    footer {{ text-align: center; padding: 3rem 1rem 2rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border); background: #fff; margin-top: 1rem; }}
-    footer a {{ color: var(--blue); }}
-    @media (max-width: 600px) {{
-      .grid {{ grid-template-columns: 1fr; padding: 1rem; }}
-      .hero {{ padding: 2.5rem 1rem 2rem; }}
-    }}
-  </style>
-</head>
-<body>
-
-<div class="hero">
-  <h1>🔍 Open Source Alternative Finder</h1>
-  <p>Discover free, open-source replacements for popular paid tools — with detailed AI-powered comparisons. Save thousands per year.</p>
-  <div class="hero-stats">
-    <div class="stat"><div class="num">{total_comparisons}</div><div class="label">Comparisons</div></div>
-    <div class="stat"><div class="num">{total_tools}</div><div class="label">Tools Covered</div></div>
-    <div class="stat"><div class="num">$0</div><div class="label">Cost to Run</div></div>
-    <div class="stat"><div class="num">Daily</div><div class="label">Auto-Updated</div></div>
-  </div>
-</div>
-
-<div class="search-bar">
-  <div class="search-bar-inner">
-    <input class="search-input" type="search" placeholder="🔎  Search tools... (e.g. Slack, Notion, Figma)" oninput="handleSearch(this.value)" aria-label="Search comparisons">
-    <span class="filter-label">Filter:</span>
-    <button class="filter-btn active" onclick="filterCards('all', this)">All</button>
-    {filter_buttons}
-  </div>
-</div>
-
-<div class="calc-banner">
-  <div class="calc-banner-inner">
-    <div class="calc-banner-text">
-      <div class="title">💰 SaaS Savings Calculator</div>
-      <div class="sub">Enter your team size → see exactly how much you save switching to open source</div>
-    </div>
-    <a class="calc-banner-btn" href="savings-calculator/">Calculate My Savings →</a>
-  </div>
-</div>
-
-<div class="grid" id="card-grid">
-{cards}
-</div>
-<div class="no-results" id="no-results" style="display:none">No comparisons found. Try a different search term.</div>
-
-<footer>
-  <strong>Open Source Alternative Finder</strong><br>
-  Powered by <a href="https://groq.com">Groq</a> + <a href="https://ai.google.dev">Gemini</a> APIs &nbsp;·&nbsp;
-  Hosted on <a href="https://pages.github.com">GitHub Pages</a> &nbsp;·&nbsp;
-  <a href="https://github.com/aiopentec/opensource-alternative-finder">View Source on GitHub</a> &nbsp;·&nbsp;
-  <a href="privacy/">Privacy Policy</a><br>
-  <span style="font-size:0.8rem; opacity:0.7">Updated {updated} &nbsp;·&nbsp; $0/month to operate &nbsp;·&nbsp; Content for informational purposes only</span>
-</footer>
-
-<script>
-let activeCategory = 'all';
-
-function filterCards(category, btn) {{
-  activeCategory = category;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  if (btn) btn.classList.add('active');
-  applyFilters();
-}}
-
-function handleSearch(query) {{
-  applyFilters(query.toLowerCase());
-}}
-
-function applyFilters(query) {{
-  const q = query || document.querySelector('.search-input').value.toLowerCase();
-  let visible = 0;
-  document.querySelectorAll('#card-grid .card').forEach(card => {{
-    const matchCat = activeCategory === 'all' || card.dataset.category === activeCategory;
-    const matchQ   = !q || card.dataset.search.includes(q);
-    card.style.display = (matchCat && matchQ) ? '' : 'none';
-    if (matchCat && matchQ) visible++;
-  }});
-  document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
-}}
-</script>
-
-</body>
-</html>"""
-
-
-GITHUB_BOX = """
-  <div class="card" style="background: linear-gradient(135deg, #1a1a2e, #16213e); color:#fff; border-color:#333;">
-    <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
-      <div style="font-size:2.5rem;">📦</div>
-      <div>
-        <div style="font-weight:700; font-size:1.05rem; margin-bottom:0.25rem;">{oss_name} on GitHub</div>
-        <a href="https://github.com/{github_repo}" target="_blank" rel="noopener" style="color:#63B3ED; font-size:0.9rem;">github.com/{github_repo}</a>
-        <div style="font-size:0.82rem; color:#A0AEC0; margin-top:0.25rem;">⭐ ~{stars} stars &nbsp;·&nbsp; Free to self-host &nbsp;·&nbsp; Open Source</div>
-      </div>
-      <a href="https://github.com/{github_repo}" target="_blank" rel="noopener" style="margin-left:auto; background:#238636; color:#fff; padding:0.5rem 1.25rem; border-radius:6px; text-decoration:none; font-weight:600; font-size:0.88rem;">View on GitHub →</a>
-    </div>
-  </div>"""
-
-
-def build_difficulty_card(oss_key: str, oss_name: str) -> str:
-    """Build self-hosting difficulty card for a tool."""
-    d = HOSTING_DIFFICULTY.get(oss_key)
-    if not d:
-        return ''
-    c = DIFFICULTY_COLORS.get(d['score'], DIFFICULTY_COLORS[3])
-    filled = '●' * d['score']
-    empty  = '○' * (5 - d['score'])
-    return f"""
-  <div class="difficulty-card" style="background:{c['bg']};border-color:{c['border']}">
-    <div class="difficulty-header">
-      <span class="difficulty-title">🖥️ Self-Hosting Difficulty</span>
-      <span class="difficulty-badge" style="background:{c['border']};color:{c['text']}">{d['label']}</span>
-    </div>
-    <div class="difficulty-dots" style="color:{c['text']}" title="{d['score']}/5">{filled}<span style="opacity:0.3">{empty}</span></div>
-    <div class="difficulty-meta">
-      <span>⏱️ Setup time: <strong>{d['time']}</strong></span>
-      <span>🐳 Method: <strong>{d['method']}</strong></span>
-    </div>
-    <div class="difficulty-note">{d['note']}</div>
-  </div>"""
-
-
-def extract_verdict(markdown: str, prop_name: str, oss_name: str) -> dict:
-    """Extract 'Switch if' and 'Stay if' verdict from comparison markdown."""
-    switch_if = ''
-    stay_if = ''
-    lines = markdown.split('\n')
-    for i, line in enumerate(lines):
-        line_lower = line.lower()
-        # Look for "Choose X if:" pattern
-        if f'choose {oss_name.lower()}' in line_lower and 'if' in line_lower:
-            text = re.sub(r'\*\*.*?\*\*', '', line).strip()
-            text = re.sub(r'^[-*#>\s]+', '', text).strip()
-            # Extract the part after "if:"
-            if 'if:' in text.lower():
-                switch_if = text.split('if:', 1)[-1].strip().rstrip('.')
-            elif 'if' in text.lower():
-                switch_if = text.split('if', 1)[-1].strip().lstrip(':').strip().rstrip('.')
-        if f'choose {prop_name.lower()}' in line_lower and 'if' in line_lower:
-            text = re.sub(r'\*\*.*?\*\*', '', line).strip()
-            text = re.sub(r'^[-*#>\s]+', '', text).strip()
-            if 'if:' in text.lower():
-                stay_if = text.split('if:', 1)[-1].strip().rstrip('.')
-            elif 'if' in text.lower():
-                stay_if = text.split('if', 1)[-1].strip().lstrip(':').strip().rstrip('.')
-    # Fallback: scan for "when to choose" section
-    if not switch_if or not stay_if:
-        in_section = False
-        for line in lines:
-            if 'when to choose' in line.lower():
-                in_section = True
-                continue
-            if in_section and line.strip().startswith('#'):
-                in_section = False
-            if in_section and oss_name.lower() in line.lower() and 'if' in line.lower() and not switch_if:
-                text = re.sub(r'\*\*.*?\*\*', '', line).strip()
-                text = re.sub(r'^[-*#>\s]+', '', text).strip()
-                if len(text) > 20:
-                    switch_if = text[:180].rstrip('.')
-            if in_section and prop_name.lower() in line.lower() and 'if' in line.lower() and not stay_if:
-                text = re.sub(r'\*\*.*?\*\*', '', line).strip()
-                text = re.sub(r'^[-*#>\s]+', '', text).strip()
-                if len(text) > 20:
-                    stay_if = text[:180].rstrip('.')
-    return {'switch_if': switch_if, 'stay_if': stay_if}
-
-
-def build_verdict_box(prop_name: str, oss_name: str, verdict: dict) -> str:
-    """Build the AI verdict HTML box."""
-    if not verdict['switch_if'] and not verdict['stay_if']:
-        return ''
-    switch_html = f'''
-      <div class="verdict-item verdict-switch">
-        <div class="verdict-label">✅ Switch to {oss_name} if</div>
-        <div class="verdict-text">{verdict["switch_if"]}</div>
-      </div>''' if verdict['switch_if'] else ''
-    stay_html = f'''
-      <div class="verdict-item verdict-stay">
-        <div class="verdict-label">⚠️ Stay with {prop_name} if</div>
-        <div class="verdict-text">{verdict["stay_if"]}</div>
-      </div>''' if verdict['stay_if'] else ''
-    return f'''
-  <!-- AI VERDICT BOX -->
-  <div class="verdict-box">
-    <div class="verdict-header">🤖 AI Verdict</div>
-    <div class="verdict-grid">{switch_html}{stay_html}
-    </div>
-  </div>'''
+    with open(migrate_dir / 'index.html', 'w') as f:
+        f.write(html)
+    return migrate_slug
 
 
 def build_related_section(current_slug: str, current_prop: str, current_oss: str,
@@ -2145,6 +1023,12 @@ def build_sitemap(all_comparisons: List[Dict], site_dir: str, categories: List[s
         urls.append(f'  <url><loc>{SITE_BASE_URL}/{cat}/</loc><changefreq>weekly</changefreq><priority>0.7</priority><lastmod>{today}</lastmod></url>')
     for comp in all_comparisons:
         urls.append(f'  <url><loc>{SITE_BASE_URL}/{comp["slug"]}/</loc><changefreq>weekly</changefreq><priority>0.9</priority><lastmod>{today}</lastmod></url>')
+    # Migration guide pages
+    for comp in all_comparisons:
+        prop_key = comp.get('proprietary_key', '')
+        oss_key  = comp.get('oss_key', '')
+        if prop_key and oss_key:
+            urls.append(f'  <url><loc>{SITE_BASE_URL}/migrate-{prop_key}-to-{oss_key}/</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>{today}</lastmod></url>')
     # Add privacy policy and calculator to sitemap
     urls.append(f'  <url><loc>{SITE_BASE_URL}/privacy/</loc><changefreq>monthly</changefreq><priority>0.3</priority><lastmod>{today}</lastmod></url>')
     urls.append(f'  <url><loc>{SITE_BASE_URL}/savings-calculator/</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>{today}</lastmod></url>')
@@ -2540,6 +1424,19 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
 
         related_html = build_related_section(slug, prop_name, oss_name, all_comparisons)
 
+        # Build migration guide page
+        migrate_slug = build_migration_page(site_dir, comp, updated)
+        migration_link_html = f"""
+  <div class="card" style="background:linear-gradient(135deg,#EAFAF1,#D5F5E3);border-color:#A9DFBF;padding:1.25rem 1.5rem;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+      <div>
+        <div style="font-weight:800;font-size:1rem;color:#1A7A3F;margin-bottom:0.2rem;">📦 Ready to switch?</div>
+        <div style="font-size:0.85rem;color:#2D6A4F;">Follow our step-by-step migration guide</div>
+      </div>
+      <a href="../{migrate_slug}/" style="background:#1A7A3F;color:#fff;padding:0.55rem 1.25rem;border-radius:6px;text-decoration:none;font-weight:700;font-size:0.88rem;white-space:nowrap;">Migration Guide →</a>
+    </div>
+  </div>"""
+
         page_html = COMPARISON_PAGE.format(
             title=comp['title'],
             seo_title=seo_title,
@@ -2561,6 +1458,7 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
             body=body_html,
             github_box=github_box_html,
             related_section=related_html,
+            migration_link=migration_link_html,
             adsense_script=adsense_script,
             adsense_unit=adsense_unit,
             carbon_ad=carbon_ad,
