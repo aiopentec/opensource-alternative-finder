@@ -91,6 +91,44 @@ AFFILIATE_LINKS = {
 
 
 def get_adsense_snippet():
+
+# ── SELF-HOSTING DIFFICULTY ───────────────────────────────────────────────────
+# Score 1-5: 1 = trivial (one click), 5 = expert only
+# label: short descriptor shown as badge
+# time: realistic setup time for a technical person
+# method: easiest deployment method
+HOSTING_DIFFICULTY = {
+    'element':    {'score': 3, 'label': 'Moderate',  'time': '~2 hours',   'method': 'Docker',        'note': 'Requires a server and domain. Docker setup is well documented.'},
+    'mattermost': {'score': 2, 'label': 'Easy',      'time': '~30 mins',   'method': 'Docker',        'note': 'Official Docker image makes setup straightforward on any VPS.'},
+    'zulip':      {'score': 3, 'label': 'Moderate',  'time': '~1-2 hours', 'method': 'Docker',        'note': 'Docker installer available. Requires a dedicated server with 2GB+ RAM.'},
+    'appflowy':   {'score': 1, 'label': 'Very Easy', 'time': '~5 mins',    'method': 'Desktop app',   'note': 'Download and run — no server needed. Local-first by default.'},
+    'obsidian':   {'score': 1, 'label': 'Very Easy', 'time': '~2 mins',    'method': 'Desktop app',   'note': 'Just download and install. Works entirely on your local machine.'},
+    'logseq':     {'score': 1, 'label': 'Very Easy', 'time': '~2 mins',    'method': 'Desktop app',   'note': 'Download and run. Files stored locally as plain text — no server needed.'},
+    'gitlab':     {'score': 4, 'label': 'Advanced',  'time': '~3-4 hours', 'method': 'Docker/Omnibus','note': 'Resource-heavy (4GB+ RAM recommended). Well documented but complex.'},
+    'gitea':      {'score': 2, 'label': 'Easy',      'time': '~20 mins',   'method': 'Docker',        'note': 'Single binary or Docker. Runs on a Raspberry Pi. Very lightweight.'},
+    'penpot':     {'score': 2, 'label': 'Easy',      'time': '~30 mins',   'method': 'Docker Compose','note': 'Official Docker Compose file provided. Needs a server with 2GB+ RAM.'},
+    'plane':      {'score': 2, 'label': 'Easy',      'time': '~30 mins',   'method': 'Docker Compose','note': 'Official Docker Compose setup. Good documentation for self-hosting.'},
+    'wekan':      {'score': 2, 'label': 'Easy',      'time': '~20 mins',   'method': 'Docker',        'note': 'Simple Docker setup. Can run on a small VPS or home server.'},
+    'nextcloud':  {'score': 3, 'label': 'Moderate',  'time': '~1-2 hours', 'method': 'Docker/AIO',    'note': 'All-in-One Docker installer simplifies setup. Needs 2GB+ RAM.'},
+    'jitsi':      {'score': 2, 'label': 'Easy',      'time': '~30 mins',   'method': 'Docker Compose','note': 'Official quick-install script. Works on Ubuntu 20.04+ out of the box.'},
+    'taiga':      {'score': 3, 'label': 'Moderate',  'time': '~1-2 hours', 'method': 'Docker Compose','note': 'Multi-container setup requires Docker Compose. Good official docs.'},
+    'nocodb':     {'score': 1, 'label': 'Very Easy', 'time': '~5 mins',    'method': 'Docker',        'note': 'Single Docker command. One of the easiest self-hosted tools available.'},
+    'suitecrm':   {'score': 3, 'label': 'Moderate',  'time': '~1-2 hours', 'method': 'Docker/LAMP',   'note': 'Requires a LAMP stack or Docker. More complex than modern alternatives.'},
+    'listmonk':   {'score': 2, 'label': 'Easy',      'time': '~20 mins',   'method': 'Docker',        'note': 'Single binary or Docker. Minimal dependencies. Very fast setup.'},
+    'ghost':      {'score': 2, 'label': 'Easy',      'time': '~20 mins',   'method': 'Docker',        'note': 'Official Docker image available. Ghost(Pro) also offers managed hosting.'},
+}
+
+DIFFICULTY_COLORS = {
+    1: {'bg': '#EAFAF1', 'border': '#A9DFBF', 'text': '#1A7A3F', 'stars': '⭐'},
+    2: {'bg': '#EBF5FB', 'border': '#AED6F1', 'text': '#1F5C99', 'stars': '⭐⭐'},
+    3: {'bg': '#FEF9E7', 'border': '#F9E79F', 'text': '#B7770D', 'stars': '⭐⭐⭐'},
+    4: {'bg': '#FDEDEC', 'border': '#F5B7B1', 'text': '#C0392B', 'stars': '⭐⭐⭐⭐'},
+    5: {'bg': '#FDEDEC', 'border': '#E74C3C', 'text': '#922B21', 'stars': '⭐⭐⭐⭐⭐'},
+}
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+def get_adsense_snippet():
     """Returns AdSense script tag if configured."""
     if not ADSENSE_ID:
         return '<!-- AdSense: set ADSENSE_ID env var to enable -->'
@@ -347,6 +385,15 @@ COMPARISON_PAGE = """<!DOCTYPE html>
     .verdict-stay .verdict-label {{ color: #B7770D; }}
     .verdict-text {{ font-size: 0.9rem; color: var(--text); line-height: 1.5; }}
     @media (max-width: 600px) {{ .verdict-grid {{ grid-template-columns: 1fr; }} }}
+    /* Self-hosting difficulty card */
+    .difficulty-card {{ border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; border: 1px solid; box-shadow: var(--shadow); }}
+    .difficulty-header {{ display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem; }}
+    .difficulty-title {{ font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); }}
+    .difficulty-badge {{ font-size: 0.75rem; font-weight: 800; padding: 0.2rem 0.7rem; border-radius: 20px; }}
+    .difficulty-dots {{ font-size: 1.4rem; letter-spacing: 0.1em; margin-bottom: 0.6rem; }}
+    .difficulty-meta {{ display: flex; gap: 1.5rem; font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.5rem; flex-wrap: wrap; }}
+    .difficulty-meta strong {{ color: var(--text); }}
+    .difficulty-note {{ font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }}
     .related-grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem; margin-top: 0.75rem; }}
     .related-link {{ display: block; padding: 0.65rem 0.9rem; background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; color: var(--blue); transition: all 0.15s; }}
     .related-link:hover {{ background: var(--blue); color: #fff; border-color: var(--blue); }}
@@ -393,6 +440,7 @@ COMPARISON_PAGE = """<!DOCTYPE html>
     <span class="hero-badge">✅ Free Alternative: {oss_pricing}</span>
     <span class="hero-badge">🔓 Open Source</span>
     <span class="hero-badge">🤖 AI-Analyzed</span>
+    <span class="hero-badge">🖥️ Setup: {difficulty_label}</span>
     <span class="hero-badge">📅 {updated}</span>
   </div>
 </div>
@@ -420,6 +468,8 @@ COMPARISON_PAGE = """<!DOCTYPE html>
   {carbon_ad}
 
   {verdict_box}
+
+  {difficulty_card}
 
   <div class="card">
     {body}
@@ -641,6 +691,29 @@ GITHUB_BOX = """
       </div>
       <a href="https://github.com/{github_repo}" target="_blank" rel="noopener" style="margin-left:auto; background:#238636; color:#fff; padding:0.5rem 1.25rem; border-radius:6px; text-decoration:none; font-weight:600; font-size:0.88rem;">View on GitHub →</a>
     </div>
+  </div>"""
+
+
+def build_difficulty_card(oss_key: str, oss_name: str) -> str:
+    """Build self-hosting difficulty card for a tool."""
+    d = HOSTING_DIFFICULTY.get(oss_key)
+    if not d:
+        return ''
+    c = DIFFICULTY_COLORS.get(d['score'], DIFFICULTY_COLORS[3])
+    filled = '●' * d['score']
+    empty  = '○' * (5 - d['score'])
+    return f"""
+  <div class="difficulty-card" style="background:{c['bg']};border-color:{c['border']}">
+    <div class="difficulty-header">
+      <span class="difficulty-title">🖥️ Self-Hosting Difficulty</span>
+      <span class="difficulty-badge" style="background:{c['border']};color:{c['text']}">{d['label']}</span>
+    </div>
+    <div class="difficulty-dots" style="color:{c['text']}" title="{d['score']}/5">{filled}<span style="opacity:0.3">{empty}</span></div>
+    <div class="difficulty-meta">
+      <span>⏱️ Setup time: <strong>{d['time']}</strong></span>
+      <span>🐳 Method: <strong>{d['method']}</strong></span>
+    </div>
+    <div class="difficulty-note">{d['note']}</div>
   </div>"""
 
 
@@ -1125,6 +1198,11 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
         verdict = extract_verdict(comp.get('comparison_markdown', ''), prop_name, oss_name)
         verdict_box_html = build_verdict_box(prop_name, oss_name, verdict)
 
+        # Build self-hosting difficulty card
+        difficulty_data = HOSTING_DIFFICULTY.get(oss_key, {})
+        difficulty_label = difficulty_data.get('label', 'Varies')
+        difficulty_card_html = build_difficulty_card(oss_key, oss_name)
+
         github_box_html = ''
         if comp.get('oss_github'):
             github_box_html = GITHUB_BOX.format(
@@ -1160,6 +1238,8 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
             adsense_unit=adsense_unit,
             carbon_ad=carbon_ad,
             verdict_box=verdict_box_html,
+            difficulty_card=difficulty_card_html,
+            difficulty_label=difficulty_label,
         )
         with open(page_dir / 'index.html', 'w') as f:
             f.write(page_html)
