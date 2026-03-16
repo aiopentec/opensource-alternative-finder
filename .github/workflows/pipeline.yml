@@ -100,8 +100,12 @@ jobs:
 
 
   # ──────────────────────────────────────────────
-  # JOB 3: GENERATE — runs 2 batches in parallel
-  # Matrix lets both batches run simultaneously
+  # JOB 3: GENERATE — runs 4 batches in parallel
+  # Matrix lets all batches run simultaneously
+  # Batch 1: pairs 1-10
+  # Batch 2: pairs 11-20
+  # Batch 3: pairs 21-30
+  # Batch 4: pairs 31-33
   # ──────────────────────────────────────────────
   generate:
     name: Generate Comparisons
@@ -114,9 +118,9 @@ jobs:
         github.event.inputs.mode == ''
       )
     strategy:
-      fail-fast: false      # If batch 2 fails, batch 1 still completes
+      fail-fast: false      # If one batch fails, others still complete
       matrix:
-        batch_index: [1, 2, 3, 4]
+        batch_index: [1, 2, 3, 4, 5]
     env:
       GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
@@ -200,6 +204,10 @@ jobs:
         continue-on-error: true
 
       - name: Build Static Site
+        env:
+          GOOGLE_SITE_VERIFICATION: ${{ secrets.GOOGLE_SITE_VERIFICATION }}
+          SITE_BASE_URL: https://aiopentec.github.io/opensource-alternative-finder
+          ADSENSE_ID: ${{ secrets.ADSENSE_ID }}
         run: python scripts/publish_github_pages.py
 
       - name: Count Pages Built
@@ -215,17 +223,6 @@ jobs:
           publish_dir: ./site
           commit_message: "Auto-update #${{ github.run_number }}: ${{ env.PAGES }} pages"
 
-      - name: Build Static Site
-        env:
-          GOOGLE_SITE_VERIFICATION: ${{ secrets.GOOGLE_SITE_VERIFICATION }}
-          SITE_BASE_URL: https://aiopentec.github.io/opensource-alternative-finder
-        run: python scripts/publish_github_pages.py
-        
-      - name: Build site
-        env:
-          ADSENSE_ID: ${{ secrets.ADSENSE_ID }}
-        run: python scripts/publish_github_pages.py
-        
 
   # ──────────────────────────────────────────────
   # JOB 5: SUMMARY — always runs, reports results
