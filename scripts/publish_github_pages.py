@@ -574,7 +574,7 @@ INDEX_PAGE = """<!DOCTYPE html>
 <div class="grid" id="card-grid">
 {cards}
 </div>
-<div class="no-results" id="no-results">No comparisons found. Try a different search term.</div>
+<div class="no-results" id="no-results" style="display:none">No comparisons found. Try a different search term.</div>
 
 <footer>
   <strong>Open Source Alternative Finder</strong><br>
