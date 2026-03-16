@@ -335,6 +335,18 @@ COMPARISON_PAGE = """<!DOCTYPE html>
     tbody td {{ padding: 0.65rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.9rem; }}
     tbody tr:last-child td {{ border-bottom: none; }}
     tbody tr:nth-child(even) td {{ background: #F8FAFC; }}
+    /* AI Verdict Box */
+    .verdict-box {{ background: var(--card); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--shadow); border: 2px solid var(--blue); }}
+    .verdict-header {{ font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--blue); margin-bottom: 1rem; }}
+    .verdict-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }}
+    .verdict-item {{ padding: 1rem; border-radius: 8px; }}
+    .verdict-switch {{ background: #EAFAF1; border: 1px solid #A9DFBF; }}
+    .verdict-stay {{ background: #FEF9E7; border: 1px solid #F9E79F; }}
+    .verdict-label {{ font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem; }}
+    .verdict-switch .verdict-label {{ color: #1A7A3F; }}
+    .verdict-stay .verdict-label {{ color: #B7770D; }}
+    .verdict-text {{ font-size: 0.9rem; color: var(--text); line-height: 1.5; }}
+    @media (max-width: 600px) {{ .verdict-grid {{ grid-template-columns: 1fr; }} }}
     .related-grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem; margin-top: 0.75rem; }}
     .related-link {{ display: block; padding: 0.65rem 0.9rem; background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; color: var(--blue); transition: all 0.15s; }}
     .related-link:hover {{ background: var(--blue); color: #fff; border-color: var(--blue); }}
@@ -406,6 +418,8 @@ COMPARISON_PAGE = """<!DOCTYPE html>
 <div class="content">
 
   {carbon_ad}
+
+  {verdict_box}
 
   <div class="card">
     {body}
@@ -628,6 +642,74 @@ GITHUB_BOX = """
       <a href="https://github.com/{github_repo}" target="_blank" rel="noopener" style="margin-left:auto; background:#238636; color:#fff; padding:0.5rem 1.25rem; border-radius:6px; text-decoration:none; font-weight:600; font-size:0.88rem;">View on GitHub →</a>
     </div>
   </div>"""
+
+
+def extract_verdict(markdown: str, prop_name: str, oss_name: str) -> dict:
+    """Extract 'Switch if' and 'Stay if' verdict from comparison markdown."""
+    switch_if = ''
+    stay_if = ''
+    lines = markdown.split('\n')
+    for i, line in enumerate(lines):
+        line_lower = line.lower()
+        # Look for "Choose X if:" pattern
+        if f'choose {oss_name.lower()}' in line_lower and 'if' in line_lower:
+            text = re.sub(r'\*\*.*?\*\*', '', line).strip()
+            text = re.sub(r'^[-*#>\s]+', '', text).strip()
+            # Extract the part after "if:"
+            if 'if:' in text.lower():
+                switch_if = text.split('if:', 1)[-1].strip().rstrip('.')
+            elif 'if' in text.lower():
+                switch_if = text.split('if', 1)[-1].strip().lstrip(':').strip().rstrip('.')
+        if f'choose {prop_name.lower()}' in line_lower and 'if' in line_lower:
+            text = re.sub(r'\*\*.*?\*\*', '', line).strip()
+            text = re.sub(r'^[-*#>\s]+', '', text).strip()
+            if 'if:' in text.lower():
+                stay_if = text.split('if:', 1)[-1].strip().rstrip('.')
+            elif 'if' in text.lower():
+                stay_if = text.split('if', 1)[-1].strip().lstrip(':').strip().rstrip('.')
+    # Fallback: scan for "when to choose" section
+    if not switch_if or not stay_if:
+        in_section = False
+        for line in lines:
+            if 'when to choose' in line.lower():
+                in_section = True
+                continue
+            if in_section and line.strip().startswith('#'):
+                in_section = False
+            if in_section and oss_name.lower() in line.lower() and 'if' in line.lower() and not switch_if:
+                text = re.sub(r'\*\*.*?\*\*', '', line).strip()
+                text = re.sub(r'^[-*#>\s]+', '', text).strip()
+                if len(text) > 20:
+                    switch_if = text[:180].rstrip('.')
+            if in_section and prop_name.lower() in line.lower() and 'if' in line.lower() and not stay_if:
+                text = re.sub(r'\*\*.*?\*\*', '', line).strip()
+                text = re.sub(r'^[-*#>\s]+', '', text).strip()
+                if len(text) > 20:
+                    stay_if = text[:180].rstrip('.')
+    return {'switch_if': switch_if, 'stay_if': stay_if}
+
+
+def build_verdict_box(prop_name: str, oss_name: str, verdict: dict) -> str:
+    """Build the AI verdict HTML box."""
+    if not verdict['switch_if'] and not verdict['stay_if']:
+        return ''
+    switch_html = f'''
+      <div class="verdict-item verdict-switch">
+        <div class="verdict-label">✅ Switch to {oss_name} if</div>
+        <div class="verdict-text">{verdict["switch_if"]}</div>
+      </div>''' if verdict['switch_if'] else ''
+    stay_html = f'''
+      <div class="verdict-item verdict-stay">
+        <div class="verdict-label">⚠️ Stay with {prop_name} if</div>
+        <div class="verdict-text">{verdict["stay_if"]}</div>
+      </div>''' if verdict['stay_if'] else ''
+    return f'''
+  <!-- AI VERDICT BOX -->
+  <div class="verdict-box">
+    <div class="verdict-header">🤖 AI Verdict</div>
+    <div class="verdict-grid">{switch_html}{stay_html}
+    </div>
+  </div>'''
 
 
 def build_related_section(current_slug: str, current_prop: str, current_oss: str,
@@ -1039,6 +1121,10 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
 
         body_html = markdown_to_html(comp.get('comparison_markdown', ''))
 
+        # Extract AI verdict from markdown
+        verdict = extract_verdict(comp.get('comparison_markdown', ''), prop_name, oss_name)
+        verdict_box_html = build_verdict_box(prop_name, oss_name, verdict)
+
         github_box_html = ''
         if comp.get('oss_github'):
             github_box_html = GITHUB_BOX.format(
@@ -1073,6 +1159,7 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
             adsense_script=adsense_script,
             adsense_unit=adsense_unit,
             carbon_ad=carbon_ad,
+            verdict_box=verdict_box_html,
         )
         with open(page_dir / 'index.html', 'w') as f:
             f.write(page_html)
