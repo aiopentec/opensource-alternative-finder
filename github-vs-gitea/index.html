@@ -30,7 +30,7 @@
     "@type": "Article",
     "headline": "GitHub vs Gitea",
     "description": "Is Gitea a good free alternative to GitHub? Detailed comparison of pricing, features, data ownership, and migration. Save Free / $7–$21/user by switching.",
-    "dateModified": "2026-03-16T00:24:34Z",
+    "dateModified": "2026-03-16T01:36:04Z",
     "publisher": {
       "@type": "Organization",
       "name": "Open Source Alternative Finder",
@@ -52,6 +52,16 @@
   <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
 
   <!-- AdSense: set ADSENSE_ID env var to enable -->
+
+  <!-- MailerLite Universal -->
+  <script>
+  (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
+  .push(arguments);},l=d.createElement(e),l.async=1,l.src=u,
+  n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})
+  (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+  ml('account', '2194616');
+  </script>
+  <!-- End MailerLite Universal -->
 
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
   <style>
@@ -118,6 +128,16 @@
     .email-form { display: flex; gap: 0.5rem; max-width: 400px; margin: 0 auto; flex-wrap: wrap; }
     .email-form input { flex: 1; padding: 0.6rem 0.9rem; border: none; border-radius: 6px; font-size: 0.9rem; min-width: 180px; }
     .email-form button { background: #27AE60; color: #fff; border: none; padding: 0.6rem 1.2rem; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.9rem; white-space: nowrap; }
+    /* MailerLite form overrides — match site design */
+    .email-box .ml-embedded { margin-top: 0.5rem; }
+    .email-box .ml-embedded .ml-form-embedWrapper { background: transparent !important; padding: 0 !important; }
+    .email-box .ml-embedded .ml-form-embedBody { padding: 0 !important; }
+    .email-box .ml-embedded .ml-form-fieldRow { margin: 0 !important; }
+    .email-box .ml-embedded input[type=email] { background: #fff; border: none; border-radius: 6px; padding: 0.65rem 1rem; font-size: 0.9rem; width: 100%; max-width: 320px; color: #1A202C; }
+    .email-box .ml-embedded button { background: #27AE60 !important; color: #fff !important; border: none !important; padding: 0.65rem 1.4rem !important; border-radius: 6px !important; font-weight: 700 !important; font-size: 0.9rem !important; cursor: pointer !important; margin-top: 0.5rem; }
+    .email-box .ml-embedded .ml-form-embedSubmit { margin-top: 0.5rem; }
+    .email-box .ml-embedded .ml-form-checkboxRow, .email-box .ml-embedded .ml-form-recaptcha { display: none !important; }
+    .email-box .ml-embedded p, .email-box .ml-embedded h4, .email-box .ml-embedded .ml-form-embedBody-header { display: none !important; }
     footer { text-align: center; padding: 2.5rem 1rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 2rem; background: #fff; }
     footer a { color: var(--blue); }
     @media (max-width: 600px) {
@@ -253,14 +273,11 @@
     </div>
   </div>
 
-  <!-- EMAIL CAPTURE -->
+  <!-- EMAIL CAPTURE — MailerLite -->
   <div class="email-box">
     <h3>🔔 Get Weekly Open Source Picks</h3>
-    <p>New tool comparisons, self-hosting guides, and money-saving alternatives — every week.</p>
-    <div class="email-form">
-      <input type="email" placeholder="your@email.com" aria-label="Email address">
-      <button onclick="handleSubscribe(this)">Subscribe Free</button>
-    </div>
+    <p>New tool comparisons, self-hosting guides, and money-saving alternatives — every week. Free.</p>
+    <div class="ml-embedded" data-form="WsdYEl"></div>
   </div>
 
   <!-- RELATED COMPARISONS -->
@@ -284,16 +301,7 @@
 </footer>
 
 <script>
-function handleSubscribe(btn) {
-  const input = btn.previousElementSibling;
-  const email = input.value.trim();
-  if (!email || !email.includes('@')) { input.style.outline='2px solid red'; return; }
-  btn.textContent = '✅ Subscribed!';
-  btn.style.background = '#1A7A3F';
-  input.value = '';
-  // TODO: connect to your email provider (Mailchimp, ConvertKit, etc.)
-  // fetch('/api/subscribe', {method:'POST', body: JSON.stringify({email})})
-}
+// MailerLite handles form submission
 </script>
 
 </body>
