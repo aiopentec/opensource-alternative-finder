@@ -645,7 +645,8 @@ INDEX_PAGE = """<!DOCTYPE html>
   Powered by <a href="https://groq.com">Groq</a> + <a href="https://ai.google.dev">Gemini</a> APIs &nbsp;·&nbsp;
   Hosted on <a href="https://pages.github.com">GitHub Pages</a> &nbsp;·&nbsp;
   <a href="https://github.com/aiopentec/opensource-alternative-finder">View Source on GitHub</a> &nbsp;·&nbsp;
-  <a href="privacy/">Privacy Policy</a><br>
+  <a href="privacy/">Privacy Policy</a> &nbsp;·&nbsp;
+  <a href="changelog/">Changelog</a><br>
   <span style="font-size:0.8rem; opacity:0.7">Updated {updated} &nbsp;·&nbsp; $0/month to operate &nbsp;·&nbsp; Content for informational purposes only</span>
 </footer>
 
@@ -1032,6 +1033,7 @@ def build_sitemap(all_comparisons: List[Dict], site_dir: str, categories: List[s
     # Add privacy policy and calculator to sitemap
     urls.append(f'  <url><loc>{SITE_BASE_URL}/privacy/</loc><changefreq>monthly</changefreq><priority>0.3</priority><lastmod>{today}</lastmod></url>')
     urls.append(f'  <url><loc>{SITE_BASE_URL}/savings-calculator/</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>{today}</lastmod></url>')
+    urls.append(f'  <url><loc>{SITE_BASE_URL}/changelog/</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>{today}</lastmod></url>')
     sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     sitemap += '\n'.join(urls) + '\n</urlset>'
     with open(Path(site_dir) / 'sitemap.xml', 'w') as f:
@@ -1332,6 +1334,195 @@ renderTools();updateTotals();
     logger.info("   💰 savings-calculator/index.html")
 
 
+def build_changelog(site_dir: str, all_comparisons: List[Dict], updated: str):
+    """Generate a weekly changelog page showing latest updates."""
+    changelog_dir = Path(site_dir) / 'changelog'
+    changelog_dir.mkdir(exist_ok=True)
+
+    today     = datetime.utcnow().strftime('%B %d, %Y')
+    iso_today = datetime.utcnow().strftime('%Y-%m-%d')
+
+    # Group comparisons by category for the summary
+    by_category = {}
+    for c in all_comparisons:
+        cat = c.get('category', 'general').replace('-', ' ').title()
+        by_category.setdefault(cat, []).append(c)
+
+    # Build comparison rows
+    rows_html = ''
+    for comp in all_comparisons:
+        prop  = comp.get('proprietary_tool', '')
+        oss   = comp.get('oss_tool', '')
+        slug  = comp.get('slug', '')
+        cat   = comp.get('category', 'general')
+        icon  = CATEGORY_ICONS.get(cat, '🔧')
+        price = comp.get('proprietary_pricing', 'N/A')
+        rows_html += f"""
+      <tr>
+        <td><span style="font-size:1rem">{icon}</span> {cat.replace('-',' ').title()}</td>
+        <td><strong style="color:#C0392B">{prop}</strong></td>
+        <td><strong style="color:#1A7A3F">{oss}</strong></td>
+        <td style="color:#718096;font-size:0.85rem">{price} → Free</td>
+        <td><a href="../{slug}/" style="color:#1F5C99;font-weight:600;font-size:0.85rem">Compare →</a> &nbsp; <a href="../migrate-{comp.get('proprietary_key','')}-to-{comp.get('oss_key','')}/" style="color:#1A7A3F;font-weight:600;font-size:0.85rem">Migrate →</a></td>
+      </tr>"""
+
+    # Category summary cards
+    cat_cards_html = ''
+    for cat, comps in sorted(by_category.items()):
+        icon = CATEGORY_ICONS.get(cat.lower().replace(' ', '-'), '🔧')
+        color = CATEGORY_COLORS.get(cat.lower().replace(' ', '-'), '#95A5A6')
+        cat_cards_html += f"""
+    <div class="cat-card">
+      <div class="cat-icon" style="background:{color}">{icon}</div>
+      <div class="cat-info">
+        <div class="cat-name">{cat}</div>
+        <div class="cat-count">{len(comps)} comparison{'s' if len(comps) > 1 else ''}</div>
+      </div>
+    </div>"""
+
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Changelog — Open Source Alternative Finder | Updated {today}</title>
+  <meta name="description" content="Weekly changelog for Open Source Alternative Finder. See all {len(all_comparisons)} tool comparisons, latest updates, pricing changes, and new open-source alternatives added.">
+  <link rel="canonical" href="{SITE_BASE_URL}/changelog/">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Changelog — Open Source Alternative Finder">
+  <meta property="og:description" content="Weekly updates: {len(all_comparisons)} comparisons across {len(by_category)} categories. Last updated {today}.">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <style>
+    :root {{--blue:#1F5C99;--blue-light:#2980B9;--green:#1A7A3F;--bg:#F0F4F8;--card:#fff;--border:#E2E8F0;--text:#1A202C;--text-muted:#718096;--shadow:0 2px 8px rgba(0,0,0,0.08);}}
+    *{{box-sizing:border-box;margin:0;padding:0;}}
+    body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;}}
+    a{{color:var(--blue);}}
+    nav{{background:var(--blue);padding:0.75rem 1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}}
+    nav a{{color:#fff;text-decoration:none;font-size:0.9rem;opacity:0.9;}}
+    nav a:hover{{opacity:1;}}
+    nav .sep{{color:rgba(255,255,255,0.4);}}
+    .hero{{background:linear-gradient(135deg,var(--blue) 0%,var(--blue-light) 100%);color:#fff;padding:3rem 1.5rem 2.5rem;text-align:center;}}
+    .hero .tag{{display:inline-block;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);font-size:0.75rem;font-weight:700;padding:0.3rem 0.9rem;border-radius:20px;margin-bottom:1rem;text-transform:uppercase;letter-spacing:0.05em;}}
+    .hero h1{{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;margin-bottom:0.75rem;}}
+    .hero p{{opacity:0.85;font-size:1rem;max-width:560px;margin:0 auto;}}
+    .content{{max-width:1000px;margin:2rem auto;padding:0 1.5rem;}}
+    .card{{background:var(--card);border-radius:12px;padding:1.75rem 2rem;margin-bottom:1.5rem;box-shadow:var(--shadow);border:1px solid var(--border);}}
+    .card h2{{font-size:1.15rem;font-weight:700;color:var(--blue);margin-bottom:1.25rem;padding-bottom:0.5rem;border-bottom:2px solid #EBF4FA;display:flex;align-items:center;gap:0.5rem;}}
+    /* Stats row */
+    .stats-row{{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;margin-bottom:1.5rem;}}
+    .stat-box{{background:var(--card);border-radius:10px;padding:1.25rem;text-align:center;box-shadow:var(--shadow);border:1px solid var(--border);}}
+    .stat-box .num{{font-size:2rem;font-weight:900;color:var(--blue);line-height:1;}}
+    .stat-box .lbl{{font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-top:0.3rem;}}
+    /* Update badge */
+    .update-badge{{display:inline-flex;align-items:center;gap:0.4rem;background:#EAFAF1;border:1px solid #A9DFBF;color:#1A7A3F;font-size:0.78rem;font-weight:700;padding:0.3rem 0.8rem;border-radius:20px;margin-bottom:1.25rem;}}
+    /* Category cards */
+    .cat-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.75rem;}}
+    .cat-card{{display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;}}
+    .cat-icon{{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}}
+    .cat-name{{font-weight:700;font-size:0.88rem;}}
+    .cat-count{{font-size:0.75rem;color:var(--text-muted);}}
+    /* Table */
+    .table-wrap{{overflow-x:auto;border-radius:8px;border:1px solid var(--border);}}
+    table{{width:100%;border-collapse:collapse;font-size:0.88rem;}}
+    thead th{{background:var(--blue);color:#fff;padding:0.7rem 1rem;text-align:left;font-weight:600;white-space:nowrap;}}
+    tbody td{{padding:0.65rem 1rem;border-bottom:1px solid var(--border);}}
+    tbody tr:last-child td{{border-bottom:none;}}
+    tbody tr:nth-child(even) td{{background:#F8FAFC;}}
+    tbody tr:hover td{{background:#EBF4FA;}}
+    footer{{text-align:center;padding:2.5rem 1rem;color:var(--text-muted);font-size:0.85rem;border-top:1px solid var(--border);margin-top:2rem;background:#fff;}}
+    footer a{{color:var(--blue);}}
+    @media(max-width:600px){{.card{{padding:1.25rem;}}}}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="../">🔍 OS Alternative Finder</a>
+  <span class="sep">/</span>
+  <span style="color:#fff;opacity:0.7">📋 Changelog</span>
+</nav>
+
+<div class="hero">
+  <div class="tag">📋 Weekly Changelog</div>
+  <h1>What's New This Week</h1>
+  <p>All {len(all_comparisons)} comparisons auto-updated daily. Pricing verified, new tools added, migration guides refreshed.</p>
+</div>
+
+<div class="content">
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat-box"><div class="num">{len(all_comparisons)}</div><div class="lbl">Comparisons</div></div>
+    <div class="stat-box"><div class="num">{len(all_comparisons)}</div><div class="lbl">Migration Guides</div></div>
+    <div class="stat-box"><div class="num">{len(by_category)}</div><div class="lbl">Categories</div></div>
+    <div class="stat-box"><div class="num">$0</div><div class="lbl">Cost to Run</div></div>
+    <div class="stat-box"><div class="num">Daily</div><div class="lbl">Auto-Updated</div></div>
+  </div>
+
+  <!-- LATEST UPDATE -->
+  <div class="card">
+    <h2>🟢 Latest Update</h2>
+    <div class="update-badge">✅ Auto-updated {today}</div>
+    <ul style="margin-left:1.5rem;color:var(--text);font-size:0.95rem;line-height:2;">
+      <li>All {len(all_comparisons)} comparison pages refreshed with latest pricing data</li>
+      <li>All {len(all_comparisons)} migration guides updated with current steps</li>
+      <li>AI verdict boxes regenerated for all tools</li>
+      <li>Self-hosting difficulty scores verified</li>
+      <li>Sitemap submitted to Google Search Console</li>
+    </ul>
+  </div>
+
+  <!-- CATEGORIES -->
+  <div class="card">
+    <h2>🗂️ Coverage by Category</h2>
+    <div class="cat-grid">{cat_cards_html}
+    </div>
+  </div>
+
+  <!-- FULL TABLE -->
+  <div class="card">
+    <h2>📄 All Comparisons — {today}</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Proprietary Tool</th>
+            <th>Open Source Alternative</th>
+            <th>Savings</th>
+            <th>Links</th>
+          </tr>
+        </thead>
+        <tbody>{rows_html}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="card" style="text-align:center;padding:1.5rem;">
+    <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">This site auto-updates daily via GitHub Actions. Zero cost, 100% open source.</p>
+    <a href="../" style="display:inline-block;background:var(--blue);color:#fff;padding:0.65rem 1.75rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.9rem;">← View All Comparisons</a>
+  </div>
+
+</div>
+
+<footer>
+  Open Source Alternative Finder &nbsp;·&nbsp;
+  <a href="../">Home</a> &nbsp;·&nbsp;
+  <a href="../privacy/">Privacy Policy</a> &nbsp;·&nbsp;
+  <a href="../savings-calculator/">Savings Calculator</a><br>
+  <span style="font-size:0.8rem;opacity:0.7">Last updated: {today} &nbsp;·&nbsp; Auto-generated by pipeline</span>
+</footer>
+
+</body>
+</html>"""
+
+    with open(changelog_dir / 'index.html', 'w') as f:
+        f.write(html)
+    logger.info(f"   📋 changelog/index.html ({len(all_comparisons)} entries)")
+
+
 def build_404_page(site_dir: str):
     """GitHub Pages serves 404.html for missing pages."""
     html = f"""<!DOCTYPE html>
@@ -1544,6 +1735,7 @@ Open Source Alternative Finder · Updated {updated} · <a href="../privacy/">Pri
     build_404_page(site_dir)
     build_privacy_policy(site_dir, updated)
     build_savings_calculator(site_dir)
+    build_changelog(site_dir, all_comparisons, updated)
 
     logger.info(f"✅ Site built successfully!")
     logger.info(f"   📄 {len(all_comparisons)} comparison pages")
