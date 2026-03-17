@@ -32,6 +32,7 @@ logger = logging.getLogger(__name__)
 # ── CONFIG — edit these ───────────────────────────────────────────────────────
 SITE_BASE_URL  = os.getenv("SITE_BASE_URL", "https://aiopentec.github.io/opensource-alternative-finder")
 ADSENSE_ID     = os.getenv("ADSENSE_ID", "")          # e.g. ca-pub-XXXXXXXXXXXXXXXX
+GA_ID          = os.getenv("GA_ID", "G-FGB481RVVS")   # Google Analytics Measurement ID
 CARBON_SERVE   = os.getenv("CARBON_SERVE", "")        # from carbonads.com
 CARBON_PLACEMENT = os.getenv("CARBON_PLACEMENT", "")  # from carbonads.com
 # ─────────────────────────────────────────────────────────────────────────────
@@ -157,6 +158,20 @@ def get_carbon_ad():
   <div id="carbonads-container" style="margin: 1.5rem 0;">
     <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve={CARBON_SERVE}&placement={CARBON_PLACEMENT}" id="_carbonads_js"></script>
   </div>"""
+
+
+def get_ga_snippet():
+    """Returns Google Analytics 4 script tag."""
+    if not GA_ID:
+        return ''
+    return f"""<!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){{dataLayer.push(arguments);}}
+    gtag('js', new Date());
+    gtag('config', '{GA_ID}');
+  </script>"""
 
 
 def markdown_to_html(md: str) -> str:
@@ -304,6 +319,7 @@ COMPARISON_PAGE = """<!DOCTYPE html>
   <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
 
   {adsense_script}
+  {ga_snippet}
 
   <!-- MailerLite Universal -->
   <script>
@@ -558,6 +574,7 @@ INDEX_PAGE = """<!DOCTYPE html>
   </script>
 
   {adsense_script}
+  {ga_snippet}
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
     :root {{ --blue: #1F5C99; --blue-light: #2980B9; --green: #1A7A3F; --bg: #F0F4F8; --card: #fff; --border: #E2E8F0; --text: #1A202C; --text-muted: #718096; }}
@@ -1813,6 +1830,7 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
     adsense_script = get_adsense_snippet()
     adsense_unit   = get_adsense_unit()
     carbon_ad      = get_carbon_ad()
+    ga_snippet     = get_ga_snippet()
 
     for comp in all_comparisons:
         slug        = comp['slug']
@@ -1893,6 +1911,7 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
             adsense_script=adsense_script,
             adsense_unit=adsense_unit,
             carbon_ad=carbon_ad,
+            ga_snippet=ga_snippet,
             verdict_box=verdict_box_html,
             difficulty_card=difficulty_card_html,
             difficulty_label=difficulty_label,
@@ -1956,6 +1975,7 @@ Open Source Alternative Finder · Updated {updated} · <a href="../privacy/">Pri
         filter_buttons=filter_buttons,
         cards=cards_html,
         adsense_script=adsense_script,
+        ga_snippet=ga_snippet,
         google_verification=os.getenv("GOOGLE_SITE_VERIFICATION", "sgWLzv3yQVjDBJUjSqkzfFW2WDtfpWNMzQ-_pEw9sqQ"),
     )
     with open(Path(site_dir) / 'index.html', 'w') as f:
