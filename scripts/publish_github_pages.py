@@ -667,7 +667,8 @@ INDEX_PAGE = """<!DOCTYPE html>
   <a href="about/">About Us</a> &nbsp;·&nbsp;
   <a href="contact/">Contact</a> &nbsp;·&nbsp;
   <a href="privacy/">Privacy Policy</a> &nbsp;·&nbsp;
-  <a href="changelog/">Changelog</a><br>
+  <a href="changelog/">Changelog</a> &nbsp;·&nbsp;
+  <a href="stats/">Stats</a><br>
   <span style="font-size:0.8rem; opacity:0.7">Updated {updated} &nbsp;·&nbsp; $0/month to operate &nbsp;·&nbsp; Content for informational purposes only</span>
 </footer>
 
@@ -1057,6 +1058,7 @@ def build_sitemap(all_comparisons: List[Dict], site_dir: str, categories: List[s
     urls.append(f'  <url><loc>{SITE_BASE_URL}/changelog/</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>{today}</lastmod></url>')
     urls.append(f'  <url><loc>{SITE_BASE_URL}/about/</loc><changefreq>monthly</changefreq><priority>0.5</priority><lastmod>{today}</lastmod></url>')
     urls.append(f'  <url><loc>{SITE_BASE_URL}/contact/</loc><changefreq>monthly</changefreq><priority>0.5</priority><lastmod>{today}</lastmod></url>')
+    urls.append(f'  <url><loc>{SITE_BASE_URL}/stats/</loc><changefreq>daily</changefreq><priority>0.8</priority><lastmod>{today}</lastmod></url>')
     sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     sitemap += '\n'.join(urls) + '\n</urlset>'
     with open(Path(site_dir) / 'sitemap.xml', 'w') as f:
@@ -1780,6 +1782,232 @@ def build_contact_page(site_dir: str, updated: str):
     logger.info("   📬 contact/index.html")
 
 
+def build_stats_page(site_dir: str, all_comparisons: List[Dict], updated: str):
+    """Generate a /stats/ page with citable aggregate data — generates backlinks."""
+    stats_dir = Path(site_dir) / 'stats'
+    stats_dir.mkdir(exist_ok=True)
+
+    # Compute aggregate stats
+    total_comps    = len(all_comparisons)
+    categories     = {}
+    prop_prices    = []
+    savings_data   = []
+    difficulty_map = {'Very Easy': 1, 'Easy': 2, 'Moderate': 3, 'Advanced': 4, 'Expert': 5}
+    easiest_tools  = []
+    hardest_tools  = []
+
+    for c in all_comparisons:
+        cat = c.get('category', 'general').replace('-', ' ').title()
+        categories[cat] = categories.get(cat, 0) + 1
+        oss_key = c.get('oss_key', '')
+        diff = HOSTING_DIFFICULTY.get(oss_key, {})
+        if diff:
+            score = diff.get('score', 3)
+            if score <= 2:
+                easiest_tools.append((diff.get('label', ''), c.get('oss_tool', ''), diff.get('time', ''), oss_key))
+            if score >= 4:
+                hardest_tools.append((diff.get('label', ''), c.get('oss_tool', ''), diff.get('time', ''), oss_key))
+        # Extract numeric price for proprietary tool
+        price_str = c.get('proprietary_pricing', '')
+        try:
+            price = float(''.join(ch for ch in price_str.split('–')[0].split('/')[0] if ch.isdigit() or ch == '.'))
+            if price > 0:
+                prop_prices.append((price, c.get('proprietary_tool', ''), c.get('oss_tool', ''), c.get('slug', '')))
+        except:
+            pass
+
+    prop_prices.sort(reverse=True)
+    avg_price     = sum(p[0] for p in prop_prices) / len(prop_prices) if prop_prices else 0
+    most_expensive = prop_prices[:5] if prop_prices else []
+    top_cat       = max(categories.items(), key=lambda x: x[1]) if categories else ('', 0)
+
+    # Savings at different team sizes
+    team_sizes = [10, 25, 50, 100]
+    savings_rows = ''
+    for size in team_sizes:
+        monthly = sum(p[0] * size for p in prop_prices)
+        annual  = monthly * 12
+        savings_rows += f"""
+      <tr>
+        <td><strong>{size} people</strong></td>
+        <td style="color:#C0392B">${monthly:,.0f}/month</td>
+        <td style="color:#1A7A3F;font-weight:700">${annual:,.0f}/year</td>
+        <td style="color:#718096;font-size:0.85rem">if switching all {total_comps} tools</td>
+      </tr>"""
+
+    # Most expensive proprietary tools
+    expensive_rows = ''
+    for price, prop, oss, slug in most_expensive:
+        expensive_rows += f"""
+      <tr>
+        <td><strong>{prop}</strong></td>
+        <td style="color:#C0392B">${price:.2f}/user/month</td>
+        <td style="color:#1A7A3F">{oss}</td>
+        <td><a href="../{slug}/" style="color:#1F5C99;font-weight:600">Compare →</a></td>
+      </tr>"""
+
+    # Category breakdown
+    cat_rows = ''
+    for cat, count in sorted(categories.items(), key=lambda x: x[1], reverse=True):
+        icon = CATEGORY_ICONS.get(cat.lower().replace(' ', '-'), '🔧')
+        cat_rows += f'<div class="cat-stat"><span class="cat-icon">{icon}</span><span class="cat-name">{cat}</span><span class="cat-count">{count} tool{"s" if count > 1 else ""}</span></div>'
+
+    # Easiest tools
+    easiest_html = ''
+    for label, tool, time, key in easiest_tools[:6]:
+        easiest_html += f'<div class="easy-item">✅ <strong>{tool}</strong> — {label} ({time})</div>'
+
+    seo_title = f"Open Source Alternatives Data & Statistics — {total_comps} Tools Compared ({updated})"
+    seo_desc  = f"Key statistics from comparing {total_comps} proprietary SaaS tools to open-source alternatives. Average savings, most expensive tools, difficulty ratings, and more."
+
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{seo_title}</title>
+  <meta name="description" content="{seo_desc}">
+  <link rel="canonical" href="{SITE_BASE_URL}/stats/">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="{seo_title}">
+  <meta property="og:description" content="{seo_desc}">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <script type="application/ld+json">
+  {{
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "name": "Open Source vs SaaS Pricing Statistics",
+    "description": "{seo_desc}",
+    "url": "{SITE_BASE_URL}/stats/",
+    "dateModified": "{datetime.utcnow().strftime('%Y-%m-%d')}",
+    "creator": {{"@type": "Organization", "name": "Open Source Alternative Finder"}}
+  }}
+  </script>
+  <style>
+    :root {{--blue:#1F5C99;--blue-light:#2980B9;--green:#1A7A3F;--red:#C0392B;--bg:#F0F4F8;--card:#fff;--border:#E2E8F0;--text:#1A202C;--text-muted:#718096;--shadow:0 2px 8px rgba(0,0,0,0.08);}}
+    *{{box-sizing:border-box;margin:0;padding:0;}}
+    body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;}}
+    a{{color:var(--blue);}}
+    nav{{background:var(--blue);padding:0.75rem 1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}}
+    nav a{{color:#fff;text-decoration:none;font-size:0.9rem;opacity:0.9;}}
+    nav a:hover{{opacity:1;}}
+    nav .sep{{color:rgba(255,255,255,0.4);}}
+    .hero{{background:linear-gradient(135deg,var(--blue) 0%,var(--blue-light) 100%);color:#fff;padding:3rem 1.5rem 2.5rem;text-align:center;}}
+    .hero h1{{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;margin-bottom:0.75rem;}}
+    .hero p{{opacity:0.85;font-size:1rem;max-width:560px;margin:0 auto;}}
+    .content{{max-width:1000px;margin:2rem auto;padding:0 1.5rem;}}
+    .card{{background:var(--card);border-radius:12px;padding:1.75rem 2rem;margin-bottom:1.5rem;box-shadow:var(--shadow);border:1px solid var(--border);}}
+    .card h2{{font-size:1.15rem;font-weight:700;color:var(--blue);margin-bottom:1.25rem;padding-bottom:0.5rem;border-bottom:2px solid #EBF4FA;}}
+    .big-stats{{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;margin-bottom:1.5rem;}}
+    .big-stat{{background:var(--card);border-radius:12px;padding:1.5rem;text-align:center;box-shadow:var(--shadow);border:1px solid var(--border);}}
+    .big-stat .num{{font-size:2.2rem;font-weight:900;color:var(--blue);line-height:1;}}
+    .big-stat .lbl{{font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-top:0.3rem;}}
+    .big-stat .sub{{font-size:0.78rem;color:var(--text-muted);margin-top:0.2rem;}}
+    .table-wrap{{overflow-x:auto;border-radius:8px;border:1px solid var(--border);}}
+    table{{width:100%;border-collapse:collapse;font-size:0.88rem;}}
+    thead th{{background:var(--blue);color:#fff;padding:0.7rem 1rem;text-align:left;font-weight:600;}}
+    tbody td{{padding:0.65rem 1rem;border-bottom:1px solid var(--border);}}
+    tbody tr:last-child td{{border-bottom:none;}}
+    tbody tr:nth-child(even) td{{background:#F8FAFC;}}
+    .cat-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.75rem;}}
+    .cat-stat{{display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;}}
+    .cat-icon{{font-size:1.2rem;}}
+    .cat-name{{flex:1;font-weight:600;font-size:0.9rem;}}
+    .cat-count{{font-size:0.8rem;color:var(--text-muted);white-space:nowrap;}}
+    .easy-item{{padding:0.5rem 0.75rem;background:#EAFAF1;border:1px solid #A9DFBF;border-radius:6px;margin-bottom:0.5rem;font-size:0.88rem;}}
+    .cite-box{{background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:1rem 1.25rem;font-size:0.82rem;color:var(--text-muted);font-family:monospace;margin-top:1rem;}}
+    footer{{text-align:center;padding:2.5rem 1rem;color:var(--text-muted);font-size:0.85rem;border-top:1px solid var(--border);margin-top:2rem;background:#fff;}}
+    footer a{{color:var(--blue);}}
+    @media(max-width:600px){{.card{{padding:1.25rem;}}}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="../">🔍 OS Alternative Finder</a>
+  <span class="sep">/</span>
+  <span style="color:#fff;opacity:0.7">📊 Stats</span>
+</nav>
+<div class="hero">
+  <h1>📊 Open Source vs SaaS: Key Statistics</h1>
+  <p>Aggregate data from {total_comps} tool comparisons. Updated {updated}. Free to cite with attribution.</p>
+</div>
+<div class="content">
+
+  <!-- BIG NUMBERS -->
+  <div class="big-stats">
+    <div class="big-stat"><div class="num">{total_comps}</div><div class="lbl">Tools Compared</div></div>
+    <div class="big-stat"><div class="num">{len(categories)}</div><div class="lbl">Categories</div></div>
+    <div class="big-stat"><div class="num">${avg_price:.2f}</div><div class="lbl">Avg Cost/User/Month</div><div class="sub">proprietary tools</div></div>
+    <div class="big-stat"><div class="num">$0</div><div class="lbl">Cost to Self-Host</div><div class="sub">open-source alternatives</div></div>
+    <div class="big-stat"><div class="num">{top_cat[1]}</div><div class="lbl">Largest Category</div><div class="sub">{top_cat[0]}</div></div>
+  </div>
+
+  <!-- SAVINGS AT SCALE -->
+  <div class="card">
+    <h2>💰 Potential Annual Savings by Team Size</h2>
+    <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;">If a team replaced all {total_comps} proprietary tools with their open-source alternatives:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Team Size</th><th>Current Monthly Cost</th><th>Annual Savings</th><th>Notes</th></tr></thead>
+        <tbody>{savings_rows}</tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- MOST EXPENSIVE -->
+  <div class="card">
+    <h2>💸 Most Expensive Proprietary Tools (per user)</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Tool</th><th>Price/User/Month</th><th>Open Source Alternative</th><th>Compare</th></tr></thead>
+        <tbody>{expensive_rows}</tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- EASIEST TO SELF-HOST -->
+  <div class="card">
+    <h2>⭐ Easiest Tools to Self-Host</h2>
+    <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;">Rated 1-2/5 on our self-hosting difficulty scale — suitable for non-technical users:</p>
+    {easiest_html}
+  </div>
+
+  <!-- CATEGORY BREAKDOWN -->
+  <div class="card">
+    <h2>🗂️ Coverage by Category</h2>
+    <div class="cat-grid">{cat_rows}</div>
+  </div>
+
+  <!-- HOW TO CITE -->
+  <div class="card">
+    <h2>📎 How to Cite This Data</h2>
+    <p>This data is freely available for use in articles, research, and blog posts. Please attribute as follows:</p>
+    <div class="cite-box">Open Source Alternative Finder ({updated}). "Open Source vs SaaS Pricing Statistics." Retrieved from {SITE_BASE_URL}/stats/</div>
+    <p style="margin-top:0.75rem;font-size:0.85rem;color:var(--text-muted);">Data is AI-generated and updated daily. Verify current pricing at each tool's official website before publishing.</p>
+  </div>
+
+  <div class="card" style="text-align:center;padding:1.5rem;">
+    <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">See the full comparisons behind these numbers:</p>
+    <a href="../" style="display:inline-block;background:var(--blue);color:#fff;padding:0.65rem 1.75rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.9rem;margin-right:0.5rem;">View All Comparisons →</a>
+    <a href="../savings-calculator/" style="display:inline-block;background:#EAFAF1;color:var(--green);padding:0.65rem 1.75rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.9rem;border:1px solid #A9DFBF;">Savings Calculator →</a>
+  </div>
+
+</div>
+<footer>
+  Open Source Alternative Finder &nbsp;·&nbsp;
+  <a href="../">Home</a> &nbsp;·&nbsp;
+  <a href="../about/">About</a> &nbsp;·&nbsp;
+  <a href="../privacy/">Privacy Policy</a><br>
+  <span style="font-size:0.8rem;opacity:0.7">Data updated {updated} · Auto-generated from {total_comps} comparisons</span>
+</footer>
+</body>
+</html>"""
+
+    with open(stats_dir / 'index.html', 'w') as f:
+        f.write(html)
+    logger.info(f"   📊 stats/index.html")
+
+
 def build_404_page(site_dir: str):
     """GitHub Pages serves 404.html for missing pages."""
     html = f"""<!DOCTYPE html>
@@ -1998,6 +2226,7 @@ Open Source Alternative Finder · Updated {updated} · <a href="../privacy/">Pri
     build_changelog(site_dir, all_comparisons, updated)
     build_about_page(site_dir, updated)
     build_contact_page(site_dir, updated)
+    build_stats_page(site_dir, all_comparisons, updated)
 
     logger.info(f"✅ Site built successfully!")
     logger.info(f"   📄 {len(all_comparisons)} comparison pages")
