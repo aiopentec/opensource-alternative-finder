@@ -109,6 +109,17 @@ TOOLS = {
     'kdenlive':        {'name': 'Kdenlive',          'category': 'design',             'pricing': 'Free',                    'license': 'GPL 2.0',                   'website': 'https://kdenlive.org',        'description': 'Powerful open-source video editor for Linux, Mac, and Windows. Multi-track editing with professional features.',       'github': 'KDE/kdenlive',             'stars_approx': '3k'},
     'framer':          {'name': 'Framer',            'category': 'design',             'pricing': 'Free / $15–$35/month',    'license': 'Proprietary',               'website': 'https://framer.com',          'description': 'Web design and prototyping tool with advanced animations and interactive components. Popular for landing pages.',       'founded': '2013', 'company': 'Framer BV'},
     'plasmic':         {'name': 'Plasmic',           'category': 'design',             'pricing': 'Free (self-hosted)',       'license': 'MIT',                       'website': 'https://plasmic.app',         'description': 'Open-source visual web builder and design tool. Can be self-hosted and integrates with React and other frameworks.',   'github': 'plasmicapp/plasmic',       'stars_approx': '4k'},
+    'slack-ai':        {'name': 'Slack AI',          'category': 'communication',      'pricing': '$10–$25/user/month',       'license': 'Proprietary',               'website': 'https://slack.com',           'description': 'Slack with AI features for summarisation and search. Requires paid Slack subscription plus AI add-on.',               'founded': '2013', 'company': 'Salesforce'},
+    'audacity':        {'name': 'Audacity',          'category': 'design',             'pricing': 'Free',                    'license': 'GPL 2.0',                   'website': 'https://audacityteam.org',    'description': 'Free open-source digital audio editor and recording software. Works on Windows, Mac, and Linux.',                    'github': 'audacity/audacity',        'stars_approx': '12k'},
+    'adobe-audition':  {'name': 'Adobe Audition',    'category': 'design',             'pricing': '$20.99–$54.99/month',     'license': 'Proprietary',               'website': 'https://adobe.com/audition',  'description': 'Professional audio workstation from Adobe for recording, mixing, and restoring audio. Part of Creative Cloud.',       'founded': '2003', 'company': 'Adobe'},
+    'obs':             {'name': 'OBS Studio',        'category': 'communication',      'pricing': 'Free',                    'license': 'GPL 2.0',                   'website': 'https://obsproject.com',      'description': 'Free open-source software for video recording and live streaming. The industry standard for content creators.',      'github': 'obsproject/obs-studio',    'stars_approx': '57k'},
+    'streamyard':      {'name': 'StreamYard',        'category': 'communication',      'pricing': 'Free / $25–$49/month',    'license': 'Proprietary',               'website': 'https://streamyard.com',      'description': 'Browser-based live streaming studio. Easy to use for multi-guest shows, interviews, and webinars.',                  'founded': '2018', 'company': 'Hopin'},
+    'wordpress-org':   {'name': 'WordPress.org',     'category': 'productivity',       'pricing': 'Free (self-hosted)',       'license': 'GPL 2.0',                   'website': 'https://wordpress.org',       'description': 'The world\'s most popular CMS powering 43% of all websites. Fully self-hostable with thousands of plugins.',        'github': 'WordPress/WordPress',      'stars_approx': '19k'},
+    'wix':             {'name': 'Wix',               'category': 'productivity',       'pricing': 'Free / $17–$159/month',   'license': 'Proprietary',               'website': 'https://wix.com',             'description': 'Hosted website builder with drag-and-drop interface. Used by 230 million people for creating websites.',             'founded': '2006', 'company': 'Wix.com Ltd'},
+    'squarespace':     {'name': 'Squarespace',       'category': 'productivity',       'pricing': '$16–$52/month',           'license': 'Proprietary',               'website': 'https://squarespace.com',     'description': 'All-in-one website builder known for beautiful templates. Popular with creatives, photographers, and small businesses.','founded': '2003', 'company': 'Squarespace Inc'},
+    'webflow':         {'name': 'Webflow',           'category': 'design',             'pricing': 'Free / $14–$39/month',    'license': 'Proprietary',               'website': 'https://webflow.com',         'description': 'Visual web development platform combining design and CMS. Popular with designers who want no-code control.',          'founded': '2013', 'company': 'Webflow Inc'},
+    'ollama':          {'name': 'Ollama',            'category': 'developer-tools',    'pricing': 'Free',                    'license': 'MIT',                       'website': 'https://ollama.com',          'description': 'Run large language models locally on your own hardware. Supports Llama, Mistral, and dozens of other models.',       'github': 'ollama/ollama',            'stars_approx': '80k'},
+    'openai-api':      {'name': 'OpenAI API',        'category': 'developer-tools',    'pricing': 'Pay per use ($0.01+/1k tokens)','license': 'Proprietary',          'website': 'https://openai.com',          'description': 'OpenAI\'s API for accessing GPT-4, DALL-E, and Whisper models. Most widely used AI API for developers.',             'founded': '2015', 'company': 'OpenAI'},
 }
 
 # ──────────────────────────────────────────────────────────────
@@ -166,6 +177,14 @@ COMPARISON_PAIRS = [
     ('framer',           'plasmic'),
     ('figma',            'inkscape'),
     ('adobe-photoshop',  'penpot'),
+    ('adobe-audition',   'audacity'),
+    ('streamyard',       'obs'),
+    ('wix',              'wordpress-org'),
+    ('squarespace',      'wordpress-org'),
+    ('webflow',          'plasmic'),
+    ('openai-api',       'ollama'),
+    ('adobe-premiere',   'kdenlive'),
+    ('adobe-xd',         'penpot'),
 ]
 
 
