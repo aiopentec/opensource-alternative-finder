@@ -100,6 +100,15 @@ TOOLS = {
     'openreplay':      {'name': 'OpenReplay',        'category': 'productivity',       'pricing': 'Free (self-hosted)',       'license': 'AGPL 3.0',                  'website': 'https://openreplay.com',      'description': 'Open-source session replay and product analytics suite. Self-hostable alternative to Hotjar and FullStory.',             'github': 'openreplay/openreplay',    'stars_approx': '9k'},
     'loom':            {'name': 'Loom',              'category': 'communication',      'pricing': 'Free / $12.50–$14.99/user/month','license': 'Proprietary',          'website': 'https://loom.com',            'description': 'Screen and video recording tool for async communication. Used by 21 million people at 200,000+ companies.',             'founded': '2015', 'company': 'Loom Inc'},
     'cap':             {'name': 'Cap',               'category': 'communication',      'pricing': 'Free (self-hosted)',       'license': 'AGPL 3.0',                  'website': 'https://cap.so',              'description': 'Open-source screen recording and sharing tool. A lightweight self-hostable alternative to Loom for async video.',       'github': 'CapSoftware/Cap',          'stars_approx': '8k'},
+    'canva':           {'name': 'Canva',             'category': 'design',             'pricing': 'Free / $15–$30/user/month','license': 'Proprietary',               'website': 'https://canva.com',           'description': 'Popular web-based design platform for creating graphics, presentations, and marketing materials. Used by 150 million people.', 'founded': '2013', 'company': 'Canva Pty Ltd'},
+    'sketch':          {'name': 'Sketch',            'category': 'design',             'pricing': '$9–$20/user/month',       'license': 'Proprietary',               'website': 'https://sketch.com',          'description': 'Mac-only UI design tool popular with product designers. Strong symbol library and plugin ecosystem.',                    'founded': '2010', 'company': 'Sketch BV'},
+    'adobe-xd':        {'name': 'Adobe XD',          'category': 'design',             'pricing': '$54.99/month (CC)',       'license': 'Proprietary',               'website': 'https://adobe.com/xd',        'description': 'Adobe\'s UI/UX design and prototyping tool. Part of Creative Cloud. Being phased out in favor of Figma.',              'founded': '2016', 'company': 'Adobe'},
+    'adobe-illustrator':{'name': 'Adobe Illustrator','category': 'design',             'pricing': '$20.99–$54.99/month',     'license': 'Proprietary',               'website': 'https://adobe.com/illustrator','description': 'Industry-standard vector graphics editor. Used by designers worldwide for logos, icons, and illustrations.',           'founded': '1987', 'company': 'Adobe'},
+    'inkscape':        {'name': 'Inkscape',          'category': 'design',             'pricing': 'Free',                    'license': 'GPL 3.0',                   'website': 'https://inkscape.org',        'description': 'Powerful open-source vector graphics editor. Full SVG support, cross-platform, and extensible with plugins.',          'github': 'inkscape/inkscape',        'stars_approx': '4k'},
+    'adobe-premiere':  {'name': 'Adobe Premiere Pro','category': 'design',             'pricing': '$20.99–$54.99/month',     'license': 'Proprietary',               'website': 'https://adobe.com/premiere',  'description': 'Industry-leading professional video editing software. Used by filmmakers, YouTubers, and broadcasters worldwide.',      'founded': '1991', 'company': 'Adobe'},
+    'kdenlive':        {'name': 'Kdenlive',          'category': 'design',             'pricing': 'Free',                    'license': 'GPL 2.0',                   'website': 'https://kdenlive.org',        'description': 'Powerful open-source video editor for Linux, Mac, and Windows. Multi-track editing with professional features.',       'github': 'KDE/kdenlive',             'stars_approx': '3k'},
+    'framer':          {'name': 'Framer',            'category': 'design',             'pricing': 'Free / $15–$35/month',    'license': 'Proprietary',               'website': 'https://framer.com',          'description': 'Web design and prototyping tool with advanced animations and interactive components. Popular for landing pages.',       'founded': '2013', 'company': 'Framer BV'},
+    'plasmic':         {'name': 'Plasmic',           'category': 'design',             'pricing': 'Free (self-hosted)',       'license': 'MIT',                       'website': 'https://plasmic.app',         'description': 'Open-source visual web builder and design tool. Can be self-hosted and integrates with React and other frameworks.',   'github': 'plasmicapp/plasmic',       'stars_approx': '4k'},
 }
 
 # ──────────────────────────────────────────────────────────────
@@ -148,6 +157,15 @@ COMPARISON_PAIRS = [
     ('sentry',           'glitchtip'),
     ('hotjar',           'openreplay'),
     ('loom',             'cap'),
+    ('canva',            'penpot'),
+    ('canva',            'inkscape'),
+    ('sketch',           'penpot'),
+    ('adobe-xd',         'penpot'),
+    ('adobe-illustrator','inkscape'),
+    ('adobe-premiere',   'kdenlive'),
+    ('framer',           'plasmic'),
+    ('figma',            'inkscape'),
+    ('adobe-photoshop',  'penpot'),
 ]
 
 
