@@ -1879,6 +1879,7 @@ def build_stats_page(site_dir: str, all_comparisons: List[Dict], updated: str):
     "name": "Open Source vs SaaS Pricing Statistics",
     "description": "{seo_desc}",
     "url": "{SITE_BASE_URL}/stats/",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
     "dateModified": "{datetime.utcnow().strftime('%Y-%m-%d')}",
     "creator": {{"@type": "Organization", "name": "Open Source Alternative Finder"}}
   }}
