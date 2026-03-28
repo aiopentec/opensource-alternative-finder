@@ -1052,6 +1052,13 @@ def build_sitemap(all_comparisons: List[Dict], site_dir: str, categories: List[s
         oss_key  = comp.get('oss_key', '')
         if prop_key and oss_key:
             urls.append(f'  <url><loc>{SITE_BASE_URL}/migrate-{prop_key}-to-{oss_key}/</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>{today}</lastmod></url>')
+    # Alternatives-to pages (deduplicated by prop_key)
+    seen_props = set()
+    for comp in all_comparisons:
+        prop_key = comp.get('proprietary_key', '')
+        if prop_key and prop_key not in seen_props:
+            seen_props.add(prop_key)
+            urls.append(f'  <url><loc>{SITE_BASE_URL}/alternatives-to-{prop_key}/</loc><changefreq>weekly</changefreq><priority>0.9</priority><lastmod>{today}</lastmod></url>')
     # Add privacy policy and calculator to sitemap
     urls.append(f'  <url><loc>{SITE_BASE_URL}/privacy/</loc><changefreq>monthly</changefreq><priority>0.3</priority><lastmod>{today}</lastmod></url>')
     urls.append(f'  <url><loc>{SITE_BASE_URL}/savings-calculator/</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>{today}</lastmod></url>')
@@ -2009,6 +2016,257 @@ def build_stats_page(site_dir: str, all_comparisons: List[Dict], updated: str):
     logger.info(f"   📊 stats/index.html")
 
 
+def build_alternatives_pages(site_dir: str, all_comparisons: List[Dict], updated: str):
+    """
+    Build /alternatives-to-{tool}/ pages for every proprietary tool.
+    These target high-volume searches like 'alternatives to Slack'.
+    """
+    # Group comparisons by proprietary tool
+    by_prop: Dict[str, list] = {}
+    for comp in all_comparisons:
+        key  = comp.get('proprietary_key', '')
+        name = comp.get('proprietary_tool', '')
+        if not key or not name:
+            continue
+        by_prop.setdefault(key, {'name': name, 'comps': [], 'category': comp.get('category','general'), 'pricing': comp.get('proprietary_pricing','')})
+        by_prop[key]['comps'].append(comp)
+
+    slugs_built = []
+
+    for prop_key, data in by_prop.items():
+        prop_name  = data['name']
+        comps      = data['comps']
+        category   = data['category']
+        pricing    = data['pricing']
+        page_slug  = f"alternatives-to-{prop_key}"
+        page_dir   = Path(site_dir) / page_slug
+        page_dir.mkdir(parents=True, exist_ok=True)
+
+        cat_label  = category.replace('-', ' ').title()
+        cat_icon   = CATEGORY_ICONS.get(category, '🔧')
+        cat_color  = CATEGORY_COLORS.get(category, '#95A5A6')
+        canonical  = f"{SITE_BASE_URL}/{page_slug}/"
+
+        seo_title = f"Best Free Open Source Alternatives to {prop_name} ({updated})"
+        seo_desc  = (f"Looking for a free alternative to {prop_name}? "
+                     f"We compared {len(comps)} open-source alternative{'s' if len(comps)>1 else ''} — "
+                     f"with pricing, self-hosting difficulty, migration guides, and AI verdicts.")
+
+        # Pre-build JSON for schema to avoid f-string escaping issues
+        item_list_json = ', '.join([
+            f'{{"@type":"ListItem","position":{i+1},"name":"{c.get("oss_tool","").replace(chr(34), "")}","url":"{SITE_BASE_URL}/{c.get("slug","")}/"}}' 
+            for i, c in enumerate(comps)
+        ])
+
+        # Build alternative cards
+        alt_cards = ''
+        for comp in comps:
+            oss_name    = comp.get('oss_tool', '')
+            oss_key     = comp.get('oss_key', '')
+            oss_pricing = comp.get('oss_pricing', 'Free')
+            slug        = comp.get('slug', '')
+            diff        = HOSTING_DIFFICULTY.get(oss_key, {})
+            diff_label  = diff.get('label', 'Varies')
+            diff_time   = diff.get('time', '')
+            diff_score  = diff.get('score', 3)
+            github      = comp.get('oss_github', '')
+            stars       = comp.get('oss_stars', '')
+            github_badge = f'<a href="https://github.com/{github}" target="_blank" rel="noopener" style="font-size:0.78rem;color:#718096;">⭐ ~{stars} on GitHub</a>' if github else ''
+            dots        = '●' * diff_score + '<span style="opacity:0.25">' + '○' * (5 - diff_score) + '</span>'
+            diff_colors = {1:'#1A7A3F', 2:'#1F5C99', 3:'#B7770D', 4:'#C0392B', 5:'#922B21'}
+            diff_color  = diff_colors.get(diff_score, '#718096')
+
+            alt_cards += f"""
+    <div class="alt-card">
+      <div class="alt-header">
+        <div class="alt-name">{oss_name}</div>
+        <div class="alt-free-badge">Free</div>
+      </div>
+      <div class="alt-pricing">{oss_pricing}</div>
+      <div class="alt-difficulty">
+        <span class="diff-dots" style="color:{diff_color}">{dots}</span>
+        <span class="diff-label" style="color:{diff_color}">{diff_label}</span>
+        {f'<span class="diff-time">· {diff_time}</span>' if diff_time else ''}
+      </div>
+      {f'<div style="margin:0.5rem 0">{github_badge}</div>' if github_badge else ''}
+      <div class="alt-actions">
+        <a href="../{slug}/" class="btn-compare">Full Comparison →</a>
+        <a href="../migrate-{prop_key}-to-{oss_key}/" class="btn-migrate">Migration Guide →</a>
+      </div>
+    </div>"""
+
+        # Related proprietary tools (same category)
+        related_props = [c for c in all_comparisons
+                         if c.get('category') == category
+                         and c.get('proprietary_key') != prop_key]
+        seen_prop = set()
+        related_links = ''
+        for c in related_props:
+            pk = c.get('proprietary_key','')
+            if pk not in seen_prop:
+                seen_prop.add(pk)
+                pn = c.get('proprietary_tool','')
+                related_links += f'<a href="../alternatives-to-{pk}/" class="related-alt-link">Alternatives to {pn}</a>'
+        related_section = f'''
+  <div class="card" style="margin-top:1.5rem;">
+    <h2 style="font-size:1rem;font-weight:700;color:#1F5C99;margin-bottom:0.75rem;">🔗 Related: More {cat_label} Alternatives</h2>
+    <div class="related-alt-grid">{related_links}</div>
+  </div>''' if related_links else ''
+
+        html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{seo_title}</title>
+  <meta name="description" content="{seo_desc}">
+  <meta name="keywords" content="alternatives to {prop_name}, free {prop_name} alternative, open source {prop_name}, {prop_name} replacement, self-hosted {prop_name} alternative">
+  <link rel="canonical" href="{canonical}">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="{seo_title}">
+  <meta property="og:description" content="{seo_desc}">
+  <meta property="og:url" content="{canonical}">
+  <script type="application/ld+json">
+  {{
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Best Free Open Source Alternatives to {prop_name}",
+    "description": "{seo_desc}",
+    "numberOfItems": {len(comps)},
+    "itemListElement": [{item_list_json}]
+  }}
+  </script>
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <style>
+    :root {{--blue:#1F5C99;--blue-light:#2980B9;--green:#1A7A3F;--bg:#F0F4F8;--card:#fff;--border:#E2E8F0;--text:#1A202C;--text-muted:#718096;--shadow:0 2px 8px rgba(0,0,0,0.08);}}
+    *{{box-sizing:border-box;margin:0;padding:0;}}
+    body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;}}
+    a{{color:var(--blue);}}
+    nav{{background:var(--blue);padding:0.75rem 1.5rem;display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;}}
+    nav a{{color:#fff;text-decoration:none;font-size:0.9rem;opacity:0.9;}}
+    nav a:hover{{opacity:1;}}
+    nav .sep{{color:rgba(255,255,255,0.4);}}
+    .hero{{background:linear-gradient(135deg,var(--blue) 0%,var(--blue-light) 100%);color:#fff;padding:3rem 1.5rem 2.5rem;text-align:center;}}
+    .hero .cat-badge{{display:inline-block;background:{cat_color};color:#fff;font-size:0.72rem;font-weight:700;padding:0.28rem 0.85rem;border-radius:20px;margin-bottom:0.85rem;text-transform:uppercase;letter-spacing:0.05em;}}
+    .hero h1{{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;margin-bottom:0.75rem;line-height:1.2;}}
+    .hero p{{opacity:0.85;font-size:1rem;max-width:580px;margin:0 auto 1.25rem;}}
+    .hero-badges{{display:flex;gap:0.65rem;justify-content:center;flex-wrap:wrap;}}
+    .hero-badge{{background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);padding:0.28rem 0.85rem;border-radius:20px;font-size:0.8rem;}}
+    .cost-bar{{background:#fff;border-bottom:1px solid var(--border);padding:1rem 1.5rem;}}
+    .cost-bar-inner{{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}}
+    .cost-current{{font-size:0.9rem;color:var(--text-muted);}}
+    .cost-current strong{{color:#C0392B;font-size:1.1rem;}}
+    .cost-free{{font-size:0.9rem;color:var(--green);font-weight:700;}}
+    .cost-arrow{{font-size:1.2rem;color:var(--text-muted);}}
+    .content{{max-width:900px;margin:2rem auto;padding:0 1.5rem;}}
+    .intro-card{{background:var(--card);border-radius:12px;padding:1.75rem 2rem;margin-bottom:1.5rem;box-shadow:var(--shadow);border:1px solid var(--border);}}
+    .intro-card h2{{font-size:1.15rem;font-weight:700;color:var(--blue);margin-bottom:0.75rem;}}
+    .intro-card p{{font-size:0.92rem;color:var(--text);line-height:1.7;}}
+    .alts-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;margin-bottom:1.5rem;}}
+    .alt-card{{background:var(--card);border-radius:12px;padding:1.5rem;box-shadow:var(--shadow);border:2px solid var(--border);transition:border-color 0.2s,transform 0.2s;}}
+    .alt-card:hover{{border-color:var(--blue);transform:translateY(-2px);}}
+    .alt-header{{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem;}}
+    .alt-name{{font-size:1.2rem;font-weight:800;color:var(--green);}}
+    .alt-free-badge{{background:#EAFAF1;border:1px solid #A9DFBF;color:var(--green);font-size:0.72rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:20px;}}
+    .alt-pricing{{font-size:0.85rem;color:var(--text-muted);margin-bottom:0.6rem;}}
+    .alt-difficulty{{display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;font-size:0.82rem;}}
+    .diff-dots{{font-size:1rem;letter-spacing:0.05em;}}
+    .diff-label{{font-weight:700;}}
+    .diff-time{{color:var(--text-muted);}}
+    .alt-actions{{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.75rem;}}
+    .btn-compare{{flex:1;text-align:center;background:var(--blue);color:#fff;padding:0.5rem 0.75rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.82rem;}}
+    .btn-migrate{{flex:1;text-align:center;background:#EAFAF1;color:var(--green);border:1px solid #A9DFBF;padding:0.5rem 0.75rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.82rem;}}
+    .card{{background:var(--card);border-radius:12px;padding:1.75rem 2rem;box-shadow:var(--shadow);border:1px solid var(--border);}}
+    .related-alt-grid{{display:flex;flex-wrap:wrap;gap:0.5rem;}}
+    .related-alt-link{{display:inline-block;padding:0.4rem 0.9rem;background:#F8FAFC;border:1px solid var(--border);border-radius:20px;font-size:0.82rem;font-weight:600;color:var(--blue);text-decoration:none;}}
+    .related-alt-link:hover{{background:var(--blue);color:#fff;}}
+    .calc-cta{{background:linear-gradient(135deg,var(--blue),var(--blue-light));color:#fff;border-radius:12px;padding:1.5rem 2rem;margin-top:1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}}
+    .calc-cta .title{{font-weight:800;font-size:1rem;margin-bottom:0.2rem;}}
+    .calc-cta .sub{{font-size:0.85rem;opacity:0.85;}}
+    .calc-cta a{{background:#fff;color:var(--blue);padding:0.55rem 1.25rem;border-radius:6px;text-decoration:none;font-weight:700;font-size:0.88rem;white-space:nowrap;}}
+    footer{{text-align:center;padding:2.5rem 1rem;color:var(--text-muted);font-size:0.85rem;border-top:1px solid var(--border);margin-top:2rem;background:#fff;}}
+    footer a{{color:var(--blue);}}
+    @media(max-width:600px){{.alts-grid{{grid-template-columns:1fr;}}.cost-bar-inner{{flex-direction:column;align-items:flex-start;}}}}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="../">🔍 OS Alternative Finder</a>
+  <span class="sep">/</span>
+  <a href="../{category}/">{cat_icon} {cat_label}</a>
+  <span class="sep">/</span>
+  <span style="color:#fff;opacity:0.7">Alternatives to {prop_name}</span>
+</nav>
+
+<div class="hero">
+  <div class="cat-badge">{cat_icon} {cat_label}</div>
+  <h1>Best Free Alternatives to {prop_name}</h1>
+  <p>{len(comps)} open-source alternative{'s' if len(comps)>1 else ''} — with pricing, self-hosting difficulty scores, and step-by-step migration guides.</p>
+  <div class="hero-badges">
+    <span class="hero-badge">✅ {len(comps)} Alternative{'s' if len(comps)>1 else ''} Compared</span>
+    <span class="hero-badge">🔓 All Open Source</span>
+    <span class="hero-badge">💰 All Free to Self-Host</span>
+    <span class="hero-badge">📅 {updated}</span>
+  </div>
+</div>
+
+<div class="cost-bar">
+  <div class="cost-bar-inner">
+    <div class="cost-current">Current cost: <strong>{pricing or 'paid'}</strong> with {prop_name}</div>
+    <div class="cost-arrow">→</div>
+    <div class="cost-free">💰 Switch and pay $0/month with open source</div>
+  </div>
+</div>
+
+<div class="content">
+
+  <div class="intro-card">
+    <h2>Why switch from {prop_name}?</h2>
+    <p>{prop_name} is a popular {cat_label.lower()} tool — but at {pricing or 'significant cost'} per user, the costs add up quickly for growing teams. Every alternative below is free to self-host, open source, and actively maintained. You own your data, control your infrastructure, and pay nothing per seat.</p>
+  </div>
+
+  <div class="alts-grid">{alt_cards}
+  </div>
+
+  <div class="calc-cta">
+    <div>
+      <div class="title">💰 See your exact savings</div>
+      <div class="sub">Enter your team size → see monthly and annual savings from switching</div>
+    </div>
+    <a href="../savings-calculator/">Open Savings Calculator →</a>
+  </div>
+
+  {related_section}
+
+  <div class="card" style="text-align:center;padding:1.5rem;margin-top:1.5rem;">
+    <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">Explore all 59 tool comparisons across every category.</p>
+    <a href="../" style="display:inline-block;background:var(--blue);color:#fff;padding:0.65rem 1.75rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.9rem;">← View All Comparisons</a>
+  </div>
+
+</div>
+
+<footer>
+  Open Source Alternative Finder &nbsp;·&nbsp;
+  <a href="../">Home</a> &nbsp;·&nbsp;
+  <a href="../about/">About</a> &nbsp;·&nbsp;
+  <a href="../contact/">Contact</a> &nbsp;·&nbsp;
+  <a href="../privacy/">Privacy Policy</a><br>
+  <span style="font-size:0.8rem;opacity:0.7">Updated {updated} · Content for informational purposes only</span>
+</footer>
+
+</body>
+</html>"""
+
+        with open(page_dir / 'index.html', 'w') as f:
+            f.write(html)
+        slugs_built.append(page_slug)
+
+    logger.info(f"   🎯 {len(slugs_built)} alternatives-to pages built")
+    return slugs_built
+
+
 def build_404_page(site_dir: str):
     """GitHub Pages serves 404.html for missing pages."""
     html = f"""<!DOCTYPE html>
@@ -2111,7 +2369,10 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
         <div style="font-weight:800;font-size:1rem;color:#1A7A3F;margin-bottom:0.2rem;">📦 Ready to switch?</div>
         <div style="font-size:0.85rem;color:#2D6A4F;">Follow our step-by-step migration guide</div>
       </div>
-      <a href="../{migrate_slug}/" style="background:#1A7A3F;color:#fff;padding:0.55rem 1.25rem;border-radius:6px;text-decoration:none;font-weight:700;font-size:0.88rem;white-space:nowrap;">Migration Guide →</a>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <a href="../migrate-{prop_key}-to-{oss_key}/" style="background:#1A7A3F;color:#fff;padding:0.55rem 1.25rem;border-radius:6px;text-decoration:none;font-weight:700;font-size:0.88rem;white-space:nowrap;">Migration Guide →</a>
+        <a href="../alternatives-to-{prop_key}/" style="background:#fff;color:#1F5C99;border:1px solid #AED6F1;padding:0.55rem 1.25rem;border-radius:6px;text-decoration:none;font-weight:700;font-size:0.88rem;white-space:nowrap;">All {prop_name} Alternatives →</a>
+      </div>
     </div>
   </div>"""
 
@@ -2165,8 +2426,9 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
         <span class="value">{comp.get('proprietary_pricing', 'N/A')} → {comp.get('oss_pricing', 'Free')}</span>
       </div>
     </div>
-    <div class="card-footer">
-      <a class="cta" href="{slug}/">Compare Now →</a>
+    <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
+      <a class="cta" href="{slug}/" style="flex:2">Compare Now →</a>
+      <a class="cta" href="alternatives-to-{prop_key}/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All {prop_name} Alts</a>
     </div>
   </div>"""
 
@@ -2228,6 +2490,7 @@ Open Source Alternative Finder · Updated {updated} · <a href="../privacy/">Pri
     build_about_page(site_dir, updated)
     build_contact_page(site_dir, updated)
     build_stats_page(site_dir, all_comparisons, updated)
+    alt_slugs = build_alternatives_pages(site_dir, all_comparisons, updated)
 
     logger.info(f"✅ Site built successfully!")
     logger.info(f"   📄 {len(all_comparisons)} comparison pages")
