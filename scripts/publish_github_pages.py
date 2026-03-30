@@ -614,6 +614,28 @@ INDEX_PAGE = """<!DOCTYPE html>
     .calc-banner-text .sub {{ font-size: 0.82rem; color: #8899bb; }}
     .calc-banner-btn {{ background: linear-gradient(135deg, #1F5C99, #2980B9); color: #fff; padding: 0.6rem 1.4rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.88rem; white-space: nowrap; transition: opacity 0.15s; }}
     .calc-banner-btn:hover {{ opacity: 0.9; }}
+    /* Trending section */
+    .trending-section {{ background: linear-gradient(135deg,#0a1628 0%,#0d2040 100%); padding: 1.75rem 0; border-bottom: 1px solid rgba(31,92,153,0.3); }}
+    .trending-inner {{ max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }}
+    .trending-header {{ margin-bottom: 1.1rem; }}
+    .trending-title {{ font-size: 1rem; font-weight: 800; color: #fff; margin-bottom: 0.2rem; }}
+    .trending-sub {{ font-size: 0.78rem; color: #8899bb; }}
+    .trending-grid {{ display: grid; grid-template-columns: repeat(auto-fill,minmax(180px,1fr)); gap: 0.75rem; }}
+    .trend-card {{ background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 0.9rem 1rem; transition: border-color 0.2s; }}
+    .trend-card:hover {{ border-color: rgba(41,128,185,0.6); }}
+    .trend-header {{ display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }}
+    .trend-name {{ font-weight: 700; font-size: 0.88rem; color: #fff; }}
+    .trend-delta {{ font-size: 0.78rem; font-weight: 800; color: #10b77a; white-space: nowrap; }}
+    .trend-bar-wrap {{ height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; margin-bottom: 0.5rem; }}
+    .trend-bar {{ height: 4px; background: linear-gradient(to right,#1F5C99,#10b77a); border-radius: 2px; }}
+    .trend-meta {{ display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; flex-wrap: wrap; }}
+    .trend-total {{ font-size: 0.75rem; color: #8899bb; }}
+    .trend-prop {{ font-size: 0.72rem; color: #4a6080; background: rgba(255,255,255,0.05); padding: 0.1rem 0.4rem; border-radius: 4px; }}
+    .trend-links {{ display: flex; gap: 0.4rem; }}
+    .trend-link {{ font-size: 0.75rem; font-weight: 600; color: #63b3ed; text-decoration: none; }}
+    .trend-link:hover {{ color: #fff; }}
+    .trend-gh {{ font-size: 0.75rem; font-weight: 600; color: #8899bb; text-decoration: none; }}
+    .trend-gh:hover {{ color: #fff; }}
     footer {{ text-align: center; padding: 3rem 1rem 2rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border); background: #fff; margin-top: 1rem; }}
     footer a {{ color: var(--blue); }}
     @media (max-width: 600px) {{
@@ -653,6 +675,8 @@ INDEX_PAGE = """<!DOCTYPE html>
     <a class="calc-banner-btn" href="savings-calculator/">Calculate My Savings →</a>
   </div>
 </div>
+
+{trending_section}
 
 <div class="grid" id="card-grid">
 {cards}
@@ -1036,6 +1060,75 @@ def build_related_section(current_slug: str, current_prop: str, current_oss: str
     <h2 style="font-size:1rem; font-weight:700; color:#1F5C99; margin-bottom:0.75rem;">🔗 Related Comparisons</h2>
     <div class="related-grid">{links}</div>
   </div>"""
+
+
+def load_momentum(cache_dir: str = '.cache/publish') -> list:
+    """Load precomputed momentum data from track_stars.py output."""
+    momentum_path = Path(cache_dir) / 'momentum.json'
+    if not momentum_path.exists():
+        return []
+    try:
+        with open(momentum_path) as f:
+            return json.load(f)
+    except Exception:
+        return []
+
+
+def build_trending_section(momentum: list) -> str:
+    """Build the trending tools HTML block for the homepage."""
+    if not momentum:
+        return ''
+
+    top = momentum[:6]  # Show top 6
+
+    cards = ''
+    for m in top:
+        delta     = m.get('weekly_rate', m.get('delta', 0))
+        stars_now = m.get('stars_now', 0)
+        name      = m.get('oss_name', '')
+        prop      = m.get('prop_name', '')
+        slug      = m.get('slug', '')
+        github    = m.get('oss_github', '')
+
+        # Format numbers
+        def fmt_stars(n):
+            if n >= 1000:
+                return f"{n/1000:.1f}k"
+            return str(n)
+
+        delta_str = f"+{fmt_stars(delta)}"
+        bar_width = min(100, max(10, int(delta / max(top[0].get('weekly_rate', 1), 1) * 100)))
+
+        cards += f"""
+      <div class="trend-card">
+        <div class="trend-header">
+          <div class="trend-name">{name}</div>
+          <div class="trend-delta">{delta_str} ⭐/wk</div>
+        </div>
+        <div class="trend-bar-wrap">
+          <div class="trend-bar" style="width:{bar_width}%"></div>
+        </div>
+        <div class="trend-meta">
+          <span class="trend-total">⭐ {fmt_stars(stars_now)} total</span>
+          {f'<span class="trend-prop">alt to {prop}</span>' if prop else ''}
+        </div>
+        <div class="trend-links">
+          {f'<a href="{slug}/" class="trend-link">Compare →</a>' if slug else ''}
+          {f'<a href="https://github.com/{github}" target="_blank" rel="noopener" class="trend-gh">GitHub ↗</a>' if github else ''}
+        </div>
+      </div>"""
+
+    return f"""
+<div class="trending-section">
+  <div class="trending-inner">
+    <div class="trending-header">
+      <div class="trending-title">📈 Trending This Week</div>
+      <div class="trending-sub">Open source tools gaining the most GitHub stars — updated daily</div>
+    </div>
+    <div class="trending-grid">{cards}
+    </div>
+  </div>
+</div>"""
 
 
 def build_sitemap(all_comparisons: List[Dict], site_dir: str, categories: List[str]):
@@ -2318,6 +2411,10 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
     adsense_unit   = get_adsense_unit()
     carbon_ad      = get_carbon_ad()
     ga_snippet     = get_ga_snippet()
+    momentum       = load_momentum(cache_dir)
+    trending_html  = build_trending_section(momentum)
+    if momentum:
+        logger.info(f"   📈 Trending section: {len(momentum)} tools tracked")
 
     for comp in all_comparisons:
         slug        = comp['slug']
@@ -2467,6 +2564,7 @@ Open Source Alternative Finder · Updated {updated} · <a href="../privacy/">Pri
         cards=cards_html,
         adsense_script=adsense_script,
         ga_snippet=ga_snippet,
+        trending_section=trending_html,
         google_verification=os.getenv("GOOGLE_SITE_VERIFICATION", "sgWLzv3yQVjDBJUjSqkzfFW2WDtfpWNMzQ-_pEw9sqQ"),
     )
     with open(Path(site_dir) / 'index.html', 'w') as f:
