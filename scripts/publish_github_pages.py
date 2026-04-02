@@ -676,6 +676,16 @@ INDEX_PAGE = """<!DOCTYPE html>
   </div>
 </div>
 
+<div class="calc-banner" style="margin-top:0.75rem">
+  <div class="calc-banner-inner" style="background:linear-gradient(135deg,#1a0a28,#2d1040);border-color:rgba(245,166,35,0.3)">
+    <div class="calc-banner-text">
+      <div class="title" style="color:#f5a623">🎯 Migration Readiness Quiz</div>
+      <div class="sub">5 questions → personalised recommendations for your team</div>
+    </div>
+    <a class="calc-banner-btn" href="quiz/" style="background:linear-gradient(135deg,#7b4f00,#f5a623);color:#fff">Take the Quiz →</a>
+  </div>
+</div>
+
 {trending_section}
 
 <div class="grid" id="card-grid">
@@ -692,7 +702,8 @@ INDEX_PAGE = """<!DOCTYPE html>
   <a href="contact/">Contact</a> &nbsp;·&nbsp;
   <a href="privacy/">Privacy Policy</a> &nbsp;·&nbsp;
   <a href="changelog/">Changelog</a> &nbsp;·&nbsp;
-  <a href="stats/">Stats</a><br>
+  <a href="stats/">Stats</a> &nbsp;·&nbsp;
+  <a href="quiz/">Quiz</a><br>
   <span style="font-size:0.8rem; opacity:0.7">Updated {updated} &nbsp;·&nbsp; $0/month to operate &nbsp;·&nbsp; Content for informational purposes only</span>
 </footer>
 
@@ -1159,6 +1170,7 @@ def build_sitemap(all_comparisons: List[Dict], site_dir: str, categories: List[s
     urls.append(f'  <url><loc>{SITE_BASE_URL}/about/</loc><changefreq>monthly</changefreq><priority>0.5</priority><lastmod>{today}</lastmod></url>')
     urls.append(f'  <url><loc>{SITE_BASE_URL}/contact/</loc><changefreq>monthly</changefreq><priority>0.5</priority><lastmod>{today}</lastmod></url>')
     urls.append(f'  <url><loc>{SITE_BASE_URL}/stats/</loc><changefreq>daily</changefreq><priority>0.8</priority><lastmod>{today}</lastmod></url>')
+    urls.append(f'  <url><loc>{SITE_BASE_URL}/quiz/</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>{today}</lastmod></url>')
     sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     sitemap += '\n'.join(urls) + '\n</urlset>'
     with open(Path(site_dir) / 'sitemap.xml', 'w') as f:
@@ -2109,6 +2121,19 @@ def build_stats_page(site_dir: str, all_comparisons: List[Dict], updated: str):
     logger.info(f"   📊 stats/index.html")
 
 
+def build_quiz_page(site_dir: str):
+    """Copy the Migration Readiness Quiz into the site output."""
+    import shutil
+    quiz_dir = Path(site_dir) / 'quiz'
+    quiz_dir.mkdir(exist_ok=True)
+    src = Path(__file__).parent.parent / 'quiz.html'
+    if src.exists():
+        shutil.copy(src, quiz_dir / 'index.html')
+        logger.info("   🎯 quiz/index.html")
+    else:
+        logger.warning("   ⚠️  quiz.html not found in repo root — skipping quiz page")
+
+
 def build_alternatives_pages(site_dir: str, all_comparisons: List[Dict], updated: str):
     """
     Build /alternatives-to-{tool}/ pages for every proprietary tool.
@@ -2588,6 +2613,7 @@ Open Source Alternative Finder · Updated {updated} · <a href="../privacy/">Pri
     build_about_page(site_dir, updated)
     build_contact_page(site_dir, updated)
     build_stats_page(site_dir, all_comparisons, updated)
+    build_quiz_page(site_dir)
     alt_slugs = build_alternatives_pages(site_dir, all_comparisons, updated)
 
     logger.info(f"✅ Site built successfully!")
