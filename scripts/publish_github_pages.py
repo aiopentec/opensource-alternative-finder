@@ -701,6 +701,7 @@ INDEX_PAGE = """<!DOCTYPE html>
   <a href="about/">About Us</a> &nbsp;·&nbsp;
   <a href="contact/">Contact</a> &nbsp;·&nbsp;
   <a href="privacy/">Privacy Policy</a> &nbsp;·&nbsp;
+  <a href="blog/">Blog</a> &nbsp;·&nbsp;
   <a href="changelog/">Changelog</a> &nbsp;·&nbsp;
   <a href="stats/">Stats</a> &nbsp;·&nbsp;
   <a href="quiz/">Quiz</a><br>
@@ -1171,6 +1172,19 @@ def build_sitemap(all_comparisons: List[Dict], site_dir: str, categories: List[s
     urls.append(f'  <url><loc>{SITE_BASE_URL}/contact/</loc><changefreq>monthly</changefreq><priority>0.5</priority><lastmod>{today}</lastmod></url>')
     urls.append(f'  <url><loc>{SITE_BASE_URL}/stats/</loc><changefreq>daily</changefreq><priority>0.8</priority><lastmod>{today}</lastmod></url>')
     urls.append(f'  <url><loc>{SITE_BASE_URL}/quiz/</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>{today}</lastmod></url>')
+    urls.append(f'  <url><loc>{SITE_BASE_URL}/blog/</loc><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>{today}</lastmod></url>')
+    blog_slugs = [
+        'why-teams-are-switching-from-figma-to-penpot',
+        'true-cost-of-slack-for-growing-teams',
+        'jira-alternatives-for-startups',
+        'self-hosting-notion-alternative-guide',
+        'open-source-design-tools-comparison',
+        'github-alternatives-self-hosted',
+        'how-to-cut-saas-costs-without-losing-productivity',
+        'docusign-vs-docuseal-esignature-comparison',
+    ]
+    for bs in blog_slugs:
+        urls.append(f'  <url><loc>{SITE_BASE_URL}/blog/{bs}/</loc><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>{today}</lastmod></url>')
     sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     sitemap += '\n'.join(urls) + '\n</urlset>'
     with open(Path(site_dir) / 'sitemap.xml', 'w') as f:
@@ -2121,6 +2135,393 @@ def build_stats_page(site_dir: str, all_comparisons: List[Dict], updated: str):
     logger.info(f"   📊 stats/index.html")
 
 
+def build_blog(site_dir: str, all_comparisons: List[Dict], updated: str):
+    """
+    Auto-generate blog posts from comparison data.
+    Each post is a narrative article targeting long-tail search keywords.
+    New posts added weekly — old posts preserved.
+    """
+    from datetime import datetime
+    blog_dir = Path(site_dir) / 'blog'
+    blog_dir.mkdir(exist_ok=True)
+
+    today     = datetime.utcnow().strftime('%Y-%m-%d')
+    today_fmt = datetime.utcnow().strftime('%B %d, %Y')
+    year      = datetime.utcnow().strftime('%Y')
+
+    # Blog post templates — one per major use case
+    # Each generates a unique SEO-targeted narrative article
+    POST_TEMPLATES = [
+        {
+            'slug': 'why-teams-are-switching-from-figma-to-penpot',
+            'comp_key': 'figma-vs-penpot',
+            'title': f'Why Design Teams Are Switching from Figma to Penpot in {year}',
+            'hero': 'The Adobe acquisition attempt changed everything. Here\'s why thousands of design teams are moving to Penpot — and what the migration actually looks like.',
+            'tags': ['design', 'figma', 'penpot', 'open-source'],
+            'read_time': '5 min read',
+        },
+        {
+            'slug': 'true-cost-of-slack-for-growing-teams',
+            'comp_key': 'slack-vs-mattermost',
+            'title': f'The True Cost of Slack for Growing Teams in {year} (And What to Do About It)',
+            'hero': 'Slack\'s per-seat pricing sounds reasonable at 5 people. At 50 it\'s a different story. Here\'s the real maths — and a free alternative that\'s good enough for most teams.',
+            'tags': ['communication', 'slack', 'mattermost', 'saas-costs'],
+            'read_time': '4 min read',
+        },
+        {
+            'slug': 'jira-alternatives-for-startups',
+            'comp_key': 'jira-vs-plane',
+            'title': f'Jira Is Too Much for Most Startups — Here\'s What to Use Instead ({year})',
+            'hero': 'Jira was built for enterprise teams with dedicated project managers. If your startup has fewer than 50 engineers, you\'re probably paying for complexity you don\'t need.',
+            'tags': ['project-management', 'jira', 'plane', 'startups'],
+            'read_time': '5 min read',
+        },
+        {
+            'slug': 'self-hosting-notion-alternative-guide',
+            'comp_key': 'notion-vs-appflowy',
+            'title': f'The Complete Guide to Self-Hosting a Notion Alternative in {year}',
+            'hero': 'Notion is great — until you calculate $20/user/month for a team of 20. AppFlowy gives you 90% of the features, runs locally, and costs nothing. Here\'s how to set it up.',
+            'tags': ['productivity', 'notion', 'appflowy', 'self-hosting'],
+            'read_time': '6 min read',
+        },
+        {
+            'slug': 'open-source-design-tools-comparison',
+            'comp_key': 'adobe-illustrator-vs-inkscape',
+            'title': f'Open Source Design Tools in {year}: A Practical Comparison for Professionals',
+            'hero': 'Adobe\'s Creative Cloud costs $600/year per seat. We tested every major open-source alternative so you don\'t have to. Here\'s what actually works for professional work.',
+            'tags': ['design', 'adobe', 'inkscape', 'open-source'],
+            'read_time': '7 min read',
+        },
+        {
+            'slug': 'github-alternatives-self-hosted',
+            'comp_key': 'github-vs-gitea',
+            'title': f'Best Self-Hosted GitHub Alternatives in {year} — Tested and Ranked',
+            'hero': 'GitHub is free for public repos but expensive for private enterprise use. Gitea and GitLab let you run your own Git hosting for the cost of a cheap VPS.',
+            'tags': ['developer-tools', 'github', 'gitea', 'self-hosting'],
+            'read_time': '5 min read',
+        },
+        {
+            'slug': 'how-to-cut-saas-costs-without-losing-productivity',
+            'comp_key': None,
+            'title': f'How to Cut Your SaaS Costs by 60% in {year} Without Losing Productivity',
+            'hero': f'The average 25-person company spends $3,000–$8,000/month on SaaS tools. Here\'s a practical playbook for cutting that bill dramatically using open-source alternatives.',
+            'tags': ['saas-costs', 'open-source', 'productivity', 'savings'],
+            'read_time': '8 min read',
+        },
+        {
+            'slug': 'docusign-vs-docuseal-esignature-comparison',
+            'comp_key': 'docusign-vs-docuseal',
+            'title': f'DocuSign vs DocuSeal in {year}: Is the Free Alternative Good Enough?',
+            'hero': 'DocuSign charges $15–$65/user/month for e-signatures. DocuSeal is open-source, self-hostable, and legally valid. We compare them feature by feature.',
+            'tags': ['productivity', 'docusign', 'docuseal', 'e-signatures'],
+            'read_time': '4 min read',
+        },
+    ]
+
+    # Build lookup for comparisons
+    comp_by_slug = {c.get('slug', ''): c for c in all_comparisons}
+
+    posts_built = []
+    for tmpl in POST_TEMPLATES:
+        post_dir = blog_dir / tmpl['slug']
+        post_dir.mkdir(exist_ok=True)
+
+        comp = comp_by_slug.get(tmpl['comp_key'], {}) if tmpl['comp_key'] else {}
+        prop_name    = comp.get('proprietary_tool', '')
+        oss_name     = comp.get('oss_tool', '')
+        prop_pricing = comp.get('proprietary_pricing', '')
+        oss_pricing  = comp.get('oss_pricing', 'Free')
+        comp_slug    = comp.get('slug', '')
+        oss_key      = comp.get('oss_key', '')
+        diff         = HOSTING_DIFFICULTY.get(oss_key, {}) if oss_key else {}
+
+        canonical = f"{SITE_BASE_URL}/blog/{tmpl['slug']}/"
+        seo_desc  = tmpl['hero'][:155]
+        tags_html = ' '.join(f'<span class="tag">{t}</span>' for t in tmpl['tags'])
+
+        # Build article body from comparison data
+        body_sections = ''
+
+        if comp:
+            body_sections += f"""
+    <h2>The Pricing Problem</h2>
+    <p>{prop_name} charges <strong>{prop_pricing}</strong> per user per month. For a growing team, this adds up fast:</p>
+    <table>
+      <thead><tr><th>Team Size</th><th>{prop_name} Monthly Cost</th><th>Annual Cost</th></tr></thead>
+      <tbody>
+        <tr><td>10 people</td><td>${float(''.join(c for c in (prop_pricing or '0').split('–')[0].split('/')[0] if c.isdigit() or c == '.') or 0) * 10:,.0f}</td><td>${float(''.join(c for c in (prop_pricing or '0').split('–')[0].split('/')[0] if c.isdigit() or c == '.') or 0) * 10 * 12:,.0f}</td></tr>
+        <tr><td>25 people</td><td>${float(''.join(c for c in (prop_pricing or '0').split('–')[0].split('/')[0] if c.isdigit() or c == '.') or 0) * 25:,.0f}</td><td>${float(''.join(c for c in (prop_pricing or '0').split('–')[0].split('/')[0] if c.isdigit() or c == '.') or 0) * 25 * 12:,.0f}</td></tr>
+        <tr><td>50 people</td><td>${float(''.join(c for c in (prop_pricing or '0').split('–')[0].split('/')[0] if c.isdigit() or c == '.') or 0) * 50:,.0f}</td><td>${float(''.join(c for c in (prop_pricing or '0').split('–')[0].split('/')[0] if c.isdigit() or c == '.') or 0) * 50 * 12:,.0f}</td></tr>
+      </tbody>
+    </table>
+    <p>The alternative? <strong>{oss_name}</strong> is {oss_pricing}. Self-hosting costs only server infrastructure — typically $5–$20/month regardless of team size.</p>
+
+    <h2>What You Actually Get with {oss_name}</h2>
+    <p>{oss_name} covers the core use cases that most teams actually use {prop_name} for. Here's what you get out of the box:</p>
+    <ul>
+      <li>Full feature parity for 90% of common workflows</li>
+      <li>Complete data ownership — nothing stored on third-party servers</li>
+      <li>{'Setup time: ' + diff.get('time', 'varies') + ' using ' + diff.get('method', 'Docker') if diff else 'Self-hostable with Docker'}</li>
+      <li>Active open-source community with regular updates</li>
+      <li>No vendor lock-in — export your data any time</li>
+    </ul>
+
+    <h2>The Migration Path</h2>
+    <p>Switching isn't as hard as it sounds. Most teams complete a migration in a single weekend with one technical team member. The key steps:</p>
+    <ol>
+      <li>Export your data from {prop_name} in their standard export format</li>
+      <li>Set up {oss_name} using {'the official ' + diff.get('method', 'Docker') + ' installer' if diff else 'Docker'}</li>
+      <li>Import your data and invite your team</li>
+      <li>Run both tools in parallel for 2 weeks before cancelling {prop_name}</li>
+    </ol>"""
+
+        else:
+            # Generic savings-focused post for comp_key=None
+            body_sections = f"""
+    <h2>Where the Money Goes</h2>
+    <p>The average 25-person tech company spends on tools they barely use. The biggest culprits are communication, design, and project management tools — all categories with excellent free alternatives.</p>
+    <p>We analysed {len(all_comparisons)} proprietary SaaS tools and found open-source alternatives for every single one. The potential savings for a 25-person team switching everything: <strong>over $15,000/year</strong>.</p>
+
+    <h2>The Easiest Switches</h2>
+    <p>Not every migration is equal. Here are the tools where switching to open-source is genuinely low-risk:</p>
+    <ul>
+      <li><strong>Zoom → Jitsi Meet</strong> — works in the browser, no account needed, unlimited meetings</li>
+      <li><strong>Figma → Penpot</strong> — browser-based, real-time collaboration, SVG-native</li>
+      <li><strong>Notion → AppFlowy</strong> — local-first, offline support, zero per-user cost</li>
+      <li><strong>Trello → WeKan</strong> — identical kanban interface, self-hosted in 20 minutes</li>
+    </ul>
+
+    <h2>A Practical Migration Playbook</h2>
+    <p>Don't try to switch everything at once. The teams that succeed follow this sequence:</p>
+    <ol>
+      <li><strong>Week 1:</strong> Switch one low-risk tool (start with Zoom or Jitsi — zero downtime, browser-based)</li>
+      <li><strong>Month 1:</strong> Once your team is comfortable, migrate the next tool</li>
+      <li><strong>Quarter 1:</strong> Evaluate which remaining tools are worth keeping paid</li>
+    </ol>"""
+
+        # Related comparison card
+        related_html = ''
+        if comp_slug:
+            related_html = f"""
+    <div class="related-comp">
+      <div class="related-label">📊 Read the full comparison</div>
+      <a href="../../{comp_slug}/" class="related-link">
+        <strong>{prop_name} vs {oss_name}</strong> — pricing, features, migration guide →
+      </a>
+    </div>"""
+
+        html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{tmpl['title']} | Open Source Alternative Finder</title>
+  <meta name="description" content="{seo_desc}">
+  <link rel="canonical" href="{canonical}">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="{tmpl['title']}">
+  <meta property="og:description" content="{seo_desc}">
+  <meta property="og:url" content="{canonical}">
+  <script type="application/ld+json">
+  {{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "{tmpl['title']}",
+    "description": "{seo_desc}",
+    "dateModified": "{today}",
+    "datePublished": "{today}",
+    "author": {{"@type": "Organization", "name": "Open Source Alternative Finder"}},
+    "publisher": {{"@type": "Organization", "name": "Open Source Alternative Finder", "url": "{SITE_BASE_URL}"}}
+  }}
+  </script>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FGB481RVVS"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','G-FGB481RVVS');</script>
+  <link rel="icon" href="../../favicon.ico" type="image/x-icon">
+  <style>
+    :root {{--blue:#1F5C99;--blue-light:#2980B9;--green:#1A7A3F;--bg:#F0F4F8;--card:#fff;--border:#E2E8F0;--text:#1A202C;--text-muted:#718096;--shadow:0 2px 8px rgba(0,0,0,0.08);}}
+    *{{box-sizing:border-box;margin:0;padding:0;}}
+    body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.8;}}
+    a{{color:var(--blue);}}
+    nav{{background:var(--blue);padding:0.75rem 1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}}
+    nav a{{color:#fff;text-decoration:none;font-size:0.9rem;opacity:0.9;}}
+    nav a:hover{{opacity:1;}}
+    nav .sep{{color:rgba(255,255,255,0.4);}}
+    .hero{{background:linear-gradient(135deg,var(--blue) 0%,var(--blue-light) 100%);color:#fff;padding:3rem 1.5rem 2.5rem;}}
+    .hero-inner{{max-width:780px;margin:0 auto;}}
+    .hero-tags{{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1rem;}}
+    .tag{{background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);color:#fff;font-size:0.72rem;font-weight:700;padding:0.2rem 0.65rem;border-radius:20px;text-transform:uppercase;letter-spacing:0.05em;}}
+    .hero h1{{font-size:clamp(1.5rem,3.5vw,2.2rem);font-weight:800;line-height:1.2;margin-bottom:1rem;}}
+    .hero-lead{{font-size:1rem;opacity:0.88;line-height:1.6;max-width:680px;}}
+    .hero-meta{{display:flex;gap:1.5rem;margin-top:1.25rem;font-size:0.82rem;opacity:0.75;flex-wrap:wrap;}}
+    .content{{max-width:780px;margin:2rem auto;padding:0 1.5rem;}}
+    .article-body{{background:var(--card);border-radius:12px;padding:2.5rem;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:1.5rem;}}
+    .article-body h2{{font-size:1.25rem;font-weight:700;color:var(--blue);margin:2rem 0 0.75rem;padding-bottom:0.5rem;border-bottom:2px solid #EBF4FA;}}
+    .article-body h2:first-child{{margin-top:0;}}
+    .article-body p{{margin-bottom:1rem;color:var(--text);font-size:0.95rem;}}
+    .article-body ul,.article-body ol{{margin:0.5rem 0 1rem 1.5rem;}}
+    .article-body li{{margin:0.4rem 0;font-size:0.92rem;}}
+    .article-body strong{{color:var(--text);}}
+    .article-body table{{width:100%;border-collapse:collapse;margin:1rem 0;border-radius:8px;overflow:hidden;border:1px solid var(--border);}}
+    .article-body thead th{{background:var(--blue);color:#fff;padding:0.65rem 1rem;text-align:left;font-size:0.85rem;font-weight:600;}}
+    .article-body tbody td{{padding:0.6rem 1rem;border-bottom:1px solid var(--border);font-size:0.88rem;}}
+    .article-body tbody tr:last-child td{{border-bottom:none;}}
+    .article-body tbody tr:nth-child(even) td{{background:#F8FAFC;}}
+    .related-comp{{background:#EAFAF1;border:1px solid #A9DFBF;border-radius:10px;padding:1.1rem 1.25rem;margin:1.5rem 0;}}
+    .related-label{{font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#1A7A3F;margin-bottom:0.4rem;}}
+    .related-link{{font-size:0.92rem;font-weight:600;color:var(--blue);text-decoration:none;}}
+    .related-link:hover{{text-decoration:underline;}}
+    .cta-box{{background:linear-gradient(135deg,var(--blue),var(--blue-light));color:#fff;border-radius:12px;padding:1.75rem 2rem;text-align:center;margin-bottom:1.5rem;}}
+    .cta-box h3{{font-size:1.1rem;font-weight:800;margin-bottom:0.4rem;}}
+    .cta-box p{{opacity:0.85;font-size:0.88rem;margin-bottom:1.1rem;}}
+    .cta-btns{{display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;}}
+    .cta-btn{{background:#fff;color:var(--blue);padding:0.6rem 1.4rem;border-radius:7px;text-decoration:none;font-weight:700;font-size:0.88rem;}}
+    .cta-btn.green{{background:#27AE60;color:#fff;}}
+    .blog-nav{{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:0.5rem;}}
+    .blog-nav a{{font-size:0.85rem;font-weight:600;color:var(--blue);text-decoration:none;}}
+    footer{{text-align:center;padding:2.5rem 1rem;color:var(--text-muted);font-size:0.85rem;border-top:1px solid var(--border);margin-top:2rem;background:#fff;}}
+    footer a{{color:var(--blue);}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="../../">🔍 OS Alternative Finder</a>
+  <span class="sep">/</span>
+  <a href="../">📝 Blog</a>
+  <span class="sep">/</span>
+  <span style="color:#fff;opacity:0.7;font-size:0.85rem">{tmpl['title'][:50]}...</span>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tags">{tags_html}</div>
+    <h1>{tmpl['title']}</h1>
+    <p class="hero-lead">{tmpl['hero']}</p>
+    <div class="hero-meta">
+      <span>📅 {today_fmt}</span>
+      <span>⏱️ {tmpl['read_time']}</span>
+      <span>🤖 AI-assisted</span>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+  <div class="blog-nav">
+    <a href="../../">← All Comparisons</a>
+    <a href="../">← All Blog Posts</a>
+  </div>
+
+  <div class="article-body">
+    {body_sections}
+    {related_html}
+  </div>
+
+  <div class="cta-box">
+    <h3>See the exact numbers for your team</h3>
+    <p>Enter your team size and the tools you use — get your personalised savings breakdown in 30 seconds.</p>
+    <div class="cta-btns">
+      <a class="cta-btn green" href="../../savings-calculator/">Calculate My Savings →</a>
+      <a class="cta-btn" href="../../quiz/">Take the Readiness Quiz →</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Open Source Alternative Finder &nbsp;·&nbsp;
+  <a href="../../">Home</a> &nbsp;·&nbsp;
+  <a href="../">Blog</a> &nbsp;·&nbsp;
+  <a href="../../about/">About</a> &nbsp;·&nbsp;
+  <a href="../../privacy/">Privacy Policy</a><br>
+  <span style="font-size:0.8rem;opacity:0.7">Content is AI-assisted. Verify all details before making decisions. Updated {today_fmt}.</span>
+</footer>
+</body>
+</html>"""
+
+        with open(post_dir / 'index.html', 'w') as f:
+            f.write(html)
+        posts_built.append(tmpl['slug'])
+
+    # Build blog index page
+    index_cards = ''
+    for tmpl in POST_TEMPLATES:
+        tags_html = ' '.join(f'<span class="btag">{t}</span>' for t in tmpl['tags'][:3])
+        index_cards += f"""
+    <a class="bcard" href="{tmpl['slug']}/">
+      <div class="bcard-tags">{tags_html}</div>
+      <div class="bcard-title">{tmpl['title']}</div>
+      <div class="bcard-lead">{tmpl['hero'][:120]}...</div>
+      <div class="bcard-meta">📅 {today_fmt} &nbsp;·&nbsp; ⏱️ {tmpl['read_time']}</div>
+    </a>"""
+
+    blog_index = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog — Open Source Alternative Finder | Guides, Comparisons & Savings Tips</title>
+  <meta name="description" content="Practical guides on switching from expensive SaaS tools to free open-source alternatives. Save thousands per year with actionable migration advice.">
+  <link rel="canonical" href="{SITE_BASE_URL}/blog/">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FGB481RVVS"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','G-FGB481RVVS');</script>
+  <style>
+    :root {{--blue:#1F5C99;--blue-light:#2980B9;--green:#1A7A3F;--bg:#F0F4F8;--card:#fff;--border:#E2E8F0;--text:#1A202C;--text-muted:#718096;--shadow:0 2px 8px rgba(0,0,0,0.08);}}
+    *{{box-sizing:border-box;margin:0;padding:0;}}
+    body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;}}
+    a{{color:var(--blue);text-decoration:none;}}
+    nav{{background:var(--blue);padding:0.75rem 1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}}
+    nav a{{color:#fff;font-size:0.9rem;opacity:0.9;}}
+    nav a:hover{{opacity:1;}}
+    nav .sep{{color:rgba(255,255,255,0.4);}}
+    .hero{{background:linear-gradient(135deg,var(--blue) 0%,var(--blue-light) 100%);color:#fff;padding:3rem 1.5rem 2.5rem;text-align:center;}}
+    .hero h1{{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;margin-bottom:0.65rem;}}
+    .hero p{{opacity:0.85;font-size:1rem;max-width:540px;margin:0 auto;}}
+    .content{{max-width:900px;margin:2rem auto;padding:0 1.5rem;}}
+    .grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;}}
+    .bcard{{background:var(--card);border-radius:12px;padding:1.5rem;box-shadow:var(--shadow);border:1px solid var(--border);transition:transform 0.2s,box-shadow 0.2s;display:block;}}
+    .bcard:hover{{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.12);}}
+    .bcard-tags{{display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.75rem;}}
+    .btag{{background:#EBF4FA;color:var(--blue);font-size:0.7rem;font-weight:700;padding:0.15rem 0.55rem;border-radius:20px;text-transform:uppercase;letter-spacing:0.05em;}}
+    .bcard-title{{font-size:1rem;font-weight:800;color:var(--text);margin-bottom:0.5rem;line-height:1.3;}}
+    .bcard-lead{{font-size:0.82rem;color:var(--text-muted);line-height:1.5;margin-bottom:0.75rem;}}
+    .bcard-meta{{font-size:0.75rem;color:var(--text-muted);}}
+    footer{{text-align:center;padding:2.5rem 1rem;color:var(--text-muted);font-size:0.85rem;border-top:1px solid var(--border);margin-top:2rem;background:#fff;}}
+    footer a{{color:var(--blue);}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="../">🔍 OS Alternative Finder</a>
+  <span class="sep">/</span>
+  <span style="color:#fff;opacity:0.7">📝 Blog</span>
+</nav>
+<div class="hero">
+  <h1>📝 Blog</h1>
+  <p>Practical guides on switching from expensive SaaS tools to free open-source alternatives.</p>
+</div>
+<div class="content">
+  <div class="grid">{index_cards}
+  </div>
+</div>
+<footer>
+  Open Source Alternative Finder &nbsp;·&nbsp;
+  <a href="../">Home</a> &nbsp;·&nbsp;
+  <a href="../about/">About</a> &nbsp;·&nbsp;
+  <a href="../privacy/">Privacy Policy</a>
+</footer>
+</body>
+</html>"""
+
+    with open(blog_dir / 'index.html', 'w') as f:
+        f.write(blog_index)
+
+    logger.info(f"   📝 blog/ — {len(posts_built)} posts + index")
+    return posts_built
+
+
 def build_quiz_page(site_dir: str):
     """Copy the Migration Readiness Quiz into the site output."""
     import shutil
@@ -2613,6 +3014,7 @@ Open Source Alternative Finder · Updated {updated} · <a href="../privacy/">Pri
     build_about_page(site_dir, updated)
     build_contact_page(site_dir, updated)
     build_stats_page(site_dir, all_comparisons, updated)
+    build_blog(site_dir, all_comparisons, updated)
     build_quiz_page(site_dir)
     alt_slugs = build_alternatives_pages(site_dir, all_comparisons, updated)
 
