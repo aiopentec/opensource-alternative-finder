@@ -2135,6 +2135,58 @@ def build_stats_page(site_dir: str, all_comparisons: List[Dict], updated: str):
     logger.info(f"   📊 stats/index.html")
 
 
+def ping_indexnow(all_comparisons: List[Dict]):
+    """
+    Notify Bing via IndexNow protocol after each build.
+    Submits up to 100 URLs per call — Bing indexes them within minutes.
+    """
+    import urllib.request
+    import json as json_mod
+
+    key  = "c4109053f81744448b1c40ab61f8583e"
+    host = "aiopentec.github.io"
+
+    urls = [f"{SITE_BASE_URL}/"]
+    for comp in all_comparisons:
+        slug     = comp.get('slug', '')
+        prop_key = comp.get('proprietary_key', '')
+        oss_key  = comp.get('oss_key', '')
+        if slug:
+            urls.append(f"{SITE_BASE_URL}/{slug}/")
+            urls.append(f"{SITE_BASE_URL}/migrate-{prop_key}-to-{oss_key}/")
+            urls.append(f"{SITE_BASE_URL}/alternatives-to-{prop_key}/")
+
+    # Add static pages
+    for page in ['savings-calculator', 'quiz', 'blog', 'stats', 'about', 'contact', 'changelog', 'privacy']:
+        urls.append(f"{SITE_BASE_URL}/{page}/")
+
+    # Deduplicate and limit to 100
+    urls = list(dict.fromkeys(urls))[:100]
+
+    payload = json_mod.dumps({
+        "host":    host,
+        "key":     key,
+        "keyLocation": f"https://{host}/opensource-alternative-finder/{key}.txt",
+        "urlList": urls
+    }).encode('utf-8')
+
+    try:
+        req = urllib.request.Request(
+            "https://api.indexnow.org/indexnow",
+            data=payload,
+            headers={"Content-Type": "application/json; charset=utf-8"},
+            method="POST"
+        )
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            status = resp.status
+            if status in (200, 202):
+                logger.info(f"   🔔 IndexNow: pinged Bing with {len(urls)} URLs (HTTP {status})")
+            else:
+                logger.warning(f"   ⚠️  IndexNow: unexpected status {status}")
+    except Exception as e:
+        logger.warning(f"   ⚠️  IndexNow ping failed: {e} — continuing without it")
+
+
 def build_blog(site_dir: str, all_comparisons: List[Dict], updated: str):
     """
     Auto-generate blog posts from comparison data.
@@ -3006,6 +3058,11 @@ Open Source Alternative Finder · Updated {updated} · <a href="../privacy/">Pri
     with open(Path(site_dir) / 'ads.txt', 'w') as f:
         f.write("google.com, pub-4633315697698743, DIRECT, f08c47fec0942fa0\n")
 
+    # IndexNow key file — required by Bing for instant indexing
+    indexnow_key = "c4109053f81744448b1c40ab61f8583e"
+    with open(Path(site_dir) / f'{indexnow_key}.txt', 'w') as f:
+        f.write(indexnow_key)
+
     build_sitemap(all_comparisons, site_dir, categories)
     build_404_page(site_dir)
     build_privacy_policy(site_dir, updated)
@@ -3024,6 +3081,9 @@ Open Source Alternative Finder · Updated {updated} · <a href="../privacy/">Pri
     logger.info(f"   🏠 index.html + 404.html + privacy/index.html")
     logger.info(f"   🗺️  sitemap.xml")
     logger.info(f"   📁 Output: {site_dir}/")
+
+    # Ping Bing IndexNow for instant indexing
+    ping_indexnow(all_comparisons)
 
 
 if __name__ == "__main__":
