@@ -30,7 +30,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(levelname)-8s | 
 logger = logging.getLogger(__name__)
 
 # ── CONFIG — edit these ───────────────────────────────────────────────────────
-SITE_BASE_URL  = os.getenv("SITE_BASE_URL", "https://aiopentec.github.io/opensource-alternative-finder")
+SITE_BASE_URL = os.getenv("SITE_BASE_URL", "https://osalfinder.com")
 ADSENSE_ID     = os.getenv("ADSENSE_ID", "")          # e.g. ca-pub-XXXXXXXXXXXXXXXX
 GA_ID          = os.getenv("GA_ID", "G-FGB481RVVS")   # Google Analytics Measurement ID
 CARBON_SERVE   = os.getenv("CARBON_SERVE", "")        # from carbonads.com
