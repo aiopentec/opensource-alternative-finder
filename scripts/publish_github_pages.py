@@ -30,7 +30,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(levelname)-8s | 
 logger = logging.getLogger(__name__)
 
 # ── CONFIG — edit these ───────────────────────────────────────────────────────
-SITE_BASE_URL = os.getenv("SITE_BASE_URL", "https://osalfinder.com")
+SITE_BASE_URL  = os.getenv("SITE_BASE_URL", "https://osalfinder.com")
 ADSENSE_ID     = os.getenv("ADSENSE_ID", "")          # e.g. ca-pub-XXXXXXXXXXXXXXXX
 GA_ID          = os.getenv("GA_ID", "G-FGB481RVVS")   # Google Analytics Measurement ID
 CARBON_SERVE   = os.getenv("CARBON_SERVE", "")        # from carbonads.com
@@ -2144,7 +2144,7 @@ def ping_indexnow(all_comparisons: List[Dict]):
     import json as json_mod
 
     key  = "c4109053f81744448b1c40ab61f8583e"
-    host = "aiopentec.github.io"
+    host = "osalfinder.com"
 
     urls = [f"{SITE_BASE_URL}/"]
     for comp in all_comparisons:
@@ -2166,7 +2166,7 @@ def ping_indexnow(all_comparisons: List[Dict]):
     payload = json_mod.dumps({
         "host":    host,
         "key":     key,
-        "keyLocation": f"https://{host}/opensource-alternative-finder/{key}.txt",
+        "keyLocation": f"https://osalfinder.com/{key}.txt",
         "urlList": urls
     }).encode('utf-8')
 
@@ -2909,18 +2909,18 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
 
         # Click-optimised SEO titles — specific overrides for high-impression pages
         TITLE_OVERRIDES = {
-            'figma-vs-penpot':         f"Penpot vs Figma ({datetime.now().year}) — Free Open Source Alternative That Actually Works",
-            'notion-vs-appflowy':      f"AppFlowy vs Notion ({datetime.now().year}) — Free Self-Hosted Alternative, No Per-User Fees",
-            'slack-vs-mattermost':     f"Mattermost vs Slack ({datetime.now().year}) — Free Self-Hosted Team Chat (Full Comparison)",
-            'jira-vs-plane':           f"Plane vs Jira ({datetime.now().year}) — Free Open Source Project Management That's Actually Fast",
-            'github-vs-gitea':         f"Gitea vs GitHub ({datetime.now().year}) — Self-Hosted Git in 20 Minutes, Free Forever",
-            'github-vs-gitlab':        f"GitLab vs GitHub ({datetime.now().year}) — Full DevOps Platform You Can Self-Host Free",
-            'notion-vs-obsidian':      f"Obsidian vs Notion ({datetime.now().year}) — Local-First, Free Forever, No Internet Required",
-            'slack-vs-element':        f"Element vs Slack ({datetime.now().year}) — End-to-End Encrypted Team Chat, Self-Hosted Free",
-            'adobe-illustrator-vs-inkscape': f"Inkscape vs Adobe Illustrator ({datetime.now().year}) — Free Vector Editor That Professionals Use",
-            'figma-vs-inkscape':       f"Inkscape vs Figma ({datetime.now().year}) — Free Open Source Design Tool Comparison",
-            'zoom-vs-jitsi':           f"Jitsi Meet vs Zoom ({datetime.now().year}) — Free Video Calls, No Account Needed",
-            'dropbox-vs-nextcloud':    f"Nextcloud vs Dropbox ({datetime.now().year}) — Self-Hosted Cloud Storage With No Per-User Fees",
+            'figma-vs-penpot':         f"Penpot vs Figma ({year}) — Free Open Source Alternative That Actually Works",
+            'notion-vs-appflowy':      f"AppFlowy vs Notion ({year}) — Free Self-Hosted Alternative, No Per-User Fees",
+            'slack-vs-mattermost':     f"Mattermost vs Slack ({year}) — Free Self-Hosted Team Chat (Full Comparison)",
+            'jira-vs-plane':           f"Plane vs Jira ({year}) — Free Open Source Project Management That's Actually Fast",
+            'github-vs-gitea':         f"Gitea vs GitHub ({year}) — Self-Hosted Git in 20 Minutes, Free Forever",
+            'github-vs-gitlab':        f"GitLab vs GitHub ({year}) — Full DevOps Platform You Can Self-Host Free",
+            'notion-vs-obsidian':      f"Obsidian vs Notion ({year}) — Local-First, Free Forever, No Internet Required",
+            'slack-vs-element':        f"Element vs Slack ({year}) — End-to-End Encrypted Team Chat, Self-Hosted Free",
+            'adobe-illustrator-vs-inkscape': f"Inkscape vs Adobe Illustrator ({year}) — Free Vector Editor That Professionals Use",
+            'figma-vs-inkscape':       f"Inkscape vs Figma ({year}) — Free Open Source Design Tool Comparison",
+            'zoom-vs-jitsi':           f"Jitsi Meet vs Zoom ({year}) — Free Video Calls, No Account Needed",
+            'dropbox-vs-nextcloud':    f"Nextcloud vs Dropbox ({year}) — Self-Hosted Cloud Storage With No Per-User Fees",
         }
 
         DESC_OVERRIDES = {
