@@ -2906,21 +2906,22 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
         oss_name    = comp.get('oss_tool', '')
         canonical   = f"{SITE_BASE_URL}/{slug}/"
         prop_pricing = comp.get('proprietary_pricing', 'paid')
+        year = datetime.utcnow().strftime('%Y')
 
         # Click-optimised SEO titles — specific overrides for high-impression pages
         TITLE_OVERRIDES = {
-            'figma-vs-penpot':         f"Penpot vs Figma ({datetime.now().year}) — Free Open Source Alternative That Actually Works",
-            'notion-vs-appflowy':      f"AppFlowy vs Notion ({datetime.now().year}) — Free Self-Hosted Alternative, No Per-User Fees",
-            'slack-vs-mattermost':     f"Mattermost vs Slack ({datetime.now().year}) — Free Self-Hosted Team Chat (Full Comparison)",
-            'jira-vs-plane':           f"Plane vs Jira ({datetime.now().year}) — Free Open Source Project Management That's Actually Fast",
-            'github-vs-gitea':         f"Gitea vs GitHub ({datetime.now().year}) — Self-Hosted Git in 20 Minutes, Free Forever",
-            'github-vs-gitlab':        f"GitLab vs GitHub ({datetime.now().year}) — Full DevOps Platform You Can Self-Host Free",
-            'notion-vs-obsidian':      f"Obsidian vs Notion ({datetime.now().year}) — Local-First, Free Forever, No Internet Required",
-            'slack-vs-element':        f"Element vs Slack ({datetime.now().year}) — End-to-End Encrypted Team Chat, Self-Hosted Free",
-            'adobe-illustrator-vs-inkscape': f"Inkscape vs Adobe Illustrator ({datetime.now().year}) — Free Vector Editor That Professionals Use",
-            'figma-vs-inkscape':       f"Inkscape vs Figma ({datetime.now().year}) — Free Open Source Design Tool Comparison",
-            'zoom-vs-jitsi':           f"Jitsi Meet vs Zoom ({datetime.now().year}) — Free Video Calls, No Account Needed",
-            'dropbox-vs-nextcloud':    f"Nextcloud vs Dropbox ({datetime.now().year}) — Self-Hosted Cloud Storage With No Per-User Fees",
+            'figma-vs-penpot':         f"Penpot vs Figma ({year}) — Free Open Source Alternative That Actually Works",
+            'notion-vs-appflowy':      f"AppFlowy vs Notion ({year}) — Free Self-Hosted Alternative, No Per-User Fees",
+            'slack-vs-mattermost':     f"Mattermost vs Slack ({year}) — Free Self-Hosted Team Chat (Full Comparison)",
+            'jira-vs-plane':           f"Plane vs Jira ({year}) — Free Open Source Project Management That's Actually Fast",
+            'github-vs-gitea':         f"Gitea vs GitHub ({year}) — Self-Hosted Git in 20 Minutes, Free Forever",
+            'github-vs-gitlab':        f"GitLab vs GitHub ({year}) — Full DevOps Platform You Can Self-Host Free",
+            'notion-vs-obsidian':      f"Obsidian vs Notion ({year}) — Local-First, Free Forever, No Internet Required",
+            'slack-vs-element':        f"Element vs Slack ({year}) — End-to-End Encrypted Team Chat, Self-Hosted Free",
+            'adobe-illustrator-vs-inkscape': f"Inkscape vs Adobe Illustrator ({year}) — Free Vector Editor That Professionals Use",
+            'figma-vs-inkscape':       f"Inkscape vs Figma ({year}) — Free Open Source Design Tool Comparison",
+            'zoom-vs-jitsi':           f"Jitsi Meet vs Zoom ({year}) — Free Video Calls, No Account Needed",
+            'dropbox-vs-nextcloud':    f"Nextcloud vs Dropbox ({year}) — Self-Hosted Cloud Storage With No Per-User Fees",
         }
 
         DESC_OVERRIDES = {
@@ -2931,7 +2932,6 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
             'github-vs-gitea':     f"Gitea is a lightweight self-hosted GitHub alternative. Runs on a Raspberry Pi, takes 20 minutes to set up, and costs nothing. Full feature comparison inside.",
         }
 
-        year = datetime.utcnow().strftime('%Y')
         seo_title = TITLE_OVERRIDES.get(slug,
             f"{prop_name} vs {oss_name} ({year}) — Free Open Source Alternative")
         seo_desc  = DESC_OVERRIDES.get(slug,
