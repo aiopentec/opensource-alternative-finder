@@ -2592,21 +2592,29 @@ def build_alternatives_pages(site_dir: str, all_comparisons: List[Dict], updated
     Build /alternatives-to-{tool}/ pages for every proprietary tool.
     These target high-volume searches like 'alternatives to Slack'.
     """
-    # Group comparisons by proprietary tool
-    by_prop: Dict[str, list] = {}
+    # Group comparisons by proprietary tool — deduplicate by oss_key
+    by_prop: Dict[str, dict] = {}
     for comp in all_comparisons:
         key  = comp.get('proprietary_key', '')
         name = comp.get('proprietary_tool', '')
         if not key or not name:
             continue
-        by_prop.setdefault(key, {'name': name, 'comps': [], 'category': comp.get('category','general'), 'pricing': comp.get('proprietary_pricing','')})
-        by_prop[key]['comps'].append(comp)
+        if key not in by_prop:
+            by_prop[key] = {
+                'name': name,
+                'comps': {},   # dict keyed by oss_key to deduplicate
+                'category': comp.get('category', 'general'),
+                'pricing': comp.get('proprietary_pricing', '')
+            }
+        oss_key = comp.get('oss_key', '')
+        if oss_key and oss_key not in by_prop[key]['comps']:
+            by_prop[key]['comps'][oss_key] = comp
 
     slugs_built = []
 
     for prop_key, data in by_prop.items():
         prop_name  = data['name']
-        comps      = data['comps']
+        comps      = list(data['comps'].values())  # deduplicated list
         category   = data['category']
         pricing    = data['pricing']
         page_slug  = f"alternatives-to-{prop_key}"
@@ -2863,6 +2871,16 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
     for json_file in sorted(Path(cache_dir).glob('comparisons_*.json')):
         with open(json_file) as f:
             all_comparisons.extend(json.load(f))
+
+    # Deduplicate by slug — multiple batch runs can produce duplicates
+    seen_slugs = set()
+    deduped = []
+    for comp in all_comparisons:
+        slug = comp.get('slug', '')
+        if slug and slug not in seen_slugs:
+            seen_slugs.add(slug)
+            deduped.append(comp)
+    all_comparisons = deduped
 
     if not all_comparisons:
         logger.warning("⚠️  No comparisons found in .cache/publish/")
