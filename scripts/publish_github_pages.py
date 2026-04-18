@@ -2570,25 +2570,25 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
         difficulty_label = difficulty_data.get('label', 'Varies')
         difficulty_card_html = build_difficulty_card(oss_key, oss_name)
 
-            # Stay-if warning box
-            stay_if_text = STAY_IF_CONTENT.get(oss_key, '')
-            if stay_if_text:
-                stay_if_html = f"""
-        <div style="background:#FEF9E7;border:1px solid #F9E79F;border-radius:12px;
-                    padding:1.25rem 1.5rem;margin-bottom:1.5rem;border-left:4px solid #F39C12;">
-          <div style="font-size:11px;font-weight:700;text-transform:uppercase;
-                      letter-spacing:0.08em;color:#B7770D;margin-bottom:8px;">
-            &#9888;&#65039; Stay with {prop_name} if...
-          </div>
-          <p style="font-size:0.9rem;color:#2D3748;line-height:1.6;margin:0;">
-            You should stick with {prop_name} if {stay_if_text}
-          </p>
-        </div>"""
-              else:
-                  stay_if_html = ''
+# Stay-if warning box
+        stay_if_text = STAY_IF_CONTENT.get(oss_key, '')
+        if stay_if_text:
+            stay_if_html = f"""
+  <div style="background:#FEF9E7;border:1px solid #F9E79F;border-radius:12px;
+              padding:1.25rem 1.5rem;margin-bottom:1.5rem;border-left:4px solid #F39C12;">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;
+                letter-spacing:0.08em;color:#B7770D;margin-bottom:8px;">
+      &#9888;&#65039; Stay with {prop_name} if...
+    </div>
+    <p style="font-size:0.9rem;color:#2D3748;line-height:1.6;margin:0;">
+      You should stick with {prop_name} if {stay_if_text}
+    </p>
+  </div>"""
+        else:
+            stay_if_html = ''
 
-              # Best-for label
-              best_for_label_val = get_best_for(oss_key, category)
+        # Best-for label
+        best_for_label_val = get_best_for(oss_key, category)
         
         # PATCH 2: build primary CTAs
         primary_cta_html = build_primary_cta(prop_key, oss_name, oss_key, comp)
