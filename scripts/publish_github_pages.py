@@ -101,6 +101,60 @@ HOSTING_DIFFICULTY = {
     'ghost':      {'score': 2, 'label': 'Easy',      'time': '~20 mins',   'method': 'Docker',        'note': 'Official Docker image available. Ghost(Pro) also offers managed hosting.'},
 }
 
+# "Who should NOT switch" content — one entry per open-source tool key
+STAY_IF_CONTENT = {
+    'mattermost': "you rely on deep Microsoft 365 or Salesforce integrations built into Slack, "
+                  "your IT team cannot manage a Linux server, or your company requires SOC 2 Type II "
+                  "compliance documentation without any engineering effort.",
+    'element':    "your team finds the Matrix room/space model confusing, you need a managed SLA-backed "
+                  "platform, or you rely on Slack's app directory for critical third-party automations.",
+    'zulip':      "your team is smaller than 10 people and values simplicity over organised streams, "
+                  "or you need native voice and video calling built into the same tool.",
+    'appflowy':   "your team depends on Notion's web clipper extension, you rely on Notion AI for "
+                  "daily writing assistance, or you need complex relational databases linking hundreds of pages.",
+    'obsidian':   "you need real-time collaboration on documents with multiple simultaneous editors, "
+                  "or your team requires a shared cloud workspace rather than individual local vaults.",
+    'logseq':     "you need a polished mobile experience, real-time co-editing, or you are not comfortable "
+                  "with plain text markdown files as your primary data format.",
+    'gitlab':     "you are a solo developer who only needs basic Git hosting, your team is fully "
+                  "invested in GitHub Actions pipelines you cannot migrate, or you have fewer than 5 developers.",
+    'gitea':      "your team relies heavily on GitHub Actions workflows, you need GitHub Copilot "
+                  "integrated into your repository, or your open-source project depends on GitHub's "
+                  "visibility to attract contributors.",
+    'penpot':     "your entire workflow depends on Figma-specific plugins (Penpot's ecosystem is still "
+                  "growing), your clients exclusively share Figma files and won't switch, or you "
+                  "need a polished native desktop app for offline work.",
+    'inkscape':   "you need to open and edit complex Adobe Illustrator files with advanced effects, "
+                  "or your production workflow relies on Illustrator's precise typography engine.",
+    'plane':      "your team uses Jira's advanced JQL query language for custom reporting, you have "
+                  "deep Confluence or Bitbucket integrations you cannot replace, or your enterprise "
+                  "requires Atlassian's compliance certifications.",
+    'wekan':      "you depend on Trello Power-Ups that have no open-source equivalents, "
+                  "your team uses Butler automation extensively, or you need Trello's native "
+                  "Slack and Google Drive integrations without any configuration.",
+    'taiga':      "your PMO requires detailed time-tracking reports integrated with Jira, "
+                  "you use Asana's native Salesforce integration, or you need enterprise SSO "
+                  "with specific identity providers like Okta.",
+    'nextcloud':  "you need Google Workspace's real-time collaborative document editing at scale "
+                  "(Nextcloud's is less polished), your team depends heavily on Google Meet, "
+                  "or you cannot dedicate a server with 4GB+ RAM.",
+    'jitsi':      "you need automatic cloud recording storage, your participants frequently join "
+                  "from corporate networks with strict firewall rules that block STUN/TURN, "
+                  "or you need Zoom's webinar registration and streaming features.",
+    'nocodb':     "your use case requires Airtable's native automations with Zapier/Make without "
+                  "any technical setup, or you need Airtable's rich-media gallery view and "
+                  "timeline view out of the box.",
+    'suitecrm':   "your sales team is non-technical and needs a polished onboarding experience, "
+                  "you rely on HubSpot's native marketing automation sequences, or you need "
+                  "first-class mobile CRM apps.",
+    'listmonk':   "you need a drag-and-drop email template builder for non-technical users, "
+                  "you require built-in GDPR compliance management with automated consent tracking, "
+                  "or you need Mailchimp's AI audience segmentation.",
+    'ghost':      "you need WordPress's massive plugin ecosystem (WooCommerce, advanced SEO plugins), "
+                  "your site requires complex multi-author editorial approval workflows, "
+                  "or you need a no-code visual page builder.",
+}
+
 DIFFICULTY_COLORS = {
     1: {'bg': '#EAFAF1', 'border': '#A9DFBF', 'text': '#1A7A3F', 'stars': '⭐'},
     2: {'bg': '#EBF5FB', 'border': '#AED6F1', 'text': '#1F5C99', 'stars': '⭐⭐'},
@@ -493,6 +547,7 @@ COMPARISON_PAGE = """<!DOCTYPE html>
     <span class="hero-badge">✅ Free Alternative: {oss_pricing}</span>
     <span class="hero-badge">🔓 Open Source</span>
     <span class="hero-badge">🤖 AI-Researched Daily</span>
+    <span class="hero-badge">👥 {best_for_label}</span>
     <span class="hero-badge">🖥️ Setup: {difficulty_label}</span>
     <span class="hero-badge">📅 {updated}</span>
   </div>
@@ -529,6 +584,8 @@ COMPARISON_PAGE = """<!DOCTYPE html>
   {carbon_ad}
 
   {verdict_box}
+
+  {stay_if}
 
   {difficulty_card}
 
@@ -2513,6 +2570,26 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
         difficulty_label = difficulty_data.get('label', 'Varies')
         difficulty_card_html = build_difficulty_card(oss_key, oss_name)
 
+            # Stay-if warning box
+            stay_if_text = STAY_IF_CONTENT.get(oss_key, '')
+            if stay_if_text:
+                stay_if_html = f"""
+        <div style="background:#FEF9E7;border:1px solid #F9E79F;border-radius:12px;
+                    padding:1.25rem 1.5rem;margin-bottom:1.5rem;border-left:4px solid #F39C12;">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;
+                      letter-spacing:0.08em;color:#B7770D;margin-bottom:8px;">
+            &#9888;&#65039; Stay with {prop_name} if...
+          </div>
+          <p style="font-size:0.9rem;color:#2D3748;line-height:1.6;margin:0;">
+            You should stick with {prop_name} if {stay_if_text}
+          </p>
+        </div>"""
+              else:
+                  stay_if_html = ''
+
+              # Best-for label
+              best_for_label_val = get_best_for(oss_key, category)
+        
         # PATCH 2: build primary CTAs
         primary_cta_html = build_primary_cta(prop_key, oss_name, oss_key, comp)
 
@@ -2572,6 +2649,8 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
             difficulty_label=difficulty_label,
             # PATCH 2: primary CTAs before AI content
             primary_cta=primary_cta_html,
+            stay_if=stay_if_html,
+            best_for_label=best_for_label_val,
         )
         with open(page_dir / 'index.html', 'w') as f:
             f.write(page_html)
