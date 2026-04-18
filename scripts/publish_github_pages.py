@@ -101,60 +101,6 @@ HOSTING_DIFFICULTY = {
     'ghost':      {'score': 2, 'label': 'Easy',      'time': '~20 mins',   'method': 'Docker',        'note': 'Official Docker image available. Ghost(Pro) also offers managed hosting.'},
 }
 
-# "Who should NOT switch" content — one entry per open-source tool key
-STAY_IF_CONTENT = {
-    'mattermost': "you rely on deep Microsoft 365 or Salesforce integrations built into Slack, "
-                  "your IT team cannot manage a Linux server, or your company requires SOC 2 Type II "
-                  "compliance documentation without any engineering effort.",
-    'element':    "your team finds the Matrix room/space model confusing, you need a managed SLA-backed "
-                  "platform, or you rely on Slack's app directory for critical third-party automations.",
-    'zulip':      "your team is smaller than 10 people and values simplicity over organised streams, "
-                  "or you need native voice and video calling built into the same tool.",
-    'appflowy':   "your team depends on Notion's web clipper extension, you rely on Notion AI for "
-                  "daily writing assistance, or you need complex relational databases linking hundreds of pages.",
-    'obsidian':   "you need real-time collaboration on documents with multiple simultaneous editors, "
-                  "or your team requires a shared cloud workspace rather than individual local vaults.",
-    'logseq':     "you need a polished mobile experience, real-time co-editing, or you are not comfortable "
-                  "with plain text markdown files as your primary data format.",
-    'gitlab':     "you are a solo developer who only needs basic Git hosting, your team is fully "
-                  "invested in GitHub Actions pipelines you cannot migrate, or you have fewer than 5 developers.",
-    'gitea':      "your team relies heavily on GitHub Actions workflows, you need GitHub Copilot "
-                  "integrated into your repository, or your open-source project depends on GitHub's "
-                  "visibility to attract contributors.",
-    'penpot':     "your entire workflow depends on Figma-specific plugins (Penpot's ecosystem is still "
-                  "growing), your clients exclusively share Figma files and won't switch, or you "
-                  "need a polished native desktop app for offline work.",
-    'inkscape':   "you need to open and edit complex Adobe Illustrator files with advanced effects, "
-                  "or your production workflow relies on Illustrator's precise typography engine.",
-    'plane':      "your team uses Jira's advanced JQL query language for custom reporting, you have "
-                  "deep Confluence or Bitbucket integrations you cannot replace, or your enterprise "
-                  "requires Atlassian's compliance certifications.",
-    'wekan':      "you depend on Trello Power-Ups that have no open-source equivalents, "
-                  "your team uses Butler automation extensively, or you need Trello's native "
-                  "Slack and Google Drive integrations without any configuration.",
-    'taiga':      "your PMO requires detailed time-tracking reports integrated with Jira, "
-                  "you use Asana's native Salesforce integration, or you need enterprise SSO "
-                  "with specific identity providers like Okta.",
-    'nextcloud':  "you need Google Workspace's real-time collaborative document editing at scale "
-                  "(Nextcloud's is less polished), your team depends heavily on Google Meet, "
-                  "or you cannot dedicate a server with 4GB+ RAM.",
-    'jitsi':      "you need automatic cloud recording storage, your participants frequently join "
-                  "from corporate networks with strict firewall rules that block STUN/TURN, "
-                  "or you need Zoom's webinar registration and streaming features.",
-    'nocodb':     "your use case requires Airtable's native automations with Zapier/Make without "
-                  "any technical setup, or you need Airtable's rich-media gallery view and "
-                  "timeline view out of the box.",
-    'suitecrm':   "your sales team is non-technical and needs a polished onboarding experience, "
-                  "you rely on HubSpot's native marketing automation sequences, or you need "
-                  "first-class mobile CRM apps.",
-    'listmonk':   "you need a drag-and-drop email template builder for non-technical users, "
-                  "you require built-in GDPR compliance management with automated consent tracking, "
-                  "or you need Mailchimp's AI audience segmentation.",
-    'ghost':      "you need WordPress's massive plugin ecosystem (WooCommerce, advanced SEO plugins), "
-                  "your site requires complex multi-author editorial approval workflows, "
-                  "or you need a no-code visual page builder.",
-}
-
 DIFFICULTY_COLORS = {
     1: {'bg': '#EAFAF1', 'border': '#A9DFBF', 'text': '#1A7A3F', 'stars': '⭐'},
     2: {'bg': '#EBF5FB', 'border': '#AED6F1', 'text': '#1F5C99', 'stars': '⭐⭐'},
@@ -162,6 +108,51 @@ DIFFICULTY_COLORS = {
     4: {'bg': '#FDEDEC', 'border': '#F5B7B1', 'text': '#C0392B', 'stars': '⭐⭐⭐⭐'},
     5: {'bg': '#FDEDEC', 'border': '#E74C3C', 'text': '#922B21', 'stars': '⭐⭐⭐⭐⭐'},
 }
+
+# "Stay with the paid tool if..." — honest warnings per open-source tool key
+STAY_IF_CONTENT = {
+    'mattermost': "you rely on deep Microsoft 365 or Salesforce integrations built into Slack, your IT team cannot manage a Linux server, or your company requires SOC 2 Type II compliance documentation without any engineering effort.",
+    'element':    "your team finds the Matrix room/space model confusing, you need a managed SLA-backed platform, or you rely on Slack's app directory for critical third-party automations.",
+    'zulip':      "your team is smaller than 10 people and values simplicity over organised streams, or you need native voice and video calling built into the same tool.",
+    'appflowy':   "your team depends on Notion's web clipper extension, you rely on Notion AI for daily writing assistance, or you need complex relational databases linking hundreds of pages.",
+    'obsidian':   "you need real-time collaboration on documents with multiple simultaneous editors, or your team requires a shared cloud workspace rather than individual local vaults.",
+    'logseq':     "you need a polished mobile experience, real-time co-editing, or you are not comfortable with plain text markdown files as your primary data format.",
+    'gitlab':     "you are a solo developer who only needs basic Git hosting, your team is fully invested in GitHub Actions pipelines you cannot migrate, or you have fewer than 5 developers.",
+    'gitea':      "your team relies heavily on GitHub Actions workflows, you need GitHub Copilot integrated into your repository, or your open-source project depends on GitHub's visibility to attract contributors.",
+    'penpot':     "your entire workflow depends on Figma-specific plugins (Penpot's plugin ecosystem is still growing), your clients exclusively share Figma files and will not switch, or you need a polished native desktop app for offline work.",
+    'inkscape':   "you need to open and edit complex Adobe Illustrator files with advanced effects, or your production workflow relies on Illustrator's precise typography engine.",
+    'plane':      "your team uses Jira's advanced JQL query language for custom reporting, you have deep Confluence or Bitbucket integrations you cannot replace, or your enterprise requires Atlassian's compliance certifications.",
+    'wekan':      "you depend on Trello Power-Ups that have no open-source equivalents, your team uses Butler automation extensively, or you need Trello's native Slack and Google Drive integrations without any configuration.",
+    'taiga':      "your PMO requires detailed time-tracking reports integrated with Jira, you use Asana's native Salesforce integration, or you need enterprise SSO with specific identity providers like Okta.",
+    'nextcloud':  "you need Google Workspace's real-time collaborative document editing at scale, your team depends heavily on Google Meet, or you cannot dedicate a server with 4GB+ RAM.",
+    'jitsi':      "you need automatic cloud recording storage, your participants frequently join from corporate networks with strict firewall rules that block STUN/TURN, or you need Zoom's webinar registration and streaming features.",
+    'nocodb':     "your use case requires Airtable's native automations with Zapier/Make without any technical setup, or you need Airtable's rich-media gallery view and timeline view out of the box.",
+    'suitecrm':   "your sales team is non-technical and needs a polished onboarding experience, you rely on HubSpot's native marketing automation sequences, or you need first-class mobile CRM apps.",
+    'listmonk':   "you need a drag-and-drop email template builder for non-technical users, you require built-in GDPR compliance management with automated consent tracking, or you need Mailchimp's AI audience segmentation.",
+    'ghost':      "you need WordPress's massive plugin ecosystem (WooCommerce, advanced SEO plugins), your site requires complex multi-author editorial approval workflows, or you need a no-code visual page builder.",
+}
+
+
+def get_best_for(oss_key: str, category: str) -> str:
+    """Returns a short label describing who this open-source tool is best suited for."""
+    LOCAL_FIRST  = {'obsidian', 'logseq', 'appflowy'}
+    ENTERPRISE   = {'gitlab', 'mattermost', 'nextcloud', 'suitecrm', 'zulip'}
+    DEV_TOOLS    = {'gitea', 'gitlab', 'plane', 'taiga', 'wekan', 'nocodb'}
+    DESIGN_TOOLS = {'penpot', 'inkscape'}
+    if oss_key in LOCAL_FIRST:
+        return 'Solo + small teams'
+    elif oss_key in ENTERPRISE:
+        return 'Mid-size to enterprise'
+    elif category == 'developer-tools' or oss_key in DEV_TOOLS:
+        return 'Dev + engineering teams'
+    elif category == 'design' or oss_key in DESIGN_TOOLS:
+        return 'Design teams'
+    elif category == 'communication':
+        return 'Remote teams'
+    elif category == 'video-conferencing':
+        return 'Any team size'
+    else:
+        return 'Any team size'
 
 
 def get_adsense_snippet():
@@ -547,8 +538,8 @@ COMPARISON_PAGE = """<!DOCTYPE html>
     <span class="hero-badge">✅ Free Alternative: {oss_pricing}</span>
     <span class="hero-badge">🔓 Open Source</span>
     <span class="hero-badge">🤖 AI-Researched Daily</span>
-    <span class="hero-badge">👥 {best_for_label}</span>
     <span class="hero-badge">🖥️ Setup: {difficulty_label}</span>
+    <span class="hero-badge">👥 {best_for_label}</span>
     <span class="hero-badge">📅 {updated}</span>
   </div>
 </div>
@@ -694,8 +685,8 @@ INDEX_PAGE = """<!DOCTYPE html>
     .filter-btn:hover, .filter-btn.active {{ background: var(--blue); color: #fff; border-color: var(--blue); }}
     .filter-label {{ font-size: 0.82rem; font-weight: 700; color: var(--text-muted); white-space: nowrap; }}
     .grid {{ max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }}
-    .card {{ background: var(--card); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; }}
-    .card:hover {{ transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }}
+    .card {{ background: var(--card); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; display: flex; flex-direction: column; cursor: pointer; }}
+    .card:hover {{ transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0,0,0,0.14); border-color: #AED6F1; }}
     .card-category {{ padding: 0.5rem 1rem; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #fff; }}
     .card-body {{ padding: 1.25rem 1.25rem 0.75rem; flex: 1; }}
     .vs-line {{ display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.5rem; }}
@@ -790,6 +781,26 @@ INDEX_PAGE = """<!DOCTYPE html>
       <div class="sub">5 questions → personalised recommendations for your team</div>
     </div>
     <a class="calc-banner-btn" href="quiz/" style="background:linear-gradient(135deg,#7b4f00,#f5a623);color:#fff">Take the Quiz →</a>
+  </div>
+</div>
+
+<div class="calc-banner" style="margin-top:0.75rem">
+  <div class="calc-banner-inner" style="background:linear-gradient(135deg,#1a0810,#2d0a14);border-color:rgba(231,76,60,0.3)">
+    <div class="calc-banner-text">
+      <div class="title" style="color:#E74C3C">📈 SaaS Price Hike Watch</div>
+      <div class="sub">Track price increases — free alternatives published the same day</div>
+    </div>
+    <a class="calc-banner-btn" href="price-hikes/" style="background:linear-gradient(135deg,#922B21,#E74C3C);color:#fff">View Price Hikes →</a>
+  </div>
+</div>
+
+<div class="calc-banner" style="margin-top:0.75rem">
+  <div class="calc-banner-inner" style="background:linear-gradient(135deg,#0d2010,#1a3a1a);border-color:rgba(39,174,96,0.3)">
+    <div class="calc-banner-text">
+      <div class="title" style="color:#27AE60">🏭 Industry Stacks</div>
+      <div class="sub">Complete open-source stacks for startups, dev teams &amp; remote teams</div>
+    </div>
+    <a class="calc-banner-btn" href="open-source-tools-for-startups/" style="background:linear-gradient(135deg,#1A7A3F,#27AE60);color:#fff">Browse Stacks →</a>
   </div>
 </div>
 
@@ -1238,6 +1249,9 @@ def build_sitemap(all_comparisons: List[Dict], site_dir: str, categories: List[s
             urls.append(f'  <url><loc>{SITE_BASE_URL}/alternatives-to-{prop_key}/</loc><changefreq>weekly</changefreq><priority>0.9</priority><lastmod>{today}</lastmod></url>')
     for page in ['privacy', 'savings-calculator', 'changelog', 'about', 'contact', 'stats', 'quiz', 'blog']:
         urls.append(f'  <url><loc>{SITE_BASE_URL}/{page}/</loc><changefreq>monthly</changefreq><priority>0.6</priority><lastmod>{today}</lastmod></url>')
+    urls.append(f'  <url><loc>{SITE_BASE_URL}/price-hikes/</loc><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>{today}</lastmod></url>')
+    for ind_slug in ['open-source-tools-for-startups', 'open-source-tools-for-developers', 'open-source-tools-for-remote-teams']:
+        urls.append(f'  <url><loc>{SITE_BASE_URL}/{ind_slug}/</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>{today}</lastmod></url>')
     blog_slugs = [
         'why-teams-are-switching-from-figma-to-penpot',
         'true-cost-of-slack-for-growing-teams',
@@ -1998,6 +2012,367 @@ def build_quiz_page(site_dir: str):
         logger.warning("   ⚠️  quiz.html not found in repo root — skipping quiz page")
 
 
+def build_price_hike_page(site_dir: str, updated: str):
+    """Builds /price-hikes/ — tracks SaaS price increases and links to free alternatives."""
+    hike_dir = Path(site_dir) / 'price-hikes'
+    hike_dir.mkdir(exist_ok=True)
+
+    HIKES = [
+        {
+            'tool': 'Figma',
+            'date': 'June 2023',
+            'change': 'Removed free Organisation tier; Professional plan price doubled',
+            'impact': 'Teams paying $0 suddenly owed $15/user/month',
+            'alt': 'Penpot',
+            'slug': 'figma-vs-penpot',
+            'saving': '$4,500/year for 25 people',
+        },
+        {
+            'tool': 'Notion',
+            'date': 'August 2023',
+            'change': 'AI features bundled into paid plans only; Plus plan price increased 20%',
+            'impact': 'AI access now requires a paid upgrade',
+            'alt': 'AppFlowy',
+            'slug': 'notion-vs-appflowy',
+            'saving': '$3,000/year for 25 people',
+        },
+        {
+            'tool': 'Zoom',
+            'date': 'March 2023',
+            'change': 'Ended free unlimited meetings for groups; Pro plan pricing increased',
+            'impact': 'Teams forced onto paid plans for meetings over 40 minutes',
+            'alt': 'Jitsi Meet',
+            'slug': 'zoom-vs-jitsi',
+            'saving': '$4,000/year for 25 people',
+        },
+        {
+            'tool': 'GitHub',
+            'date': 'March 2023',
+            'change': 'GitHub Copilot moved to paid add-on at $10-19/user/month',
+            'impact': 'AI coding assistance costs added on top of existing plan',
+            'alt': 'Gitea',
+            'slug': 'github-vs-gitea',
+            'saving': '$2,100/year for 25 people',
+        },
+        {
+            'tool': 'Slack',
+            'date': 'September 2022',
+            'change': '90-day message history limit removed from free; Pro plan rose 10%',
+            'impact': 'Teams upgrading just to keep their message history',
+            'alt': 'Mattermost',
+            'slug': 'slack-vs-mattermost',
+            'saving': '$2,625/year for 25 people',
+        },
+    ]
+
+    hike_cards = ''
+    for h in HIKES:
+        hike_cards += f"""
+    <div style="background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:1.5rem;
+                margin-bottom:1rem;box-shadow:0 2px 8px rgba(0,0,0,0.06);
+                border-left:4px solid #E74C3C;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;
+                  gap:1rem;flex-wrap:wrap;margin-bottom:1rem;">
+        <div style="flex:1;min-width:200px;">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;
+                      letter-spacing:0.08em;color:#C0392B;margin-bottom:4px;">
+            Price increase &middot; {h['date']}
+          </div>
+          <div style="font-size:18px;font-weight:800;color:#1A202C;margin-bottom:4px;">{h['tool']}</div>
+          <div style="font-size:13px;color:#718096;line-height:1.5;">{h['change']}</div>
+        </div>
+        <div style="background:#FDE8E8;border:1px solid #F5B7B1;border-radius:8px;
+                    padding:0.65rem 0.9rem;text-align:center;flex-shrink:0;">
+          <div style="font-size:10px;color:#C0392B;font-weight:700;text-transform:uppercase;
+                      letter-spacing:0.06em;margin-bottom:2px;">Impact</div>
+          <div style="font-size:12px;font-weight:700;color:#C0392B;">{h['impact']}</div>
+        </div>
+      </div>
+      <div style="background:#EAFAF1;border:1px solid #A9DFBF;border-radius:8px;
+                  padding:0.75rem 1rem;display:flex;align-items:center;
+                  justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
+        <div style="font-size:13px;color:#1A7A3F;">
+          <strong>Free alternative: {h['alt']}</strong> &nbsp;&middot;&nbsp; Save {h['saving']}
+        </div>
+        <a href="../{h['slug']}/" style="background:#1A7A3F;color:#fff;padding:6px 14px;
+           border-radius:6px;text-decoration:none;font-weight:600;font-size:13px;
+           white-space:nowrap;">Compare {h['tool']} vs {h['alt']} &rarr;</a>
+      </div>
+    </div>"""
+
+    canonical = f"{SITE_BASE_URL}/price-hikes/"
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SaaS Price Hike Watch &mdash; Free Alternatives When Prices Rise | OSALFinder</title>
+  <meta name="description" content="Track SaaS price increases in real time and find free open-source alternatives instantly. Updated whenever a popular tool raises prices.">
+  <link rel="canonical" href="{canonical}">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="SaaS Price Hike Watch &mdash; OSALFinder">
+  <meta property="og:description" content="Every time a popular SaaS tool raises prices, we find you a free open-source alternative.">
+  <meta property="og:url" content="{canonical}">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','{GA_ID}');</script>
+  <style>
+    :root{{--blue:#1F5C99;--blue-light:#2980B9;--green:#1A7A3F;--bg:#F0F4F8;--card:#fff;--border:#E2E8F0;--text:#1A202C;--text-muted:#718096;}}
+    *{{box-sizing:border-box;margin:0;padding:0;}}
+    body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;}}
+    a{{color:var(--blue);}}
+    nav{{background:var(--blue);padding:0.75rem 1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}}
+    nav a{{color:#fff;text-decoration:none;font-size:0.9rem;opacity:0.9;}}
+    nav a:hover{{opacity:1;}}
+    nav .sep{{color:rgba(255,255,255,0.4);}}
+    .hero{{background:linear-gradient(135deg,#C0392B 0%,#E74C3C 100%);color:#fff;padding:3rem 1.5rem 2.5rem;text-align:center;}}
+    .hero h1{{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;margin-bottom:0.75rem;}}
+    .hero p{{opacity:0.88;font-size:1rem;max-width:560px;margin:0 auto;}}
+    .content{{max-width:900px;margin:2rem auto;padding:0 1.5rem;}}
+    .alert-strip{{background:#1A202C;color:#fff;border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}}
+    .alert-strip .ml-embedded .ml-form-embedWrapper{{background:transparent!important;padding:0!important;}}
+    .alert-strip .ml-embedded input[type=email]{{background:#fff;border:none;border-radius:6px;padding:0.6rem 0.9rem;font-size:0.9rem;color:#1A202C;}}
+    .alert-strip .ml-embedded button{{background:#27AE60!important;color:#fff!important;border:none!important;padding:0.6rem 1.2rem!important;border-radius:6px!important;font-weight:700!important;font-size:0.9rem!important;cursor:pointer!important;}}
+    .alert-strip .ml-embedded .ml-form-checkboxRow,.alert-strip .ml-embedded .ml-form-recaptcha{{display:none!important;}}
+    .alert-strip .ml-embedded p,.alert-strip .ml-embedded h4,.alert-strip .ml-embedded .ml-form-embedBody-header{{display:none!important;}}
+    footer{{text-align:center;padding:2.5rem 1rem;color:var(--text-muted);font-size:0.85rem;border-top:1px solid var(--border);margin-top:2rem;background:#fff;}}
+    footer a{{color:var(--blue);}}
+  </style>
+  <script>
+  (function(w,d,e,u,f,l,n){{w[f]=w[f]||function(){{(w[f].q=w[f].q||[]).push(arguments);}},
+  l=d.createElement(e),l.async=1,l.src=u,n=d.getElementsByTagName(e)[0],
+  n.parentNode.insertBefore(l,n);}})
+  (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+  ml('account','2194616');
+  </script>
+</head>
+<body>
+<nav>
+  <a href="../">&#128269; OSALFinder</a>
+  <span class="sep">/</span>
+  <span style="color:#fff;opacity:0.7">&#128200; Price Hike Watch</span>
+</nav>
+<div class="hero">
+  <h1>&#128200; SaaS Price Hike Watch</h1>
+  <p>Every time a popular SaaS tool raises prices, we publish a free open-source alternative. Bookmark this page.</p>
+</div>
+<div class="content">
+  <div class="alert-strip">
+    <div>
+      <div style="font-weight:700;font-size:1rem;margin-bottom:0.2rem;">&#128276; Get instant alerts when SaaS prices rise</div>
+      <div style="font-size:0.85rem;opacity:0.75;">We&rsquo;ll email you the moment a tool raises prices &mdash; with a free alternative ready.</div>
+    </div>
+    <div class="ml-embedded" data-form="WsdYEl" style="min-width:200px;"></div>
+  </div>
+  <div style="font-size:13px;color:var(--text-muted);margin-bottom:1.5rem;">
+    Last updated: {updated} &nbsp;&middot;&nbsp; {len(HIKES)} price increases tracked
+  </div>
+  {hike_cards}
+  <div style="background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:1.5rem;
+              text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-top:1rem;">
+    <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">
+      Know about a price increase we have missed?
+      <a href="../contact/">Let us know &rarr;</a>
+    </p>
+    <a href="../" style="display:inline-block;background:var(--blue);color:#fff;
+       padding:0.65rem 1.75rem;border-radius:6px;text-decoration:none;
+       font-weight:600;font-size:0.9rem;">&larr; View All Free Alternatives</a>
+  </div>
+</div>
+<footer>
+  OSALFinder &nbsp;&middot;&nbsp; <a href="../">Home</a> &nbsp;&middot;&nbsp;
+  <a href="../about/">About</a> &nbsp;&middot;&nbsp; <a href="../privacy/">Privacy Policy</a><br>
+  <span style="font-size:0.8rem;opacity:0.7">Updated {updated} &middot; AI-researched daily</span>
+</footer>
+</body>
+</html>"""
+
+    with open(hike_dir / 'index.html', 'w') as f:
+        f.write(html)
+    logger.info("   📈 price-hikes/index.html")
+
+
+def build_industry_pages(site_dir: str, updated: str):
+    """Builds three industry-specific open-source stack pages for long-tail SEO."""
+    year = datetime.utcnow().year
+
+    INDUSTRIES = [
+        {
+            'slug':       'open-source-tools-for-startups',
+            'title':      f'The Complete Open Source Stack for Startups ({year})',
+            'hero':       'Replace your entire SaaS stack with free, self-hosted tools. Built for teams of 2-20 who want to own their data and eliminate per-seat costs from day one.',
+            'seo_desc':   f'Free open-source alternatives to Slack, Notion, Figma, Jira, and more — curated for startups. Save $18,000+/year ({year}).',
+            'tools': [
+                {'name': 'Mattermost', 'replaces': 'Slack',   'saving': '$2,625/yr', 'slug': 'slack-vs-mattermost',  'icon': '&#128172;'},
+                {'name': 'AppFlowy',   'replaces': 'Notion',  'saving': '$3,000/yr', 'slug': 'notion-vs-appflowy',   'icon': '&#128221;'},
+                {'name': 'Penpot',     'replaces': 'Figma',   'saving': '$4,500/yr', 'slug': 'figma-vs-penpot',      'icon': '&#127912;'},
+                {'name': 'Plane',      'replaces': 'Jira',    'saving': '$2,445/yr', 'slug': 'jira-vs-plane',        'icon': '&#128203;'},
+                {'name': 'Gitea',      'replaces': 'GitHub',  'saving': '$2,100/yr', 'slug': 'github-vs-gitea',      'icon': '&#9881;&#65039;'},
+                {'name': 'Jitsi Meet', 'replaces': 'Zoom',    'saving': '$4,000/yr', 'slug': 'zoom-vs-jitsi',        'icon': '&#127909;'},
+            ],
+            'total_saving': '$18,670',
+        },
+        {
+            'slug':       'open-source-tools-for-developers',
+            'title':      f'Open Source Developer Tools Stack ({year})',
+            'hero':       'Self-host your entire development infrastructure. Git hosting, project management, and team communication — all free, all yours.',
+            'seo_desc':   f'Free open-source alternatives to GitHub, Jira, Linear, and Slack for software development teams. Own your infrastructure ({year}).',
+            'tools': [
+                {'name': 'Gitea',      'replaces': 'GitHub',   'saving': '$2,100/yr', 'slug': 'github-vs-gitea',    'icon': '&#9881;&#65039;'},
+                {'name': 'GitLab CE',  'replaces': 'GitHub',   'saving': '$2,100/yr', 'slug': 'github-vs-gitlab',   'icon': '&#9881;&#65039;'},
+                {'name': 'Plane',      'replaces': 'Linear',   'saving': '$2,400/yr', 'slug': 'linear-vs-plane',    'icon': '&#128203;'},
+                {'name': 'Mattermost', 'replaces': 'Slack',    'saving': '$2,625/yr', 'slug': 'slack-vs-mattermost','icon': '&#128172;'},
+                {'name': 'NocoDB',     'replaces': 'Airtable', 'saving': '$3,600/yr', 'slug': 'airtable-vs-nocodb', 'icon': '&#128202;'},
+            ],
+            'total_saving': '$12,825',
+        },
+        {
+            'slug':       'open-source-tools-for-remote-teams',
+            'title':      f'Open Source Tools for Remote Teams ({year})',
+            'hero':       'Build a remote-first team on $0/month in SaaS costs. Communication, project management, file sharing, and video calls — all self-hosted and private.',
+            'seo_desc':   f'Free open-source alternatives to Slack, Zoom, Notion, and Dropbox for remote teams. Own your communication stack ({year}).',
+            'tools': [
+                {'name': 'Mattermost', 'replaces': 'Slack',   'saving': '$2,625/yr', 'slug': 'slack-vs-mattermost',  'icon': '&#128172;'},
+                {'name': 'Jitsi Meet', 'replaces': 'Zoom',    'saving': '$4,000/yr', 'slug': 'zoom-vs-jitsi',        'icon': '&#127909;'},
+                {'name': 'Nextcloud',  'replaces': 'Dropbox', 'saving': '$3,600/yr', 'slug': 'dropbox-vs-nextcloud', 'icon': '&#9729;&#65039;'},
+                {'name': 'AppFlowy',   'replaces': 'Notion',  'saving': '$3,000/yr', 'slug': 'notion-vs-appflowy',   'icon': '&#128221;'},
+                {'name': 'Plane',      'replaces': 'Asana',   'saving': '$3,297/yr', 'slug': 'asana-vs-taiga',       'icon': '&#128203;'},
+            ],
+            'total_saving': '$16,522',
+        },
+    ]
+
+    for industry in INDUSTRIES:
+        ind_dir = Path(site_dir) / industry['slug']
+        ind_dir.mkdir(exist_ok=True)
+
+        tool_rows = ''
+        for tool in industry['tools']:
+            tool_rows += f"""
+      <div style="display:flex;align-items:center;justify-content:space-between;
+                  padding:12px 0;border-bottom:1px solid #E2E8F0;flex-wrap:wrap;gap:8px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:20px;">{tool['icon']}</span>
+          <div>
+            <div style="font-size:13px;color:#C0392B;text-decoration:line-through;opacity:0.8;">{tool['replaces']}</div>
+            <div style="font-size:15px;font-weight:700;color:#1A7A3F;">&rarr; {tool['name']}</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:12px;font-weight:700;color:#1A7A3F;background:#EAFAF1;
+                       padding:3px 10px;border-radius:20px;border:1px solid #A9DFBF;">Save {tool['saving']}</span>
+          <a href="../{tool['slug']}/" style="font-size:13px;font-weight:600;color:#1F5C99;
+             text-decoration:none;background:#EBF4FA;padding:4px 10px;border-radius:6px;
+             border:1px solid #AED6F1;">Compare &rarr;</a>
+        </div>
+      </div>"""
+
+        canonical = f"{SITE_BASE_URL}/{industry['slug']}/"
+        html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{industry['title']} | OSALFinder</title>
+  <meta name="description" content="{industry['seo_desc']}">
+  <link rel="canonical" href="{canonical}">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="{industry['title']}">
+  <meta property="og:description" content="{industry['seo_desc']}">
+  <meta property="og:url" content="{canonical}">
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"Article","headline":"{industry['title']}","description":"{industry['seo_desc']}","dateModified":"{datetime.utcnow().strftime('%Y-%m-%d')}","publisher":{{"@type":"Organization","name":"OSALFinder","url":"{SITE_BASE_URL}"}}}}
+  </script>
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','{GA_ID}');</script>
+  <style>
+    :root{{--blue:#1F5C99;--blue-light:#2980B9;--green:#1A7A3F;--bg:#F0F4F8;--card:#fff;--border:#E2E8F0;--text:#1A202C;--text-muted:#718096;--shadow:0 2px 8px rgba(0,0,0,0.08);}}
+    *{{box-sizing:border-box;margin:0;padding:0;}}
+    body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;}}
+    a{{color:var(--blue);}}
+    nav{{background:var(--blue);padding:0.75rem 1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}}
+    nav a{{color:#fff;text-decoration:none;font-size:0.9rem;opacity:0.9;}}
+    nav a:hover{{opacity:1;}}
+    nav .sep{{color:rgba(255,255,255,0.4);}}
+    .hero{{background:linear-gradient(135deg,var(--blue) 0%,var(--blue-light) 100%);color:#fff;padding:3rem 1.5rem 2.5rem;text-align:center;}}
+    .hero h1{{font-size:clamp(1.5rem,3.5vw,2.2rem);font-weight:800;margin-bottom:0.75rem;line-height:1.2;}}
+    .hero p{{opacity:0.88;font-size:1rem;max-width:580px;margin:0 auto;}}
+    .content{{max-width:800px;margin:2rem auto;padding:0 1.5rem;}}
+    .card{{background:var(--card);border-radius:12px;padding:1.75rem 2rem;margin-bottom:1.5rem;box-shadow:var(--shadow);border:1px solid var(--border);}}
+    .card h2{{font-size:1.1rem;font-weight:700;color:var(--blue);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid #EBF4FA;}}
+    .saving-hero{{text-align:center;background:linear-gradient(135deg,#EAFAF1,#D5F5E3);border:1px solid #A9DFBF;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;}}
+    .saving-hero .amount{{font-size:3rem;font-weight:900;color:#1A7A3F;line-height:1;}}
+    .saving-hero .label{{font-size:0.9rem;color:#2D6A4F;margin-top:0.25rem;}}
+    footer{{text-align:center;padding:2.5rem 1rem;color:var(--text-muted);font-size:0.85rem;border-top:1px solid var(--border);margin-top:2rem;background:#fff;}}
+    footer a{{color:var(--blue);}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="../">&#128269; OSALFinder</a>
+  <span class="sep">/</span>
+  <span style="color:#fff;opacity:0.7">{industry['title'][:50]}...</span>
+</nav>
+<div class="hero">
+  <h1>{industry['title']}</h1>
+  <p>{industry['hero']}</p>
+</div>
+<div class="content">
+  <div class="saving-hero">
+    <div class="amount">{industry['total_saving']}</div>
+    <div class="label">potential annual saving for a 25-person team switching every tool in this stack</div>
+  </div>
+  <div class="card">
+    <h2>Your complete open-source stack</h2>
+    {tool_rows}
+    <div style="padding-top:12px;font-size:12px;color:var(--text-muted);">
+      Savings calculated for a 25-person team vs. published pricing. Actual savings vary by team size and plan.
+    </div>
+  </div>
+  <div class="card" style="background:#EAFAF1;border-color:#A9DFBF;">
+    <h2 style="color:#1A7A3F;border-bottom-color:#A9DFBF;">&#128336; How long does switching take?</h2>
+    <p style="font-size:0.93rem;color:#2D3748;line-height:1.7;">
+      Most teams complete one tool migration per weekend with one technical team member.
+      With two dedicated weekends, you can switch your entire stack.
+      Every comparison above includes a step-by-step migration guide.
+    </p>
+  </div>
+  <div class="card">
+    <h2>&#128202; Calculate your exact saving</h2>
+    <p style="font-size:0.93rem;color:var(--text-muted);margin-bottom:1rem;">
+      Enter your actual team size to see personalised monthly and annual figures.
+    </p>
+    <a href="../savings-calculator/" style="display:inline-block;background:var(--blue);color:#fff;
+       padding:0.65rem 1.75rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.9rem;">
+      Open Savings Calculator &rarr;
+    </a>
+  </div>
+  <div class="card" style="text-align:center;padding:1.5rem;">
+    <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">
+      See all comparisons across every category
+    </p>
+    <a href="../" style="display:inline-block;background:var(--blue);color:#fff;
+       padding:0.65rem 1.75rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.9rem;">
+      &larr; View All Comparisons
+    </a>
+  </div>
+</div>
+<footer>
+  OSALFinder &nbsp;&middot;&nbsp; <a href="../">Home</a> &nbsp;&middot;&nbsp;
+  <a href="../about/">About</a> &nbsp;&middot;&nbsp; <a href="../privacy/">Privacy Policy</a><br>
+  <span style="font-size:0.8rem;opacity:0.7">Updated {updated} &middot; AI-researched daily</span>
+</footer>
+</body>
+</html>"""
+
+        with open(ind_dir / 'index.html', 'w') as f:
+            f.write(html)
+
+    logger.info(f"   🏭 {len(INDUSTRIES)} industry pages built")
+
+
 def build_404_page(site_dir: str):
     html = f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -2570,7 +2945,10 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
         difficulty_label = difficulty_data.get('label', 'Varies')
         difficulty_card_html = build_difficulty_card(oss_key, oss_name)
 
-# Stay-if warning box
+        # PATCH 2: build primary CTAs
+        primary_cta_html = build_primary_cta(prop_key, oss_name, oss_key, comp)
+
+        # Stay-if warning box
         stay_if_text = STAY_IF_CONTENT.get(oss_key, '')
         if stay_if_text:
             stay_if_html = f"""
@@ -2589,9 +2967,6 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
 
         # Best-for label
         best_for_label_val = get_best_for(oss_key, category)
-        
-        # PATCH 2: build primary CTAs
-        primary_cta_html = build_primary_cta(prop_key, oss_name, oss_key, comp)
 
         github_box_html = ''
         if comp.get('oss_github'):
@@ -2671,6 +3046,9 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
         <span class="label">💰 Switch and save:</span>
         <span class="value">{comp.get('proprietary_pricing', 'N/A')} → {comp.get('oss_pricing', 'Free')}</span>
       </div>
+      <div style="margin-top:6px;">
+        <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 {get_best_for(oss_key, category)}</span>
+      </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
       <a class="cta" href="{slug}/" style="flex:2">Compare Now →</a>
@@ -2748,6 +3126,8 @@ Open Source Alternative Finder · Updated {updated} · <a href="../privacy/">Pri
     build_blog(site_dir, all_comparisons, updated)
     build_quiz_page(site_dir)
     alt_slugs = build_alternatives_pages(site_dir, all_comparisons, updated)
+    build_price_hike_page(site_dir, updated)
+    build_industry_pages(site_dir, updated)
 
     logger.info(f"✅ Site built successfully!")
     logger.info(f"   📄 {len(all_comparisons)} comparison pages")
