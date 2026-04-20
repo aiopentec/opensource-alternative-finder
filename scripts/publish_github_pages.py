@@ -129,7 +129,7 @@ SIMPLEICONS_SLUGS: Dict[str, str] = {
     "Nextcloud": "nextcloud", "Penpot": "penpot", "Plane": "plane",
     "Mattermost": "mattermost", "Rocket.Chat": "rocketchat",
     "Zulip": "zulip", "Element": "element",
-    "Gitea": "gitea", "GitLab": "gitlab", "Forgejo": "forgejo",
+    "Gitea": "gitea", "Forgejo": "forgejo",
     "Odoo": "odoo", "Metabase": "metabase",
     "Apache Superset": "apachesuperset", "Grafana": "grafana",
     "Prometheus": "prometheus", "Keycloak": "keycloak",
@@ -156,8 +156,7 @@ def get_tool_logo_html(tool_name: str, size: int = 26) -> str:
             f'alt="{tool_name} logo" loading="lazy" '
             f'onerror="this.style.display=\'none\'">'
         )
-    # Fallback: coloured letter badge
-    initial = (tool_name[0].upper()) if tool_name else "?"
+    initial = tool_name[0].upper() if tool_name else "?"
     return f'<span class="tool-logo-fallback" aria-hidden="true">{initial}</span>'
 
 
@@ -520,8 +519,10 @@ COMPARISON_PAGE = """<!DOCTYPE html>
     }}
     .dark-toggle {{ position: fixed; bottom: 1.25rem; right: 1.25rem; z-index: 999; background: var(--card); border: 1px solid var(--border); border-radius: 50px; padding: 0.45rem 0.9rem; cursor: pointer; font-size: 0.82rem; font-weight: 700; color: var(--text); box-shadow: 0 4px 14px rgba(0,0,0,0.18); display: flex; align-items: center; gap: 0.4rem; transition: all 0.15s; }}
     .dark-toggle:hover {{ box-shadow: 0 6px 20px rgba(0,0,0,0.22); }}
-    .tool-logo {{ display: inline-block; vertical-align: middle; border-radius: 4px; object-fit: contain; }}
+    .tool-logo {{ display: inline-block; vertical-align: middle; border-radius: 4px; object-fit: contain; flex-shrink: 0; }}
+    .tool-logo-fallback {{ display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 6px; background: #e2e8f0; color: #475569; font-size: 13px; font-weight: 800; flex-shrink: 0; }}
     [data-theme="dark"] .tool-logo {{ filter: brightness(0) invert(1); opacity: 0.82; }}
+    [data-theme="dark"] .tool-logo-fallback {{ background: #2d3550; color: #8892aa; }}
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
     body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }}
     a {{ color: var(--blue); }}
@@ -639,14 +640,14 @@ COMPARISON_PAGE = """<!DOCTYPE html>
   <div class="quick-bar-inner">
     <div class="qb-tool proprietary">
       <div class="label">Proprietary</div>
-      <div class="name" style="display:flex;align-items:center;justify-content:center;gap:7px;">{get_tool_logo_html(prop_name, size=32)}{prop_name}</div>
+      <div class="name" style="display:flex;align-items:center;justify-content:center;gap:7px;">{prop_logo}{prop_name}</div>
       <div class="price">{prop_pricing}</div>
       <a href="{prop_affiliate}" target="_blank" rel="noopener sponsored" class="visit-btn">Visit {prop_name} →</a>
     </div>
     <div class="vs-badge">VS</div>
     <div class="qb-tool opensource">
       <div class="label">Open Source ✅</div>
-      <div class="name" style="display:flex;align-items:center;justify-content:center;gap:7px;">{get_tool_logo_html(oss_name, size=32)}{oss_name}</div>
+      <div class="name" style="display:flex;align-items:center;justify-content:center;gap:7px;">{oss_logo}{oss_name}</div>
       <div class="price">{oss_pricing}</div>
       <a href="{oss_website}" target="_blank" rel="noopener" class="visit-btn">Visit {oss_name} →</a>
     </div>
@@ -715,7 +716,7 @@ COMPARISON_PAGE = """<!DOCTYPE html>
 <script>
 (function() {{
   const saved = localStorage.getItem('theme');
-  if (saved) document.documentElement.setAttribute('data-theme', saved);
+  if (saved) {{ document.documentElement.setAttribute('data-theme', saved); }}
   if (saved === 'dark') {{ const el = document.getElementById('dark-icon'); if (el) el.textContent = '☀️'; }}
 }})();
 function toggleDark() {{
@@ -780,19 +781,16 @@ INDEX_PAGE = """<!DOCTYPE html>
     [data-theme="dark"] {{ --bg: #0f1117; --card: #1a1f2e; --border: #2d3550; --text: #e2e8f0; --text-muted: #8892aa; --blue: #4a9ede; --blue-light: #5aaeee; --green: #3ab56a; }}
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
     body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; transition: background 0.2s, color 0.2s; }}
-    /* ── Dark mode toggle ── */
     .dark-toggle {{ position: fixed; bottom: 1.25rem; right: 1.25rem; z-index: 999; background: var(--card); border: 1px solid var(--border); border-radius: 50px; padding: 0.45rem 0.9rem; cursor: pointer; font-size: 0.82rem; font-weight: 700; color: var(--text); box-shadow: 0 4px 14px rgba(0,0,0,0.18); display: flex; align-items: center; gap: 0.4rem; transition: all 0.15s; }}
     .dark-toggle:hover {{ box-shadow: 0 6px 20px rgba(0,0,0,0.22); }}
-    /* ── Tool logos ── */
     .tool-logo {{ display: inline-block; vertical-align: middle; border-radius: 4px; object-fit: contain; flex-shrink: 0; }}
     .tool-logo-fallback {{ display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 6px; background: #e2e8f0; color: #475569; font-size: 12px; font-weight: 800; flex-shrink: 0; }}
     [data-theme="dark"] .tool-logo {{ filter: brightness(0) invert(1); opacity: 0.82; }}
     [data-theme="dark"] .tool-logo-fallback {{ background: #2d3550; color: #8892aa; }}
-    /* ── Card logo rows ── */
     .card-tool-row {{ display: flex; align-items: center; gap: 7px; line-height: 1; }}
     .card-tool-row .tname {{ font-weight: 700; font-size: 1rem; }}
     .card-tool-row .tname.prop {{ color: #C0392B; }}
-    .card-tool-row .tname.oss {{ color: var(--green); }}
+    [data-theme="dark"] .card-tool-row .tname.prop {{ color: #e07070; }}
     .hero {{ background: linear-gradient(135deg, var(--blue) 0%, var(--blue-light) 100%); color: #fff; padding: 4rem 1.5rem 3rem; text-align: center; }}
     .hero h1 {{ font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; margin-bottom: 0.75rem; }}
     .hero p {{ opacity: 0.88; font-size: 1.1rem; max-width: 580px; margin: 0 auto 2rem; }}
@@ -993,10 +991,11 @@ function applyFilters(query) {{
   document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
 }}
 
-// ── Dark mode ──────────────────────────────────────────────────
+// ── Dark mode ──────────────────────────────────────────────────────────
 (function() {{
   const saved = localStorage.getItem('theme');
   if (saved) document.documentElement.setAttribute('data-theme', saved);
+  if (saved === 'dark') {{ const el = document.getElementById('dark-icon'); if (el) el.textContent = '☀️'; }}
 }})();
 function toggleDark() {{
   const html = document.documentElement;
@@ -3478,9 +3477,11 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
             prop_name=prop_name,
             prop_pricing=comp.get('proprietary_pricing', 'N/A'),
             prop_affiliate=AFFILIATE_LINKS.get(prop_key, comp.get('proprietary_website', '#')),
+            prop_logo=get_tool_logo_html(prop_name, size=32),
             oss_name=oss_name,
             oss_pricing=comp.get('oss_pricing', 'Free'),
             oss_website=AFFILIATE_LINKS.get(oss_key, comp.get('oss_website', '#')),
+            oss_logo=get_tool_logo_html(oss_name, size=32),
             body=body_html,
             github_box=github_box_html,
             related_section=related_html,
@@ -3514,7 +3515,7 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
       <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
       <div class="card-tool-row" style="margin-bottom:8px">
         {get_tool_logo_html(oss_name)}
-        <span class="tname oss">{oss_name}</span>
+        <span class="tname" style="color:{cat_color}">{oss_name}</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
