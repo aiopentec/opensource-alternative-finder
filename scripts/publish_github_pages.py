@@ -797,10 +797,24 @@ INDEX_PAGE = """<!DOCTYPE html>
 <div class="calc-banner" style="margin-top:0.75rem">
   <div class="calc-banner-inner" style="background:linear-gradient(135deg,#0d2010,#1a3a1a);border-color:rgba(39,174,96,0.3)">
     <div class="calc-banner-text">
-      <div class="title" style="color:#27AE60">🏭 Industry Stacks</div>
-      <div class="sub">Complete open-source stacks for startups, dev teams &amp; remote teams</div>
+      <div class="title" style="color:#27AE60">🏭 Industry Open Source Stacks</div>
+      <div class="sub">Complete free tool stacks curated for your team type</div>
     </div>
-    <a class="calc-banner-btn" href="open-source-tools-for-startups/" style="background:linear-gradient(135deg,#1A7A3F,#27AE60);color:#fff">Browse Stacks →</a>
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;flex-shrink:0;">
+      <a class="calc-banner-btn" href="open-source-tools-for-startups/" style="background:linear-gradient(135deg,#1A7A3F,#27AE60);color:#fff;font-size:0.78rem;padding:0.5rem 0.9rem;">🚀 Startups</a>
+      <a class="calc-banner-btn" href="open-source-tools-for-developers/" style="background:linear-gradient(135deg,#1A5C99,#2980B9);color:#fff;font-size:0.78rem;padding:0.5rem 0.9rem;">⚙️ Developers</a>
+      <a class="calc-banner-btn" href="open-source-tools-for-remote-teams/" style="background:linear-gradient(135deg,#5C1A99,#8E44AD);color:#fff;font-size:0.78rem;padding:0.5rem 0.9rem;">🌍 Remote Teams</a>
+    </div>
+  </div>
+</div>
+
+<div class="calc-banner" style="margin-top:0.75rem">
+  <div class="calc-banner-inner" style="background:linear-gradient(135deg,#0a1628,#0d2040);border-color:rgba(31,92,153,0.4)">
+    <div class="calc-banner-text">
+      <div class="title" style="color:#63B3ED">📊 Cost Infographics</div>
+      <div class="sub">Shareable charts — real SaaS costs vs open-source alternatives</div>
+    </div>
+    <a class="calc-banner-btn" href="infographics/">View Infographics →</a>
   </div>
 </div>
 
@@ -898,25 +912,37 @@ def build_difficulty_card(oss_key: str, oss_name: str) -> str:
 
 
 def extract_verdict(markdown: str, prop_name: str, oss_name: str) -> dict:
+    """
+    Extract Switch-if / Stay-if verdicts from AI-generated comparison markdown.
+    Uses word-boundary regex split so words like 'justify', 'notify', 'simplify'
+    never cause truncation (old bug: split('if',1) on 'justify' gave 'y ...').
+    """
+    def _after_if(text: str) -> str:
+        colon_parts = re.split(r'\bif\s*:', text, maxsplit=1, flags=re.IGNORECASE)
+        if len(colon_parts) == 2:
+            return colon_parts[1].strip().rstrip('.')
+        bare_parts = re.split(r'\bif\b', text, maxsplit=1, flags=re.IGNORECASE)
+        if len(bare_parts) == 2:
+            return bare_parts[1].strip().lstrip(':').strip().rstrip('.')
+        return ''
+
     switch_if = ''
-    stay_if = ''
+    stay_if   = ''
     lines = markdown.split('\n')
-    for i, line in enumerate(lines):
+
+    for line in lines:
         line_lower = line.lower()
-        if f'choose {oss_name.lower()}' in line_lower and 'if' in line_lower:
-            text = re.sub(r'\*\*.*?\*\*', '', line).strip()
-            text = re.sub(r'^[-*#>\s]+', '', text).strip()
-            if 'if:' in text.lower():
-                switch_if = text.split('if:', 1)[-1].strip().rstrip('.')
-            elif 'if' in text.lower():
-                switch_if = text.split('if', 1)[-1].strip().lstrip(':').strip().rstrip('.')
-        if f'choose {prop_name.lower()}' in line_lower and 'if' in line_lower:
-            text = re.sub(r'\*\*.*?\*\*', '', line).strip()
-            text = re.sub(r'^[-*#>\s]+', '', text).strip()
-            if 'if:' in text.lower():
-                stay_if = text.split('if:', 1)[-1].strip().rstrip('.')
-            elif 'if' in text.lower():
-                stay_if = text.split('if', 1)[-1].strip().lstrip(':').strip().rstrip('.')
+        text = re.sub(r'\*\*.*?\*\*', '', line).strip()
+        text = re.sub(r'^[-*#>\s]+', '', text).strip()
+        if f'choose {oss_name.lower()}' in line_lower and re.search(r'\bif\b', line_lower):
+            candidate = _after_if(text)
+            if candidate and len(candidate) > 10:
+                switch_if = candidate
+        if f'choose {prop_name.lower()}' in line_lower and re.search(r'\bif\b', line_lower):
+            candidate = _after_if(text)
+            if candidate and len(candidate) > 10:
+                stay_if = candidate
+
     if not switch_if or not stay_if:
         in_section = False
         for line in lines:
@@ -925,16 +951,21 @@ def extract_verdict(markdown: str, prop_name: str, oss_name: str) -> dict:
                 continue
             if in_section and line.strip().startswith('#'):
                 in_section = False
-            if in_section and oss_name.lower() in line.lower() and 'if' in line.lower() and not switch_if:
-                text = re.sub(r'\*\*.*?\*\*', '', line).strip()
-                text = re.sub(r'^[-*#>\s]+', '', text).strip()
-                if len(text) > 20:
-                    switch_if = text[:180].rstrip('.')
-            if in_section and prop_name.lower() in line.lower() and 'if' in line.lower() and not stay_if:
-                text = re.sub(r'\*\*.*?\*\*', '', line).strip()
-                text = re.sub(r'^[-*#>\s]+', '', text).strip()
-                if len(text) > 20:
-                    stay_if = text[:180].rstrip('.')
+                continue
+            if not in_section:
+                continue
+            text = re.sub(r'\*\*.*?\*\*', '', line).strip()
+            text = re.sub(r'^[-*#>\s]+', '', text).strip()
+            if len(text) < 20:
+                continue
+            has_if = bool(re.search(r'\bif\b', line, re.IGNORECASE))
+            if oss_name.lower() in line.lower() and has_if and not switch_if:
+                candidate = _after_if(text)
+                switch_if = candidate if candidate and len(candidate) > 10 else text[:180].rstrip('.')
+            if prop_name.lower() in line.lower() and has_if and not stay_if:
+                candidate = _after_if(text)
+                stay_if = candidate if candidate and len(candidate) > 10 else text[:180].rstrip('.')
+
     return {'switch_if': switch_if, 'stay_if': stay_if}
 
 
@@ -1250,6 +1281,7 @@ def build_sitemap(all_comparisons: List[Dict], site_dir: str, categories: List[s
     for page in ['privacy', 'savings-calculator', 'changelog', 'about', 'contact', 'stats', 'quiz', 'blog']:
         urls.append(f'  <url><loc>{SITE_BASE_URL}/{page}/</loc><changefreq>monthly</changefreq><priority>0.6</priority><lastmod>{today}</lastmod></url>')
     urls.append(f'  <url><loc>{SITE_BASE_URL}/price-hikes/</loc><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>{today}</lastmod></url>')
+    urls.append(f'  <url><loc>{SITE_BASE_URL}/infographics/</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>{today}</lastmod></url>')
     for ind_slug in ['open-source-tools-for-startups', 'open-source-tools-for-developers', 'open-source-tools-for-remote-teams']:
         urls.append(f'  <url><loc>{SITE_BASE_URL}/{ind_slug}/</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>{today}</lastmod></url>')
     blog_slugs = [
@@ -2010,6 +2042,304 @@ def build_quiz_page(site_dir: str):
         logger.info("   🎯 quiz/index.html")
     else:
         logger.warning("   ⚠️  quiz.html not found in repo root — skipping quiz page")
+
+
+def build_infographics_page(site_dir: str, all_comparisons: List[Dict], updated: str):
+    """
+    Builds /infographics/ — shareable, embeddable HTML cost-comparison charts.
+    Pure HTML/CSS/JS — zero external dependencies, zero cost.
+    Each infographic is self-contained and designed to be screenshot-shared.
+    """
+    infog_dir = Path(site_dir) / 'infographics'
+    infog_dir.mkdir(exist_ok=True)
+
+    year = datetime.utcnow().year
+
+    # ── DATA ─────────────────────────────────────────────────────────────────
+    TOOL_COSTS = [
+        {'prop': 'Figma',        'oss': 'Penpot',      'price': 15.00, 'slug': 'figma-vs-penpot',        'cat': 'design'},
+        {'prop': 'Notion',       'oss': 'AppFlowy',     'price': 10.00, 'slug': 'notion-vs-appflowy',     'cat': 'productivity'},
+        {'prop': 'Slack',        'oss': 'Mattermost',   'price': 8.75,  'slug': 'slack-vs-mattermost',    'cat': 'communication'},
+        {'prop': 'Jira',         'oss': 'Plane',        'price': 8.15,  'slug': 'jira-vs-plane',          'cat': 'project-management'},
+        {'prop': 'Zoom',         'oss': 'Jitsi Meet',   'price': 13.33, 'slug': 'zoom-vs-jitsi',          'cat': 'video-conferencing'},
+        {'prop': 'Dropbox',      'oss': 'Nextcloud',    'price': 12.00, 'slug': 'dropbox-vs-nextcloud',   'cat': 'file-storage'},
+        {'prop': 'GitHub',       'oss': 'Gitea',        'price': 4.00,  'slug': 'github-vs-gitea',        'cat': 'developer-tools'},
+        {'prop': 'Airtable',     'oss': 'NocoDB',       'price': 12.00, 'slug': 'airtable-vs-nocodb',     'cat': 'productivity'},
+        {'prop': 'Asana',        'oss': 'Taiga',        'price': 10.99, 'slug': 'asana-vs-taiga',         'cat': 'project-management'},
+        {'prop': 'Mailchimp',    'oss': 'Listmonk',     'price': 13.00, 'slug': 'mailchimp-vs-listmonk',  'cat': 'productivity'},
+    ]
+
+    CAT_COLORS = {
+        'design':             '#E91E63',
+        'productivity':       '#3498DB',
+        'communication':      '#2ECC71',
+        'project-management': '#F39C12',
+        'video-conferencing': '#E74C3C',
+        'file-storage':       '#1ABC9C',
+        'developer-tools':    '#9B59B6',
+    }
+
+    team_sizes = [10, 25, 50, 100]
+    max_price  = max(t['price'] for t in TOOL_COSTS)
+
+    # ── Infographic 1: Side-by-side bar chart — annual cost comparison ────────
+    bar_rows = ''
+    for t in TOOL_COSTS:
+        annual_25 = int(t['price'] * 25 * 12)
+        pct       = int(t['price'] / max_price * 100)
+        color     = CAT_COLORS.get(t['cat'], '#95A5A6')
+        bar_rows += f"""
+        <div style="margin-bottom:14px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+            <span style="font-size:12px;font-weight:700;color:#C0392B;width:76px;flex-shrink:0;text-align:right;">{t['prop']}</span>
+            <div style="flex:1;background:#FDE8E8;border-radius:3px;height:14px;overflow:hidden;position:relative;">
+              <div style="position:absolute;left:0;top:0;height:100%;width:{pct}%;background:{color};border-radius:3px;transition:width 0.6s;"></div>
+            </div>
+            <span style="font-size:12px;font-weight:700;color:{color};width:64px;flex-shrink:0;">${annual_25:,}/yr</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-size:12px;font-weight:700;color:#1A7A3F;width:76px;flex-shrink:0;text-align:right;">{t['oss']}</span>
+            <div style="flex:1;background:#EAFAF1;border-radius:3px;height:14px;overflow:hidden;">
+              <div style="height:100%;width:2%;background:#27AE60;border-radius:3px;"></div>
+            </div>
+            <span style="font-size:12px;font-weight:700;color:#1A7A3F;width:64px;flex-shrink:0;">$0/yr</span>
+          </div>
+        </div>"""
+
+    total_annual_25 = int(sum(t['price'] for t in TOOL_COSTS) * 25 * 12)
+
+    # ── Infographic 2: Team-size savings table ────────────────────────────────
+    table_rows = ''
+    for size in team_sizes:
+        monthly = sum(t['price'] * size for t in TOOL_COSTS)
+        annual  = monthly * 12
+        table_rows += f"""
+              <tr>
+                <td style="padding:10px 14px;font-weight:700;color:#1A202C;border-bottom:1px solid #E2E8F0;">{size} people</td>
+                <td style="padding:10px 14px;color:#C0392B;font-weight:700;border-bottom:1px solid #E2E8F0;">${monthly:,.0f}/mo</td>
+                <td style="padding:10px 14px;color:#C0392B;font-weight:700;border-bottom:1px solid #E2E8F0;">${annual:,.0f}/yr</td>
+                <td style="padding:10px 14px;color:#1A7A3F;font-weight:800;font-size:1.05em;border-bottom:1px solid #E2E8F0;">$0 — save all of it</td>
+              </tr>"""
+
+    # ── Infographic 3: Stack builder cards ───────────────────────────────────
+    stack_cards = ''
+    stacks = [
+        {'name': '🚀 Startup Stack',       'link': '../open-source-tools-for-startups/',   'color': '#1A7A3F', 'bg': '#EAFAF1', 'border': '#A9DFBF',
+         'tools': [('Slack', 'Mattermost'), ('Notion', 'AppFlowy'), ('Figma', 'Penpot'), ('Jira', 'Plane'), ('Zoom', 'Jitsi Meet')],
+         'saving': '$18,670/yr'},
+        {'name': '⚙️ Developer Stack',     'link': '../open-source-tools-for-developers/', 'color': '#1F5C99', 'bg': '#EBF4FA', 'border': '#AED6F1',
+         'tools': [('GitHub', 'Gitea'), ('Linear', 'Plane'), ('Slack', 'Mattermost'), ('Airtable', 'NocoDB')],
+         'saving': '$12,825/yr'},
+        {'name': '🌍 Remote Team Stack',   'link': '../open-source-tools-for-remote-teams/', 'color': '#7D3C98', 'bg': '#F5EEF8', 'border': '#C39BD3',
+         'tools': [('Slack', 'Mattermost'), ('Zoom', 'Jitsi'), ('Dropbox', 'Nextcloud'), ('Notion', 'AppFlowy')],
+         'saving': '$16,522/yr'},
+    ]
+    for s in stacks:
+        tool_list = ''.join(
+            f'<div style="display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px solid {s["border"]};">'
+            f'<span style="font-size:12px;color:#C0392B;text-decoration:line-through;width:72px;flex-shrink:0;">{p}</span>'
+            f'<span style="font-size:12px;color:#718096;">&rarr;</span>'
+            f'<span style="font-size:12px;font-weight:600;color:{s["color"]};">{o}</span>'
+            f'</div>'
+            for p, o in s['tools']
+        )
+        stack_cards += f"""
+        <div style="background:{s['bg']};border:1px solid {s['border']};border-radius:12px;padding:1.25rem;flex:1;min-width:220px;">
+          <div style="font-size:14px;font-weight:700;color:{s['color']};margin-bottom:10px;">{s['name']}</div>
+          {tool_list}
+          <div style="margin-top:10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">
+            <span style="font-size:13px;font-weight:800;color:#1A7A3F;">Save {s['saving']}</span>
+            <a href="{s['link']}" style="font-size:11px;font-weight:600;color:{s['color']};background:#fff;
+               padding:3px 8px;border-radius:4px;text-decoration:none;border:1px solid {s['border']};">View stack &rarr;</a>
+          </div>
+        </div>"""
+
+    # ── Canonical and SEO ─────────────────────────────────────────────────────
+    canonical = f"{SITE_BASE_URL}/infographics/"
+
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open Source vs SaaS Cost Infographics ({year}) | OSALFinder</title>
+  <meta name="description" content="Free, shareable infographics showing the real cost of popular SaaS tools vs open-source alternatives. Download and embed for free.">
+  <link rel="canonical" href="{canonical}">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Open Source vs SaaS Cost Infographics ({year})">
+  <meta property="og:description" content="Visual cost comparisons: Figma vs Penpot, Slack vs Mattermost, Notion vs AppFlowy, and 7 more. Free to share.">
+  <meta property="og:url" content="{canonical}">
+  <script type="application/ld+json">
+  {{"@context":"https://schema.org","@type":"Article",
+    "headline":"Open Source vs SaaS Cost Infographics {year}",
+    "description":"Shareable infographics comparing proprietary SaaS tool costs with free open-source alternatives.",
+    "dateModified":"{datetime.utcnow().strftime('%Y-%m-%d')}",
+    "publisher":{{"@type":"Organization","name":"OSALFinder","url":"{SITE_BASE_URL}"}}}}
+  </script>
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','{GA_ID}');</script>
+  <style>
+    :root{{--blue:#1F5C99;--blue-light:#2980B9;--green:#1A7A3F;--bg:#F0F4F8;--card:#fff;--border:#E2E8F0;--text:#1A202C;--text-muted:#718096;--shadow:0 2px 8px rgba(0,0,0,0.08);}}
+    *{{box-sizing:border-box;margin:0;padding:0;}}
+    body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;}}
+    a{{color:var(--blue);}}
+    nav{{background:var(--blue);padding:0.75rem 1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}}
+    nav a{{color:#fff;text-decoration:none;font-size:0.9rem;opacity:0.9;}}
+    nav a:hover{{opacity:1;}}
+    nav .sep{{color:rgba(255,255,255,0.4);}}
+    .hero{{background:linear-gradient(135deg,var(--blue) 0%,var(--blue-light) 100%);color:#fff;padding:3rem 1.5rem 2.5rem;text-align:center;}}
+    .hero h1{{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;margin-bottom:0.75rem;}}
+    .hero p{{opacity:0.88;font-size:1rem;max-width:580px;margin:0 auto;}}
+    .content{{max-width:960px;margin:2rem auto;padding:0 1.5rem;}}
+    .infog-card{{background:var(--card);border-radius:14px;padding:2rem;margin-bottom:2rem;box-shadow:var(--shadow);border:1px solid var(--border);}}
+    .infog-title{{font-size:1.1rem;font-weight:700;color:var(--blue);margin-bottom:0.4rem;}}
+    .infog-sub{{font-size:0.82rem;color:var(--text-muted);margin-bottom:1.25rem;}}
+    .share-strip{{display:flex;align-items:center;gap:0.5rem;margin-top:1.25rem;flex-wrap:wrap;}}
+    .share-btn{{font-size:12px;font-weight:600;padding:5px 12px;border-radius:6px;text-decoration:none;border:1px solid var(--border);color:var(--text-muted);background:#F8FAFC;}}
+    .share-btn:hover{{background:var(--blue);color:#fff;border-color:var(--blue);}}
+    .legend{{display:flex;gap:1.5rem;margin-bottom:1rem;flex-wrap:wrap;}}
+    .legend-item{{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted);}}
+    .legend-dot{{width:10px;height:10px;border-radius:2px;flex-shrink:0;}}
+    table{{width:100%;border-collapse:collapse;border-radius:8px;overflow:hidden;border:1px solid var(--border);}}
+    thead th{{background:var(--blue);color:#fff;padding:10px 14px;text-align:left;font-size:0.85rem;font-weight:600;}}
+    tbody tr:last-child td{{border-bottom:none!important;}}
+    footer{{text-align:center;padding:2.5rem 1rem;color:var(--text-muted);font-size:0.85rem;border-top:1px solid var(--border);margin-top:2rem;background:#fff;}}
+    footer a{{color:var(--blue);}}
+    @media(max-width:600px){{.infog-card{{padding:1.25rem;}}}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="../">&#128269; OSALFinder</a>
+  <span class="sep">/</span>
+  <span style="color:#fff;opacity:0.7">&#128202; Infographics</span>
+</nav>
+
+<div class="hero">
+  <h1>&#128202; Open Source vs SaaS — Cost Infographics</h1>
+  <p>Shareable, embeddable visuals showing the real cost of popular SaaS tools vs free open-source alternatives. Updated {updated}.</p>
+</div>
+
+<div class="content">
+
+  <!-- ── INFOGRAPHIC 1: Bar chart ─────────────────────────────────────────── -->
+  <div class="infog-card">
+    <div class="infog-title">Annual cost comparison — 25-person team</div>
+    <div class="infog-sub">Red = proprietary SaaS cost &nbsp;&middot;&nbsp; Green = open-source alternative cost</div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#E74C3C;"></div>Proprietary (annual, 25 people)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#27AE60;"></div>Open-source alternative ($0)</div>
+    </div>
+    {bar_rows}
+    <div style="margin-top:1.25rem;padding-top:1rem;border-top:1px solid #E2E8F0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+      <div>
+        <span style="font-size:13px;color:var(--text-muted);">Total if you pay for all 10 tools (25 people):</span>
+        <span style="font-size:1.4rem;font-weight:900;color:#C0392B;margin-left:8px;">${total_annual_25:,}/year</span>
+      </div>
+      <div>
+        <span style="font-size:13px;color:var(--text-muted);">Total with open-source alternatives:</span>
+        <span style="font-size:1.4rem;font-weight:900;color:#1A7A3F;margin-left:8px;">$0/year</span>
+      </div>
+    </div>
+    <div class="share-strip">
+      <span style="font-size:12px;color:var(--text-muted);font-weight:600;">Share this:</span>
+      <a class="share-btn" href="https://twitter.com/intent/tweet?text=A+25-person+team+spends+${total_annual_25:,}%2Fyear+on+SaaS.+The+open-source+alternatives+cost+%240.+%40osalfinder+has+the+full+breakdown&url={canonical}" target="_blank" rel="noopener">Twitter / X</a>
+      <a class="share-btn" href="https://www.reddit.com/submit?url={canonical}&title=Open+Source+vs+SaaS%3A+Cost+Infographic+for+{year}" target="_blank" rel="noopener">Reddit</a>
+      <a class="share-btn" href="https://news.ycombinator.com/submitlink?u={canonical}&t=Open+Source+vs+SaaS+Cost+Comparison+{year}" target="_blank" rel="noopener">Hacker News</a>
+      <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url={canonical}" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+
+  <!-- ── INFOGRAPHIC 2: Team-size savings table ────────────────────────────── -->
+  <div class="infog-card">
+    <div class="infog-title">How much does your SaaS stack cost by team size?</div>
+    <div class="infog-sub">Based on published pricing for all 10 tools combined. Switching to open-source alternatives saves the entire amount.</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Team size</th>
+          <th>Monthly SaaS cost</th>
+          <th>Annual SaaS cost</th>
+          <th>Open-source cost</th>
+        </tr>
+      </thead>
+      <tbody>
+        {table_rows}
+      </tbody>
+    </table>
+    <div style="margin-top:0.75rem;font-size:12px;color:var(--text-muted);">
+      Prices based on published per-user rates. Actual costs vary by plan tier. Self-hosting costs (server) typically $5–$20/month total regardless of team size.
+    </div>
+    <div class="share-strip">
+      <span style="font-size:12px;color:var(--text-muted);font-weight:600;">Share this:</span>
+      <a class="share-btn" href="https://twitter.com/intent/tweet?text=A+100-person+company+spends+over+%24{int(sum(t['price'] for t in TOOL_COSTS)*100*12):,}%2Fyear+on+just+10+SaaS+tools.+The+open-source+versions+cost+%240.&url={canonical}" target="_blank" rel="noopener">Twitter / X</a>
+      <a class="share-btn" href="https://www.reddit.com/submit?url={canonical}&title=SaaS+costs+by+team+size+-+infographic+{year}" target="_blank" rel="noopener">Reddit</a>
+      <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url={canonical}" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+
+  <!-- ── INFOGRAPHIC 3: Stack Builder ──────────────────────────────────────── -->
+  <div class="infog-card">
+    <div class="infog-title">Complete open-source stack by team type</div>
+    <div class="infog-sub">Pick your stack — each one replaces your entire paid toolset for $0/month in licensing fees.</div>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1rem;">
+      {stack_cards}
+    </div>
+    <div class="share-strip">
+      <span style="font-size:12px;color:var(--text-muted);font-weight:600;">Share this:</span>
+      <a class="share-btn" href="https://twitter.com/intent/tweet?text=Complete+open-source+stacks+for+startups%2C+dev+teams+%26+remote+teams+%E2%80%94+all+free+to+self-host.+See+the+full+breakdown:&url={canonical}" target="_blank" rel="noopener">Twitter / X</a>
+      <a class="share-btn" href="https://www.reddit.com/submit?url={canonical}&title=Free+open-source+stacks+for+startups%2C+devs+%26+remote+teams" target="_blank" rel="noopener">Reddit</a>
+      <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url={canonical}" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+
+  <!-- ── INFOGRAPHIC 4: Per-tool deep-links ────────────────────────────────── -->
+  <div class="infog-card">
+    <div class="infog-title">Explore individual comparisons</div>
+    <div class="infog-sub">Each link goes to a full comparison page with pricing, features, migration guide, and AI verdict.</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.75rem;margin-top:0.5rem;">
+      {''.join(
+          f'<a href="../{t["slug"]}/" style="display:flex;align-items:center;justify-content:space-between;'
+          f'padding:10px 12px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;'
+          f'text-decoration:none;font-size:13px;font-weight:600;color:#1F5C99;">'
+          f'<span>{t["prop"]} vs {t["oss"]}</span>'
+          f'<span style="color:#1A7A3F;font-size:11px;font-weight:700;">${int(t["price"]*25*12):,}/yr saved</span>'
+          f'</a>'
+          for t in TOOL_COSTS
+      )}
+    </div>
+  </div>
+
+  <div style="background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:1.5rem;
+              text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+    <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">
+      Want personalised numbers for your exact team size?
+    </p>
+    <a href="../savings-calculator/" style="display:inline-block;background:var(--blue);color:#fff;
+       padding:0.65rem 1.75rem;border-radius:6px;text-decoration:none;font-weight:600;
+       font-size:0.9rem;margin-right:0.5rem;">Open Savings Calculator &rarr;</a>
+    <a href="../" style="display:inline-block;background:#F0F4F8;color:var(--blue);
+       padding:0.65rem 1.75rem;border-radius:6px;text-decoration:none;font-weight:600;
+       font-size:0.9rem;border:1px solid #E2E8F0;">&larr; All Comparisons</a>
+  </div>
+
+</div>
+
+<footer>
+  OSALFinder &nbsp;&middot;&nbsp; <a href="../">Home</a> &nbsp;&middot;&nbsp;
+  <a href="../savings-calculator/">Savings Calculator</a> &nbsp;&middot;&nbsp;
+  <a href="../about/">About</a> &nbsp;&middot;&nbsp; <a href="../privacy/">Privacy Policy</a><br>
+  <span style="font-size:0.8rem;opacity:0.7">Updated {updated} &middot; AI-researched daily &middot; Free to share with attribution</span>
+</footer>
+
+</body>
+</html>"""
+
+    with open(infog_dir / 'index.html', 'w') as f:
+        f.write(html)
+    logger.info("   📊 infographics/index.html")
 
 
 def build_price_hike_page(site_dir: str, updated: str):
@@ -3128,6 +3458,7 @@ Open Source Alternative Finder · Updated {updated} · <a href="../privacy/">Pri
     alt_slugs = build_alternatives_pages(site_dir, all_comparisons, updated)
     build_price_hike_page(site_dir, updated)
     build_industry_pages(site_dir, updated)
+    build_infographics_page(site_dir, all_comparisons, updated)
 
     logger.info(f"✅ Site built successfully!")
     logger.info(f"   📄 {len(all_comparisons)} comparison pages")
