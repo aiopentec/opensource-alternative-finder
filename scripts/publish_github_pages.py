@@ -512,17 +512,54 @@ COMPARISON_PAGE = """<!DOCTYPE html>
       --border: #E2E8F0; --shadow: 0 2px 8px rgba(0,0,0,0.08);
     }}
     [data-theme="dark"] {{
-      --bg: #0f1117; --card: #1a1f2e; --border: #2d3550;
-      --text: #e2e8f0; --text-muted: #8892aa;
-      --blue: #4a9ede; --blue-light: #5aaeee; --blue-bg: #1a2a3e;
-      --green: #3ab56a; --green-bg: #0f2a1a;
+      --bg: #0d1117; --card: #161b22; --border: #30363d;
+      --text: #e6edf3; --text-muted: #8b949e;
+      --blue: #58a6ff; --blue-light: #79b8ff; --blue-bg: #0c2d4a;
+      --green: #3fb950; --green-bg: #1b2d1f;
+      --prop-bg: #2d1616; --prop-text: #f47067; --prop-border: #5a2020;
+      --oss-bg: #152820; --oss-text: #3fb950; --oss-border: #1f4a2a;
+      --verdict-switch-bg: #152820; --verdict-stay-bg: #2d2314;
+      --amber-bg: #2d2010; --amber-border: #4a3510; --amber-text: #d4a843;
+      --transparent-strip-bg: #0f1f14; --transparent-strip-border: #1a3a20;
     }}
-    .dark-toggle {{ position: fixed; bottom: 1.25rem; right: 1.25rem; z-index: 999; background: var(--card); border: 1px solid var(--border); border-radius: 50px; padding: 0.45rem 0.9rem; cursor: pointer; font-size: 0.82rem; font-weight: 700; color: var(--text); box-shadow: 0 4px 14px rgba(0,0,0,0.18); display: flex; align-items: center; gap: 0.4rem; transition: all 0.15s; }}
-    .dark-toggle:hover {{ box-shadow: 0 6px 20px rgba(0,0,0,0.22); }}
-    .tool-logo {{ display: inline-block; vertical-align: middle; border-radius: 4px; object-fit: contain; flex-shrink: 0; }}
-    .tool-logo-fallback {{ display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 6px; background: #e2e8f0; color: #475569; font-size: 13px; font-weight: 800; flex-shrink: 0; }}
-    [data-theme="dark"] .tool-logo {{ filter: brightness(0) invert(1); opacity: 0.82; }}
-    [data-theme="dark"] .tool-logo-fallback {{ background: #2d3550; color: #8892aa; }}
+    [data-theme="dark"] body {{ background: var(--bg); color: var(--text); }}
+    [data-theme="dark"] .hero {{ background: linear-gradient(135deg, #0a1628 0%, #0d2440 100%); }}
+    [data-theme="dark"] .quick-bar {{ background: #0d1117; border-bottom-color: #30363d; }}
+    [data-theme="dark"] .qb-tool {{ background: var(--card) !important; border-color: var(--border) !important; }}
+    [data-theme="dark"] .qb-tool.proprietary {{ background: var(--prop-bg) !important; border-color: var(--prop-border) !important; }}
+    [data-theme="dark"] .qb-tool.proprietary .name {{ color: var(--prop-text) !important; }}
+    [data-theme="dark"] .qb-tool.proprietary .visit-btn {{ background: #3d1a1a !important; color: var(--prop-text) !important; }}
+    [data-theme="dark"] .qb-tool.opensource {{ background: var(--oss-bg) !important; border-color: var(--oss-border) !important; }}
+    [data-theme="dark"] .qb-tool.opensource .name {{ color: var(--oss-text) !important; }}
+    [data-theme="dark"] .qb-tool.opensource .visit-btn {{ background: #1a3a22 !important; color: var(--oss-text) !important; }}
+    [data-theme="dark"] .qb-tool .price {{ color: #8b949e; }}
+    [data-theme="dark"] .vs-badge {{ color: #58a6ff; }}
+    [data-theme="dark"] .card {{ background: var(--card); border-color: var(--border); box-shadow: 0 2px 8px rgba(0,0,0,0.4); }}
+    [data-theme="dark"] .card h2 {{ color: var(--blue); border-bottom-color: var(--blue-bg); }}
+    [data-theme="dark"] .card h3 {{ color: var(--text); }}
+    [data-theme="dark"] .card p, [data-theme="dark"] .card li {{ color: #c9d1d9; }}
+    [data-theme="dark"] .card code {{ background: #21262d; color: #ff7b72; }}
+    [data-theme="dark"] .card blockquote {{ background: var(--blue-bg); border-left-color: var(--blue); color: #8b949e; }}
+    [data-theme="dark"] thead th {{ background: #0c2d4a; }}
+    [data-theme="dark"] tbody tr:nth-child(even) td {{ background: #1c2128; }}
+    [data-theme="dark"] tbody td {{ border-bottom-color: #30363d; color: #c9d1d9; }}
+    [data-theme="dark"] .verdict-box {{ background: var(--card); border-color: var(--blue); }}
+    [data-theme="dark"] .verdict-header {{ color: var(--blue); }}
+    [data-theme="dark"] .verdict-switch {{ background: var(--verdict-switch-bg) !important; border-color: #1f4a2a !important; }}
+    [data-theme="dark"] .verdict-stay {{ background: var(--verdict-stay-bg) !important; border-color: #4a3510 !important; }}
+    [data-theme="dark"] .verdict-switch .verdict-label {{ color: #3fb950; }}
+    [data-theme="dark"] .verdict-stay .verdict-label {{ color: #d4a843; }}
+    [data-theme="dark"] .verdict-text {{ color: #c9d1d9; }}
+    [data-theme="dark"] .related-link {{ background: #1c2128; border-color: #30363d; color: var(--blue); }}
+    [data-theme="dark"] .related-link:hover {{ background: var(--blue); color: #0d1117; border-color: var(--blue); }}
+    [data-theme="dark"] .email-box {{ background: linear-gradient(135deg, #0a1628, #0d2440); }}
+    [data-theme="dark"] footer {{ background: #0d1117; border-top-color: #30363d; color: #8b949e; }}
+    [data-theme="dark"] footer a {{ color: var(--blue); }}
+    [data-theme="dark"] nav {{ background: #010409; }}
+    [data-theme="dark"] .difficulty-card {{ background: var(--card); border-color: var(--border); }}
+    [data-theme="dark"] .difficulty-note {{ color: #8b949e; }}
+    [data-theme="dark"] .difficulty-meta {{ color: #8b949e; }}
+    [data-theme="dark"] .difficulty-meta strong {{ color: #c9d1d9; }}
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
     body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }}
     a {{ color: var(--blue); }}
@@ -778,9 +815,24 @@ INDEX_PAGE = """<!DOCTYPE html>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
     :root {{ --blue: #1F5C99; --blue-light: #2980B9; --green: #1A7A3F; --bg: #F0F4F8; --card: #fff; --border: #E2E8F0; --text: #1A202C; --text-muted: #718096; }}
-    [data-theme="dark"] {{ --bg: #0f1117; --card: #1a1f2e; --border: #2d3550; --text: #e2e8f0; --text-muted: #8892aa; --blue: #4a9ede; --blue-light: #5aaeee; --green: #3ab56a; }}
+    [data-theme="dark"] {{ --bg: #0d1117; --card: #161b22; --border: #30363d; --text: #e6edf3; --text-muted: #8b949e; --blue: #58a6ff; --blue-light: #79b8ff; --green: #3fb950; }}
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
     body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; transition: background 0.2s, color 0.2s; }}
+    [data-theme="dark"] .hero {{ background: linear-gradient(135deg, #0a1628 0%, #0d2440 100%); }}
+    [data-theme="dark"] .search-bar {{ background: #161b22; border-bottom-color: #30363d; }}
+    [data-theme="dark"] .search-input {{ background: #0d1117; border-color: #30363d; color: #e6edf3; }}
+    [data-theme="dark"] .filter-btn {{ background: #161b22; border-color: #30363d; color: #8b949e; }}
+    [data-theme="dark"] .filter-btn:hover, [data-theme="dark"] .filter-btn.active {{ background: #58a6ff; border-color: #58a6ff; color: #0d1117; font-weight: 700; }}
+    [data-theme="dark"] .filter-label {{ color: #8b949e; }}
+    [data-theme="dark"] .card {{ background: #161b22; border-color: #30363d; box-shadow: 0 2px 12px rgba(0,0,0,0.5); }}
+    [data-theme="dark"] .card:hover {{ border-color: #58a6ff; box-shadow: 0 12px 32px rgba(0,0,0,0.7); }}
+    [data-theme="dark"] .savings {{ background: #152820; border-color: #1f4a2a; }}
+    [data-theme="dark"] .savings .label {{ color: #8b949e; }}
+    [data-theme="dark"] .savings .value {{ color: #3fb950; }}
+    [data-theme="dark"] .cta {{ background: #58a6ff; color: #0d1117; font-weight: 700; }}
+    [data-theme="dark"] .cta:hover {{ background: #79b8ff; }}
+    [data-theme="dark"] footer {{ background: #0d1117; border-top-color: #30363d; color: #8b949e; }}
+    [data-theme="dark"] footer a {{ color: #58a6ff; }}
     .dark-toggle {{ position: fixed; bottom: 1.25rem; right: 1.25rem; z-index: 999; background: var(--card); border: 1px solid var(--border); border-radius: 50px; padding: 0.45rem 0.9rem; cursor: pointer; font-size: 0.82rem; font-weight: 700; color: var(--text); box-shadow: 0 4px 14px rgba(0,0,0,0.18); display: flex; align-items: center; gap: 0.4rem; transition: all 0.15s; }}
     .dark-toggle:hover {{ box-shadow: 0 6px 20px rgba(0,0,0,0.22); }}
     .tool-logo {{ display: inline-block; vertical-align: middle; border-radius: 4px; object-fit: contain; flex-shrink: 0; }}
@@ -1421,6 +1473,7 @@ def build_sitemap(all_comparisons: List[Dict], site_dir: str, categories: List[s
         urls.append(f'  <url><loc>{SITE_BASE_URL}/{page}/</loc><changefreq>monthly</changefreq><priority>0.6</priority><lastmod>{today}</lastmod></url>')
     urls.append(f'  <url><loc>{SITE_BASE_URL}/price-hikes/</loc><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>{today}</lastmod></url>')
     urls.append(f'  <url><loc>{SITE_BASE_URL}/infographics/</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>{today}</lastmod></url>')
+    urls.append(f'  <url><loc>{SITE_BASE_URL}/stack-builder/</loc><changefreq>monthly</changefreq><priority>0.9</priority><lastmod>{today}</lastmod></url>')
     for ind_slug in ['open-source-tools-for-startups', 'open-source-tools-for-developers', 'open-source-tools-for-remote-teams']:
         urls.append(f'  <url><loc>{SITE_BASE_URL}/{ind_slug}/</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>{today}</lastmod></url>')
     blog_slugs = [
@@ -3158,7 +3211,10 @@ def build_alternatives_pages(site_dir: str, all_comparisons: List[Dict], updated
             alt_cards += f"""
     <div class="alt-card">
       <div class="alt-header">
-        <div class="alt-name">{oss_name}</div>
+        <div class="alt-name-row">
+          {get_tool_logo_html(oss_name, size=28)}
+          <div class="alt-name">{oss_name}</div>
+        </div>
         <div class="alt-free-badge">Free</div>
       </div>
       <div class="alt-pricing">{oss_pricing}</div>
@@ -3210,44 +3266,69 @@ def build_alternatives_pages(site_dir: str, all_comparisons: List[Dict], updated
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
   <style>
     :root{{--blue:#1F5C99;--blue-light:#2980B9;--green:#1A7A3F;--bg:#F0F4F8;--card:#fff;--border:#E2E8F0;--text:#1A202C;--text-muted:#718096;--shadow:0 2px 8px rgba(0,0,0,0.08);}}
+    [data-theme="dark"]{{--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#e6edf3;--text-muted:#8b949e;--blue:#58a6ff;--blue-light:#79b8ff;--green:#3fb950;--shadow:0 2px 12px rgba(0,0,0,0.5);}}
     *{{box-sizing:border-box;margin:0;padding:0;}}
-    body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;}}
+    body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;transition:background 0.2s,color 0.2s;}}
     a{{color:var(--blue);}}
     nav{{background:var(--blue);padding:0.75rem 1.5rem;display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;}}
     nav a{{color:#fff;text-decoration:none;font-size:0.9rem;opacity:0.9;}}nav a:hover{{opacity:1;}}nav .sep{{color:rgba(255,255,255,0.4);}}
+    [data-theme="dark"] nav{{background:#010409;}}
     .hero{{background:linear-gradient(135deg,var(--blue) 0%,var(--blue-light) 100%);color:#fff;padding:3rem 1.5rem 2.5rem;text-align:center;}}
+    [data-theme="dark"] .hero{{background:linear-gradient(135deg,#0a1628 0%,#0d2440 100%);}}
     .hero .cat-badge{{display:inline-block;background:{cat_color};color:#fff;font-size:0.72rem;font-weight:700;padding:0.28rem 0.85rem;border-radius:20px;margin-bottom:0.85rem;text-transform:uppercase;letter-spacing:0.05em;}}
     .hero h1{{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;margin-bottom:0.75rem;line-height:1.2;}}
     .hero p{{opacity:0.85;font-size:1rem;max-width:580px;margin:0 auto 1.25rem;}}
     .hero-badges{{display:flex;gap:0.65rem;justify-content:center;flex-wrap:wrap;}}
     .hero-badge{{background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);padding:0.28rem 0.85rem;border-radius:20px;font-size:0.8rem;}}
     .cost-bar{{background:#fff;border-bottom:1px solid var(--border);padding:1rem 1.5rem;}}
+    [data-theme="dark"] .cost-bar{{background:#161b22;border-bottom-color:#30363d;}}
     .cost-bar-inner{{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}}
     .cost-current{{font-size:0.9rem;color:var(--text-muted);}}.cost-current strong{{color:#C0392B;font-size:1.1rem;}}
+    [data-theme="dark"] .cost-current strong{{color:#f47067;}}
     .cost-free{{font-size:0.9rem;color:var(--green);font-weight:700;}}.cost-arrow{{font-size:1.2rem;color:var(--text-muted);}}
     .content{{max-width:900px;margin:2rem auto;padding:0 1.5rem;}}
     .intro-card{{background:var(--card);border-radius:12px;padding:1.75rem 2rem;margin-bottom:1.5rem;box-shadow:var(--shadow);border:1px solid var(--border);}}
+    [data-theme="dark"] .intro-card{{background:#161b22;border-color:#30363d;}}
     .intro-card h2{{font-size:1.15rem;font-weight:700;color:var(--blue);margin-bottom:0.75rem;}}.intro-card p{{font-size:0.92rem;color:var(--text);line-height:1.7;}}
     .alts-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;margin-bottom:1.5rem;}}
     .alt-card{{background:var(--card);border-radius:12px;padding:1.5rem;box-shadow:var(--shadow);border:2px solid var(--border);transition:border-color 0.2s,transform 0.2s;}}
     .alt-card:hover{{border-color:var(--blue);transform:translateY(-2px);}}
+    [data-theme="dark"] .alt-card{{background:#161b22;border-color:#30363d;}}
+    [data-theme="dark"] .alt-card:hover{{border-color:#58a6ff;box-shadow:0 8px 24px rgba(0,0,0,0.6);}}
     .alt-header{{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem;}}
-    .alt-name{{font-size:1.2rem;font-weight:800;color:var(--green);}}
-    .alt-free-badge{{background:#EAFAF1;border:1px solid #A9DFBF;color:var(--green);font-size:0.72rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:20px;}}
+    .alt-name-row{{display:flex;align-items:center;gap:8px;}}
+    .alt-name{{font-size:1.1rem;font-weight:800;color:var(--green);}}
+    .alt-free-badge{{background:#EAFAF1;border:1px solid #A9DFBF;color:var(--green);font-size:0.72rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:20px;flex-shrink:0;}}
+    [data-theme="dark"] .alt-free-badge{{background:#152820;border-color:#1f4a2a;color:#3fb950;}}
     .alt-pricing{{font-size:0.85rem;color:var(--text-muted);margin-bottom:0.6rem;}}
     .alt-difficulty{{display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;font-size:0.82rem;}}
     .diff-dots{{font-size:1rem;letter-spacing:0.05em;}}.diff-label{{font-weight:700;}}.diff-time{{color:var(--text-muted);}}
     .alt-actions{{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.75rem;}}
     .btn-compare{{flex:1;text-align:center;background:var(--blue);color:#fff;padding:0.5rem 0.75rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.82rem;}}
+    [data-theme="dark"] .btn-compare{{background:#58a6ff;color:#0d1117;}}
     .btn-migrate{{flex:1;text-align:center;background:#EAFAF1;color:var(--green);border:1px solid #A9DFBF;padding:0.5rem 0.75rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.82rem;}}
+    [data-theme="dark"] .btn-migrate{{background:#152820;color:#3fb950;border-color:#1f4a2a;}}
     .card{{background:var(--card);border-radius:12px;padding:1.75rem 2rem;box-shadow:var(--shadow);border:1px solid var(--border);}}
+    [data-theme="dark"] .card{{background:#161b22;border-color:#30363d;}}
     .related-alt-grid{{display:flex;flex-wrap:wrap;gap:0.5rem;}}
     .related-alt-link{{display:inline-block;padding:0.4rem 0.9rem;background:#F8FAFC;border:1px solid var(--border);border-radius:20px;font-size:0.82rem;font-weight:600;color:var(--blue);text-decoration:none;}}
     .related-alt-link:hover{{background:var(--blue);color:#fff;}}
+    [data-theme="dark"] .related-alt-link{{background:#1c2128;border-color:#30363d;color:#58a6ff;}}
+    [data-theme="dark"] .related-alt-link:hover{{background:#58a6ff;color:#0d1117;}}
     .calc-cta{{background:linear-gradient(135deg,var(--blue),var(--blue-light));color:#fff;border-radius:12px;padding:1.5rem 2rem;margin-top:1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}}
+    [data-theme="dark"] .calc-cta{{background:linear-gradient(135deg,#0c2d4a,#0a1628);border:1px solid #30363d;}}
     .calc-cta .title{{font-weight:800;font-size:1rem;margin-bottom:0.2rem;}}.calc-cta .sub{{font-size:0.85rem;opacity:0.85;}}
     .calc-cta a{{background:#fff;color:var(--blue);padding:0.55rem 1.25rem;border-radius:6px;text-decoration:none;font-weight:700;font-size:0.88rem;white-space:nowrap;}}
+    [data-theme="dark"] .calc-cta a{{background:#58a6ff;color:#0d1117;}}
+    .tool-logo{{display:inline-block;vertical-align:middle;border-radius:3px;object-fit:contain;flex-shrink:0;}}
+    .tool-logo-fallback{{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:6px;background:#e2e8f0;color:#475569;font-size:12px;font-weight:800;flex-shrink:0;}}
+    [data-theme="dark"] .tool-logo{{filter:brightness(0) invert(1);opacity:0.82;}}
+    [data-theme="dark"] .tool-logo-fallback{{background:#30363d;color:#8b949e;}}
+    .dark-toggle{{position:fixed;bottom:1.25rem;right:1.25rem;z-index:999;background:var(--card);border:1px solid var(--border);border-radius:50px;padding:0.45rem 0.9rem;cursor:pointer;font-size:0.82rem;font-weight:700;color:var(--text);box-shadow:0 4px 14px rgba(0,0,0,0.18);display:flex;align-items:center;gap:0.4rem;transition:all 0.15s;}}
+    .dark-toggle:hover{{box-shadow:0 6px 20px rgba(0,0,0,0.25);}}
     footer{{text-align:center;padding:2.5rem 1rem;color:var(--text-muted);font-size:0.85rem;border-top:1px solid var(--border);margin-top:2rem;background:#fff;}}footer a{{color:var(--blue);}}
+    [data-theme="dark"] footer{{background:#0d1117;border-top-color:#30363d;color:#8b949e;}}
+    [data-theme="dark"] footer a{{color:#58a6ff;}}
     @media(max-width:600px){{.alts-grid{{grid-template-columns:1fr;}}.cost-bar-inner{{flex-direction:column;align-items:flex-start;}}}}
   </style>
 </head>
@@ -3298,6 +3379,11 @@ def build_alternatives_pages(site_dir: str, all_comparisons: List[Dict], updated
   Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp; <a href="../about/">About</a> &nbsp;·&nbsp; <a href="../contact/">Contact</a> &nbsp;·&nbsp; <a href="../privacy/">Privacy Policy</a><br>
   <span style="font-size:0.8rem;opacity:0.7">Updated {updated} · AI-researched daily · Verify details before switching</span>
 </footer>
+<button class="dark-toggle" onclick="toggleDark()" title="Toggle dark mode"><span id="dark-icon">🌙</span> Dark</button>
+<script>
+(function(){{const s=localStorage.getItem('theme');if(s){{document.documentElement.setAttribute('data-theme',s);if(s==='dark'){{const e=document.getElementById('dark-icon');if(e)e.textContent='☀️';}}}}}})();
+function toggleDark(){{const h=document.documentElement;const n=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',n);localStorage.setItem('theme',n);document.getElementById('dark-icon').textContent=n==='dark'?'☀️':'🌙';}}
+</script>
 </body></html>"""
 
         with open(page_dir / 'index.html', 'w') as f:
@@ -3306,6 +3392,339 @@ def build_alternatives_pages(site_dir: str, all_comparisons: List[Dict], updated
 
     logger.info(f"   🎯 {len(slugs_built)} alternatives-to pages built")
     return slugs_built
+
+
+def build_stack_builder_page(site_dir: str, all_comparisons: List[Dict], updated: str):
+    """Builds /stack-builder/ — tick your paid tools, see your free replacement stack + savings."""
+    page_dir = Path(site_dir) / 'stack-builder'
+    page_dir.mkdir(parents=True, exist_ok=True)
+
+    # Build JS tool data from actual comparisons
+    tool_entries = []
+    seen = set()
+    for comp in all_comparisons:
+        prop_key  = comp.get('proprietary_key', '')
+        prop_name = comp.get('proprietary_tool', '')
+        oss_key   = comp.get('oss_key', '')
+        oss_name  = comp.get('oss_tool', '')
+        category  = comp.get('category', 'general')
+        slug      = comp.get('slug', '')
+        pricing   = comp.get('proprietary_pricing', '')
+        oss_price = comp.get('oss_pricing', 'Free')
+        # Parse a per-user price from the pricing string for savings calc
+        import re as _re
+        nums = _re.findall(r'\d+(?:\.\d+)?', pricing or '')
+        monthly_per_user = float(nums[0]) if nums else 0
+        if prop_key and prop_key not in seen:
+            seen.add(prop_key)
+            slug_icon = SIMPLEICONS_SLUGS.get(prop_name, '')
+            oss_icon  = SIMPLEICONS_SLUGS.get(oss_name, '')
+            tool_entries.append(
+                f'{{"pk":"{prop_key}","pn":"{prop_name}","pi":"{slug_icon}",'
+                f'"ok":"{oss_key}","on":"{oss_name}","oi":"{oss_icon}",'
+                f'"cat":"{category}","slug":"{slug}",'
+                f'"price":{monthly_per_user},"pricing":"{pricing}","oss_price":"{oss_price}"}}'
+            )
+
+    tools_js = 'const TOOLS = [\n  ' + ',\n  '.join(tool_entries) + '\n];'
+
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Free Stack Builder — Replace Your Paid Tools with Open Source ({updated})</title>
+  <meta name="description" content="Tick the SaaS tools you pay for and instantly see your free open-source replacement stack. Calculate exact savings for your team size.">
+  <link rel="canonical" href="{SITE_BASE_URL}/stack-builder/">
+  <meta property="og:title" content="Free Stack Builder — Build Your Zero-Cost Open Source Stack">
+  <meta property="og:description" content="See exactly which open-source tools replace your paid SaaS stack — and how much you'll save.">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <style>
+    :root{{--blue:#1F5C99;--blue-light:#2980B9;--green:#1A7A3F;--red:#C0392B;
+           --bg:#F0F4F8;--card:#fff;--border:#E2E8F0;--text:#1A202C;--text-muted:#718096;
+           --shadow:0 2px 8px rgba(0,0,0,0.08);}}
+    [data-theme="dark"]{{--bg:#0d1117;--card:#161b22;--border:#30363d;
+           --text:#e6edf3;--text-muted:#8b949e;--blue:#58a6ff;--blue-light:#79b8ff;
+           --green:#3fb950;--red:#f47067;}}
+    *{{box-sizing:border-box;margin:0;padding:0;}}
+    body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+          background:var(--bg);color:var(--text);line-height:1.6;transition:background 0.2s,color 0.2s;}}
+    nav{{background:var(--blue);padding:0.75rem 1.5rem;display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;}}
+    nav a{{color:#fff;text-decoration:none;font-size:0.9rem;opacity:0.9;}}nav a:hover{{opacity:1;}}
+    nav .sep{{color:rgba(255,255,255,0.4);}}
+    [data-theme="dark"] nav{{background:#010409;}}
+    .hero{{background:linear-gradient(135deg,var(--blue) 0%,var(--blue-light) 100%);
+           color:#fff;padding:3rem 1.5rem 2.5rem;text-align:center;}}
+    [data-theme="dark"] .hero{{background:linear-gradient(135deg,#0a1628 0%,#0d2440 100%);}}
+    .hero h1{{font-size:clamp(1.7rem,4vw,2.6rem);font-weight:900;margin-bottom:0.6rem;}}
+    .hero p{{opacity:0.88;font-size:1.05rem;max-width:580px;margin:0 auto;}}
+    .main{{max-width:1200px;margin:0 auto;padding:2rem 1.5rem;display:grid;
+           grid-template-columns:1fr 420px;gap:2rem;align-items:start;}}
+    @media(max-width:860px){{.main{{grid-template-columns:1fr;}}}}
+    /* ── Left panel ── */
+    .panel-label{{font-size:0.72rem;font-weight:800;text-transform:uppercase;
+                  letter-spacing:0.08em;color:var(--text-muted);margin-bottom:0.75rem;}}
+    .cat-section{{margin-bottom:1.5rem;}}
+    .cat-title{{font-size:0.82rem;font-weight:700;color:var(--text-muted);
+                margin-bottom:0.6rem;display:flex;align-items:center;gap:0.4rem;}}
+    .tools-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:0.6rem;}}
+    .tool-chip{{display:flex;align-items:center;gap:8px;padding:0.55rem 0.75rem;
+                background:var(--card);border:2px solid var(--border);border-radius:10px;
+                cursor:pointer;transition:all 0.15s;user-select:none;}}
+    .tool-chip:hover{{border-color:var(--blue);background:#EBF4FA;}}
+    [data-theme="dark"] .tool-chip:hover{{background:#0c2d4a;}}
+    .tool-chip.selected{{border-color:var(--blue);background:#EBF4FA;box-shadow:0 0 0 3px rgba(31,92,153,0.15);}}
+    [data-theme="dark"] .tool-chip.selected{{background:#0c2d4a;box-shadow:0 0 0 3px rgba(88,166,255,0.2);}}
+    .tool-chip img,.tool-chip .t-fallback{{width:22px;height:22px;flex-shrink:0;border-radius:3px;object-fit:contain;}}
+    .tool-chip .t-fallback{{display:inline-flex;align-items:center;justify-content:center;
+                            background:#e2e8f0;color:#475569;font-size:11px;font-weight:800;border-radius:4px;}}
+    [data-theme="dark"] .tool-chip img{{filter:brightness(0) invert(1);opacity:0.82;}}
+    [data-theme="dark"] .tool-chip .t-fallback{{background:#30363d;color:#8b949e;}}
+    .tool-chip .t-name{{font-size:0.82rem;font-weight:600;color:var(--text);line-height:1.2;}}
+    .tool-chip.selected .t-name{{color:var(--blue);}}
+    [data-theme="dark"] .tool-chip.selected .t-name{{color:#58a6ff;}}
+    .checkmark{{margin-left:auto;width:16px;height:16px;border-radius:50%;
+                background:var(--blue);color:#fff;font-size:10px;
+                display:none;align-items:center;justify-content:center;flex-shrink:0;}}
+    .tool-chip.selected .checkmark{{display:flex;}}
+    /* ── Right panel (results) ── */
+    .results-panel{{background:var(--card);border:1px solid var(--border);border-radius:16px;
+                    padding:1.5rem;box-shadow:var(--shadow);position:sticky;top:1.5rem;}}
+    [data-theme="dark"] .results-panel{{background:#161b22;border-color:#30363d;}}
+    .results-header{{font-size:1.05rem;font-weight:800;color:var(--text);margin-bottom:0.5rem;}}
+    .team-row{{display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border);}}
+    .team-label{{font-size:0.82rem;color:var(--text-muted);white-space:nowrap;}}
+    .team-input{{flex:1;padding:0.4rem 0.7rem;border:2px solid var(--border);border-radius:8px;
+                 font-size:0.95rem;font-weight:700;color:var(--text);background:var(--bg);width:70px;text-align:center;}}
+    [data-theme="dark"] .team-input{{background:#0d1117;border-color:#30363d;color:#e6edf3;}}
+    .team-input:focus{{outline:none;border-color:var(--blue);}}
+    .savings-hero{{background:linear-gradient(135deg,#0a1628,#0d2440);border-radius:12px;
+                   padding:1.25rem 1.5rem;margin-bottom:1.25rem;text-align:center;}}
+    .savings-amount{{font-size:2.2rem;font-weight:900;color:#3fb950;line-height:1;}}
+    .savings-label{{font-size:0.78rem;color:#8b949e;margin-top:0.3rem;}}
+    .savings-annual{{font-size:0.88rem;color:#58a6ff;margin-top:0.4rem;font-weight:700;}}
+    .empty-state{{text-align:center;padding:2rem 1rem;color:var(--text-muted);}}
+    .empty-icon{{font-size:2.5rem;margin-bottom:0.75rem;}}
+    .empty-text{{font-size:0.9rem;line-height:1.5;}}
+    .stack-list{{display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.25rem;}}
+    .stack-item{{background:var(--bg);border:1px solid var(--border);border-radius:10px;
+                 padding:0.75rem 1rem;display:flex;align-items:center;gap:0.75rem;}}
+    [data-theme="dark"] .stack-item{{background:#0d1117;border-color:#30363d;}}
+    .stack-arrow{{color:var(--text-muted);font-size:1rem;flex-shrink:0;}}
+    .stack-prop{{display:flex;align-items:center;gap:6px;min-width:0;flex:1;}}
+    .stack-oss{{display:flex;align-items:center;gap:6px;min-width:0;flex:1;}}
+    .stack-prop img,.stack-oss img,.stack-prop .t-fallback,.stack-oss .t-fallback{{
+                 width:20px;height:20px;flex-shrink:0;object-fit:contain;border-radius:3px;}}
+    .stack-prop .t-fallback,.stack-oss .t-fallback{{display:inline-flex;align-items:center;
+                 justify-content:center;background:#e2e8f0;color:#475569;font-size:10px;font-weight:800;border-radius:3px;}}
+    [data-theme="dark"] .stack-prop img,[data-theme="dark"] .stack-oss img{{filter:brightness(0) invert(1);opacity:0.82;}}
+    [data-theme="dark"] .stack-prop .t-fallback,[data-theme="dark"] .stack-oss .t-fallback{{background:#30363d;color:#8b949e;}}
+    .stack-prop-name{{font-size:0.82rem;font-weight:600;color:var(--red);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}}
+    .stack-oss-name{{font-size:0.82rem;font-weight:700;color:var(--green);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}}
+    .stack-saving{{font-size:0.72rem;font-weight:700;color:#3fb950;white-space:nowrap;margin-left:auto;flex-shrink:0;}}
+    .stack-item a{{display:block;}}
+    .cta-row{{display:flex;gap:0.6rem;flex-wrap:wrap;}}
+    .btn-primary{{flex:1;text-align:center;background:var(--blue);color:#fff;padding:0.6rem 1rem;
+                  border-radius:8px;text-decoration:none;font-weight:700;font-size:0.88rem;}}
+    [data-theme="dark"] .btn-primary{{background:#58a6ff;color:#0d1117;}}
+    .btn-secondary{{flex:1;text-align:center;background:var(--bg);color:var(--blue);
+                    border:1px solid var(--border);padding:0.6rem 1rem;border-radius:8px;
+                    text-decoration:none;font-weight:700;font-size:0.88rem;cursor:pointer;}}
+    [data-theme="dark"] .btn-secondary{{border-color:#30363d;color:#58a6ff;}}
+    .no-selection-tip{{font-size:0.78rem;color:var(--text-muted);text-align:center;margin-top:0.75rem;}}
+    .dark-toggle{{position:fixed;bottom:1.25rem;right:1.25rem;z-index:999;background:var(--card);
+                  border:1px solid var(--border);border-radius:50px;padding:0.45rem 0.9rem;cursor:pointer;
+                  font-size:0.82rem;font-weight:700;color:var(--text);box-shadow:0 4px 14px rgba(0,0,0,0.18);
+                  display:flex;align-items:center;gap:0.4rem;transition:all 0.15s;}}
+    footer{{text-align:center;padding:2.5rem 1rem;color:var(--text-muted);font-size:0.85rem;
+            border-top:1px solid var(--border);margin-top:2rem;background:#fff;}}
+    [data-theme="dark"] footer{{background:#0d1117;border-top-color:#30363d;color:#8b949e;}}
+    footer a{{color:var(--blue);}}[data-theme="dark"] footer a{{color:#58a6ff;}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="../">🔍 OS Alternative Finder</a>
+  <span class="sep">/</span>
+  <span style="color:#fff;opacity:0.7">Stack Builder</span>
+</nav>
+
+<div class="hero">
+  <h1>🔧 Free Stack Builder</h1>
+  <p>Tick the tools you pay for. Instantly see your open-source replacement stack and how much you'll save.</p>
+</div>
+
+<div class="main">
+  <!-- LEFT: tool picker -->
+  <div id="picker">
+    <div class="panel-label">Step 1 — Select the tools you currently pay for</div>
+    <div id="cats"></div>
+  </div>
+
+  <!-- RIGHT: results -->
+  <div class="results-panel">
+    <div class="results-header">💰 Your Free Stack</div>
+    <div class="team-row">
+      <span class="team-label">Team size:</span>
+      <input class="team-input" type="number" id="team-size" value="10" min="1" max="10000" oninput="render()">
+      <span class="team-label">people</span>
+    </div>
+    <div id="results-body">
+      <div class="empty-state">
+        <div class="empty-icon">👈</div>
+        <div class="empty-text">Select tools on the left<br>to build your free stack</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp;
+  <a href="../savings-calculator/">Savings Calculator</a> &nbsp;·&nbsp;
+  <a href="../privacy/">Privacy</a><br>
+  <span style="font-size:0.8rem;opacity:0.7">Updated {updated} · Pricing estimates are approximate — verify at official sites before switching</span>
+</footer>
+
+<button class="dark-toggle" onclick="toggleDark()" title="Toggle dark mode">
+  <span id="dark-icon">🌙</span> Dark
+</button>
+
+<script>
+{tools_js}
+
+// ── Dark mode (shared preference) ────────────────────────
+(function(){{
+  const s = localStorage.getItem('theme');
+  if (s) {{ document.documentElement.setAttribute('data-theme', s); }}
+  if (s === 'dark') {{ const e = document.getElementById('dark-icon'); if (e) e.textContent = '☀️'; }}
+}})();
+function toggleDark() {{
+  const h = document.documentElement;
+  const n = h.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  h.setAttribute('data-theme', n);
+  localStorage.setItem('theme', n);
+  document.getElementById('dark-icon').textContent = n === 'dark' ? '☀️' : '🌙';
+}}
+
+// ── State ─────────────────────────────────────────────────
+const selected = new Set();
+
+// ── Build picker ──────────────────────────────────────────
+const CAT_ICONS = {{
+  'communication':'💬','productivity':'📝','developer-tools':'⚙️',
+  'design':'🎨','project-management':'📋','file-storage':'☁️',
+  'video-conferencing':'🎥','general':'🔧'
+}};
+
+const byCategory = {{}};
+TOOLS.forEach(t => {{
+  if (!byCategory[t.cat]) byCategory[t.cat] = [];
+  byCategory[t.cat].push(t);
+}});
+
+function logoImg(slug, name) {{
+  if (slug) return `<img src="https://cdn.simpleicons.org/${{slug}}" width="22" height="22" alt="${{name}}" loading="lazy" onerror="this.style.display='none'">`;
+  return `<span class="t-fallback">${{name[0].toUpperCase()}}</span>`;
+}}
+
+function logoImgSm(slug, name) {{
+  if (slug) return `<img src="https://cdn.simpleicons.org/${{slug}}" width="20" height="20" alt="${{name}}" loading="lazy" onerror="this.style.display='none'">`;
+  return `<span class="t-fallback">${{name[0].toUpperCase()}}</span>`;
+}}
+
+const picker = document.getElementById('cats');
+Object.entries(byCategory).forEach(([cat, tools]) => {{
+  const section = document.createElement('div');
+  section.className = 'cat-section';
+  section.innerHTML = `<div class="cat-title">${{CAT_ICONS[cat] || '🔧'}} ${{cat.replace(/-/g,' ').replace(/\\b\\w/g,c=>c.toUpperCase())}}</div><div class="tools-grid" id="grid-${{cat}}"></div>`;
+  picker.appendChild(section);
+  const grid = section.querySelector('.tools-grid');
+  tools.forEach(t => {{
+    const chip = document.createElement('div');
+    chip.className = 'tool-chip';
+    chip.dataset.key = t.pk;
+    chip.innerHTML = `${{logoImg(t.pi, t.pn)}}<span class="t-name">${{t.pn}}</span><span class="checkmark">✓</span>`;
+    chip.addEventListener('click', () => {{
+      if (selected.has(t.pk)) {{ selected.delete(t.pk); chip.classList.remove('selected'); }}
+      else {{ selected.add(t.pk); chip.classList.add('selected'); }}
+      render();
+    }});
+    grid.appendChild(chip);
+  }});
+}});
+
+// ── Render results ────────────────────────────────────────
+function render() {{
+  const teamSize = parseInt(document.getElementById('team-size').value) || 10;
+  const body = document.getElementById('results-body');
+
+  if (selected.size === 0) {{
+    body.innerHTML = `<div class="empty-state"><div class="empty-icon">👈</div><div class="empty-text">Select tools on the left<br>to build your free stack</div></div>`;
+    return;
+  }}
+
+  const picks = TOOLS.filter(t => selected.has(t.pk));
+  let totalMonthly = 0;
+  let stackRows = '';
+
+  picks.forEach(t => {{
+    const monthlySaving = t.price * teamSize;
+    totalMonthly += monthlySaving;
+    const savingLabel = monthlySaving > 0 ? `-$${{monthlySaving.toLocaleString()}}/mo` : 'Free';
+    stackRows += `
+    <div class="stack-item">
+      <div class="stack-prop">${{logoImgSm(t.pi, t.pn)}}<span class="stack-prop-name">${{t.pn}}</span></div>
+      <span class="stack-arrow">→</span>
+      <div class="stack-oss"><a href="../${{t.slug}}/" style="display:flex;align-items:center;gap:6px;text-decoration:none;">
+        ${{logoImgSm(t.oi, t.on)}}<span class="stack-oss-name">${{t.on}}</span></a>
+      </div>
+      ${{monthlySaving > 0 ? `<span class="stack-saving">${{savingLabel}}</span>` : ''}}
+    </div>`;
+  }});
+
+  const annualSaving = totalMonthly * 12;
+  const savingsDisplay = totalMonthly > 0
+    ? `<div class="savings-hero">
+        <div class="savings-amount">$${{totalMonthly.toLocaleString()}}</div>
+        <div class="savings-label">estimated monthly savings (${{teamSize}} people)</div>
+        <div class="savings-annual">$${{annualSaving.toLocaleString()}} / year</div>
+      </div>`
+    : '';
+
+  body.innerHTML = `
+    ${{savingsDisplay}}
+    <div class="stack-list">${{stackRows}}</div>
+    <div class="cta-row">
+      <a class="btn-primary" href="../savings-calculator/">Full Calculator →</a>
+      <button class="btn-secondary" onclick="copyStack()">📋 Copy Stack</button>
+    </div>
+    <div class="no-selection-tip">Click any tool above to add or remove it</div>`;
+}}
+
+function copyStack() {{
+  const teamSize = parseInt(document.getElementById('team-size').value) || 10;
+  const picks = TOOLS.filter(t => selected.has(t.pk));
+  if (!picks.length) return;
+  let text = `My Free Open Source Stack (${{teamSize}} people)\\n${{'-'.repeat(40)}}\\n`;
+  let total = 0;
+  picks.forEach(t => {{
+    const saving = t.price * teamSize;
+    total += saving;
+    text += `${{t.pn}} → ${{t.on}} (${{saving > 0 ? '-$' + saving + '/mo' : 'already free'}})\\n`;
+  }});
+  if (total > 0) text += `\\nTotal savings: $${{total}}/month · $${{total*12}}/year\\n`;
+  text += `\\nBuild yours: {SITE_BASE_URL}/stack-builder/`;
+  navigator.clipboard?.writeText(text).then(() => {{
+    const btn = document.querySelector('.btn-secondary');
+    if (btn) {{ btn.textContent = '✅ Copied!'; setTimeout(() => btn.textContent = '📋 Copy Stack', 2000); }}
+  }});
+}}
+</script>
+</body>
+</html>"""
+
+    with open(page_dir / 'index.html', 'w') as f:
+        f.write(html)
+    logger.info("   🔧 Stack Builder page built → /stack-builder/")
 
 
 def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
@@ -3604,6 +4023,7 @@ Open Source Alternative Finder · Updated {updated} · <a href="../privacy/">Pri
     build_price_hike_page(site_dir, updated)
     build_industry_pages(site_dir, updated)
     build_infographics_page(site_dir, all_comparisons, updated)
+    build_stack_builder_page(site_dir, all_comparisons, updated)
 
     logger.info(f"✅ Site built successfully!")
     logger.info(f"   📄 {len(all_comparisons)} comparison pages")
