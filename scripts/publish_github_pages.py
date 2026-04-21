@@ -642,6 +642,18 @@ COMPARISON_PAGE = """<!DOCTYPE html>
     .email-box .ml-embedded p, .email-box .ml-embedded h4, .email-box .ml-embedded .ml-form-embedBody-header {{ display: none !important; }}
     footer {{ text-align: center; padding: 2.5rem 1rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 2rem; background: #fff; }}
     footer a {{ color: var(--blue); }}
+    /* ── Transparency strip ── */
+    .t-strip {{ border-left:3px solid #1D9E75; background:#f8fdf9; padding:12px 16px; margin-bottom:1.5rem; border-radius:0 8px 8px 0; font-size:13px; line-height:1.7; display:flex; flex-wrap:wrap; align-items:center; gap:0.4rem; }}
+    .t-badge {{ font-size:11px; font-weight:700; padding:2px 8px; border-radius:20px; }}
+    .t-green {{ background:#EAF3DE; color:#1A7A3F; }}
+    .t-amber {{ background:#FAEEDA; color:#854F0B; }}
+    .t-body {{ color:#4A5568; }}
+    .t-link {{ color:#185FA5; font-weight:600; }}
+    [data-theme="dark"] .t-strip {{ background:#0f2318; border-left-color:#3fb950; }}
+    [data-theme="dark"] .t-green {{ background:#152820; color:#3fb950; }}
+    [data-theme="dark"] .t-amber {{ background:#2d2010; color:#d4a843; }}
+    [data-theme="dark"] .t-body {{ color:#8b949e; }}
+    [data-theme="dark"] .t-link {{ color:#58a6ff; }}
     @media (max-width: 600px) {{
       .quick-bar-inner {{ grid-template-columns: 1fr; }}
       .vs-badge {{ display: none; }}
@@ -694,11 +706,11 @@ COMPARISON_PAGE = """<!DOCTYPE html>
 <div class="content">
 
   <!-- PATCH 1: RADICAL TRANSPARENCY STRIP -->
-  <div style="border-left:3px solid #1D9E75;background:#f8fdf9;padding:12px 16px;margin-bottom:1.5rem;border-radius:0 8px 8px 0;font-size:13px;line-height:1.6;">
-    <span style="background:#EAF3DE;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;margin-right:6px;">Open rankings</span>
-    <span style="background:#FAEEDA;color:#854F0B;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;margin-right:8px;">Affiliate funded</span>
-    Rankings are never influenced by commission rates. We may earn a small fee on affiliate clicks — this pays our $0 infrastructure bill.
-    <a href="https://github.com/aiopentec/opensource-alternative-finder" style="color:#185FA5;font-weight:600;margin-left:4px;">View our open-source algorithm →</a>
+  <div class="t-strip">
+    <span class="t-badge t-green">Open rankings</span>
+    <span class="t-badge t-amber">Affiliate funded</span>
+    <span class="t-body">Rankings are never influenced by commission rates. We may earn a small fee on affiliate clicks — this pays our $0 infrastructure bill.</span>
+    <a href="https://github.com/aiopentec/opensource-alternative-finder" class="t-link">View our open-source algorithm →</a>
   </div>
 
   {carbon_ad}
@@ -742,7 +754,9 @@ COMPARISON_PAGE = """<!DOCTYPE html>
   Hosted on <a href="https://pages.github.com">GitHub Pages</a> &nbsp;·&nbsp; $0/month to operate &nbsp;·&nbsp;
   <a href="../privacy/">Privacy Policy</a> &nbsp;·&nbsp;
   <a href="../about/">About</a> &nbsp;·&nbsp;
-  <a href="../contact/">Contact</a><br>
+  <a href="../contact/">Contact</a> &nbsp;·&nbsp;
+  <a href="../stack-builder/">Stack Builder</a> &nbsp;·&nbsp;
+  <a href="../logo-api/">Logo API</a><br>
   <!-- PATCH 6: reframed AI disclaimer -->
   <span style="font-size:0.8rem; opacity:0.7">AI-researched and updated daily. Community corrections welcome — <a href="https://github.com/aiopentec/opensource-alternative-finder/issues" style="color:#7fbfff">open a PR</a>. Verify pricing at official sites before switching.</span>
 </footer>
@@ -991,6 +1005,26 @@ INDEX_PAGE = """<!DOCTYPE html>
   </div>
 </div>
 
+<div class="calc-banner" style="margin-top:0.75rem">
+  <div class="calc-banner-inner" style="background:linear-gradient(135deg,#0d1f2d,#0a1a2e);border-color:rgba(88,166,255,0.3)">
+    <div class="calc-banner-text">
+      <div class="title" style="color:#58a6ff">🔧 Free Stack Builder</div>
+      <div class="sub">Tick the tools you pay for — instantly see your free replacement stack + savings</div>
+    </div>
+    <a class="calc-banner-btn" href="stack-builder/" style="background:linear-gradient(135deg,#1a3a5c,#58a6ff);color:#0d1117">Build My Free Stack →</a>
+  </div>
+</div>
+
+<div class="calc-banner" style="margin-top:0.75rem">
+  <div class="calc-banner-inner" style="background:linear-gradient(135deg,#1a0d2e,#2d1a4a);border-color:rgba(139,92,246,0.3)">
+    <div class="calc-banner-text">
+      <div class="title" style="color:#a78bfa">🔌 Logo API for Developers</div>
+      <div class="sub">One URL, any tool logo — free tier available for dashboards, READMEs, and comparison pages</div>
+    </div>
+    <a class="calc-banner-btn" href="logo-api/" style="background:linear-gradient(135deg,#4c1d95,#7c3aed);color:#fff">Get API Key →</a>
+  </div>
+</div>
+
 {trending_section}
 
 <!-- PATCH 5: MOST POPULAR COMPARISONS ABOVE FOLD -->
@@ -1012,7 +1046,9 @@ INDEX_PAGE = """<!DOCTYPE html>
   <a href="blog/">Blog</a> &nbsp;·&nbsp;
   <a href="changelog/">Changelog</a> &nbsp;·&nbsp;
   <a href="stats/">Stats</a> &nbsp;·&nbsp;
-  <a href="quiz/">Quiz</a><br>
+  <a href="quiz/">Quiz</a> &nbsp;·&nbsp;
+  <a href="stack-builder/">Stack Builder</a> &nbsp;·&nbsp;
+  <a href="logo-api/">Logo API</a><br>
   <!-- PATCH 6: reframed disclaimer -->
   <span style="font-size:0.8rem; opacity:0.7">Updated {updated} &nbsp;·&nbsp; $0/month to operate &nbsp;·&nbsp; AI-researched daily · Verify details before switching</span>
 </footer>
@@ -1352,6 +1388,8 @@ def build_migration_page(site_dir: str, comp: dict, updated: str):
 <footer>
   Open Source Alternative Finder &nbsp;·&nbsp;
   <a href="../">Home</a> &nbsp;·&nbsp;
+  <a href="../stack-builder/">Stack Builder</a> &nbsp;·&nbsp;
+  <a href="../logo-api/">Logo API</a> &nbsp;·&nbsp;
   <a href="../privacy/">Privacy Policy</a><br>
   <span style="font-size:0.8rem;opacity:0.7">Migration steps are AI-researched. Verify with official documentation before proceeding.</span>
 </footer>
@@ -1474,6 +1512,7 @@ def build_sitemap(all_comparisons: List[Dict], site_dir: str, categories: List[s
     urls.append(f'  <url><loc>{SITE_BASE_URL}/price-hikes/</loc><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>{today}</lastmod></url>')
     urls.append(f'  <url><loc>{SITE_BASE_URL}/infographics/</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>{today}</lastmod></url>')
     urls.append(f'  <url><loc>{SITE_BASE_URL}/stack-builder/</loc><changefreq>monthly</changefreq><priority>0.9</priority><lastmod>{today}</lastmod></url>')
+    urls.append(f'  <url><loc>{SITE_BASE_URL}/logo-api/</loc><changefreq>monthly</changefreq><priority>0.9</priority><lastmod>{today}</lastmod></url>')
     for ind_slug in ['open-source-tools-for-startups', 'open-source-tools-for-developers', 'open-source-tools-for-remote-teams']:
         urls.append(f'  <url><loc>{SITE_BASE_URL}/{ind_slug}/</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>{today}</lastmod></url>')
     blog_slugs = [
@@ -1702,7 +1741,7 @@ def build_savings_calculator(site_dir: str):
   </div>
 </div>
 <footer>
-  Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp; <a href="../privacy/">Privacy Policy</a><br>
+  Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp; <a href="../stack-builder/">Stack Builder</a> &nbsp;·&nbsp; <a href="../logo-api/">Logo API</a> &nbsp;·&nbsp; <a href="../privacy/">Privacy Policy</a><br>
   <span style="opacity:0.6">Pricing estimates based on published rates. Actual costs vary by plan.</span>
 </footer>
 <script>
@@ -1901,7 +1940,7 @@ def build_changelog(site_dir: str, all_comparisons: List[Dict], updated: str):
   </div>
 </div>
 <footer>
-  Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp; <a href="../privacy/">Privacy Policy</a> &nbsp;·&nbsp; <a href="../savings-calculator/">Savings Calculator</a><br>
+  Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp; <a href="../privacy/">Privacy Policy</a> &nbsp;·&nbsp; <a href="../savings-calculator/">Savings Calculator</a> &nbsp;·&nbsp; <a href="../stack-builder/">Stack Builder</a> &nbsp;·&nbsp; <a href="../logo-api/">Logo API</a><br>
   <span style="font-size:0.8rem;opacity:0.7">Last updated: {today} &nbsp;·&nbsp; AI-researched daily</span>
 </footer>
 </body>
@@ -1991,7 +2030,7 @@ def build_about_page(site_dir: str, updated: str):
     <a href="../" style="display:inline-block;background:#F0F4F8;color:var(--blue);padding:0.65rem 1.75rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.9rem;border:1px solid var(--border);">View All Comparisons</a>
   </div>
 </div>
-<footer>Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp; <a href="../contact/">Contact</a> &nbsp;·&nbsp; <a href="../privacy/">Privacy Policy</a><br>
+<footer>Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp; <a href="../stack-builder/">Stack Builder</a> &nbsp;·&nbsp; <a href="../logo-api/">Logo API</a> &nbsp;·&nbsp; <a href="../contact/">Contact</a> &nbsp;·&nbsp; <a href="../privacy/">Privacy Policy</a><br>
 <span style="font-size:0.8rem;opacity:0.7">Updated {updated}</span></footer>
 </body></html>"""
     with open(about_dir / 'index.html', 'w') as f:
@@ -2053,7 +2092,7 @@ def build_contact_page(site_dir: str, updated: str):
   </div>
   <div class="card"><h2>⏱️ Response Times</h2><p>This site is maintained by a small team. We aim to respond to GitHub issues within <strong>2–3 business days</strong> and emails within <strong>5 business days</strong>.</p></div>
 </div>
-<footer>Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp; <a href="../about/">About Us</a> &nbsp;·&nbsp; <a href="../privacy/">Privacy Policy</a><br><span style="font-size:0.8rem;opacity:0.7">Updated {updated}</span></footer>
+<footer>Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp; <a href="../about/">About Us</a> &nbsp;·&nbsp; <a href="../stack-builder/">Stack Builder</a> &nbsp;·&nbsp; <a href="../logo-api/">Logo API</a> &nbsp;·&nbsp; <a href="../privacy/">Privacy Policy</a><br><span style="font-size:0.8rem;opacity:0.7">Updated {updated}</span></footer>
 </body></html>"""
     with open(contact_dir / 'index.html', 'w') as f:
         f.write(html)
@@ -2178,7 +2217,7 @@ def build_stats_page(site_dir: str, all_comparisons: List[Dict], updated: str):
     <a href="../savings-calculator/" style="display:inline-block;background:#EAFAF1;color:var(--green);padding:0.65rem 1.75rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.9rem;border:1px solid #A9DFBF;">Savings Calculator →</a>
   </div>
 </div>
-<footer>Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp; <a href="../about/">About</a> &nbsp;·&nbsp; <a href="../privacy/">Privacy Policy</a><br><span style="font-size:0.8rem;opacity:0.7">Data updated {updated} · Auto-generated from {total_comps} comparisons</span></footer>
+<footer>Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp; <a href="../about/">About</a> &nbsp;·&nbsp; <a href="../stack-builder/">Stack Builder</a> &nbsp;·&nbsp; <a href="../logo-api/">Logo API</a> &nbsp;·&nbsp; <a href="../privacy/">Privacy Policy</a><br><span style="font-size:0.8rem;opacity:0.7">Data updated {updated} · Auto-generated from {total_comps} comparisons</span></footer>
 </body></html>"""
     with open(stats_dir / 'index.html', 'w') as f:
         f.write(html)
@@ -2522,6 +2561,8 @@ def build_infographics_page(site_dir: str, all_comparisons: List[Dict], updated:
 <footer>
   OSALFinder &nbsp;&middot;&nbsp; <a href="../">Home</a> &nbsp;&middot;&nbsp;
   <a href="../savings-calculator/">Savings Calculator</a> &nbsp;&middot;&nbsp;
+  <a href="../stack-builder/">Stack Builder</a> &nbsp;&middot;&nbsp;
+  <a href="../logo-api/">Logo API</a> &nbsp;&middot;&nbsp;
   <a href="../about/">About</a> &nbsp;&middot;&nbsp; <a href="../privacy/">Privacy Policy</a><br>
   <span style="font-size:0.8rem;opacity:0.7">Updated {updated} &middot; AI-researched daily &middot; Free to share with attribution</span>
 </footer>
@@ -2703,7 +2744,7 @@ def build_price_hike_page(site_dir: str, updated: str):
 </div>
 <footer>
   OSALFinder &nbsp;&middot;&nbsp; <a href="../">Home</a> &nbsp;&middot;&nbsp;
-  <a href="../about/">About</a> &nbsp;&middot;&nbsp; <a href="../privacy/">Privacy Policy</a><br>
+  <a href="../about/">About</a> &nbsp;&middot;&nbsp; <a href="../stack-builder/">Stack Builder</a> &nbsp;&middot;&nbsp; <a href="../logo-api/">Logo API</a> &nbsp;&middot;&nbsp; <a href="../privacy/">Privacy Policy</a><br>
   <span style="font-size:0.8rem;opacity:0.7">Updated {updated} &middot; AI-researched daily</span>
 </footer>
 </body>
@@ -2883,7 +2924,7 @@ def build_industry_pages(site_dir: str, updated: str):
 </div>
 <footer>
   OSALFinder &nbsp;&middot;&nbsp; <a href="../">Home</a> &nbsp;&middot;&nbsp;
-  <a href="../about/">About</a> &nbsp;&middot;&nbsp; <a href="../privacy/">Privacy Policy</a><br>
+  <a href="../about/">About</a> &nbsp;&middot;&nbsp; <a href="../stack-builder/">Stack Builder</a> &nbsp;&middot;&nbsp; <a href="../logo-api/">Logo API</a> &nbsp;&middot;&nbsp; <a href="../privacy/">Privacy Policy</a><br>
   <span style="font-size:0.8rem;opacity:0.7">Updated {updated} &middot; AI-researched daily</span>
 </footer>
 </body>
@@ -3003,7 +3044,12 @@ def build_blog(site_dir: str, all_comparisons: List[Dict], updated: str):
             related_html = f"""
     <div style="background:#EAFAF1;border:1px solid #A9DFBF;border-radius:10px;padding:1.1rem 1.25rem;margin:1.5rem 0;">
       <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#1A7A3F;margin-bottom:0.4rem;">📊 Read the full comparison</div>
-      <a href="../../{comp_slug}/" style="font-size:0.92rem;font-weight:600;color:#1F5C99;text-decoration:none;"><strong>{prop_name} vs {oss_name}</strong> — pricing, features, migration guide →</a>
+      <a href="../../{comp_slug}/" style="display:flex;align-items:center;gap:8px;font-size:0.92rem;font-weight:600;color:#1F5C99;text-decoration:none;">
+        {get_tool_logo_html(prop_name, size=20)}<strong>{prop_name}</strong>
+        <span style="color:#718096;font-size:0.82rem;">vs</span>
+        {get_tool_logo_html(oss_name, size=20)}<strong>{oss_name}</strong>
+        <span style="color:#718096;">— pricing, features, migration guide →</span>
+      </a>
     </div>"""
 
         html = f"""<!DOCTYPE html>
@@ -3087,7 +3133,7 @@ def build_blog(site_dir: str, all_comparisons: List[Dict], updated: str):
   </div>
 </div>
 <footer>
-  Open Source Alternative Finder &nbsp;·&nbsp; <a href="../../">Home</a> &nbsp;·&nbsp; <a href="../">Blog</a> &nbsp;·&nbsp; <a href="../../about/">About</a> &nbsp;·&nbsp; <a href="../../privacy/">Privacy Policy</a><br>
+  Open Source Alternative Finder &nbsp;·&nbsp; <a href="../../">Home</a> &nbsp;·&nbsp; <a href="../">Blog</a> &nbsp;·&nbsp; <a href="../../about/">About</a> &nbsp;·&nbsp; <a href="../../stack-builder/">Stack Builder</a> &nbsp;·&nbsp; <a href="../../logo-api/">Logo API</a> &nbsp;·&nbsp; <a href="../../privacy/">Privacy Policy</a><br>
   <span style="font-size:0.8rem;opacity:0.7">AI-researched content. Verify all details before making decisions. Updated {today_fmt}.</span>
 </footer>
 </body></html>"""
@@ -3139,7 +3185,7 @@ def build_blog(site_dir: str, all_comparisons: List[Dict], updated: str):
 <nav><a href="../">🔍 OS Alternative Finder</a><span class="sep">/</span><span style="color:#fff;opacity:0.7">📝 Blog</span></nav>
 <div class="hero"><h1>📝 Blog</h1><p>Practical guides on switching from expensive SaaS tools to free open-source alternatives.</p></div>
 <div class="content"><div class="grid">{index_cards}</div></div>
-<footer>Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp; <a href="../about/">About</a> &nbsp;·&nbsp; <a href="../privacy/">Privacy Policy</a></footer>
+<footer>Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp; <a href="../about/">About</a> &nbsp;·&nbsp; <a href="../stack-builder/">Stack Builder</a> &nbsp;·&nbsp; <a href="../logo-api/">Logo API</a> &nbsp;·&nbsp; <a href="../privacy/">Privacy Policy</a></footer>
 </body></html>"""
     with open(blog_dir / 'index.html', 'w') as f:
         f.write(blog_index)
@@ -3351,7 +3397,7 @@ def build_alternatives_pages(site_dir: str, all_comparisons: List[Dict], updated
 </div>
 <div class="cost-bar">
   <div class="cost-bar-inner">
-    <div class="cost-current">Current cost: <strong>{pricing or 'paid'}</strong> with {prop_name}</div>
+    <div class="cost-current" style="display:flex;align-items:center;gap:8px;">{get_tool_logo_html(prop_name, size=24)}Current cost: <strong>{pricing or 'paid'}</strong> with {prop_name}</div>
     <div class="cost-arrow">→</div>
     <div class="cost-free">💰 Switch and pay $0/month with open source</div>
   </div>
@@ -3367,7 +3413,10 @@ def build_alternatives_pages(site_dir: str, all_comparisons: List[Dict], updated
       <div class="title">💰 See your exact savings</div>
       <div class="sub">Enter your team size → see monthly and annual savings from switching</div>
     </div>
-    <a href="../savings-calculator/">Open Savings Calculator →</a>
+    <div style="display:flex;gap:0.6rem;flex-wrap:wrap;">
+      <a href="../savings-calculator/">Savings Calculator →</a>
+      <a href="../stack-builder/" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;padding:0.55rem 1.25rem;border-radius:6px;text-decoration:none;font-weight:700;font-size:0.88rem;white-space:nowrap;">🔧 Stack Builder →</a>
+    </div>
   </div>
   {related_section}
   <div class="card" style="text-align:center;padding:1.5rem;margin-top:1.5rem;">
@@ -3376,7 +3425,7 @@ def build_alternatives_pages(site_dir: str, all_comparisons: List[Dict], updated
   </div>
 </div>
 <footer>
-  Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp; <a href="../about/">About</a> &nbsp;·&nbsp; <a href="../contact/">Contact</a> &nbsp;·&nbsp; <a href="../privacy/">Privacy Policy</a><br>
+  Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp; <a href="../about/">About</a> &nbsp;·&nbsp; <a href="../stack-builder/">Stack Builder</a> &nbsp;·&nbsp; <a href="../logo-api/">Logo API</a> &nbsp;·&nbsp; <a href="../contact/">Contact</a> &nbsp;·&nbsp; <a href="../privacy/">Privacy Policy</a><br>
   <span style="font-size:0.8rem;opacity:0.7">Updated {updated} · AI-researched daily · Verify details before switching</span>
 </footer>
 <button class="dark-toggle" onclick="toggleDark()" title="Toggle dark mode"><span id="dark-icon">🌙</span> Dark</button>
@@ -3392,6 +3441,375 @@ function toggleDark(){{const h=document.documentElement;const n=h.getAttribute('
 
     logger.info(f"   🎯 {len(slugs_built)} alternatives-to pages built")
     return slugs_built
+
+
+def build_logo_api_page(site_dir: str, updated: str):
+    """Builds /logo-api/ — the monetization landing page for the OSALFinder Logo API."""
+    page_dir = Path(site_dir) / 'logo-api'
+    page_dir.mkdir(parents=True, exist_ok=True)
+
+    # Build live demo grid from SIMPLEICONS_SLUGS
+    demo_tools = [
+        ("Slack", "slack"), ("Figma", "figma"), ("Notion", "notion"),
+        ("GitHub", "github"), ("Jira", "jira"), ("Zoom", "zoom"),
+        ("Dropbox", "dropbox"), ("HubSpot", "hubspot"), ("Stripe", "stripe"),
+        ("Salesforce", "salesforce"), ("Asana", "asana"), ("Canva", "canva"),
+        ("Mattermost", "mattermost"), ("Penpot", "penpot"), ("Nextcloud", "nextcloud"),
+        ("GitLab", "gitlab"), ("Grafana", "grafana"), ("Supabase", "supabase"),
+    ]
+    demo_html = ''.join(
+        f'<div class="demo-chip">'
+        f'<img src="https://cdn.simpleicons.org/{slug}" width="32" height="32" alt="{name}" loading="lazy" onerror="this.style.display=\'none\'">'
+        f'<span>{name}</span>'
+        f'</div>'
+        for name, slug in demo_tools
+    )
+
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>OSALFinder Logo API — Instant Tool Logos for Developers</title>
+  <meta name="description" content="One URL. Any software tool logo. Free tier available. Power your dashboards, comparison pages, and SaaS apps with clean SVG logos for 3,000+ tools.">
+  <link rel="canonical" href="{SITE_BASE_URL}/logo-api/">
+  <meta property="og:title" content="OSALFinder Logo API — Instant Tool Logos">
+  <meta property="og:description" content="One URL. Any software tool logo. Free tier available. Used on OSALFinder.com.">
+  <meta property="og:url" content="{SITE_BASE_URL}/logo-api/">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <!-- GA -->
+  {get_ga_snippet()}
+  <style>
+    :root{{--blue:#1F5C99;--blue-light:#2980B9;--green:#1A7A3F;
+          --bg:#F0F4F8;--card:#fff;--border:#E2E8F0;--text:#1A202C;--text-muted:#718096;}}
+    [data-theme="dark"]{{--bg:#0d1117;--card:#161b22;--border:#30363d;
+          --text:#e6edf3;--text-muted:#8b949e;--blue:#58a6ff;--blue-light:#79b8ff;--green:#3fb950;}}
+    *{{box-sizing:border-box;margin:0;padding:0;}}
+    body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+          background:var(--bg);color:var(--text);line-height:1.6;transition:background 0.2s,color 0.2s;}}
+    nav{{background:var(--blue);padding:0.75rem 1.5rem;display:flex;align-items:center;gap:0.75rem;}}
+    nav a{{color:#fff;text-decoration:none;font-size:0.9rem;opacity:0.9;}}
+    nav a:hover{{opacity:1;}}nav .sep{{color:rgba(255,255,255,0.4);}}
+    [data-theme="dark"] nav{{background:#010409;}}
+
+    /* ── Hero ── */
+    .hero{{background:linear-gradient(135deg,#0a1628 0%,#0d2440 50%,#0a1f38 100%);
+           color:#fff;padding:5rem 1.5rem 4rem;text-align:center;position:relative;overflow:hidden;}}
+    .hero::before{{content:'';position:absolute;inset:0;
+      background:radial-gradient(ellipse at 50% 0%,rgba(88,166,255,0.12) 0%,transparent 70%);pointer-events:none;}}
+    .hero-eyebrow{{display:inline-block;background:rgba(88,166,255,0.15);border:1px solid rgba(88,166,255,0.3);
+                   color:#79b8ff;font-size:0.75rem;font-weight:700;letter-spacing:0.1em;
+                   text-transform:uppercase;padding:0.3rem 1rem;border-radius:20px;margin-bottom:1.25rem;}}
+    .hero h1{{font-size:clamp(2rem,5vw,3.2rem);font-weight:900;margin-bottom:1rem;line-height:1.15;
+              background:linear-gradient(135deg,#fff 0%,#79b8ff 100%);
+              -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}}
+    .hero p{{opacity:0.82;font-size:1.1rem;max-width:560px;margin:0 auto 2.5rem;line-height:1.65;}}
+    .hero-ctas{{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}}
+    .btn-hero{{padding:0.8rem 2rem;border-radius:10px;text-decoration:none;font-weight:700;
+               font-size:1rem;transition:all 0.15s;}}
+    .btn-hero.primary{{background:linear-gradient(135deg,#58a6ff,#79b8ff);color:#0d1117;}}
+    .btn-hero.primary:hover{{opacity:0.9;transform:translateY(-1px);}}
+    .btn-hero.ghost{{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.25);color:#fff;}}
+    .btn-hero.ghost:hover{{background:rgba(255,255,255,0.14);}}
+
+    /* ── URL bar demo ── */
+    .url-demo{{max-width:680px;margin:3rem auto 0;background:rgba(255,255,255,0.06);
+               border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:1.25rem 1.5rem;text-align:left;}}
+    .url-demo .label{{font-size:0.72rem;font-weight:700;text-transform:uppercase;
+                      letter-spacing:0.1em;color:#8b949e;margin-bottom:0.6rem;}}
+    .url-line{{font-family:'Courier New',monospace;font-size:0.95rem;color:#e6edf3;
+               display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;}}
+    .url-base{{color:#8b949e;}}
+    .url-key{{color:#58a6ff;}}
+    .url-slug{{color:#3fb950;font-weight:700;}}
+    .url-copy{{margin-left:auto;background:rgba(88,166,255,0.15);border:1px solid rgba(88,166,255,0.3);
+               color:#58a6ff;padding:0.25rem 0.75rem;border-radius:6px;font-size:0.75rem;
+               font-weight:700;cursor:pointer;border:none;}}
+    .url-copy:hover{{background:rgba(88,166,255,0.25);}}
+
+    /* ── Live demo grid ── */
+    .section{{max-width:1100px;margin:0 auto;padding:4rem 1.5rem;}}
+    .section-label{{font-size:0.72rem;font-weight:800;text-transform:uppercase;
+                    letter-spacing:0.1em;color:var(--text-muted);margin-bottom:0.5rem;}}
+    .section h2{{font-size:1.6rem;font-weight:800;margin-bottom:0.75rem;}}
+    .section .sub{{color:var(--text-muted);font-size:0.95rem;margin-bottom:2rem;max-width:560px;}}
+    .demo-grid{{display:flex;flex-wrap:wrap;gap:0.6rem;margin-bottom:1.5rem;}}
+    .demo-chip{{display:flex;align-items:center;gap:8px;padding:0.5rem 0.9rem;
+                background:var(--card);border:1px solid var(--border);border-radius:8px;
+                font-size:0.82rem;font-weight:600;color:var(--text);}}
+    [data-theme="dark"] .demo-chip{{background:#161b22;border-color:#30363d;}}
+    [data-theme="dark"] .demo-chip img{{filter:brightness(0) invert(1);opacity:0.82;}}
+    .demo-chip img{{width:20px;height:20px;object-fit:contain;}}
+    .demo-count{{font-size:0.82rem;color:var(--text-muted);margin-top:0.5rem;}}
+
+    /* ── Code block ── */
+    .code-block{{background:#0d1117;border:1px solid #30363d;border-radius:10px;
+                 padding:1.25rem 1.5rem;margin:1.5rem 0;overflow-x:auto;}}
+    .code-block pre{{font-family:'Courier New',monospace;font-size:0.88rem;color:#e6edf3;
+                     white-space:pre;line-height:1.7;}}
+    .code-block .c-grey{{color:#8b949e;}}
+    .code-block .c-blue{{color:#79b8ff;}}
+    .code-block .c-green{{color:#3fb950;}}
+    .code-block .c-orange{{color:#d4a843;}}
+
+    /* ── Pricing ── */
+    .pricing-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.25rem;margin-top:2rem;}}
+    .pricing-card{{background:var(--card);border:2px solid var(--border);border-radius:16px;
+                   padding:1.75rem 1.5rem;position:relative;}}
+    [data-theme="dark"] .pricing-card{{background:#161b22;border-color:#30363d;}}
+    .pricing-card.popular{{border-color:var(--blue);}}
+    .popular-badge{{position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+                    background:var(--blue);color:#fff;font-size:0.72rem;font-weight:800;
+                    padding:0.2rem 0.9rem;border-radius:20px;white-space:nowrap;
+                    letter-spacing:0.05em;text-transform:uppercase;}}
+    [data-theme="dark"] .popular-badge{{background:#58a6ff;color:#0d1117;}}
+    .tier-name{{font-size:0.78rem;font-weight:800;text-transform:uppercase;
+                letter-spacing:0.1em;color:var(--text-muted);margin-bottom:0.5rem;}}
+    .tier-price{{font-size:2rem;font-weight:900;color:var(--text);line-height:1;}}
+    .tier-price span{{font-size:0.9rem;font-weight:500;color:var(--text-muted);}}
+    .tier-desc{{font-size:0.82rem;color:var(--text-muted);margin:0.5rem 0 1.25rem;line-height:1.5;}}
+    .tier-features{{list-style:none;display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1.5rem;}}
+    .tier-features li{{font-size:0.85rem;color:var(--text);display:flex;align-items:flex-start;gap:0.5rem;line-height:1.4;}}
+    .tier-features li::before{{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;margin-top:0.1rem;}}
+    .tier-features li.no::before{{content:'✗';color:#8b949e;}}
+    .tier-features li.no{{color:var(--text-muted);}}
+    .tier-cta{{display:block;text-align:center;padding:0.65rem 1rem;border-radius:8px;
+               text-decoration:none;font-weight:700;font-size:0.9rem;}}
+    .tier-cta.free{{background:var(--bg);border:1px solid var(--border);color:var(--text);}}
+    [data-theme="dark"] .tier-cta.free{{background:#0d1117;border-color:#30363d;color:#e6edf3;}}
+    .tier-cta.paid{{background:var(--blue);color:#fff;}}
+    [data-theme="dark"] .tier-cta.paid{{background:#58a6ff;color:#0d1117;}}
+
+    /* ── Use cases ── */
+    .use-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.25rem;margin-top:1.5rem;}}
+    .use-card{{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;}}
+    [data-theme="dark"] .use-card{{background:#161b22;border-color:#30363d;}}
+    .use-icon{{font-size:1.75rem;margin-bottom:0.75rem;}}
+    .use-title{{font-size:0.95rem;font-weight:700;margin-bottom:0.4rem;}}
+    .use-desc{{font-size:0.85rem;color:var(--text-muted);line-height:1.5;}}
+
+    /* ── Attribution mechanic ── */
+    .attr-box{{background:linear-gradient(135deg,#0c2d4a,#0a1628);border:1px solid #30363d;
+               border-radius:12px;padding:1.75rem 2rem;color:#e6edf3;}}
+    .attr-box h3{{font-size:1.1rem;font-weight:800;color:#58a6ff;margin-bottom:0.75rem;}}
+    .attr-box p{{font-size:0.88rem;color:#8b949e;line-height:1.65;margin-bottom:0.75rem;}}
+    .attr-box strong{{color:#e6edf3;}}
+
+    /* ── Footer ── */
+    footer{{text-align:center;padding:2.5rem 1rem;color:var(--text-muted);font-size:0.85rem;
+            border-top:1px solid var(--border);background:#fff;}}
+    [data-theme="dark"] footer{{background:#0d1117;border-top-color:#30363d;}}
+    footer a{{color:var(--blue);}}[data-theme="dark"] footer a{{color:#58a6ff;}}
+
+    .dark-toggle{{position:fixed;bottom:1.25rem;right:1.25rem;z-index:999;background:var(--card);
+                  border:1px solid var(--border);border-radius:50px;padding:0.45rem 0.9rem;cursor:pointer;
+                  font-size:0.82rem;font-weight:700;color:var(--text);box-shadow:0 4px 14px rgba(0,0,0,0.18);
+                  display:flex;align-items:center;gap:0.4rem;transition:all 0.15s;}}
+    @media(max-width:600px){{.hero{{padding:3.5rem 1rem 3rem;}}}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="../">🔍 OS Alternative Finder</a>
+  <span class="sep">/</span>
+  <span style="color:#fff;opacity:0.7">Logo API</span>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Developer Tool</div>
+  <h1>One URL.<br>Any Tool Logo.</h1>
+  <p>Clean SVG logos for 3,000+ software tools. Drop an <code style="background:rgba(255,255,255,0.1);padding:0.1em 0.4em;border-radius:4px;font-size:0.95em;">&lt;img&gt;</code> tag anywhere — dashboards, comparison pages, README files, SaaS apps.</p>
+  <div class="hero-ctas">
+    <a href="#pricing" class="btn-hero primary">Get Free API Key →</a>
+    <a href="#how-it-works" class="btn-hero ghost">See How It Works</a>
+  </div>
+  <div class="url-demo">
+    <div class="label">API Endpoint</div>
+    <div class="url-line">
+      <span class="url-base">osalfinder.com/logo-api/v1/</span><span class="url-key">{{your-key}}</span><span class="url-base">/</span><span class="url-slug">slack</span>
+      <button class="url-copy" onclick="this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500);navigator.clipboard?.writeText('https://osalfinder.com/logo-api/v1/free/slack')">Copy</button>
+    </div>
+  </div>
+</div>
+
+<!-- LIVE DEMO -->
+<div class="section">
+  <div class="section-label">Live Preview</div>
+  <h2>3,000+ logos. All loaded from one API.</h2>
+  <p class="sub">Every logo below is served via the OSALFinder Logo API. Drop any slug into the URL and get an SVG back instantly.</p>
+  <div class="demo-grid">{demo_html}</div>
+  <div class="demo-count">Showing 18 of 3,000+ available logos &nbsp;·&nbsp; <a href="../">Browse all tools on OSALFinder →</a></div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="section" id="how-it-works" style="padding-top:0;">
+  <div class="section-label">Integration</div>
+  <h2>Three lines of code.</h2>
+  <p class="sub">Drop this anywhere — HTML, React, Vue, README. No SDK, no dependencies, no build step.</p>
+  <div class="code-block"><pre><span class="c-grey">&lt;!-- HTML — works everywhere --&gt;</span>
+<span class="c-blue">&lt;img</span> <span class="c-green">src</span>=<span class="c-orange">"https://osalfinder.com/logo-api/v1/FREE_KEY/slack"</span>
+     <span class="c-green">width</span>=<span class="c-orange">"32"</span> <span class="c-green">height</span>=<span class="c-orange">"32"</span>
+     <span class="c-green">data-powered-by</span>=<span class="c-orange">"osalfinder"</span>
+     <span class="c-green">alt</span>=<span class="c-orange">"Slack logo"</span><span class="c-blue">&gt;</span></pre></div>
+  <div class="code-block"><pre><span class="c-grey">// JavaScript — dynamic logo loading</span>
+<span class="c-blue">const</span> <span class="c-green">getLogoUrl</span> = (<span class="c-orange">slug</span>) =>
+  <span class="c-orange">`https://osalfinder.com/logo-api/v1/${{YOUR_KEY}}/${{slug}}`</span>;
+
+<span class="c-blue">const</span> tools = [<span class="c-orange">'slack'</span>, <span class="c-orange">'notion'</span>, <span class="c-orange">'figma'</span>];
+tools.<span class="c-green">forEach</span>(slug => {{
+  <span class="c-blue">const</span> img = document.<span class="c-green">createElement</span>(<span class="c-orange">'img'</span>);
+  img.src = <span class="c-green">getLogoUrl</span>(slug);
+  img.width = img.height = 32;
+  container.<span class="c-green">appendChild</span>(img);
+}});</pre></div>
+</div>
+
+<!-- USE CASES -->
+<div class="section" style="padding-top:0;">
+  <div class="section-label">Use Cases</div>
+  <h2>Built for builders.</h2>
+  <p class="sub">Anyone who displays software tools on a page.</p>
+  <div class="use-grid">
+    <div class="use-card">
+      <div class="use-icon">📊</div>
+      <div class="use-title">SaaS Comparison Sites</div>
+      <div class="use-desc">Display tool logos on comparison tables, alternative pages, and feature grids. Exactly how OSALFinder.com uses it.</div>
+    </div>
+    <div class="use-card">
+      <div class="use-icon">🗂️</div>
+      <div class="use-title">Tech Stack Pages</div>
+      <div class="use-desc">Show your company's or client's toolstack with clean branded logos. Perfect for "Built With" sections.</div>
+    </div>
+    <div class="use-card">
+      <div class="use-icon">📋</div>
+      <div class="use-title">README Files</div>
+      <div class="use-desc">Add logos to GitHub README files, documentation sites, and developer portals with a single img tag.</div>
+    </div>
+    <div class="use-card">
+      <div class="use-icon">🤖</div>
+      <div class="use-title">AI-Generated Pages</div>
+      <div class="use-desc">Pipe tool names from your LLM output straight to the API — no manual slug lookup, no broken images.</div>
+    </div>
+    <div class="use-card">
+      <div class="use-icon">📈</div>
+      <div class="use-title">Internal Dashboards</div>
+      <div class="use-desc">Ops and spend management dashboards that list SaaS tools. One API key for your whole engineering team.</div>
+    </div>
+    <div class="use-card">
+      <div class="use-icon">🔌</div>
+      <div class="use-title">Browser Extensions</div>
+      <div class="use-desc">Enrich third-party pages (G2, Capterra, LinkedIn, Crunchbase) with tool logos loaded from a single endpoint.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ATTRIBUTION MECHANIC -->
+<div class="section" style="padding-top:0;">
+  <div class="attr-box">
+    <h3>🔗 Free tier attribution — how it grows the network</h3>
+    <p>Free tier usage requires <strong>data-powered-by="osalfinder"</strong> on every logo img tag. Each logo that appears on a developer's site is a permanent backlink to OSALFinder — without any outreach. Every site that embeds logos becomes a distribution node. The API and OSALFinder grow together.</p>
+    <p>Paid tiers remove this requirement for teams that need white-label deployment.</p>
+  </div>
+</div>
+
+<!-- PRICING -->
+<div class="section" id="pricing" style="padding-top:0;">
+  <div class="section-label">Pricing</div>
+  <h2>Start free. Scale when you need to.</h2>
+  <p class="sub">No credit card required for the free tier. API keys delivered by email.</p>
+  <div class="pricing-grid">
+
+    <div class="pricing-card">
+      <div class="tier-name">Free</div>
+      <div class="tier-price">$0<span>/mo</span></div>
+      <div class="tier-desc">For personal projects and open-source builders.</div>
+      <ul class="tier-features">
+        <li>1,000 requests / day</li>
+        <li>3,000+ SVG logos</li>
+        <li>Simple Icons source</li>
+        <li>PNG at 64×64px</li>
+        <li class="no">Brandfetch full-colour</li>
+        <li class="no">White-label (no attribution)</li>
+        <li class="no">Commercial use</li>
+      </ul>
+      <a href="mailto:openaltshub@gmail.com?subject=Logo API Free Key&body=Hi, I'd like a free Logo API key for: [describe your project]" class="tier-cta free">Get Free Key →</a>
+    </div>
+
+    <div class="pricing-card popular">
+      <div class="popular-badge">Most Popular</div>
+      <div class="tier-name">Builder</div>
+      <div class="tier-price">$9<span>/mo</span></div>
+      <div class="tier-desc">For indie hackers and small SaaS products.</div>
+      <ul class="tier-features">
+        <li>50,000 requests / day</li>
+        <li>3,000+ SVG logos</li>
+        <li>Simple Icons source</li>
+        <li>PNG up to 256px</li>
+        <li>Commercial use ✓</li>
+        <li class="no">Brandfetch full-colour</li>
+        <li class="no">White-label</li>
+      </ul>
+      <a href="mailto:openaltshub@gmail.com?subject=Logo API Builder Plan&body=Hi, I'd like the Builder plan ($9/mo) for: [your project URL]" class="tier-cta paid">Get Builder Key →</a>
+    </div>
+
+    <div class="pricing-card">
+      <div class="tier-name">Studio</div>
+      <div class="tier-price">$29<span>/mo</span></div>
+      <div class="tier-desc">For agencies, tools, and growing products.</div>
+      <ul class="tier-features">
+        <li>500,000 requests / day</li>
+        <li>3,000+ SVG logos</li>
+        <li>Brandfetch full-colour</li>
+        <li>PNG up to 512px</li>
+        <li>Commercial use ✓</li>
+        <li>White-label (no attribution)</li>
+        <li class="no">SLA / uptime guarantee</li>
+      </ul>
+      <a href="mailto:openaltshub@gmail.com?subject=Logo API Studio Plan&body=Hi, I'd like the Studio plan ($29/mo) for: [your project URL]" class="tier-cta paid">Get Studio Key →</a>
+    </div>
+
+    <div class="pricing-card">
+      <div class="tier-name">Pro</div>
+      <div class="tier-price">$99<span>/mo</span></div>
+      <div class="tier-desc">For high-volume apps and enterprise tools.</div>
+      <ul class="tier-features">
+        <li>Unlimited requests</li>
+        <li>3,000+ SVG logos</li>
+        <li>Brandfetch full-colour</li>
+        <li>PNG up to 1024px</li>
+        <li>Commercial use ✓</li>
+        <li>White-label ✓</li>
+        <li>99.9% uptime SLA</li>
+      </ul>
+      <a href="mailto:openaltshub@gmail.com?subject=Logo API Pro Plan&body=Hi, I'd like the Pro plan ($99/mo) for: [your project URL]" class="tier-cta paid">Get Pro Key →</a>
+    </div>
+
+  </div>
+  <p style="text-align:center;color:var(--text-muted);font-size:0.82rem;margin-top:1.5rem;">
+    All paid plans billed monthly · Cancel any time · Keys activated within 24h
+  </p>
+</div>
+
+<footer>
+  OSALFinder Logo API &nbsp;·&nbsp; <a href="../">Open Source Alternative Finder</a> &nbsp;·&nbsp;
+  <a href="../stack-builder/">Stack Builder</a> &nbsp;·&nbsp;
+  <a href="../privacy/">Privacy Policy</a><br>
+  <span style="font-size:0.8rem;opacity:0.7">Logos sourced from Simple Icons (CC0) and Brandfetch (licensed). Updated {updated}.</span>
+</footer>
+
+<button class="dark-toggle" onclick="toggleDark()" title="Toggle dark mode">
+  <span id="dark-icon">🌙</span> Dark
+</button>
+<script>
+(function(){{const s=localStorage.getItem('theme');if(s){{document.documentElement.setAttribute('data-theme',s);if(s==='dark'){{const e=document.getElementById('dark-icon');if(e)e.textContent='☀️';}}}}  }})();
+function toggleDark(){{const h=document.documentElement;const n=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',n);localStorage.setItem('theme',n);document.getElementById('dark-icon').textContent=n==='dark'?'☀️':'🌙';}}
+</script>
+</body>
+</html>"""
+
+    with open(page_dir / 'index.html', 'w') as f:
+        f.write(html)
+    logger.info("   💰 Logo API landing page built → /logo-api/")
 
 
 def build_stack_builder_page(site_dir: str, all_comparisons: List[Dict], updated: str):
@@ -3580,6 +3998,7 @@ def build_stack_builder_page(site_dir: str, all_comparisons: List[Dict], updated
 <footer>
   Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp;
   <a href="../savings-calculator/">Savings Calculator</a> &nbsp;·&nbsp;
+  <a href="../logo-api/">Logo API</a> &nbsp;·&nbsp;
   <a href="../privacy/">Privacy</a><br>
   <span style="font-size:0.8rem;opacity:0.7">Updated {updated} · Pricing estimates are approximate — verify at official sites before switching</span>
 </footer>
@@ -4024,6 +4443,7 @@ Open Source Alternative Finder · Updated {updated} · <a href="../privacy/">Pri
     build_industry_pages(site_dir, updated)
     build_infographics_page(site_dir, all_comparisons, updated)
     build_stack_builder_page(site_dir, all_comparisons, updated)
+    build_logo_api_page(site_dir, updated)
 
     logger.info(f"✅ Site built successfully!")
     logger.info(f"   📄 {len(all_comparisons)} comparison pages")
