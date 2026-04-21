@@ -30,7 +30,7 @@
     "@type": "Article",
     "headline": "Framer vs Plasmic",
     "description": "Is Plasmic a good free alternative to Framer? Detailed comparison of pricing (Free / $15–$35/month), features, self-hosting difficulty, and migration guide. Save money by switching to open source.",
-    "dateModified": "2026-04-20T18:32:51Z",
+    "dateModified": "2026-04-21T01:01:21Z",
     "publisher": {
       "@type": "Organization",
       "name": "Open Source Alternative Finder",
@@ -80,17 +80,54 @@
       --border: #E2E8F0; --shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
     [data-theme="dark"] {
-      --bg: #0f1117; --card: #1a1f2e; --border: #2d3550;
-      --text: #e2e8f0; --text-muted: #8892aa;
-      --blue: #4a9ede; --blue-light: #5aaeee; --blue-bg: #1a2a3e;
-      --green: #3ab56a; --green-bg: #0f2a1a;
+      --bg: #0d1117; --card: #161b22; --border: #30363d;
+      --text: #e6edf3; --text-muted: #8b949e;
+      --blue: #58a6ff; --blue-light: #79b8ff; --blue-bg: #0c2d4a;
+      --green: #3fb950; --green-bg: #1b2d1f;
+      --prop-bg: #2d1616; --prop-text: #f47067; --prop-border: #5a2020;
+      --oss-bg: #152820; --oss-text: #3fb950; --oss-border: #1f4a2a;
+      --verdict-switch-bg: #152820; --verdict-stay-bg: #2d2314;
+      --amber-bg: #2d2010; --amber-border: #4a3510; --amber-text: #d4a843;
+      --transparent-strip-bg: #0f1f14; --transparent-strip-border: #1a3a20;
     }
-    .dark-toggle { position: fixed; bottom: 1.25rem; right: 1.25rem; z-index: 999; background: var(--card); border: 1px solid var(--border); border-radius: 50px; padding: 0.45rem 0.9rem; cursor: pointer; font-size: 0.82rem; font-weight: 700; color: var(--text); box-shadow: 0 4px 14px rgba(0,0,0,0.18); display: flex; align-items: center; gap: 0.4rem; transition: all 0.15s; }
-    .dark-toggle:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.22); }
-    .tool-logo { display: inline-block; vertical-align: middle; border-radius: 4px; object-fit: contain; flex-shrink: 0; }
-    .tool-logo-fallback { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 6px; background: #e2e8f0; color: #475569; font-size: 13px; font-weight: 800; flex-shrink: 0; }
-    [data-theme="dark"] .tool-logo { filter: brightness(0) invert(1); opacity: 0.82; }
-    [data-theme="dark"] .tool-logo-fallback { background: #2d3550; color: #8892aa; }
+    [data-theme="dark"] body { background: var(--bg); color: var(--text); }
+    [data-theme="dark"] .hero { background: linear-gradient(135deg, #0a1628 0%, #0d2440 100%); }
+    [data-theme="dark"] .quick-bar { background: #0d1117; border-bottom-color: #30363d; }
+    [data-theme="dark"] .qb-tool { background: var(--card) !important; border-color: var(--border) !important; }
+    [data-theme="dark"] .qb-tool.proprietary { background: var(--prop-bg) !important; border-color: var(--prop-border) !important; }
+    [data-theme="dark"] .qb-tool.proprietary .name { color: var(--prop-text) !important; }
+    [data-theme="dark"] .qb-tool.proprietary .visit-btn { background: #3d1a1a !important; color: var(--prop-text) !important; }
+    [data-theme="dark"] .qb-tool.opensource { background: var(--oss-bg) !important; border-color: var(--oss-border) !important; }
+    [data-theme="dark"] .qb-tool.opensource .name { color: var(--oss-text) !important; }
+    [data-theme="dark"] .qb-tool.opensource .visit-btn { background: #1a3a22 !important; color: var(--oss-text) !important; }
+    [data-theme="dark"] .qb-tool .price { color: #8b949e; }
+    [data-theme="dark"] .vs-badge { color: #58a6ff; }
+    [data-theme="dark"] .card { background: var(--card); border-color: var(--border); box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+    [data-theme="dark"] .card h2 { color: var(--blue); border-bottom-color: var(--blue-bg); }
+    [data-theme="dark"] .card h3 { color: var(--text); }
+    [data-theme="dark"] .card p, [data-theme="dark"] .card li { color: #c9d1d9; }
+    [data-theme="dark"] .card code { background: #21262d; color: #ff7b72; }
+    [data-theme="dark"] .card blockquote { background: var(--blue-bg); border-left-color: var(--blue); color: #8b949e; }
+    [data-theme="dark"] thead th { background: #0c2d4a; }
+    [data-theme="dark"] tbody tr:nth-child(even) td { background: #1c2128; }
+    [data-theme="dark"] tbody td { border-bottom-color: #30363d; color: #c9d1d9; }
+    [data-theme="dark"] .verdict-box { background: var(--card); border-color: var(--blue); }
+    [data-theme="dark"] .verdict-header { color: var(--blue); }
+    [data-theme="dark"] .verdict-switch { background: var(--verdict-switch-bg) !important; border-color: #1f4a2a !important; }
+    [data-theme="dark"] .verdict-stay { background: var(--verdict-stay-bg) !important; border-color: #4a3510 !important; }
+    [data-theme="dark"] .verdict-switch .verdict-label { color: #3fb950; }
+    [data-theme="dark"] .verdict-stay .verdict-label { color: #d4a843; }
+    [data-theme="dark"] .verdict-text { color: #c9d1d9; }
+    [data-theme="dark"] .related-link { background: #1c2128; border-color: #30363d; color: var(--blue); }
+    [data-theme="dark"] .related-link:hover { background: var(--blue); color: #0d1117; border-color: var(--blue); }
+    [data-theme="dark"] .email-box { background: linear-gradient(135deg, #0a1628, #0d2440); }
+    [data-theme="dark"] footer { background: #0d1117; border-top-color: #30363d; color: #8b949e; }
+    [data-theme="dark"] footer a { color: var(--blue); }
+    [data-theme="dark"] nav { background: #010409; }
+    [data-theme="dark"] .difficulty-card { background: var(--card); border-color: var(--border); }
+    [data-theme="dark"] .difficulty-note { color: #8b949e; }
+    [data-theme="dark"] .difficulty-meta { color: #8b949e; }
+    [data-theme="dark"] .difficulty-meta strong { color: #c9d1d9; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
     a { color: var(--blue); }
@@ -200,7 +237,7 @@
     <span class="hero-badge">🤖 AI-Researched Daily</span>
     <span class="hero-badge">🖥️ Setup: Varies</span>
     <span class="hero-badge">👥 Design teams</span>
-    <span class="hero-badge">📅 April 20, 2026</span>
+    <span class="hero-badge">📅 April 21, 2026</span>
   </div>
 </div>
 
