@@ -30,7 +30,7 @@
     "@type": "Article",
     "headline": "Jira vs Plane",
     "description": "Plane is a free, modern Jira alternative. Compare pricing (Jira costs $7.75–$14.50/user/month), speed, setup complexity, and how teams are migrating from Jira to Plane.",
-    "dateModified": "2026-04-21T08:05:00Z",
+    "dateModified": "2026-04-21T23:42:25Z",
     "publisher": {
       "@type": "Organization",
       "name": "Open Source Alternative Finder",
@@ -210,6 +210,18 @@
     .email-box .ml-embedded p, .email-box .ml-embedded h4, .email-box .ml-embedded .ml-form-embedBody-header { display: none !important; }
     footer { text-align: center; padding: 2.5rem 1rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 2rem; background: #fff; }
     footer a { color: var(--blue); }
+    /* ── Transparency strip ── */
+    .t-strip { border-left:3px solid #1D9E75; background:#f8fdf9; padding:12px 16px; margin-bottom:1.5rem; border-radius:0 8px 8px 0; font-size:13px; line-height:1.7; display:flex; flex-wrap:wrap; align-items:center; gap:0.4rem; }
+    .t-badge { font-size:11px; font-weight:700; padding:2px 8px; border-radius:20px; }
+    .t-green { background:#EAF3DE; color:#1A7A3F; }
+    .t-amber { background:#FAEEDA; color:#854F0B; }
+    .t-body { color:#4A5568; }
+    .t-link { color:#185FA5; font-weight:600; }
+    [data-theme="dark"] .t-strip { background:#0f2318; border-left-color:#3fb950; }
+    [data-theme="dark"] .t-green { background:#152820; color:#3fb950; }
+    [data-theme="dark"] .t-amber { background:#2d2010; color:#d4a843; }
+    [data-theme="dark"] .t-body { color:#8b949e; }
+    [data-theme="dark"] .t-link { color:#58a6ff; }
     @media (max-width: 600px) {
       .quick-bar-inner { grid-template-columns: 1fr; }
       .vs-badge { display: none; }
@@ -262,11 +274,11 @@
 <div class="content">
 
   <!-- PATCH 1: RADICAL TRANSPARENCY STRIP -->
-  <div style="border-left:3px solid #1D9E75;background:#f8fdf9;padding:12px 16px;margin-bottom:1.5rem;border-radius:0 8px 8px 0;font-size:13px;line-height:1.6;">
-    <span style="background:#EAF3DE;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;margin-right:6px;">Open rankings</span>
-    <span style="background:#FAEEDA;color:#854F0B;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;margin-right:8px;">Affiliate funded</span>
-    Rankings are never influenced by commission rates. We may earn a small fee on affiliate clicks — this pays our $0 infrastructure bill.
-    <a href="https://github.com/aiopentec/opensource-alternative-finder" style="color:#185FA5;font-weight:600;margin-left:4px;">View our open-source algorithm →</a>
+  <div class="t-strip">
+    <span class="t-badge t-green">Open rankings</span>
+    <span class="t-badge t-amber">Affiliate funded</span>
+    <span class="t-body">Rankings are never influenced by commission rates. We may earn a small fee on affiliate clicks — this pays our $0 infrastructure bill.</span>
+    <a href="https://github.com/aiopentec/opensource-alternative-finder" class="t-link">View our open-source algorithm →</a>
   </div>
 
   
@@ -318,14 +330,14 @@
   <div class="card">
     <h1>Jira vs Plane</h1>
 <h2>Overview</h2>
-Jira and Plane are project management tools designed to help teams organize and track their work. This comparison is beneficial for teams and organizations considering a project management solution, particularly those evaluating the trade-offs between proprietary and open-source options. Both tools cater to various industries and team sizes, offering features to enhance collaboration and productivity.
+Jira and Plane are project management tools designed to help teams organize and track their work. This comparison is beneficial for teams and organizations considering a project management solution, particularly those evaluating the trade-offs between a proprietary, cloud-based solution like Jira and an open-source, self-hosted alternative like Plane. Both tools offer a range of features to support agile project planning, issue tracking, and team collaboration.
 <h2>Key Differences</h2>
 <ul>
-<li>Cost: Jira offers a proprietary, subscription-based model, while Plane is free and open-source, with optional self-hosting.</li>
-<li>Data ownership: Plane allows for full data ownership due to its self-hosting capability, whereas Jira stores data on its servers.</li>
-<li>Setup complexity: Plane may require more technical expertise for self-hosting, while Jira provides a more straightforward, cloud-based setup.</li>
-<li>Scalability: Jira is designed for large-scale, enterprise deployments, while Plane is suitable for teams of all sizes, with self-hosting options for greater control.</li>
-<li>Ecosystem: Jira has a more extensive ecosystem of integrations and plugins, while Plane's open-source nature allows for community-driven development and customization.</li>
+<li>Cost: Jira offers a tiered pricing model, while Plane is free for self-hosted deployments.</li>
+<li>Data ownership: Plane allows for full data ownership and control, as it can be self-hosted, whereas Jira stores data on its proprietary cloud infrastructure.</li>
+<li>Setup complexity: Jira has a more streamlined setup process, while Plane requires more technical expertise for self-hosting.</li>
+<li>Scalability: Jira is designed to scale with large, complex enterprises, whereas Plane's scalability depends on the infrastructure it's hosted on.</li>
+<li>Ecosystem: Jira has a larger, more established ecosystem of integrations and plugins, while Plane's ecosystem is smaller but growing.</li>
 </ul>
 <h2>Pricing Comparison</h2>
 <div class="table-wrapper"><table>
@@ -337,46 +349,42 @@ Jira and Plane are project management tools designed to help teams organize and 
 </tbody></table></div>
 <h2>Pros and Cons</h2>
 <h3>Jira</h3>
-Pros:
 <ul>
-<li>Robust feature set and customization options</li>
-<li>Large ecosystem of integrations and plugins</li>
-<li>Scalable and suitable for large enterprises</li>
-<li>User-friendly interface and mobile apps</li>
-<li>Reliable customer support</li>
+<li>Pros:</li>
 </ul>
-Cons:
+  + Robust feature set and customization options
+  + Large ecosystem of integrations and plugins
+  + Scalable and reliable cloud infrastructure
 <ul>
-<li>Can be expensive, especially for large teams</li>
-<li>Data storage and ownership concerns</li>
-<li>Steeper learning curve due to feature complexity</li>
+<li>Cons:</li>
 </ul>
+  + Can be expensive, particularly for large teams
+  + Data stored on proprietary cloud infrastructure
+  + Limited control over data and infrastructure
 <h3>Plane</h3>
-Pros:
 <ul>
-<li>Free and open-source, with self-hosting options</li>
-<li>Full data ownership and control</li>
-<li>Customizable and extensible through community-driven development</li>
-<li>Suitable for teams of all sizes, with flexible deployment options</li>
-<li>Cost-effective for small to medium-sized teams</li>
+<li>Pros:</li>
 </ul>
-Cons:
+  + Free and open-source, with full data ownership and control
+  + Highly customizable and extensible
+  + Can be self-hosted on existing infrastructure
 <ul>
-<li>May require technical expertise for self-hosting and customization</li>
-<li>Smaller ecosystem of integrations and plugins compared to Jira</li>
-<li>Limited customer support compared to proprietary solutions</li>
+<li>Cons:</li>
 </ul>
+  + Requires technical expertise for self-hosting and customization
+  + Smaller ecosystem of integrations and plugins
+  + Scalability depends on hosting infrastructure
 <h2>When to Choose Each</h2>
 <h3>Jira</h3>
-Jira is ideal for large enterprises or teams that require a robust, scalable project management solution with a wide range of features and integrations. It is suitable for organizations with the budget to support its costs and prioritize ease of use and customer support.
+Jira is ideal for large, complex enterprises that require a robust, scalable project management solution with a wide range of features and integrations. Teams that value ease of use, streamlined setup, and reliable cloud infrastructure may also prefer Jira.
 <h3>Plane</h3>
-Plane is suitable for teams and organizations that value data ownership, customization, and cost-effectiveness. It is ideal for small to medium-sized teams, open-source enthusiasts, and organizations with technical expertise to self-host and customize the platform.
+Plane is suitable for teams and organizations that prioritize data ownership, control, and customization. Those with existing infrastructure and technical expertise may prefer Plane's self-hosted option, while smaller teams and open-source enthusiasts may appreciate its free and extensible nature.
 <h2>Migration Path</h2>
 To migrate from Jira to Plane, follow these steps:
 <ol>
 <li>Export your Jira data using Jira's built-in export tools or APIs.</li>
-<li>Set up a Plane instance, either self-hosted or using a cloud provider, and configure the necessary features and workflows.</li>
-<li>Import your exported Jira data into Plane, using Plane's import tools or APIs, and verify the integrity of the migrated data.</li>
+<li>Set up a Plane instance, either self-hosted or using a cloud provider, and configure the necessary features and integrations.</li>
+<li>Import your exported Jira data into Plane, using Plane's import tools or APIs, and verify that all data has been transferred correctly.</li>
 </ol>
 <hr>
 <em>Data sourced April 2026. Verify current pricing at https://atlassian.com/jira and https://plane.so.</em>
@@ -444,7 +452,9 @@ To migrate from Jira to Plane, follow these steps:
   Hosted on <a href="https://pages.github.com">GitHub Pages</a> &nbsp;·&nbsp; $0/month to operate &nbsp;·&nbsp;
   <a href="../privacy/">Privacy Policy</a> &nbsp;·&nbsp;
   <a href="../about/">About</a> &nbsp;·&nbsp;
-  <a href="../contact/">Contact</a><br>
+  <a href="../contact/">Contact</a> &nbsp;·&nbsp;
+  <a href="../stack-builder/">Stack Builder</a> &nbsp;·&nbsp;
+  <a href="../logo-api/">Logo API</a><br>
   <!-- PATCH 6: reframed AI disclaimer -->
   <span style="font-size:0.8rem; opacity:0.7">AI-researched and updated daily. Community corrections welcome — <a href="https://github.com/aiopentec/opensource-alternative-finder/issues" style="color:#7fbfff">open a PR</a>. Verify pricing at official sites before switching.</span>
 </footer>

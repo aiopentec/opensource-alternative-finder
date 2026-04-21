@@ -30,7 +30,7 @@
     "@type": "Article",
     "headline": "Wix vs WordPress.org",
     "description": "Is WordPress.org a good free alternative to Wix? Detailed comparison of pricing (Free / $17–$159/month), features, self-hosting difficulty, and migration guide. Save money by switching to open source.",
-    "dateModified": "2026-04-21T08:05:00Z",
+    "dateModified": "2026-04-21T23:42:25Z",
     "publisher": {
       "@type": "Organization",
       "name": "Open Source Alternative Finder",
@@ -210,6 +210,18 @@
     .email-box .ml-embedded p, .email-box .ml-embedded h4, .email-box .ml-embedded .ml-form-embedBody-header { display: none !important; }
     footer { text-align: center; padding: 2.5rem 1rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 2rem; background: #fff; }
     footer a { color: var(--blue); }
+    /* ── Transparency strip ── */
+    .t-strip { border-left:3px solid #1D9E75; background:#f8fdf9; padding:12px 16px; margin-bottom:1.5rem; border-radius:0 8px 8px 0; font-size:13px; line-height:1.7; display:flex; flex-wrap:wrap; align-items:center; gap:0.4rem; }
+    .t-badge { font-size:11px; font-weight:700; padding:2px 8px; border-radius:20px; }
+    .t-green { background:#EAF3DE; color:#1A7A3F; }
+    .t-amber { background:#FAEEDA; color:#854F0B; }
+    .t-body { color:#4A5568; }
+    .t-link { color:#185FA5; font-weight:600; }
+    [data-theme="dark"] .t-strip { background:#0f2318; border-left-color:#3fb950; }
+    [data-theme="dark"] .t-green { background:#152820; color:#3fb950; }
+    [data-theme="dark"] .t-amber { background:#2d2010; color:#d4a843; }
+    [data-theme="dark"] .t-body { color:#8b949e; }
+    [data-theme="dark"] .t-link { color:#58a6ff; }
     @media (max-width: 600px) {
       .quick-bar-inner { grid-template-columns: 1fr; }
       .vs-badge { display: none; }
@@ -262,11 +274,11 @@
 <div class="content">
 
   <!-- PATCH 1: RADICAL TRANSPARENCY STRIP -->
-  <div style="border-left:3px solid #1D9E75;background:#f8fdf9;padding:12px 16px;margin-bottom:1.5rem;border-radius:0 8px 8px 0;font-size:13px;line-height:1.6;">
-    <span style="background:#EAF3DE;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;margin-right:6px;">Open rankings</span>
-    <span style="background:#FAEEDA;color:#854F0B;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;margin-right:8px;">Affiliate funded</span>
-    Rankings are never influenced by commission rates. We may earn a small fee on affiliate clicks — this pays our $0 infrastructure bill.
-    <a href="https://github.com/aiopentec/opensource-alternative-finder" style="color:#185FA5;font-weight:600;margin-left:4px;">View our open-source algorithm →</a>
+  <div class="t-strip">
+    <span class="t-badge t-green">Open rankings</span>
+    <span class="t-badge t-amber">Affiliate funded</span>
+    <span class="t-body">Rankings are never influenced by commission rates. We may earn a small fee on affiliate clicks — this pays our $0 infrastructure bill.</span>
+    <a href="https://github.com/aiopentec/opensource-alternative-finder" class="t-link">View our open-source algorithm →</a>
   </div>
 
   
@@ -435,7 +447,9 @@
   Hosted on <a href="https://pages.github.com">GitHub Pages</a> &nbsp;·&nbsp; $0/month to operate &nbsp;·&nbsp;
   <a href="../privacy/">Privacy Policy</a> &nbsp;·&nbsp;
   <a href="../about/">About</a> &nbsp;·&nbsp;
-  <a href="../contact/">Contact</a><br>
+  <a href="../contact/">Contact</a> &nbsp;·&nbsp;
+  <a href="../stack-builder/">Stack Builder</a> &nbsp;·&nbsp;
+  <a href="../logo-api/">Logo API</a><br>
   <!-- PATCH 6: reframed AI disclaimer -->
   <span style="font-size:0.8rem; opacity:0.7">AI-researched and updated daily. Community corrections welcome — <a href="https://github.com/aiopentec/opensource-alternative-finder/issues" style="color:#7fbfff">open a PR</a>. Verify pricing at official sites before switching.</span>
 </footer>
