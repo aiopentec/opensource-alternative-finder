@@ -80,86 +80,6 @@ AFFILIATE_LINKS = {
     'taiga':      'https://taiga.io',
 }
 
-# ── Simple Icons CDN slugs ────────────────────────────────────────────────────
-# CDN: https://cdn.simpleicons.org/<slug>  — free, zero API key, ~3,000 icons
-SIMPLEICONS_SLUGS: Dict[str, str] = {
-    # Productivity / Docs
-    "Notion": "notion", "Confluence": "confluence",
-    "Google Workspace": "google", "Google Docs": "googledocs",
-    "Microsoft 365": "microsoft", "Coda": "coda",
-    # Project Management
-    "Jira": "jira", "Asana": "asana", "Monday.com": "monday",
-    "ClickUp": "clickup", "Basecamp": "basecamp", "Trello": "trello",
-    "Linear": "linear", "Wrike": "wrike",
-    # Design
-    "Figma": "figma", "Sketch": "sketch", "Adobe XD": "adobe",
-    "Adobe Illustrator": "adobeillustrator", "Canva": "canva",
-    "Miro": "miro", "InVision": "invision",
-    # Communication
-    "Slack": "slack", "Microsoft Teams": "microsoftteams",
-    "Zoom": "zoom", "Discord": "discord",
-    "Intercom": "intercom", "Zendesk": "zendesk", "Freshdesk": "freshdesk",
-    # Dev Tools
-    "GitHub": "github", "GitLab": "gitlab", "Bitbucket": "bitbucket",
-    "CircleCI": "circleci", "Travis CI": "travisci", "Jenkins": "jenkins",
-    "Datadog": "datadog", "New Relic": "newrelic",
-    "Sentry": "sentry", "Postman": "postman",
-    # CRM / Marketing
-    "HubSpot": "hubspot", "Salesforce": "salesforce",
-    "Mailchimp": "mailchimp", "Pipedrive": "pipedrive", "Airtable": "airtable",
-    # Analytics
-    "Google Analytics": "googleanalytics", "Mixpanel": "mixpanel",
-    "Amplitude": "amplitude", "Tableau": "tableau",
-    "Power BI": "powerbi", "Looker": "looker",
-    # Storage
-    "Dropbox": "dropbox", "Box": "box",
-    "Google Drive": "googledrive", "OneDrive": "microsoftonedrive",
-    # Security / Auth
-    "1Password": "1password", "LastPass": "lastpass", "Okta": "okta",
-    # Finance
-    "QuickBooks": "quickbooks", "Xero": "xero",
-    # Cloud / Infra
-    "AWS": "amazonaws", "Google Cloud": "googlecloud",
-    "Azure": "microsoftazure", "Heroku": "heroku",
-    "Vercel": "vercel", "Netlify": "netlify",
-    "Cloudflare": "cloudflare", "DigitalOcean": "digitalocean",
-    # Ecommerce
-    "Shopify": "shopify", "WooCommerce": "woocommerce", "Stripe": "stripe",
-    # ── Open-source alternatives ──────────────────────────────────────────
-    "Nextcloud": "nextcloud", "Penpot": "penpot", "Plane": "plane",
-    "Mattermost": "mattermost", "Rocket.Chat": "rocketchat",
-    "Zulip": "zulip", "Element": "element",
-    "Gitea": "gitea", "Forgejo": "forgejo",
-    "Odoo": "odoo", "Metabase": "metabase",
-    "Apache Superset": "apachesuperset", "Grafana": "grafana",
-    "Prometheus": "prometheus", "Keycloak": "keycloak",
-    "Bitwarden": "bitwarden", "Plausible": "plausible",
-    "Matomo": "matomo", "Ghost": "ghost", "WordPress": "wordpress",
-    "Supabase": "supabase", "Appwrite": "appwrite",
-    "n8n": "n8n", "Cal.com": "caldotcom",
-    "Outline": "outline", "BookStack": "bookstack",
-    "Taiga": "taiga", "OpenProject": "openproject",
-    "AppFlowy": "appflowy", "Obsidian": "obsidian", "Logseq": "logseq",
-    "NocoDB": "nocodb", "Listmonk": "listmonk", "WeKan": "wekan",
-    "Jitsi": "jitsi", "Inkscape": "inkscape",
-}
-
-
-def get_tool_logo_html(tool_name: str, size: int = 26) -> str:
-    """Return a Simple Icons <img> for tool_name, or a letter-avatar fallback."""
-    slug = SIMPLEICONS_SLUGS.get(tool_name, "")
-    if slug:
-        return (
-            f'<img class="tool-logo" '
-            f'src="https://cdn.simpleicons.org/{slug}" '
-            f'width="{size}" height="{size}" '
-            f'alt="{tool_name} logo" loading="lazy" '
-            f'onerror="this.style.display=\'none\'">'
-        )
-    initial = tool_name[0].upper() if tool_name else "?"
-    return f'<span class="tool-logo-fallback" aria-hidden="true">{initial}</span>'
-
-
 HOSTING_DIFFICULTY = {
     'element':    {'score': 3, 'label': 'Moderate',  'time': '~2 hours',   'method': 'Docker',        'note': 'Requires a server and domain. Docker setup is well documented.'},
     'mattermost': {'score': 2, 'label': 'Easy',      'time': '~30 mins',   'method': 'Docker',        'note': 'Official Docker image makes setup straightforward on any VPS.'},
@@ -485,6 +405,56 @@ COMPARISON_PAGE = """<!DOCTYPE html>
     }}
   }}
   </script>
+  <script type="application/ld+json">
+  {{
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "{oss_name}",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Linux, Windows, macOS, Web",
+    "offers": {{
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "description": "Free and open source — self-host for $0/month"
+    }},
+    "description": "Free open-source alternative to {prop_name}. {seo_description}",
+    "url": "{canonical_url}",
+    "sameAs": "{canonical_url}"
+  }}
+  </script>
+  <script type="application/ld+json">
+  {{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {{
+        "@type": "Question",
+        "name": "Is {oss_name} a good alternative to {prop_name}?",
+        "acceptedAnswer": {{
+          "@type": "Answer",
+          "text": "{seo_description}"
+        }}
+      }},
+      {{
+        "@type": "Question",
+        "name": "How much does {oss_name} cost compared to {prop_name}?",
+        "acceptedAnswer": {{
+          "@type": "Answer",
+          "text": "{prop_name} costs {prop_pricing}. {oss_name} is free to self-host — the only cost is your server infrastructure, typically $5-20/month regardless of team size."
+        }}
+      }},
+      {{
+        "@type": "Question",
+        "name": "How hard is it to set up {oss_name}?",
+        "acceptedAnswer": {{
+          "@type": "Answer",
+          "text": "Self-hosting difficulty for {oss_name} is rated {difficulty_label}. See the full setup guide on this page."
+        }}
+      }}
+    ]
+  }}
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
@@ -511,55 +481,6 @@ COMPARISON_PAGE = """<!DOCTYPE html>
       --text: #1A202C; --text-muted: #718096;
       --border: #E2E8F0; --shadow: 0 2px 8px rgba(0,0,0,0.08);
     }}
-    [data-theme="dark"] {{
-      --bg: #0d1117; --card: #161b22; --border: #30363d;
-      --text: #e6edf3; --text-muted: #8b949e;
-      --blue: #58a6ff; --blue-light: #79b8ff; --blue-bg: #0c2d4a;
-      --green: #3fb950; --green-bg: #1b2d1f;
-      --prop-bg: #2d1616; --prop-text: #f47067; --prop-border: #5a2020;
-      --oss-bg: #152820; --oss-text: #3fb950; --oss-border: #1f4a2a;
-      --verdict-switch-bg: #152820; --verdict-stay-bg: #2d2314;
-      --amber-bg: #2d2010; --amber-border: #4a3510; --amber-text: #d4a843;
-      --transparent-strip-bg: #0f1f14; --transparent-strip-border: #1a3a20;
-    }}
-    [data-theme="dark"] body {{ background: var(--bg); color: var(--text); }}
-    [data-theme="dark"] .hero {{ background: linear-gradient(135deg, #0a1628 0%, #0d2440 100%); }}
-    [data-theme="dark"] .quick-bar {{ background: #0d1117; border-bottom-color: #30363d; }}
-    [data-theme="dark"] .qb-tool {{ background: var(--card) !important; border-color: var(--border) !important; }}
-    [data-theme="dark"] .qb-tool.proprietary {{ background: var(--prop-bg) !important; border-color: var(--prop-border) !important; }}
-    [data-theme="dark"] .qb-tool.proprietary .name {{ color: var(--prop-text) !important; }}
-    [data-theme="dark"] .qb-tool.proprietary .visit-btn {{ background: #3d1a1a !important; color: var(--prop-text) !important; }}
-    [data-theme="dark"] .qb-tool.opensource {{ background: var(--oss-bg) !important; border-color: var(--oss-border) !important; }}
-    [data-theme="dark"] .qb-tool.opensource .name {{ color: var(--oss-text) !important; }}
-    [data-theme="dark"] .qb-tool.opensource .visit-btn {{ background: #1a3a22 !important; color: var(--oss-text) !important; }}
-    [data-theme="dark"] .qb-tool .price {{ color: #8b949e; }}
-    [data-theme="dark"] .vs-badge {{ color: #58a6ff; }}
-    [data-theme="dark"] .card {{ background: var(--card); border-color: var(--border); box-shadow: 0 2px 8px rgba(0,0,0,0.4); }}
-    [data-theme="dark"] .card h2 {{ color: var(--blue); border-bottom-color: var(--blue-bg); }}
-    [data-theme="dark"] .card h3 {{ color: var(--text); }}
-    [data-theme="dark"] .card p, [data-theme="dark"] .card li {{ color: #c9d1d9; }}
-    [data-theme="dark"] .card code {{ background: #21262d; color: #ff7b72; }}
-    [data-theme="dark"] .card blockquote {{ background: var(--blue-bg); border-left-color: var(--blue); color: #8b949e; }}
-    [data-theme="dark"] thead th {{ background: #0c2d4a; }}
-    [data-theme="dark"] tbody tr:nth-child(even) td {{ background: #1c2128; }}
-    [data-theme="dark"] tbody td {{ border-bottom-color: #30363d; color: #c9d1d9; }}
-    [data-theme="dark"] .verdict-box {{ background: var(--card); border-color: var(--blue); }}
-    [data-theme="dark"] .verdict-header {{ color: var(--blue); }}
-    [data-theme="dark"] .verdict-switch {{ background: var(--verdict-switch-bg) !important; border-color: #1f4a2a !important; }}
-    [data-theme="dark"] .verdict-stay {{ background: var(--verdict-stay-bg) !important; border-color: #4a3510 !important; }}
-    [data-theme="dark"] .verdict-switch .verdict-label {{ color: #3fb950; }}
-    [data-theme="dark"] .verdict-stay .verdict-label {{ color: #d4a843; }}
-    [data-theme="dark"] .verdict-text {{ color: #c9d1d9; }}
-    [data-theme="dark"] .related-link {{ background: #1c2128; border-color: #30363d; color: var(--blue); }}
-    [data-theme="dark"] .related-link:hover {{ background: var(--blue); color: #0d1117; border-color: var(--blue); }}
-    [data-theme="dark"] .email-box {{ background: linear-gradient(135deg, #0a1628, #0d2440); }}
-    [data-theme="dark"] footer {{ background: #0d1117; border-top-color: #30363d; color: #8b949e; }}
-    [data-theme="dark"] footer a {{ color: var(--blue); }}
-    [data-theme="dark"] nav {{ background: #010409; }}
-    [data-theme="dark"] .difficulty-card {{ background: var(--card); border-color: var(--border); }}
-    [data-theme="dark"] .difficulty-note {{ color: #8b949e; }}
-    [data-theme="dark"] .difficulty-meta {{ color: #8b949e; }}
-    [data-theme="dark"] .difficulty-meta strong {{ color: #c9d1d9; }}
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
     body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }}
     a {{ color: var(--blue); }}
@@ -642,18 +563,6 @@ COMPARISON_PAGE = """<!DOCTYPE html>
     .email-box .ml-embedded p, .email-box .ml-embedded h4, .email-box .ml-embedded .ml-form-embedBody-header {{ display: none !important; }}
     footer {{ text-align: center; padding: 2.5rem 1rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 2rem; background: #fff; }}
     footer a {{ color: var(--blue); }}
-    /* ── Transparency strip ── */
-    .t-strip {{ border-left:3px solid #1D9E75; background:#f8fdf9; padding:12px 16px; margin-bottom:1.5rem; border-radius:0 8px 8px 0; font-size:13px; line-height:1.7; display:flex; flex-wrap:wrap; align-items:center; gap:0.4rem; }}
-    .t-badge {{ font-size:11px; font-weight:700; padding:2px 8px; border-radius:20px; }}
-    .t-green {{ background:#EAF3DE; color:#1A7A3F; }}
-    .t-amber {{ background:#FAEEDA; color:#854F0B; }}
-    .t-body {{ color:#4A5568; }}
-    .t-link {{ color:#185FA5; font-weight:600; }}
-    [data-theme="dark"] .t-strip {{ background:#0f2318; border-left-color:#3fb950; }}
-    [data-theme="dark"] .t-green {{ background:#152820; color:#3fb950; }}
-    [data-theme="dark"] .t-amber {{ background:#2d2010; color:#d4a843; }}
-    [data-theme="dark"] .t-body {{ color:#8b949e; }}
-    [data-theme="dark"] .t-link {{ color:#58a6ff; }}
     @media (max-width: 600px) {{
       .quick-bar-inner {{ grid-template-columns: 1fr; }}
       .vs-badge {{ display: none; }}
@@ -689,14 +598,14 @@ COMPARISON_PAGE = """<!DOCTYPE html>
   <div class="quick-bar-inner">
     <div class="qb-tool proprietary">
       <div class="label">Proprietary</div>
-      <div class="name" style="display:flex;align-items:center;justify-content:center;gap:7px;">{prop_logo}{prop_name}</div>
+      <div class="name">{prop_name}</div>
       <div class="price">{prop_pricing}</div>
       <a href="{prop_affiliate}" target="_blank" rel="noopener sponsored" class="visit-btn">Visit {prop_name} →</a>
     </div>
     <div class="vs-badge">VS</div>
     <div class="qb-tool opensource">
       <div class="label">Open Source ✅</div>
-      <div class="name" style="display:flex;align-items:center;justify-content:center;gap:7px;">{oss_logo}{oss_name}</div>
+      <div class="name">{oss_name}</div>
       <div class="price">{oss_pricing}</div>
       <a href="{oss_website}" target="_blank" rel="noopener" class="visit-btn">Visit {oss_name} →</a>
     </div>
@@ -706,11 +615,11 @@ COMPARISON_PAGE = """<!DOCTYPE html>
 <div class="content">
 
   <!-- PATCH 1: RADICAL TRANSPARENCY STRIP -->
-  <div class="t-strip">
-    <span class="t-badge t-green">Open rankings</span>
-    <span class="t-badge t-amber">Affiliate funded</span>
-    <span class="t-body">Rankings are never influenced by commission rates. We may earn a small fee on affiliate clicks — this pays our $0 infrastructure bill.</span>
-    <a href="https://github.com/aiopentec/opensource-alternative-finder" class="t-link">View our open-source algorithm →</a>
+  <div style="border-left:3px solid #1D9E75;background:#f8fdf9;padding:12px 16px;margin-bottom:1.5rem;border-radius:0 8px 8px 0;font-size:13px;line-height:1.6;">
+    <span style="background:#EAF3DE;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;margin-right:6px;">Open rankings</span>
+    <span style="background:#FAEEDA;color:#854F0B;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;margin-right:8px;">Affiliate funded</span>
+    Rankings are never influenced by commission rates. We may earn a small fee on affiliate clicks — this pays our $0 infrastructure bill.
+    <a href="https://github.com/aiopentec/opensource-alternative-finder" style="color:#185FA5;font-weight:600;margin-left:4px;">View our open-source algorithm →</a>
   </div>
 
   {carbon_ad}
@@ -754,30 +663,10 @@ COMPARISON_PAGE = """<!DOCTYPE html>
   Hosted on <a href="https://pages.github.com">GitHub Pages</a> &nbsp;·&nbsp; $0/month to operate &nbsp;·&nbsp;
   <a href="../privacy/">Privacy Policy</a> &nbsp;·&nbsp;
   <a href="../about/">About</a> &nbsp;·&nbsp;
-  <a href="../contact/">Contact</a> &nbsp;·&nbsp;
-  <a href="../stack-builder/">Stack Builder</a> &nbsp;·&nbsp;
-  <a href="../logo-api/">Logo API</a><br>
+  <a href="../contact/">Contact</a><br>
   <!-- PATCH 6: reframed AI disclaimer -->
   <span style="font-size:0.8rem; opacity:0.7">AI-researched and updated daily. Community corrections welcome — <a href="https://github.com/aiopentec/opensource-alternative-finder/issues" style="color:#7fbfff">open a PR</a>. Verify pricing at official sites before switching.</span>
 </footer>
-
-<button class="dark-toggle" onclick="toggleDark()" title="Toggle dark mode">
-  <span id="dark-icon">🌙</span> Dark
-</button>
-<script>
-(function() {{
-  const saved = localStorage.getItem('theme');
-  if (saved) {{ document.documentElement.setAttribute('data-theme', saved); }}
-  if (saved === 'dark') {{ const el = document.getElementById('dark-icon'); if (el) el.textContent = '☀️'; }}
-}})();
-function toggleDark() {{
-  const html = document.documentElement;
-  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  html.setAttribute('data-theme', next);
-  localStorage.setItem('theme', next);
-  document.getElementById('dark-icon').textContent = next === 'dark' ? '☀️' : '🌙';
-}}
-</script>
 
 </body>
 </html>"""
@@ -829,34 +718,8 @@ INDEX_PAGE = """<!DOCTYPE html>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
     :root {{ --blue: #1F5C99; --blue-light: #2980B9; --green: #1A7A3F; --bg: #F0F4F8; --card: #fff; --border: #E2E8F0; --text: #1A202C; --text-muted: #718096; }}
-    [data-theme="dark"] {{ --bg: #0d1117; --card: #161b22; --border: #30363d; --text: #e6edf3; --text-muted: #8b949e; --blue: #58a6ff; --blue-light: #79b8ff; --green: #3fb950; }}
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-    body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; transition: background 0.2s, color 0.2s; }}
-    [data-theme="dark"] .hero {{ background: linear-gradient(135deg, #0a1628 0%, #0d2440 100%); }}
-    [data-theme="dark"] .search-bar {{ background: #161b22; border-bottom-color: #30363d; }}
-    [data-theme="dark"] .search-input {{ background: #0d1117; border-color: #30363d; color: #e6edf3; }}
-    [data-theme="dark"] .filter-btn {{ background: #161b22; border-color: #30363d; color: #8b949e; }}
-    [data-theme="dark"] .filter-btn:hover, [data-theme="dark"] .filter-btn.active {{ background: #58a6ff; border-color: #58a6ff; color: #0d1117; font-weight: 700; }}
-    [data-theme="dark"] .filter-label {{ color: #8b949e; }}
-    [data-theme="dark"] .card {{ background: #161b22; border-color: #30363d; box-shadow: 0 2px 12px rgba(0,0,0,0.5); }}
-    [data-theme="dark"] .card:hover {{ border-color: #58a6ff; box-shadow: 0 12px 32px rgba(0,0,0,0.7); }}
-    [data-theme="dark"] .savings {{ background: #152820; border-color: #1f4a2a; }}
-    [data-theme="dark"] .savings .label {{ color: #8b949e; }}
-    [data-theme="dark"] .savings .value {{ color: #3fb950; }}
-    [data-theme="dark"] .cta {{ background: #58a6ff; color: #0d1117; font-weight: 700; }}
-    [data-theme="dark"] .cta:hover {{ background: #79b8ff; }}
-    [data-theme="dark"] footer {{ background: #0d1117; border-top-color: #30363d; color: #8b949e; }}
-    [data-theme="dark"] footer a {{ color: #58a6ff; }}
-    .dark-toggle {{ position: fixed; bottom: 1.25rem; right: 1.25rem; z-index: 999; background: var(--card); border: 1px solid var(--border); border-radius: 50px; padding: 0.45rem 0.9rem; cursor: pointer; font-size: 0.82rem; font-weight: 700; color: var(--text); box-shadow: 0 4px 14px rgba(0,0,0,0.18); display: flex; align-items: center; gap: 0.4rem; transition: all 0.15s; }}
-    .dark-toggle:hover {{ box-shadow: 0 6px 20px rgba(0,0,0,0.22); }}
-    .tool-logo {{ display: inline-block; vertical-align: middle; border-radius: 4px; object-fit: contain; flex-shrink: 0; }}
-    .tool-logo-fallback {{ display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 6px; background: #e2e8f0; color: #475569; font-size: 12px; font-weight: 800; flex-shrink: 0; }}
-    [data-theme="dark"] .tool-logo {{ filter: brightness(0) invert(1); opacity: 0.82; }}
-    [data-theme="dark"] .tool-logo-fallback {{ background: #2d3550; color: #8892aa; }}
-    .card-tool-row {{ display: flex; align-items: center; gap: 7px; line-height: 1; }}
-    .card-tool-row .tname {{ font-weight: 700; font-size: 1rem; }}
-    .card-tool-row .tname.prop {{ color: #C0392B; }}
-    [data-theme="dark"] .card-tool-row .tname.prop {{ color: #e07070; }}
+    body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }}
     .hero {{ background: linear-gradient(135deg, var(--blue) 0%, var(--blue-light) 100%); color: #fff; padding: 4rem 1.5rem 3rem; text-align: center; }}
     .hero h1 {{ font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; margin-bottom: 0.75rem; }}
     .hero p {{ opacity: 0.88; font-size: 1.1rem; max-width: 580px; margin: 0 auto 2rem; }}
@@ -871,6 +734,7 @@ INDEX_PAGE = """<!DOCTYPE html>
     .filter-btn {{ padding: 0.4rem 1rem; border-radius: 20px; border: 2px solid var(--border); background: #fff; cursor: pointer; font-size: 0.82rem; font-weight: 600; color: var(--text-muted); transition: all 0.15s; }}
     .filter-btn:hover, .filter-btn.active {{ background: var(--blue); color: #fff; border-color: var(--blue); }}
     .filter-label {{ font-size: 0.82rem; font-weight: 700; color: var(--text-muted); white-space: nowrap; }}
+    [data-theme="dark"] .search-bar .search-bar-inner + .search-bar-inner {{ border-top-color: #30363d; }}
     .grid {{ max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }}
     .card {{ background: var(--card); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; display: flex; flex-direction: column; cursor: pointer; }}
     .card:hover {{ transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0,0,0,0.14); border-color: #AED6F1; }}
@@ -945,9 +809,16 @@ INDEX_PAGE = """<!DOCTYPE html>
 <div class="search-bar">
   <div class="search-bar-inner">
     <input class="search-input" type="search" placeholder="🔎  Search tools... (e.g. Slack, Notion, Figma)" oninput="handleSearch(this.value)" aria-label="Search comparisons">
-    <span class="filter-label">Filter:</span>
+    <span class="filter-label">Category:</span>
     <button class="filter-btn active" onclick="filterCards('all', this)">All</button>
     {filter_buttons}
+  </div>
+  <div class="search-bar-inner" style="padding-top:0.5rem;border-top:1px solid var(--border);margin-top:0.5rem;">
+    <span class="filter-label">Setup difficulty:</span>
+    <button class="filter-btn diff-btn active" onclick="filterDifficulty('all', this)">All</button>
+    <button class="filter-btn diff-btn" onclick="filterDifficulty('easy', this)" title="Score 1-2: Very Easy or Easy">⚡ Easy (≤2)</button>
+    <button class="filter-btn diff-btn" onclick="filterDifficulty('moderate', this)" title="Score 3: Moderate">🔧 Moderate</button>
+    <button class="filter-btn diff-btn" onclick="filterDifficulty('advanced', this)" title="Score 4-5: Advanced">🛠️ Advanced</button>
   </div>
 </div>
 
@@ -1005,26 +876,6 @@ INDEX_PAGE = """<!DOCTYPE html>
   </div>
 </div>
 
-<div class="calc-banner" style="margin-top:0.75rem">
-  <div class="calc-banner-inner" style="background:linear-gradient(135deg,#0d1f2d,#0a1a2e);border-color:rgba(88,166,255,0.3)">
-    <div class="calc-banner-text">
-      <div class="title" style="color:#58a6ff">🔧 Free Stack Builder</div>
-      <div class="sub">Tick the tools you pay for — instantly see your free replacement stack + savings</div>
-    </div>
-    <a class="calc-banner-btn" href="stack-builder/" style="background:linear-gradient(135deg,#1a3a5c,#58a6ff);color:#0d1117">Build My Free Stack →</a>
-  </div>
-</div>
-
-<div class="calc-banner" style="margin-top:0.75rem">
-  <div class="calc-banner-inner" style="background:linear-gradient(135deg,#1a0d2e,#2d1a4a);border-color:rgba(139,92,246,0.3)">
-    <div class="calc-banner-text">
-      <div class="title" style="color:#a78bfa">🔌 Logo API for Developers</div>
-      <div class="sub">One URL, any tool logo — free tier available for dashboards, READMEs, and comparison pages</div>
-    </div>
-    <a class="calc-banner-btn" href="logo-api/" style="background:linear-gradient(135deg,#4c1d95,#7c3aed);color:#fff">Get API Key →</a>
-  </div>
-</div>
-
 {trending_section}
 
 <!-- PATCH 5: MOST POPULAR COMPARISONS ABOVE FOLD -->
@@ -1046,19 +897,25 @@ INDEX_PAGE = """<!DOCTYPE html>
   <a href="blog/">Blog</a> &nbsp;·&nbsp;
   <a href="changelog/">Changelog</a> &nbsp;·&nbsp;
   <a href="stats/">Stats</a> &nbsp;·&nbsp;
-  <a href="quiz/">Quiz</a> &nbsp;·&nbsp;
-  <a href="stack-builder/">Stack Builder</a> &nbsp;·&nbsp;
-  <a href="logo-api/">Logo API</a><br>
+  <a href="quiz/">Quiz</a><br>
   <!-- PATCH 6: reframed disclaimer -->
   <span style="font-size:0.8rem; opacity:0.7">Updated {updated} &nbsp;·&nbsp; $0/month to operate &nbsp;·&nbsp; AI-researched daily · Verify details before switching</span>
 </footer>
 
 <script>
 let activeCategory = 'all';
+let activeDifficulty = 'all';
 
 function filterCards(category, btn) {{
   activeCategory = category;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.filter-btn:not(.diff-btn)').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  applyFilters();
+}}
+
+function filterDifficulty(level, btn) {{
+  activeDifficulty = level;
+  document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
   applyFilters();
 }}
@@ -1071,32 +928,20 @@ function applyFilters(query) {{
   const q = query || document.querySelector('.search-input').value.toLowerCase();
   let visible = 0;
   document.querySelectorAll('#card-grid .card').forEach(card => {{
-    const matchCat = activeCategory === 'all' || card.dataset.category === activeCategory;
-    const matchQ   = !q || card.dataset.search.includes(q);
-    card.style.display = (matchCat && matchQ) ? '' : 'none';
-    if (matchCat && matchQ) visible++;
+    const matchCat  = activeCategory === 'all' || card.dataset.category === activeCategory;
+    const matchQ    = !q || card.dataset.search.includes(q);
+    const score     = parseInt(card.dataset.difficulty || '0');
+    let matchDiff   = true;
+    if (activeDifficulty === 'easy')     matchDiff = score >= 1 && score <= 2;
+    if (activeDifficulty === 'moderate') matchDiff = score === 3;
+    if (activeDifficulty === 'advanced') matchDiff = score >= 4;
+    const show = matchCat && matchQ && matchDiff;
+    card.style.display = show ? '' : 'none';
+    if (show) visible++;
   }});
   document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
 }}
-
-// ── Dark mode ──────────────────────────────────────────────────────────
-(function() {{
-  const saved = localStorage.getItem('theme');
-  if (saved) document.documentElement.setAttribute('data-theme', saved);
-  if (saved === 'dark') {{ const el = document.getElementById('dark-icon'); if (el) el.textContent = '☀️'; }}
-}})();
-function toggleDark() {{
-  const html = document.documentElement;
-  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  html.setAttribute('data-theme', next);
-  localStorage.setItem('theme', next);
-  document.getElementById('dark-icon').textContent = next === 'dark' ? '☀️' : '🌙';
-}}
 </script>
-
-<button class="dark-toggle" onclick="toggleDark()" title="Toggle dark mode">
-  <span id="dark-icon">🌙</span> Dark
-</button>
 
 </body>
 </html>"""
@@ -1297,6 +1142,9 @@ def build_migration_page(site_dir: str, comp: dict, updated: str):
   <meta property="og:title" content="{seo_title}">
   <meta property="og:description" content="{seo_desc}">
   <meta property="og:url" content="{canonical}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{seo_title}">
+  <meta name="twitter:description" content="{seo_desc}">
   <script type="application/ld+json">
   {{
     "@context": "https://schema.org",
@@ -1388,8 +1236,6 @@ def build_migration_page(site_dir: str, comp: dict, updated: str):
 <footer>
   Open Source Alternative Finder &nbsp;·&nbsp;
   <a href="../">Home</a> &nbsp;·&nbsp;
-  <a href="../stack-builder/">Stack Builder</a> &nbsp;·&nbsp;
-  <a href="../logo-api/">Logo API</a> &nbsp;·&nbsp;
   <a href="../privacy/">Privacy Policy</a><br>
   <span style="font-size:0.8rem;opacity:0.7">Migration steps are AI-researched. Verify with official documentation before proceeding.</span>
 </footer>
@@ -1511,8 +1357,6 @@ def build_sitemap(all_comparisons: List[Dict], site_dir: str, categories: List[s
         urls.append(f'  <url><loc>{SITE_BASE_URL}/{page}/</loc><changefreq>monthly</changefreq><priority>0.6</priority><lastmod>{today}</lastmod></url>')
     urls.append(f'  <url><loc>{SITE_BASE_URL}/price-hikes/</loc><changefreq>weekly</changefreq><priority>0.8</priority><lastmod>{today}</lastmod></url>')
     urls.append(f'  <url><loc>{SITE_BASE_URL}/infographics/</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>{today}</lastmod></url>')
-    urls.append(f'  <url><loc>{SITE_BASE_URL}/stack-builder/</loc><changefreq>monthly</changefreq><priority>0.9</priority><lastmod>{today}</lastmod></url>')
-    urls.append(f'  <url><loc>{SITE_BASE_URL}/logo-api/</loc><changefreq>monthly</changefreq><priority>0.9</priority><lastmod>{today}</lastmod></url>')
     for ind_slug in ['open-source-tools-for-startups', 'open-source-tools-for-developers', 'open-source-tools-for-remote-teams']:
         urls.append(f'  <url><loc>{SITE_BASE_URL}/{ind_slug}/</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>{today}</lastmod></url>')
     blog_slugs = [
@@ -1741,7 +1585,7 @@ def build_savings_calculator(site_dir: str):
   </div>
 </div>
 <footer>
-  Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp; <a href="../stack-builder/">Stack Builder</a> &nbsp;·&nbsp; <a href="../logo-api/">Logo API</a> &nbsp;·&nbsp; <a href="../privacy/">Privacy Policy</a><br>
+  Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp; <a href="../privacy/">Privacy Policy</a><br>
   <span style="opacity:0.6">Pricing estimates based on published rates. Actual costs vary by plan.</span>
 </footer>
 <script>
@@ -1850,6 +1694,11 @@ def build_changelog(site_dir: str, all_comparisons: List[Dict], updated: str):
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>Changelog — Open Source Alternative Finder | Updated {today}</title>
+  <meta property="og:title" content="Changelog | Open Source Alternative Finder">
+  <meta property="og:description" content="Weekly changelog — all tool comparisons, latest updates, and new open-source alternatives added.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Changelog | Open Source Alternative Finder">
+  <meta name="twitter:description" content="Weekly changelog — all tool comparisons, latest updates, and new open-source alternatives added.">
   <meta name="description" content="Weekly changelog for Open Source Alternative Finder. See all {len(all_comparisons)} tool comparisons, latest updates, and new open-source alternatives added.">
   <link rel="canonical" href="{SITE_BASE_URL}/changelog/">
   <meta name="robots" content="index, follow">
@@ -1940,7 +1789,7 @@ def build_changelog(site_dir: str, all_comparisons: List[Dict], updated: str):
   </div>
 </div>
 <footer>
-  Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp; <a href="../privacy/">Privacy Policy</a> &nbsp;·&nbsp; <a href="../savings-calculator/">Savings Calculator</a> &nbsp;·&nbsp; <a href="../stack-builder/">Stack Builder</a> &nbsp;·&nbsp; <a href="../logo-api/">Logo API</a><br>
+  Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp; <a href="../privacy/">Privacy Policy</a> &nbsp;·&nbsp; <a href="../savings-calculator/">Savings Calculator</a><br>
   <span style="font-size:0.8rem;opacity:0.7">Last updated: {today} &nbsp;·&nbsp; AI-researched daily</span>
 </footer>
 </body>
@@ -1961,6 +1810,12 @@ def build_about_page(site_dir: str, updated: str):
   <meta name="description" content="Learn about Open Source Alternative Finder — an AI-researched site helping teams discover free, open-source alternatives to expensive SaaS tools.">
   <link rel="canonical" href="{SITE_BASE_URL}/about/">
   <meta name="robots" content="index, follow">
+  <meta property="og:title" content="About | Open Source Alternative Finder">
+  <meta property="og:description" content="AI-researched comparisons helping teams discover free, open-source alternatives to expensive SaaS tools.">
+  <meta property="og:url" content="{SITE_BASE_URL}/about/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="About | Open Source Alternative Finder">
+  <meta name="twitter:description" content="AI-researched comparisons helping teams discover free, open-source alternatives to expensive SaaS tools.">
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
   <style>
     :root{{--blue:#1F5C99;--blue-light:#2980B9;--green:#1A7A3F;--bg:#F0F4F8;--card:#fff;--border:#E2E8F0;--text:#1A202C;--text-muted:#718096;--shadow:0 2px 8px rgba(0,0,0,0.08);}}
@@ -2030,7 +1885,7 @@ def build_about_page(site_dir: str, updated: str):
     <a href="../" style="display:inline-block;background:#F0F4F8;color:var(--blue);padding:0.65rem 1.75rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.9rem;border:1px solid var(--border);">View All Comparisons</a>
   </div>
 </div>
-<footer>Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp; <a href="../stack-builder/">Stack Builder</a> &nbsp;·&nbsp; <a href="../logo-api/">Logo API</a> &nbsp;·&nbsp; <a href="../contact/">Contact</a> &nbsp;·&nbsp; <a href="../privacy/">Privacy Policy</a><br>
+<footer>Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp; <a href="../contact/">Contact</a> &nbsp;·&nbsp; <a href="../privacy/">Privacy Policy</a><br>
 <span style="font-size:0.8rem;opacity:0.7">Updated {updated}</span></footer>
 </body></html>"""
     with open(about_dir / 'index.html', 'w') as f:
@@ -2049,6 +1904,12 @@ def build_contact_page(site_dir: str, updated: str):
   <meta name="description" content="Contact Open Source Alternative Finder. Suggest a new tool comparison, report an error, or ask about advertising and partnerships.">
   <link rel="canonical" href="{SITE_BASE_URL}/contact/">
   <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Contact | Open Source Alternative Finder">
+  <meta property="og:description" content="Suggest a tool, report an error, or ask about partnerships.">
+  <meta property="og:url" content="{SITE_BASE_URL}/contact/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Contact | Open Source Alternative Finder">
+  <meta name="twitter:description" content="Suggest a tool, report an error, or ask about partnerships.">
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
   <style>
     :root{{--blue:#1F5C99;--blue-light:#2980B9;--green:#1A7A3F;--bg:#F0F4F8;--card:#fff;--border:#E2E8F0;--text:#1A202C;--text-muted:#718096;--shadow:0 2px 8px rgba(0,0,0,0.08);}}
@@ -2092,7 +1953,7 @@ def build_contact_page(site_dir: str, updated: str):
   </div>
   <div class="card"><h2>⏱️ Response Times</h2><p>This site is maintained by a small team. We aim to respond to GitHub issues within <strong>2–3 business days</strong> and emails within <strong>5 business days</strong>.</p></div>
 </div>
-<footer>Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp; <a href="../about/">About Us</a> &nbsp;·&nbsp; <a href="../stack-builder/">Stack Builder</a> &nbsp;·&nbsp; <a href="../logo-api/">Logo API</a> &nbsp;·&nbsp; <a href="../privacy/">Privacy Policy</a><br><span style="font-size:0.8rem;opacity:0.7">Updated {updated}</span></footer>
+<footer>Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp; <a href="../about/">About Us</a> &nbsp;·&nbsp; <a href="../privacy/">Privacy Policy</a><br><span style="font-size:0.8rem;opacity:0.7">Updated {updated}</span></footer>
 </body></html>"""
     with open(contact_dir / 'index.html', 'w') as f:
         f.write(html)
@@ -2169,6 +2030,9 @@ def build_stats_page(site_dir: str, all_comparisons: List[Dict], updated: str):
   <meta name="robots" content="index, follow">
   <meta property="og:title" content="{seo_title}">
   <meta property="og:description" content="{seo_desc}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{seo_title}">
+  <meta name="twitter:description" content="{seo_desc}">
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"Dataset","name":"Open Source vs SaaS Pricing Statistics","description":"{seo_desc}","url":"{SITE_BASE_URL}/stats/","license":"https://creativecommons.org/licenses/by/4.0/","dateModified":"{datetime.utcnow().strftime('%Y-%m-%d')}","creator":{{"@type":"Organization","name":"Open Source Alternative Finder"}}}}
   </script>
@@ -2217,7 +2081,7 @@ def build_stats_page(site_dir: str, all_comparisons: List[Dict], updated: str):
     <a href="../savings-calculator/" style="display:inline-block;background:#EAFAF1;color:var(--green);padding:0.65rem 1.75rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.9rem;border:1px solid #A9DFBF;">Savings Calculator →</a>
   </div>
 </div>
-<footer>Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp; <a href="../about/">About</a> &nbsp;·&nbsp; <a href="../stack-builder/">Stack Builder</a> &nbsp;·&nbsp; <a href="../logo-api/">Logo API</a> &nbsp;·&nbsp; <a href="../privacy/">Privacy Policy</a><br><span style="font-size:0.8rem;opacity:0.7">Data updated {updated} · Auto-generated from {total_comps} comparisons</span></footer>
+<footer>Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp; <a href="../about/">About</a> &nbsp;·&nbsp; <a href="../privacy/">Privacy Policy</a><br><span style="font-size:0.8rem;opacity:0.7">Data updated {updated} · Auto-generated from {total_comps} comparisons</span></footer>
 </body></html>"""
     with open(stats_dir / 'index.html', 'w') as f:
         f.write(html)
@@ -2401,6 +2265,9 @@ def build_infographics_page(site_dir: str, all_comparisons: List[Dict], updated:
   <meta property="og:title" content="Open Source vs SaaS Cost Infographics ({year})">
   <meta property="og:description" content="Visual cost comparisons: Figma vs Penpot, Slack vs Mattermost, Notion vs AppFlowy, and 7 more. Free to share.">
   <meta property="og:url" content="{canonical}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Open Source vs SaaS Cost Infographics ({year}) | OSALFinder">
+  <meta name="twitter:description" content="Free shareable infographics: real SaaS costs vs open-source alternatives. Updated {updated}.">
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"Article",
     "headline":"Open Source vs SaaS Cost Infographics {year}",
@@ -2561,8 +2428,6 @@ def build_infographics_page(site_dir: str, all_comparisons: List[Dict], updated:
 <footer>
   OSALFinder &nbsp;&middot;&nbsp; <a href="../">Home</a> &nbsp;&middot;&nbsp;
   <a href="../savings-calculator/">Savings Calculator</a> &nbsp;&middot;&nbsp;
-  <a href="../stack-builder/">Stack Builder</a> &nbsp;&middot;&nbsp;
-  <a href="../logo-api/">Logo API</a> &nbsp;&middot;&nbsp;
   <a href="../about/">About</a> &nbsp;&middot;&nbsp; <a href="../privacy/">Privacy Policy</a><br>
   <span style="font-size:0.8rem;opacity:0.7">Updated {updated} &middot; AI-researched daily &middot; Free to share with attribution</span>
 </footer>
@@ -2676,6 +2541,9 @@ def build_price_hike_page(site_dir: str, updated: str):
   <meta property="og:title" content="SaaS Price Hike Watch &mdash; OSALFinder">
   <meta property="og:description" content="Every time a popular SaaS tool raises prices, we find you a free open-source alternative.">
   <meta property="og:url" content="{canonical}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SaaS Price Hike Watch — OSALFinder">
+  <meta name="twitter:description" content="Every time a popular SaaS tool raises prices, we publish a free open-source alternative.">
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
   <script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','{GA_ID}');</script>
@@ -2744,7 +2612,7 @@ def build_price_hike_page(site_dir: str, updated: str):
 </div>
 <footer>
   OSALFinder &nbsp;&middot;&nbsp; <a href="../">Home</a> &nbsp;&middot;&nbsp;
-  <a href="../about/">About</a> &nbsp;&middot;&nbsp; <a href="../stack-builder/">Stack Builder</a> &nbsp;&middot;&nbsp; <a href="../logo-api/">Logo API</a> &nbsp;&middot;&nbsp; <a href="../privacy/">Privacy Policy</a><br>
+  <a href="../about/">About</a> &nbsp;&middot;&nbsp; <a href="../privacy/">Privacy Policy</a><br>
   <span style="font-size:0.8rem;opacity:0.7">Updated {updated} &middot; AI-researched daily</span>
 </footer>
 </body>
@@ -2844,6 +2712,9 @@ def build_industry_pages(site_dir: str, updated: str):
   <meta property="og:title" content="{industry['title']}">
   <meta property="og:description" content="{industry['seo_desc']}">
   <meta property="og:url" content="{canonical}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{industry['title']}">
+  <meta name="twitter:description" content="{industry['seo_desc']}">
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"Article","headline":"{industry['title']}","description":"{industry['seo_desc']}","dateModified":"{datetime.utcnow().strftime('%Y-%m-%d')}","publisher":{{"@type":"Organization","name":"OSALFinder","url":"{SITE_BASE_URL}"}}}}
   </script>
@@ -2924,7 +2795,7 @@ def build_industry_pages(site_dir: str, updated: str):
 </div>
 <footer>
   OSALFinder &nbsp;&middot;&nbsp; <a href="../">Home</a> &nbsp;&middot;&nbsp;
-  <a href="../about/">About</a> &nbsp;&middot;&nbsp; <a href="../stack-builder/">Stack Builder</a> &nbsp;&middot;&nbsp; <a href="../logo-api/">Logo API</a> &nbsp;&middot;&nbsp; <a href="../privacy/">Privacy Policy</a><br>
+  <a href="../about/">About</a> &nbsp;&middot;&nbsp; <a href="../privacy/">Privacy Policy</a><br>
   <span style="font-size:0.8rem;opacity:0.7">Updated {updated} &middot; AI-researched daily</span>
 </footer>
 </body>
@@ -3044,12 +2915,7 @@ def build_blog(site_dir: str, all_comparisons: List[Dict], updated: str):
             related_html = f"""
     <div style="background:#EAFAF1;border:1px solid #A9DFBF;border-radius:10px;padding:1.1rem 1.25rem;margin:1.5rem 0;">
       <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#1A7A3F;margin-bottom:0.4rem;">📊 Read the full comparison</div>
-      <a href="../../{comp_slug}/" style="display:flex;align-items:center;gap:8px;font-size:0.92rem;font-weight:600;color:#1F5C99;text-decoration:none;">
-        {get_tool_logo_html(prop_name, size=20)}<strong>{prop_name}</strong>
-        <span style="color:#718096;font-size:0.82rem;">vs</span>
-        {get_tool_logo_html(oss_name, size=20)}<strong>{oss_name}</strong>
-        <span style="color:#718096;">— pricing, features, migration guide →</span>
-      </a>
+      <a href="../../{comp_slug}/" style="font-size:0.92rem;font-weight:600;color:#1F5C99;text-decoration:none;"><strong>{prop_name} vs {oss_name}</strong> — pricing, features, migration guide →</a>
     </div>"""
 
         html = f"""<!DOCTYPE html>
@@ -3064,6 +2930,9 @@ def build_blog(site_dir: str, all_comparisons: List[Dict], updated: str):
   <meta property="og:title" content="{tmpl['title']}">
   <meta property="og:description" content="{seo_desc}">
   <meta property="og:url" content="{canonical}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{tmpl['title']}">
+  <meta name="twitter:description" content="{seo_desc}">
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"Article","headline":"{tmpl['title']}","description":"{seo_desc}","dateModified":"{today}","datePublished":"{today}","author":{{"@type":"Organization","name":"Open Source Alternative Finder"}},"publisher":{{"@type":"Organization","name":"Open Source Alternative Finder","url":"{SITE_BASE_URL}"}}}}
   </script>
@@ -3133,7 +3002,7 @@ def build_blog(site_dir: str, all_comparisons: List[Dict], updated: str):
   </div>
 </div>
 <footer>
-  Open Source Alternative Finder &nbsp;·&nbsp; <a href="../../">Home</a> &nbsp;·&nbsp; <a href="../">Blog</a> &nbsp;·&nbsp; <a href="../../about/">About</a> &nbsp;·&nbsp; <a href="../../stack-builder/">Stack Builder</a> &nbsp;·&nbsp; <a href="../../logo-api/">Logo API</a> &nbsp;·&nbsp; <a href="../../privacy/">Privacy Policy</a><br>
+  Open Source Alternative Finder &nbsp;·&nbsp; <a href="../../">Home</a> &nbsp;·&nbsp; <a href="../">Blog</a> &nbsp;·&nbsp; <a href="../../about/">About</a> &nbsp;·&nbsp; <a href="../../privacy/">Privacy Policy</a><br>
   <span style="font-size:0.8rem;opacity:0.7">AI-researched content. Verify all details before making decisions. Updated {today_fmt}.</span>
 </footer>
 </body></html>"""
@@ -3185,7 +3054,7 @@ def build_blog(site_dir: str, all_comparisons: List[Dict], updated: str):
 <nav><a href="../">🔍 OS Alternative Finder</a><span class="sep">/</span><span style="color:#fff;opacity:0.7">📝 Blog</span></nav>
 <div class="hero"><h1>📝 Blog</h1><p>Practical guides on switching from expensive SaaS tools to free open-source alternatives.</p></div>
 <div class="content"><div class="grid">{index_cards}</div></div>
-<footer>Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp; <a href="../about/">About</a> &nbsp;·&nbsp; <a href="../stack-builder/">Stack Builder</a> &nbsp;·&nbsp; <a href="../logo-api/">Logo API</a> &nbsp;·&nbsp; <a href="../privacy/">Privacy Policy</a></footer>
+<footer>Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp; <a href="../about/">About</a> &nbsp;·&nbsp; <a href="../privacy/">Privacy Policy</a></footer>
 </body></html>"""
     with open(blog_dir / 'index.html', 'w') as f:
         f.write(blog_index)
@@ -3257,10 +3126,7 @@ def build_alternatives_pages(site_dir: str, all_comparisons: List[Dict], updated
             alt_cards += f"""
     <div class="alt-card">
       <div class="alt-header">
-        <div class="alt-name-row">
-          {get_tool_logo_html(oss_name, size=28)}
-          <div class="alt-name">{oss_name}</div>
-        </div>
+        <div class="alt-name">{oss_name}</div>
         <div class="alt-free-badge">Free</div>
       </div>
       <div class="alt-pricing">{oss_pricing}</div>
@@ -3306,75 +3172,53 @@ def build_alternatives_pages(site_dir: str, all_comparisons: List[Dict], updated
   <meta property="og:title" content="{seo_title}">
   <meta property="og:description" content="{seo_desc}">
   <meta property="og:url" content="{canonical}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{seo_title}">
+  <meta name="twitter:description" content="{seo_desc}">
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"ItemList","name":"Best Free Open Source Alternatives to {prop_name}","description":"{seo_desc}","numberOfItems":{len(comps)},"itemListElement":[{item_list_json}]}}
   </script>
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
   <style>
     :root{{--blue:#1F5C99;--blue-light:#2980B9;--green:#1A7A3F;--bg:#F0F4F8;--card:#fff;--border:#E2E8F0;--text:#1A202C;--text-muted:#718096;--shadow:0 2px 8px rgba(0,0,0,0.08);}}
-    [data-theme="dark"]{{--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#e6edf3;--text-muted:#8b949e;--blue:#58a6ff;--blue-light:#79b8ff;--green:#3fb950;--shadow:0 2px 12px rgba(0,0,0,0.5);}}
     *{{box-sizing:border-box;margin:0;padding:0;}}
-    body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;transition:background 0.2s,color 0.2s;}}
+    body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;}}
     a{{color:var(--blue);}}
     nav{{background:var(--blue);padding:0.75rem 1.5rem;display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;}}
     nav a{{color:#fff;text-decoration:none;font-size:0.9rem;opacity:0.9;}}nav a:hover{{opacity:1;}}nav .sep{{color:rgba(255,255,255,0.4);}}
-    [data-theme="dark"] nav{{background:#010409;}}
     .hero{{background:linear-gradient(135deg,var(--blue) 0%,var(--blue-light) 100%);color:#fff;padding:3rem 1.5rem 2.5rem;text-align:center;}}
-    [data-theme="dark"] .hero{{background:linear-gradient(135deg,#0a1628 0%,#0d2440 100%);}}
     .hero .cat-badge{{display:inline-block;background:{cat_color};color:#fff;font-size:0.72rem;font-weight:700;padding:0.28rem 0.85rem;border-radius:20px;margin-bottom:0.85rem;text-transform:uppercase;letter-spacing:0.05em;}}
     .hero h1{{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;margin-bottom:0.75rem;line-height:1.2;}}
     .hero p{{opacity:0.85;font-size:1rem;max-width:580px;margin:0 auto 1.25rem;}}
     .hero-badges{{display:flex;gap:0.65rem;justify-content:center;flex-wrap:wrap;}}
     .hero-badge{{background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);padding:0.28rem 0.85rem;border-radius:20px;font-size:0.8rem;}}
     .cost-bar{{background:#fff;border-bottom:1px solid var(--border);padding:1rem 1.5rem;}}
-    [data-theme="dark"] .cost-bar{{background:#161b22;border-bottom-color:#30363d;}}
     .cost-bar-inner{{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}}
     .cost-current{{font-size:0.9rem;color:var(--text-muted);}}.cost-current strong{{color:#C0392B;font-size:1.1rem;}}
-    [data-theme="dark"] .cost-current strong{{color:#f47067;}}
     .cost-free{{font-size:0.9rem;color:var(--green);font-weight:700;}}.cost-arrow{{font-size:1.2rem;color:var(--text-muted);}}
     .content{{max-width:900px;margin:2rem auto;padding:0 1.5rem;}}
     .intro-card{{background:var(--card);border-radius:12px;padding:1.75rem 2rem;margin-bottom:1.5rem;box-shadow:var(--shadow);border:1px solid var(--border);}}
-    [data-theme="dark"] .intro-card{{background:#161b22;border-color:#30363d;}}
     .intro-card h2{{font-size:1.15rem;font-weight:700;color:var(--blue);margin-bottom:0.75rem;}}.intro-card p{{font-size:0.92rem;color:var(--text);line-height:1.7;}}
     .alts-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;margin-bottom:1.5rem;}}
     .alt-card{{background:var(--card);border-radius:12px;padding:1.5rem;box-shadow:var(--shadow);border:2px solid var(--border);transition:border-color 0.2s,transform 0.2s;}}
     .alt-card:hover{{border-color:var(--blue);transform:translateY(-2px);}}
-    [data-theme="dark"] .alt-card{{background:#161b22;border-color:#30363d;}}
-    [data-theme="dark"] .alt-card:hover{{border-color:#58a6ff;box-shadow:0 8px 24px rgba(0,0,0,0.6);}}
     .alt-header{{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem;}}
-    .alt-name-row{{display:flex;align-items:center;gap:8px;}}
-    .alt-name{{font-size:1.1rem;font-weight:800;color:var(--green);}}
-    .alt-free-badge{{background:#EAFAF1;border:1px solid #A9DFBF;color:var(--green);font-size:0.72rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:20px;flex-shrink:0;}}
-    [data-theme="dark"] .alt-free-badge{{background:#152820;border-color:#1f4a2a;color:#3fb950;}}
+    .alt-name{{font-size:1.2rem;font-weight:800;color:var(--green);}}
+    .alt-free-badge{{background:#EAFAF1;border:1px solid #A9DFBF;color:var(--green);font-size:0.72rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:20px;}}
     .alt-pricing{{font-size:0.85rem;color:var(--text-muted);margin-bottom:0.6rem;}}
     .alt-difficulty{{display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;font-size:0.82rem;}}
     .diff-dots{{font-size:1rem;letter-spacing:0.05em;}}.diff-label{{font-weight:700;}}.diff-time{{color:var(--text-muted);}}
     .alt-actions{{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.75rem;}}
     .btn-compare{{flex:1;text-align:center;background:var(--blue);color:#fff;padding:0.5rem 0.75rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.82rem;}}
-    [data-theme="dark"] .btn-compare{{background:#58a6ff;color:#0d1117;}}
     .btn-migrate{{flex:1;text-align:center;background:#EAFAF1;color:var(--green);border:1px solid #A9DFBF;padding:0.5rem 0.75rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.82rem;}}
-    [data-theme="dark"] .btn-migrate{{background:#152820;color:#3fb950;border-color:#1f4a2a;}}
     .card{{background:var(--card);border-radius:12px;padding:1.75rem 2rem;box-shadow:var(--shadow);border:1px solid var(--border);}}
-    [data-theme="dark"] .card{{background:#161b22;border-color:#30363d;}}
     .related-alt-grid{{display:flex;flex-wrap:wrap;gap:0.5rem;}}
     .related-alt-link{{display:inline-block;padding:0.4rem 0.9rem;background:#F8FAFC;border:1px solid var(--border);border-radius:20px;font-size:0.82rem;font-weight:600;color:var(--blue);text-decoration:none;}}
     .related-alt-link:hover{{background:var(--blue);color:#fff;}}
-    [data-theme="dark"] .related-alt-link{{background:#1c2128;border-color:#30363d;color:#58a6ff;}}
-    [data-theme="dark"] .related-alt-link:hover{{background:#58a6ff;color:#0d1117;}}
     .calc-cta{{background:linear-gradient(135deg,var(--blue),var(--blue-light));color:#fff;border-radius:12px;padding:1.5rem 2rem;margin-top:1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}}
-    [data-theme="dark"] .calc-cta{{background:linear-gradient(135deg,#0c2d4a,#0a1628);border:1px solid #30363d;}}
     .calc-cta .title{{font-weight:800;font-size:1rem;margin-bottom:0.2rem;}}.calc-cta .sub{{font-size:0.85rem;opacity:0.85;}}
     .calc-cta a{{background:#fff;color:var(--blue);padding:0.55rem 1.25rem;border-radius:6px;text-decoration:none;font-weight:700;font-size:0.88rem;white-space:nowrap;}}
-    [data-theme="dark"] .calc-cta a{{background:#58a6ff;color:#0d1117;}}
-    .tool-logo{{display:inline-block;vertical-align:middle;border-radius:3px;object-fit:contain;flex-shrink:0;}}
-    .tool-logo-fallback{{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:6px;background:#e2e8f0;color:#475569;font-size:12px;font-weight:800;flex-shrink:0;}}
-    [data-theme="dark"] .tool-logo{{filter:brightness(0) invert(1);opacity:0.82;}}
-    [data-theme="dark"] .tool-logo-fallback{{background:#30363d;color:#8b949e;}}
-    .dark-toggle{{position:fixed;bottom:1.25rem;right:1.25rem;z-index:999;background:var(--card);border:1px solid var(--border);border-radius:50px;padding:0.45rem 0.9rem;cursor:pointer;font-size:0.82rem;font-weight:700;color:var(--text);box-shadow:0 4px 14px rgba(0,0,0,0.18);display:flex;align-items:center;gap:0.4rem;transition:all 0.15s;}}
-    .dark-toggle:hover{{box-shadow:0 6px 20px rgba(0,0,0,0.25);}}
     footer{{text-align:center;padding:2.5rem 1rem;color:var(--text-muted);font-size:0.85rem;border-top:1px solid var(--border);margin-top:2rem;background:#fff;}}footer a{{color:var(--blue);}}
-    [data-theme="dark"] footer{{background:#0d1117;border-top-color:#30363d;color:#8b949e;}}
-    [data-theme="dark"] footer a{{color:#58a6ff;}}
     @media(max-width:600px){{.alts-grid{{grid-template-columns:1fr;}}.cost-bar-inner{{flex-direction:column;align-items:flex-start;}}}}
   </style>
 </head>
@@ -3397,7 +3241,7 @@ def build_alternatives_pages(site_dir: str, all_comparisons: List[Dict], updated
 </div>
 <div class="cost-bar">
   <div class="cost-bar-inner">
-    <div class="cost-current" style="display:flex;align-items:center;gap:8px;">{get_tool_logo_html(prop_name, size=24)}Current cost: <strong>{pricing or 'paid'}</strong> with {prop_name}</div>
+    <div class="cost-current">Current cost: <strong>{pricing or 'paid'}</strong> with {prop_name}</div>
     <div class="cost-arrow">→</div>
     <div class="cost-free">💰 Switch and pay $0/month with open source</div>
   </div>
@@ -3413,10 +3257,7 @@ def build_alternatives_pages(site_dir: str, all_comparisons: List[Dict], updated
       <div class="title">💰 See your exact savings</div>
       <div class="sub">Enter your team size → see monthly and annual savings from switching</div>
     </div>
-    <div style="display:flex;gap:0.6rem;flex-wrap:wrap;">
-      <a href="../savings-calculator/">Savings Calculator →</a>
-      <a href="../stack-builder/" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;padding:0.55rem 1.25rem;border-radius:6px;text-decoration:none;font-weight:700;font-size:0.88rem;white-space:nowrap;">🔧 Stack Builder →</a>
-    </div>
+    <a href="../savings-calculator/">Open Savings Calculator →</a>
   </div>
   {related_section}
   <div class="card" style="text-align:center;padding:1.5rem;margin-top:1.5rem;">
@@ -3425,14 +3266,9 @@ def build_alternatives_pages(site_dir: str, all_comparisons: List[Dict], updated
   </div>
 </div>
 <footer>
-  Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp; <a href="../about/">About</a> &nbsp;·&nbsp; <a href="../stack-builder/">Stack Builder</a> &nbsp;·&nbsp; <a href="../logo-api/">Logo API</a> &nbsp;·&nbsp; <a href="../contact/">Contact</a> &nbsp;·&nbsp; <a href="../privacy/">Privacy Policy</a><br>
+  Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp; <a href="../about/">About</a> &nbsp;·&nbsp; <a href="../contact/">Contact</a> &nbsp;·&nbsp; <a href="../privacy/">Privacy Policy</a><br>
   <span style="font-size:0.8rem;opacity:0.7">Updated {updated} · AI-researched daily · Verify details before switching</span>
 </footer>
-<button class="dark-toggle" onclick="toggleDark()" title="Toggle dark mode"><span id="dark-icon">🌙</span> Dark</button>
-<script>
-(function(){{const s=localStorage.getItem('theme');if(s){{document.documentElement.setAttribute('data-theme',s);if(s==='dark'){{const e=document.getElementById('dark-icon');if(e)e.textContent='☀️';}}}}}})();
-function toggleDark(){{const h=document.documentElement;const n=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',n);localStorage.setItem('theme',n);document.getElementById('dark-icon').textContent=n==='dark'?'☀️':'🌙';}}
-</script>
 </body></html>"""
 
         with open(page_dir / 'index.html', 'w') as f:
@@ -3441,709 +3277,6 @@ function toggleDark(){{const h=document.documentElement;const n=h.getAttribute('
 
     logger.info(f"   🎯 {len(slugs_built)} alternatives-to pages built")
     return slugs_built
-
-
-def build_logo_api_page(site_dir: str, updated: str):
-    """Builds /logo-api/ — the monetization landing page for the OSALFinder Logo API."""
-    page_dir = Path(site_dir) / 'logo-api'
-    page_dir.mkdir(parents=True, exist_ok=True)
-
-    # Build live demo grid from SIMPLEICONS_SLUGS
-    demo_tools = [
-        ("Slack", "slack"), ("Figma", "figma"), ("Notion", "notion"),
-        ("GitHub", "github"), ("Jira", "jira"), ("Zoom", "zoom"),
-        ("Dropbox", "dropbox"), ("HubSpot", "hubspot"), ("Stripe", "stripe"),
-        ("Salesforce", "salesforce"), ("Asana", "asana"), ("Canva", "canva"),
-        ("Mattermost", "mattermost"), ("Penpot", "penpot"), ("Nextcloud", "nextcloud"),
-        ("GitLab", "gitlab"), ("Grafana", "grafana"), ("Supabase", "supabase"),
-    ]
-    demo_html = ''.join(
-        f'<div class="demo-chip">'
-        f'<img src="https://cdn.simpleicons.org/{slug}" width="32" height="32" alt="{name}" loading="lazy" onerror="this.style.display=\'none\'">'
-        f'<span>{name}</span>'
-        f'</div>'
-        for name, slug in demo_tools
-    )
-
-    html = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>OSALFinder Logo API — Instant Tool Logos for Developers</title>
-  <meta name="description" content="One URL. Any software tool logo. Free tier available. Power your dashboards, comparison pages, and SaaS apps with clean SVG logos for 3,000+ tools.">
-  <link rel="canonical" href="{SITE_BASE_URL}/logo-api/">
-  <meta property="og:title" content="OSALFinder Logo API — Instant Tool Logos">
-  <meta property="og:description" content="One URL. Any software tool logo. Free tier available. Used on OSALFinder.com.">
-  <meta property="og:url" content="{SITE_BASE_URL}/logo-api/">
-  <link rel="icon" href="../favicon.ico" type="image/x-icon">
-  <!-- GA -->
-  {get_ga_snippet()}
-  <style>
-    :root{{--blue:#1F5C99;--blue-light:#2980B9;--green:#1A7A3F;
-          --bg:#F0F4F8;--card:#fff;--border:#E2E8F0;--text:#1A202C;--text-muted:#718096;}}
-    [data-theme="dark"]{{--bg:#0d1117;--card:#161b22;--border:#30363d;
-          --text:#e6edf3;--text-muted:#8b949e;--blue:#58a6ff;--blue-light:#79b8ff;--green:#3fb950;}}
-    *{{box-sizing:border-box;margin:0;padding:0;}}
-    body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-          background:var(--bg);color:var(--text);line-height:1.6;transition:background 0.2s,color 0.2s;}}
-    nav{{background:var(--blue);padding:0.75rem 1.5rem;display:flex;align-items:center;gap:0.75rem;}}
-    nav a{{color:#fff;text-decoration:none;font-size:0.9rem;opacity:0.9;}}
-    nav a:hover{{opacity:1;}}nav .sep{{color:rgba(255,255,255,0.4);}}
-    [data-theme="dark"] nav{{background:#010409;}}
-
-    /* ── Hero ── */
-    .hero{{background:linear-gradient(135deg,#0a1628 0%,#0d2440 50%,#0a1f38 100%);
-           color:#fff;padding:5rem 1.5rem 4rem;text-align:center;position:relative;overflow:hidden;}}
-    .hero::before{{content:'';position:absolute;inset:0;
-      background:radial-gradient(ellipse at 50% 0%,rgba(88,166,255,0.12) 0%,transparent 70%);pointer-events:none;}}
-    .hero-eyebrow{{display:inline-block;background:rgba(88,166,255,0.15);border:1px solid rgba(88,166,255,0.3);
-                   color:#79b8ff;font-size:0.75rem;font-weight:700;letter-spacing:0.1em;
-                   text-transform:uppercase;padding:0.3rem 1rem;border-radius:20px;margin-bottom:1.25rem;}}
-    .hero h1{{font-size:clamp(2rem,5vw,3.2rem);font-weight:900;margin-bottom:1rem;line-height:1.15;
-              background:linear-gradient(135deg,#fff 0%,#79b8ff 100%);
-              -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}}
-    .hero p{{opacity:0.82;font-size:1.1rem;max-width:560px;margin:0 auto 2.5rem;line-height:1.65;}}
-    .hero-ctas{{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}}
-    .btn-hero{{padding:0.8rem 2rem;border-radius:10px;text-decoration:none;font-weight:700;
-               font-size:1rem;transition:all 0.15s;}}
-    .btn-hero.primary{{background:linear-gradient(135deg,#58a6ff,#79b8ff);color:#0d1117;}}
-    .btn-hero.primary:hover{{opacity:0.9;transform:translateY(-1px);}}
-    .btn-hero.ghost{{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.25);color:#fff;}}
-    .btn-hero.ghost:hover{{background:rgba(255,255,255,0.14);}}
-
-    /* ── URL bar demo ── */
-    .url-demo{{max-width:680px;margin:3rem auto 0;background:rgba(255,255,255,0.06);
-               border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:1.25rem 1.5rem;text-align:left;}}
-    .url-demo .label{{font-size:0.72rem;font-weight:700;text-transform:uppercase;
-                      letter-spacing:0.1em;color:#8b949e;margin-bottom:0.6rem;}}
-    .url-line{{font-family:'Courier New',monospace;font-size:0.95rem;color:#e6edf3;
-               display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;}}
-    .url-base{{color:#8b949e;}}
-    .url-key{{color:#58a6ff;}}
-    .url-slug{{color:#3fb950;font-weight:700;}}
-    .url-copy{{margin-left:auto;background:rgba(88,166,255,0.15);border:1px solid rgba(88,166,255,0.3);
-               color:#58a6ff;padding:0.25rem 0.75rem;border-radius:6px;font-size:0.75rem;
-               font-weight:700;cursor:pointer;border:none;}}
-    .url-copy:hover{{background:rgba(88,166,255,0.25);}}
-
-    /* ── Live demo grid ── */
-    .section{{max-width:1100px;margin:0 auto;padding:4rem 1.5rem;}}
-    .section-label{{font-size:0.72rem;font-weight:800;text-transform:uppercase;
-                    letter-spacing:0.1em;color:var(--text-muted);margin-bottom:0.5rem;}}
-    .section h2{{font-size:1.6rem;font-weight:800;margin-bottom:0.75rem;}}
-    .section .sub{{color:var(--text-muted);font-size:0.95rem;margin-bottom:2rem;max-width:560px;}}
-    .demo-grid{{display:flex;flex-wrap:wrap;gap:0.6rem;margin-bottom:1.5rem;}}
-    .demo-chip{{display:flex;align-items:center;gap:8px;padding:0.5rem 0.9rem;
-                background:var(--card);border:1px solid var(--border);border-radius:8px;
-                font-size:0.82rem;font-weight:600;color:var(--text);}}
-    [data-theme="dark"] .demo-chip{{background:#161b22;border-color:#30363d;}}
-    [data-theme="dark"] .demo-chip img{{filter:brightness(0) invert(1);opacity:0.82;}}
-    .demo-chip img{{width:20px;height:20px;object-fit:contain;}}
-    .demo-count{{font-size:0.82rem;color:var(--text-muted);margin-top:0.5rem;}}
-
-    /* ── Code block ── */
-    .code-block{{background:#0d1117;border:1px solid #30363d;border-radius:10px;
-                 padding:1.25rem 1.5rem;margin:1.5rem 0;overflow-x:auto;}}
-    .code-block pre{{font-family:'Courier New',monospace;font-size:0.88rem;color:#e6edf3;
-                     white-space:pre;line-height:1.7;}}
-    .code-block .c-grey{{color:#8b949e;}}
-    .code-block .c-blue{{color:#79b8ff;}}
-    .code-block .c-green{{color:#3fb950;}}
-    .code-block .c-orange{{color:#d4a843;}}
-
-    /* ── Pricing ── */
-    .pricing-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.25rem;margin-top:2rem;}}
-    .pricing-card{{background:var(--card);border:2px solid var(--border);border-radius:16px;
-                   padding:1.75rem 1.5rem;position:relative;}}
-    [data-theme="dark"] .pricing-card{{background:#161b22;border-color:#30363d;}}
-    .pricing-card.popular{{border-color:var(--blue);}}
-    .popular-badge{{position:absolute;top:-12px;left:50%;transform:translateX(-50%);
-                    background:var(--blue);color:#fff;font-size:0.72rem;font-weight:800;
-                    padding:0.2rem 0.9rem;border-radius:20px;white-space:nowrap;
-                    letter-spacing:0.05em;text-transform:uppercase;}}
-    [data-theme="dark"] .popular-badge{{background:#58a6ff;color:#0d1117;}}
-    .tier-name{{font-size:0.78rem;font-weight:800;text-transform:uppercase;
-                letter-spacing:0.1em;color:var(--text-muted);margin-bottom:0.5rem;}}
-    .tier-price{{font-size:2rem;font-weight:900;color:var(--text);line-height:1;}}
-    .tier-price span{{font-size:0.9rem;font-weight:500;color:var(--text-muted);}}
-    .tier-desc{{font-size:0.82rem;color:var(--text-muted);margin:0.5rem 0 1.25rem;line-height:1.5;}}
-    .tier-features{{list-style:none;display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1.5rem;}}
-    .tier-features li{{font-size:0.85rem;color:var(--text);display:flex;align-items:flex-start;gap:0.5rem;line-height:1.4;}}
-    .tier-features li::before{{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;margin-top:0.1rem;}}
-    .tier-features li.no::before{{content:'✗';color:#8b949e;}}
-    .tier-features li.no{{color:var(--text-muted);}}
-    .tier-cta{{display:block;text-align:center;padding:0.65rem 1rem;border-radius:8px;
-               text-decoration:none;font-weight:700;font-size:0.9rem;}}
-    .tier-cta.free{{background:var(--bg);border:1px solid var(--border);color:var(--text);}}
-    [data-theme="dark"] .tier-cta.free{{background:#0d1117;border-color:#30363d;color:#e6edf3;}}
-    .tier-cta.paid{{background:var(--blue);color:#fff;}}
-    [data-theme="dark"] .tier-cta.paid{{background:#58a6ff;color:#0d1117;}}
-
-    /* ── Use cases ── */
-    .use-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.25rem;margin-top:1.5rem;}}
-    .use-card{{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;}}
-    [data-theme="dark"] .use-card{{background:#161b22;border-color:#30363d;}}
-    .use-icon{{font-size:1.75rem;margin-bottom:0.75rem;}}
-    .use-title{{font-size:0.95rem;font-weight:700;margin-bottom:0.4rem;}}
-    .use-desc{{font-size:0.85rem;color:var(--text-muted);line-height:1.5;}}
-
-    /* ── Attribution mechanic ── */
-    .attr-box{{background:linear-gradient(135deg,#0c2d4a,#0a1628);border:1px solid #30363d;
-               border-radius:12px;padding:1.75rem 2rem;color:#e6edf3;}}
-    .attr-box h3{{font-size:1.1rem;font-weight:800;color:#58a6ff;margin-bottom:0.75rem;}}
-    .attr-box p{{font-size:0.88rem;color:#8b949e;line-height:1.65;margin-bottom:0.75rem;}}
-    .attr-box strong{{color:#e6edf3;}}
-
-    /* ── Footer ── */
-    footer{{text-align:center;padding:2.5rem 1rem;color:var(--text-muted);font-size:0.85rem;
-            border-top:1px solid var(--border);background:#fff;}}
-    [data-theme="dark"] footer{{background:#0d1117;border-top-color:#30363d;}}
-    footer a{{color:var(--blue);}}[data-theme="dark"] footer a{{color:#58a6ff;}}
-
-    .dark-toggle{{position:fixed;bottom:1.25rem;right:1.25rem;z-index:999;background:var(--card);
-                  border:1px solid var(--border);border-radius:50px;padding:0.45rem 0.9rem;cursor:pointer;
-                  font-size:0.82rem;font-weight:700;color:var(--text);box-shadow:0 4px 14px rgba(0,0,0,0.18);
-                  display:flex;align-items:center;gap:0.4rem;transition:all 0.15s;}}
-    @media(max-width:600px){{.hero{{padding:3.5rem 1rem 3rem;}}}}
-  </style>
-</head>
-<body>
-<nav>
-  <a href="../">🔍 OS Alternative Finder</a>
-  <span class="sep">/</span>
-  <span style="color:#fff;opacity:0.7">Logo API</span>
-</nav>
-
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-eyebrow">Developer Tool</div>
-  <h1>One URL.<br>Any Tool Logo.</h1>
-  <p>Clean SVG logos for 3,000+ software tools. Drop an <code style="background:rgba(255,255,255,0.1);padding:0.1em 0.4em;border-radius:4px;font-size:0.95em;">&lt;img&gt;</code> tag anywhere — dashboards, comparison pages, README files, SaaS apps.</p>
-  <div class="hero-ctas">
-    <a href="#pricing" class="btn-hero primary">Get Free API Key →</a>
-    <a href="#how-it-works" class="btn-hero ghost">See How It Works</a>
-  </div>
-  <div class="url-demo">
-    <div class="label">API Endpoint</div>
-    <div class="url-line">
-      <span class="url-base">osalfinder.com/logo-api/v1/</span><span class="url-key">{{your-key}}</span><span class="url-base">/</span><span class="url-slug">slack</span>
-      <button class="url-copy" onclick="this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500);navigator.clipboard?.writeText('https://osalfinder.com/logo-api/v1/free/slack')">Copy</button>
-    </div>
-  </div>
-</div>
-
-<!-- LIVE DEMO -->
-<div class="section">
-  <div class="section-label">Live Preview</div>
-  <h2>3,000+ logos. All loaded from one API.</h2>
-  <p class="sub">Every logo below is served via the OSALFinder Logo API. Drop any slug into the URL and get an SVG back instantly.</p>
-  <div class="demo-grid">{demo_html}</div>
-  <div class="demo-count">Showing 18 of 3,000+ available logos &nbsp;·&nbsp; <a href="../">Browse all tools on OSALFinder →</a></div>
-</div>
-
-<!-- HOW IT WORKS -->
-<div class="section" id="how-it-works" style="padding-top:0;">
-  <div class="section-label">Integration</div>
-  <h2>Three lines of code.</h2>
-  <p class="sub">Drop this anywhere — HTML, React, Vue, README. No SDK, no dependencies, no build step.</p>
-  <div class="code-block"><pre><span class="c-grey">&lt;!-- HTML — works everywhere --&gt;</span>
-<span class="c-blue">&lt;img</span> <span class="c-green">src</span>=<span class="c-orange">"https://osalfinder.com/logo-api/v1/FREE_KEY/slack"</span>
-     <span class="c-green">width</span>=<span class="c-orange">"32"</span> <span class="c-green">height</span>=<span class="c-orange">"32"</span>
-     <span class="c-green">data-powered-by</span>=<span class="c-orange">"osalfinder"</span>
-     <span class="c-green">alt</span>=<span class="c-orange">"Slack logo"</span><span class="c-blue">&gt;</span></pre></div>
-  <div class="code-block"><pre><span class="c-grey">// JavaScript — dynamic logo loading</span>
-<span class="c-blue">const</span> <span class="c-green">getLogoUrl</span> = (<span class="c-orange">slug</span>) =>
-  <span class="c-orange">`https://osalfinder.com/logo-api/v1/${{YOUR_KEY}}/${{slug}}`</span>;
-
-<span class="c-blue">const</span> tools = [<span class="c-orange">'slack'</span>, <span class="c-orange">'notion'</span>, <span class="c-orange">'figma'</span>];
-tools.<span class="c-green">forEach</span>(slug => {{
-  <span class="c-blue">const</span> img = document.<span class="c-green">createElement</span>(<span class="c-orange">'img'</span>);
-  img.src = <span class="c-green">getLogoUrl</span>(slug);
-  img.width = img.height = 32;
-  container.<span class="c-green">appendChild</span>(img);
-}});</pre></div>
-</div>
-
-<!-- USE CASES -->
-<div class="section" style="padding-top:0;">
-  <div class="section-label">Use Cases</div>
-  <h2>Built for builders.</h2>
-  <p class="sub">Anyone who displays software tools on a page.</p>
-  <div class="use-grid">
-    <div class="use-card">
-      <div class="use-icon">📊</div>
-      <div class="use-title">SaaS Comparison Sites</div>
-      <div class="use-desc">Display tool logos on comparison tables, alternative pages, and feature grids. Exactly how OSALFinder.com uses it.</div>
-    </div>
-    <div class="use-card">
-      <div class="use-icon">🗂️</div>
-      <div class="use-title">Tech Stack Pages</div>
-      <div class="use-desc">Show your company's or client's toolstack with clean branded logos. Perfect for "Built With" sections.</div>
-    </div>
-    <div class="use-card">
-      <div class="use-icon">📋</div>
-      <div class="use-title">README Files</div>
-      <div class="use-desc">Add logos to GitHub README files, documentation sites, and developer portals with a single img tag.</div>
-    </div>
-    <div class="use-card">
-      <div class="use-icon">🤖</div>
-      <div class="use-title">AI-Generated Pages</div>
-      <div class="use-desc">Pipe tool names from your LLM output straight to the API — no manual slug lookup, no broken images.</div>
-    </div>
-    <div class="use-card">
-      <div class="use-icon">📈</div>
-      <div class="use-title">Internal Dashboards</div>
-      <div class="use-desc">Ops and spend management dashboards that list SaaS tools. One API key for your whole engineering team.</div>
-    </div>
-    <div class="use-card">
-      <div class="use-icon">🔌</div>
-      <div class="use-title">Browser Extensions</div>
-      <div class="use-desc">Enrich third-party pages (G2, Capterra, LinkedIn, Crunchbase) with tool logos loaded from a single endpoint.</div>
-    </div>
-  </div>
-</div>
-
-<!-- ATTRIBUTION MECHANIC -->
-<div class="section" style="padding-top:0;">
-  <div class="attr-box">
-    <h3>🔗 Free tier attribution — how it grows the network</h3>
-    <p>Free tier usage requires <strong>data-powered-by="osalfinder"</strong> on every logo img tag. Each logo that appears on a developer's site is a permanent backlink to OSALFinder — without any outreach. Every site that embeds logos becomes a distribution node. The API and OSALFinder grow together.</p>
-    <p>Paid tiers remove this requirement for teams that need white-label deployment.</p>
-  </div>
-</div>
-
-<!-- PRICING -->
-<div class="section" id="pricing" style="padding-top:0;">
-  <div class="section-label">Pricing</div>
-  <h2>Start free. Scale when you need to.</h2>
-  <p class="sub">No credit card required for the free tier. API keys delivered by email.</p>
-  <div class="pricing-grid">
-
-    <div class="pricing-card">
-      <div class="tier-name">Free</div>
-      <div class="tier-price">$0<span>/mo</span></div>
-      <div class="tier-desc">For personal projects and open-source builders.</div>
-      <ul class="tier-features">
-        <li>1,000 requests / day</li>
-        <li>3,000+ SVG logos</li>
-        <li>Simple Icons source</li>
-        <li>PNG at 64×64px</li>
-        <li class="no">Brandfetch full-colour</li>
-        <li class="no">White-label (no attribution)</li>
-        <li class="no">Commercial use</li>
-      </ul>
-      <a href="mailto:openaltshub@gmail.com?subject=Logo API Free Key&body=Hi, I'd like a free Logo API key for: [describe your project]" class="tier-cta free">Get Free Key →</a>
-    </div>
-
-    <div class="pricing-card popular">
-      <div class="popular-badge">Most Popular</div>
-      <div class="tier-name">Builder</div>
-      <div class="tier-price">$9<span>/mo</span></div>
-      <div class="tier-desc">For indie hackers and small SaaS products.</div>
-      <ul class="tier-features">
-        <li>50,000 requests / day</li>
-        <li>3,000+ SVG logos</li>
-        <li>Simple Icons source</li>
-        <li>PNG up to 256px</li>
-        <li>Commercial use ✓</li>
-        <li class="no">Brandfetch full-colour</li>
-        <li class="no">White-label</li>
-      </ul>
-      <a href="mailto:openaltshub@gmail.com?subject=Logo API Builder Plan&body=Hi, I'd like the Builder plan ($9/mo) for: [your project URL]" class="tier-cta paid">Get Builder Key →</a>
-    </div>
-
-    <div class="pricing-card">
-      <div class="tier-name">Studio</div>
-      <div class="tier-price">$29<span>/mo</span></div>
-      <div class="tier-desc">For agencies, tools, and growing products.</div>
-      <ul class="tier-features">
-        <li>500,000 requests / day</li>
-        <li>3,000+ SVG logos</li>
-        <li>Brandfetch full-colour</li>
-        <li>PNG up to 512px</li>
-        <li>Commercial use ✓</li>
-        <li>White-label (no attribution)</li>
-        <li class="no">SLA / uptime guarantee</li>
-      </ul>
-      <a href="mailto:openaltshub@gmail.com?subject=Logo API Studio Plan&body=Hi, I'd like the Studio plan ($29/mo) for: [your project URL]" class="tier-cta paid">Get Studio Key →</a>
-    </div>
-
-    <div class="pricing-card">
-      <div class="tier-name">Pro</div>
-      <div class="tier-price">$99<span>/mo</span></div>
-      <div class="tier-desc">For high-volume apps and enterprise tools.</div>
-      <ul class="tier-features">
-        <li>Unlimited requests</li>
-        <li>3,000+ SVG logos</li>
-        <li>Brandfetch full-colour</li>
-        <li>PNG up to 1024px</li>
-        <li>Commercial use ✓</li>
-        <li>White-label ✓</li>
-        <li>99.9% uptime SLA</li>
-      </ul>
-      <a href="mailto:openaltshub@gmail.com?subject=Logo API Pro Plan&body=Hi, I'd like the Pro plan ($99/mo) for: [your project URL]" class="tier-cta paid">Get Pro Key →</a>
-    </div>
-
-  </div>
-  <p style="text-align:center;color:var(--text-muted);font-size:0.82rem;margin-top:1.5rem;">
-    All paid plans billed monthly · Cancel any time · Keys activated within 24h
-  </p>
-</div>
-
-<footer>
-  OSALFinder Logo API &nbsp;·&nbsp; <a href="../">Open Source Alternative Finder</a> &nbsp;·&nbsp;
-  <a href="../stack-builder/">Stack Builder</a> &nbsp;·&nbsp;
-  <a href="../privacy/">Privacy Policy</a><br>
-  <span style="font-size:0.8rem;opacity:0.7">Logos sourced from Simple Icons (CC0) and Brandfetch (licensed). Updated {updated}.</span>
-</footer>
-
-<button class="dark-toggle" onclick="toggleDark()" title="Toggle dark mode">
-  <span id="dark-icon">🌙</span> Dark
-</button>
-<script>
-(function(){{const s=localStorage.getItem('theme');if(s){{document.documentElement.setAttribute('data-theme',s);if(s==='dark'){{const e=document.getElementById('dark-icon');if(e)e.textContent='☀️';}}}}  }})();
-function toggleDark(){{const h=document.documentElement;const n=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',n);localStorage.setItem('theme',n);document.getElementById('dark-icon').textContent=n==='dark'?'☀️':'🌙';}}
-</script>
-</body>
-</html>"""
-
-    with open(page_dir / 'index.html', 'w') as f:
-        f.write(html)
-    logger.info("   💰 Logo API landing page built → /logo-api/")
-
-
-def build_stack_builder_page(site_dir: str, all_comparisons: List[Dict], updated: str):
-    """Builds /stack-builder/ — tick your paid tools, see your free replacement stack + savings."""
-    page_dir = Path(site_dir) / 'stack-builder'
-    page_dir.mkdir(parents=True, exist_ok=True)
-
-    # Build JS tool data from actual comparisons
-    tool_entries = []
-    seen = set()
-    for comp in all_comparisons:
-        prop_key  = comp.get('proprietary_key', '')
-        prop_name = comp.get('proprietary_tool', '')
-        oss_key   = comp.get('oss_key', '')
-        oss_name  = comp.get('oss_tool', '')
-        category  = comp.get('category', 'general')
-        slug      = comp.get('slug', '')
-        pricing   = comp.get('proprietary_pricing', '')
-        oss_price = comp.get('oss_pricing', 'Free')
-        # Parse a per-user price from the pricing string for savings calc
-        import re as _re
-        nums = _re.findall(r'\d+(?:\.\d+)?', pricing or '')
-        monthly_per_user = float(nums[0]) if nums else 0
-        if prop_key and prop_key not in seen:
-            seen.add(prop_key)
-            slug_icon = SIMPLEICONS_SLUGS.get(prop_name, '')
-            oss_icon  = SIMPLEICONS_SLUGS.get(oss_name, '')
-            tool_entries.append(
-                f'{{"pk":"{prop_key}","pn":"{prop_name}","pi":"{slug_icon}",'
-                f'"ok":"{oss_key}","on":"{oss_name}","oi":"{oss_icon}",'
-                f'"cat":"{category}","slug":"{slug}",'
-                f'"price":{monthly_per_user},"pricing":"{pricing}","oss_price":"{oss_price}"}}'
-            )
-
-    tools_js = 'const TOOLS = [\n  ' + ',\n  '.join(tool_entries) + '\n];'
-
-    html = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>Free Stack Builder — Replace Your Paid Tools with Open Source ({updated})</title>
-  <meta name="description" content="Tick the SaaS tools you pay for and instantly see your free open-source replacement stack. Calculate exact savings for your team size.">
-  <link rel="canonical" href="{SITE_BASE_URL}/stack-builder/">
-  <meta property="og:title" content="Free Stack Builder — Build Your Zero-Cost Open Source Stack">
-  <meta property="og:description" content="See exactly which open-source tools replace your paid SaaS stack — and how much you'll save.">
-  <link rel="icon" href="../favicon.ico" type="image/x-icon">
-  <style>
-    :root{{--blue:#1F5C99;--blue-light:#2980B9;--green:#1A7A3F;--red:#C0392B;
-           --bg:#F0F4F8;--card:#fff;--border:#E2E8F0;--text:#1A202C;--text-muted:#718096;
-           --shadow:0 2px 8px rgba(0,0,0,0.08);}}
-    [data-theme="dark"]{{--bg:#0d1117;--card:#161b22;--border:#30363d;
-           --text:#e6edf3;--text-muted:#8b949e;--blue:#58a6ff;--blue-light:#79b8ff;
-           --green:#3fb950;--red:#f47067;}}
-    *{{box-sizing:border-box;margin:0;padding:0;}}
-    body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-          background:var(--bg);color:var(--text);line-height:1.6;transition:background 0.2s,color 0.2s;}}
-    nav{{background:var(--blue);padding:0.75rem 1.5rem;display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;}}
-    nav a{{color:#fff;text-decoration:none;font-size:0.9rem;opacity:0.9;}}nav a:hover{{opacity:1;}}
-    nav .sep{{color:rgba(255,255,255,0.4);}}
-    [data-theme="dark"] nav{{background:#010409;}}
-    .hero{{background:linear-gradient(135deg,var(--blue) 0%,var(--blue-light) 100%);
-           color:#fff;padding:3rem 1.5rem 2.5rem;text-align:center;}}
-    [data-theme="dark"] .hero{{background:linear-gradient(135deg,#0a1628 0%,#0d2440 100%);}}
-    .hero h1{{font-size:clamp(1.7rem,4vw,2.6rem);font-weight:900;margin-bottom:0.6rem;}}
-    .hero p{{opacity:0.88;font-size:1.05rem;max-width:580px;margin:0 auto;}}
-    .main{{max-width:1200px;margin:0 auto;padding:2rem 1.5rem;display:grid;
-           grid-template-columns:1fr 420px;gap:2rem;align-items:start;}}
-    @media(max-width:860px){{.main{{grid-template-columns:1fr;}}}}
-    /* ── Left panel ── */
-    .panel-label{{font-size:0.72rem;font-weight:800;text-transform:uppercase;
-                  letter-spacing:0.08em;color:var(--text-muted);margin-bottom:0.75rem;}}
-    .cat-section{{margin-bottom:1.5rem;}}
-    .cat-title{{font-size:0.82rem;font-weight:700;color:var(--text-muted);
-                margin-bottom:0.6rem;display:flex;align-items:center;gap:0.4rem;}}
-    .tools-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:0.6rem;}}
-    .tool-chip{{display:flex;align-items:center;gap:8px;padding:0.55rem 0.75rem;
-                background:var(--card);border:2px solid var(--border);border-radius:10px;
-                cursor:pointer;transition:all 0.15s;user-select:none;}}
-    .tool-chip:hover{{border-color:var(--blue);background:#EBF4FA;}}
-    [data-theme="dark"] .tool-chip:hover{{background:#0c2d4a;}}
-    .tool-chip.selected{{border-color:var(--blue);background:#EBF4FA;box-shadow:0 0 0 3px rgba(31,92,153,0.15);}}
-    [data-theme="dark"] .tool-chip.selected{{background:#0c2d4a;box-shadow:0 0 0 3px rgba(88,166,255,0.2);}}
-    .tool-chip img,.tool-chip .t-fallback{{width:22px;height:22px;flex-shrink:0;border-radius:3px;object-fit:contain;}}
-    .tool-chip .t-fallback{{display:inline-flex;align-items:center;justify-content:center;
-                            background:#e2e8f0;color:#475569;font-size:11px;font-weight:800;border-radius:4px;}}
-    [data-theme="dark"] .tool-chip img{{filter:brightness(0) invert(1);opacity:0.82;}}
-    [data-theme="dark"] .tool-chip .t-fallback{{background:#30363d;color:#8b949e;}}
-    .tool-chip .t-name{{font-size:0.82rem;font-weight:600;color:var(--text);line-height:1.2;}}
-    .tool-chip.selected .t-name{{color:var(--blue);}}
-    [data-theme="dark"] .tool-chip.selected .t-name{{color:#58a6ff;}}
-    .checkmark{{margin-left:auto;width:16px;height:16px;border-radius:50%;
-                background:var(--blue);color:#fff;font-size:10px;
-                display:none;align-items:center;justify-content:center;flex-shrink:0;}}
-    .tool-chip.selected .checkmark{{display:flex;}}
-    /* ── Right panel (results) ── */
-    .results-panel{{background:var(--card);border:1px solid var(--border);border-radius:16px;
-                    padding:1.5rem;box-shadow:var(--shadow);position:sticky;top:1.5rem;}}
-    [data-theme="dark"] .results-panel{{background:#161b22;border-color:#30363d;}}
-    .results-header{{font-size:1.05rem;font-weight:800;color:var(--text);margin-bottom:0.5rem;}}
-    .team-row{{display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border);}}
-    .team-label{{font-size:0.82rem;color:var(--text-muted);white-space:nowrap;}}
-    .team-input{{flex:1;padding:0.4rem 0.7rem;border:2px solid var(--border);border-radius:8px;
-                 font-size:0.95rem;font-weight:700;color:var(--text);background:var(--bg);width:70px;text-align:center;}}
-    [data-theme="dark"] .team-input{{background:#0d1117;border-color:#30363d;color:#e6edf3;}}
-    .team-input:focus{{outline:none;border-color:var(--blue);}}
-    .savings-hero{{background:linear-gradient(135deg,#0a1628,#0d2440);border-radius:12px;
-                   padding:1.25rem 1.5rem;margin-bottom:1.25rem;text-align:center;}}
-    .savings-amount{{font-size:2.2rem;font-weight:900;color:#3fb950;line-height:1;}}
-    .savings-label{{font-size:0.78rem;color:#8b949e;margin-top:0.3rem;}}
-    .savings-annual{{font-size:0.88rem;color:#58a6ff;margin-top:0.4rem;font-weight:700;}}
-    .empty-state{{text-align:center;padding:2rem 1rem;color:var(--text-muted);}}
-    .empty-icon{{font-size:2.5rem;margin-bottom:0.75rem;}}
-    .empty-text{{font-size:0.9rem;line-height:1.5;}}
-    .stack-list{{display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.25rem;}}
-    .stack-item{{background:var(--bg);border:1px solid var(--border);border-radius:10px;
-                 padding:0.75rem 1rem;display:flex;align-items:center;gap:0.75rem;}}
-    [data-theme="dark"] .stack-item{{background:#0d1117;border-color:#30363d;}}
-    .stack-arrow{{color:var(--text-muted);font-size:1rem;flex-shrink:0;}}
-    .stack-prop{{display:flex;align-items:center;gap:6px;min-width:0;flex:1;}}
-    .stack-oss{{display:flex;align-items:center;gap:6px;min-width:0;flex:1;}}
-    .stack-prop img,.stack-oss img,.stack-prop .t-fallback,.stack-oss .t-fallback{{
-                 width:20px;height:20px;flex-shrink:0;object-fit:contain;border-radius:3px;}}
-    .stack-prop .t-fallback,.stack-oss .t-fallback{{display:inline-flex;align-items:center;
-                 justify-content:center;background:#e2e8f0;color:#475569;font-size:10px;font-weight:800;border-radius:3px;}}
-    [data-theme="dark"] .stack-prop img,[data-theme="dark"] .stack-oss img{{filter:brightness(0) invert(1);opacity:0.82;}}
-    [data-theme="dark"] .stack-prop .t-fallback,[data-theme="dark"] .stack-oss .t-fallback{{background:#30363d;color:#8b949e;}}
-    .stack-prop-name{{font-size:0.82rem;font-weight:600;color:var(--red);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}}
-    .stack-oss-name{{font-size:0.82rem;font-weight:700;color:var(--green);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}}
-    .stack-saving{{font-size:0.72rem;font-weight:700;color:#3fb950;white-space:nowrap;margin-left:auto;flex-shrink:0;}}
-    .stack-item a{{display:block;}}
-    .cta-row{{display:flex;gap:0.6rem;flex-wrap:wrap;}}
-    .btn-primary{{flex:1;text-align:center;background:var(--blue);color:#fff;padding:0.6rem 1rem;
-                  border-radius:8px;text-decoration:none;font-weight:700;font-size:0.88rem;}}
-    [data-theme="dark"] .btn-primary{{background:#58a6ff;color:#0d1117;}}
-    .btn-secondary{{flex:1;text-align:center;background:var(--bg);color:var(--blue);
-                    border:1px solid var(--border);padding:0.6rem 1rem;border-radius:8px;
-                    text-decoration:none;font-weight:700;font-size:0.88rem;cursor:pointer;}}
-    [data-theme="dark"] .btn-secondary{{border-color:#30363d;color:#58a6ff;}}
-    .no-selection-tip{{font-size:0.78rem;color:var(--text-muted);text-align:center;margin-top:0.75rem;}}
-    .dark-toggle{{position:fixed;bottom:1.25rem;right:1.25rem;z-index:999;background:var(--card);
-                  border:1px solid var(--border);border-radius:50px;padding:0.45rem 0.9rem;cursor:pointer;
-                  font-size:0.82rem;font-weight:700;color:var(--text);box-shadow:0 4px 14px rgba(0,0,0,0.18);
-                  display:flex;align-items:center;gap:0.4rem;transition:all 0.15s;}}
-    footer{{text-align:center;padding:2.5rem 1rem;color:var(--text-muted);font-size:0.85rem;
-            border-top:1px solid var(--border);margin-top:2rem;background:#fff;}}
-    [data-theme="dark"] footer{{background:#0d1117;border-top-color:#30363d;color:#8b949e;}}
-    footer a{{color:var(--blue);}}[data-theme="dark"] footer a{{color:#58a6ff;}}
-  </style>
-</head>
-<body>
-<nav>
-  <a href="../">🔍 OS Alternative Finder</a>
-  <span class="sep">/</span>
-  <span style="color:#fff;opacity:0.7">Stack Builder</span>
-</nav>
-
-<div class="hero">
-  <h1>🔧 Free Stack Builder</h1>
-  <p>Tick the tools you pay for. Instantly see your open-source replacement stack and how much you'll save.</p>
-</div>
-
-<div class="main">
-  <!-- LEFT: tool picker -->
-  <div id="picker">
-    <div class="panel-label">Step 1 — Select the tools you currently pay for</div>
-    <div id="cats"></div>
-  </div>
-
-  <!-- RIGHT: results -->
-  <div class="results-panel">
-    <div class="results-header">💰 Your Free Stack</div>
-    <div class="team-row">
-      <span class="team-label">Team size:</span>
-      <input class="team-input" type="number" id="team-size" value="10" min="1" max="10000" oninput="render()">
-      <span class="team-label">people</span>
-    </div>
-    <div id="results-body">
-      <div class="empty-state">
-        <div class="empty-icon">👈</div>
-        <div class="empty-text">Select tools on the left<br>to build your free stack</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<footer>
-  Open Source Alternative Finder &nbsp;·&nbsp; <a href="../">Home</a> &nbsp;·&nbsp;
-  <a href="../savings-calculator/">Savings Calculator</a> &nbsp;·&nbsp;
-  <a href="../logo-api/">Logo API</a> &nbsp;·&nbsp;
-  <a href="../privacy/">Privacy</a><br>
-  <span style="font-size:0.8rem;opacity:0.7">Updated {updated} · Pricing estimates are approximate — verify at official sites before switching</span>
-</footer>
-
-<button class="dark-toggle" onclick="toggleDark()" title="Toggle dark mode">
-  <span id="dark-icon">🌙</span> Dark
-</button>
-
-<script>
-{tools_js}
-
-// ── Dark mode (shared preference) ────────────────────────
-(function(){{
-  const s = localStorage.getItem('theme');
-  if (s) {{ document.documentElement.setAttribute('data-theme', s); }}
-  if (s === 'dark') {{ const e = document.getElementById('dark-icon'); if (e) e.textContent = '☀️'; }}
-}})();
-function toggleDark() {{
-  const h = document.documentElement;
-  const n = h.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  h.setAttribute('data-theme', n);
-  localStorage.setItem('theme', n);
-  document.getElementById('dark-icon').textContent = n === 'dark' ? '☀️' : '🌙';
-}}
-
-// ── State ─────────────────────────────────────────────────
-const selected = new Set();
-
-// ── Build picker ──────────────────────────────────────────
-const CAT_ICONS = {{
-  'communication':'💬','productivity':'📝','developer-tools':'⚙️',
-  'design':'🎨','project-management':'📋','file-storage':'☁️',
-  'video-conferencing':'🎥','general':'🔧'
-}};
-
-const byCategory = {{}};
-TOOLS.forEach(t => {{
-  if (!byCategory[t.cat]) byCategory[t.cat] = [];
-  byCategory[t.cat].push(t);
-}});
-
-function logoImg(slug, name) {{
-  if (slug) return `<img src="https://cdn.simpleicons.org/${{slug}}" width="22" height="22" alt="${{name}}" loading="lazy" onerror="this.style.display='none'">`;
-  return `<span class="t-fallback">${{name[0].toUpperCase()}}</span>`;
-}}
-
-function logoImgSm(slug, name) {{
-  if (slug) return `<img src="https://cdn.simpleicons.org/${{slug}}" width="20" height="20" alt="${{name}}" loading="lazy" onerror="this.style.display='none'">`;
-  return `<span class="t-fallback">${{name[0].toUpperCase()}}</span>`;
-}}
-
-const picker = document.getElementById('cats');
-Object.entries(byCategory).forEach(([cat, tools]) => {{
-  const section = document.createElement('div');
-  section.className = 'cat-section';
-  section.innerHTML = `<div class="cat-title">${{CAT_ICONS[cat] || '🔧'}} ${{cat.replace(/-/g,' ').replace(/\\b\\w/g,c=>c.toUpperCase())}}</div><div class="tools-grid" id="grid-${{cat}}"></div>`;
-  picker.appendChild(section);
-  const grid = section.querySelector('.tools-grid');
-  tools.forEach(t => {{
-    const chip = document.createElement('div');
-    chip.className = 'tool-chip';
-    chip.dataset.key = t.pk;
-    chip.innerHTML = `${{logoImg(t.pi, t.pn)}}<span class="t-name">${{t.pn}}</span><span class="checkmark">✓</span>`;
-    chip.addEventListener('click', () => {{
-      if (selected.has(t.pk)) {{ selected.delete(t.pk); chip.classList.remove('selected'); }}
-      else {{ selected.add(t.pk); chip.classList.add('selected'); }}
-      render();
-    }});
-    grid.appendChild(chip);
-  }});
-}});
-
-// ── Render results ────────────────────────────────────────
-function render() {{
-  const teamSize = parseInt(document.getElementById('team-size').value) || 10;
-  const body = document.getElementById('results-body');
-
-  if (selected.size === 0) {{
-    body.innerHTML = `<div class="empty-state"><div class="empty-icon">👈</div><div class="empty-text">Select tools on the left<br>to build your free stack</div></div>`;
-    return;
-  }}
-
-  const picks = TOOLS.filter(t => selected.has(t.pk));
-  let totalMonthly = 0;
-  let stackRows = '';
-
-  picks.forEach(t => {{
-    const monthlySaving = t.price * teamSize;
-    totalMonthly += monthlySaving;
-    const savingLabel = monthlySaving > 0 ? `-$${{monthlySaving.toLocaleString()}}/mo` : 'Free';
-    stackRows += `
-    <div class="stack-item">
-      <div class="stack-prop">${{logoImgSm(t.pi, t.pn)}}<span class="stack-prop-name">${{t.pn}}</span></div>
-      <span class="stack-arrow">→</span>
-      <div class="stack-oss"><a href="../${{t.slug}}/" style="display:flex;align-items:center;gap:6px;text-decoration:none;">
-        ${{logoImgSm(t.oi, t.on)}}<span class="stack-oss-name">${{t.on}}</span></a>
-      </div>
-      ${{monthlySaving > 0 ? `<span class="stack-saving">${{savingLabel}}</span>` : ''}}
-    </div>`;
-  }});
-
-  const annualSaving = totalMonthly * 12;
-  const savingsDisplay = totalMonthly > 0
-    ? `<div class="savings-hero">
-        <div class="savings-amount">$${{totalMonthly.toLocaleString()}}</div>
-        <div class="savings-label">estimated monthly savings (${{teamSize}} people)</div>
-        <div class="savings-annual">$${{annualSaving.toLocaleString()}} / year</div>
-      </div>`
-    : '';
-
-  body.innerHTML = `
-    ${{savingsDisplay}}
-    <div class="stack-list">${{stackRows}}</div>
-    <div class="cta-row">
-      <a class="btn-primary" href="../savings-calculator/">Full Calculator →</a>
-      <button class="btn-secondary" onclick="copyStack()">📋 Copy Stack</button>
-    </div>
-    <div class="no-selection-tip">Click any tool above to add or remove it</div>`;
-}}
-
-function copyStack() {{
-  const teamSize = parseInt(document.getElementById('team-size').value) || 10;
-  const picks = TOOLS.filter(t => selected.has(t.pk));
-  if (!picks.length) return;
-  let text = `My Free Open Source Stack (${{teamSize}} people)\\n${{'-'.repeat(40)}}\\n`;
-  let total = 0;
-  picks.forEach(t => {{
-    const saving = t.price * teamSize;
-    total += saving;
-    text += `${{t.pn}} → ${{t.on}} (${{saving > 0 ? '-$' + saving + '/mo' : 'already free'}})\\n`;
-  }});
-  if (total > 0) text += `\\nTotal savings: $${{total}}/month · $${{total*12}}/year\\n`;
-  text += `\\nBuild yours: {SITE_BASE_URL}/stack-builder/`;
-  navigator.clipboard?.writeText(text).then(() => {{
-    const btn = document.querySelector('.btn-secondary');
-    if (btn) {{ btn.textContent = '✅ Copied!'; setTimeout(() => btn.textContent = '📋 Copy Stack', 2000); }}
-  }});
-}}
-</script>
-</body>
-</html>"""
-
-    with open(page_dir / 'index.html', 'w') as f:
-        f.write(html)
-    logger.info("   🔧 Stack Builder page built → /stack-builder/")
 
 
 def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
@@ -4315,11 +3448,9 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
             prop_name=prop_name,
             prop_pricing=comp.get('proprietary_pricing', 'N/A'),
             prop_affiliate=AFFILIATE_LINKS.get(prop_key, comp.get('proprietary_website', '#')),
-            prop_logo=get_tool_logo_html(prop_name, size=32),
             oss_name=oss_name,
             oss_pricing=comp.get('oss_pricing', 'Free'),
             oss_website=AFFILIATE_LINKS.get(oss_key, comp.get('oss_website', '#')),
-            oss_logo=get_tool_logo_html(oss_name, size=32),
             body=body_html,
             github_box=github_box_html,
             related_section=related_html,
@@ -4342,18 +3473,16 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
         category_page_counts[category] = category_page_counts.get(category, 0) + 1
 
         search_data = f"{prop_name} {oss_name} {cat_label}".lower()
+        diff_data   = HOSTING_DIFFICULTY.get(oss_key, {})
+        diff_score  = diff_data.get('score', 0)   # 0 = unknown, 1-5 = rated
         cards_html += f"""
-  <div class="card" data-category="{category}" data-search="{search_data}">
+  <div class="card" data-category="{category}" data-search="{search_data}" data-difficulty="{diff_score}">
     <div class="card-category" style="background:{cat_color}">{cat_icon} {cat_label}</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        {get_tool_logo_html(prop_name)}
-        <span class="tname prop">{prop_name}</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        {get_tool_logo_html(oss_name)}
-        <span class="tname" style="color:{cat_color}">{oss_name}</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">{prop_name}</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:{cat_color}">{oss_name}</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -4361,6 +3490,7 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 {get_best_for(oss_key, category)}</span>
+        {f'<span style="font-size:11px;background:#EAFAF1;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:4px;">🖥️ {diff_data["label"]}</span>' if diff_score else ''}
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -4442,8 +3572,6 @@ Open Source Alternative Finder · Updated {updated} · <a href="../privacy/">Pri
     build_price_hike_page(site_dir, updated)
     build_industry_pages(site_dir, updated)
     build_infographics_page(site_dir, all_comparisons, updated)
-    build_stack_builder_page(site_dir, all_comparisons, updated)
-    build_logo_api_page(site_dir, updated)
 
     logger.info(f"✅ Site built successfully!")
     logger.info(f"   📄 {len(all_comparisons)} comparison pages")
