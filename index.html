@@ -50,34 +50,8 @@
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
     :root { --blue: #1F5C99; --blue-light: #2980B9; --green: #1A7A3F; --bg: #F0F4F8; --card: #fff; --border: #E2E8F0; --text: #1A202C; --text-muted: #718096; }
-    [data-theme="dark"] { --bg: #0d1117; --card: #161b22; --border: #30363d; --text: #e6edf3; --text-muted: #8b949e; --blue: #58a6ff; --blue-light: #79b8ff; --green: #3fb950; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; transition: background 0.2s, color 0.2s; }
-    [data-theme="dark"] .hero { background: linear-gradient(135deg, #0a1628 0%, #0d2440 100%); }
-    [data-theme="dark"] .search-bar { background: #161b22; border-bottom-color: #30363d; }
-    [data-theme="dark"] .search-input { background: #0d1117; border-color: #30363d; color: #e6edf3; }
-    [data-theme="dark"] .filter-btn { background: #161b22; border-color: #30363d; color: #8b949e; }
-    [data-theme="dark"] .filter-btn:hover, [data-theme="dark"] .filter-btn.active { background: #58a6ff; border-color: #58a6ff; color: #0d1117; font-weight: 700; }
-    [data-theme="dark"] .filter-label { color: #8b949e; }
-    [data-theme="dark"] .card { background: #161b22; border-color: #30363d; box-shadow: 0 2px 12px rgba(0,0,0,0.5); }
-    [data-theme="dark"] .card:hover { border-color: #58a6ff; box-shadow: 0 12px 32px rgba(0,0,0,0.7); }
-    [data-theme="dark"] .savings { background: #152820; border-color: #1f4a2a; }
-    [data-theme="dark"] .savings .label { color: #8b949e; }
-    [data-theme="dark"] .savings .value { color: #3fb950; }
-    [data-theme="dark"] .cta { background: #58a6ff; color: #0d1117; font-weight: 700; }
-    [data-theme="dark"] .cta:hover { background: #79b8ff; }
-    [data-theme="dark"] footer { background: #0d1117; border-top-color: #30363d; color: #8b949e; }
-    [data-theme="dark"] footer a { color: #58a6ff; }
-    .dark-toggle { position: fixed; bottom: 1.25rem; right: 1.25rem; z-index: 999; background: var(--card); border: 1px solid var(--border); border-radius: 50px; padding: 0.45rem 0.9rem; cursor: pointer; font-size: 0.82rem; font-weight: 700; color: var(--text); box-shadow: 0 4px 14px rgba(0,0,0,0.18); display: flex; align-items: center; gap: 0.4rem; transition: all 0.15s; }
-    .dark-toggle:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.22); }
-    .tool-logo { display: inline-block; vertical-align: middle; border-radius: 4px; object-fit: contain; flex-shrink: 0; }
-    .tool-logo-fallback { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 6px; background: #e2e8f0; color: #475569; font-size: 12px; font-weight: 800; flex-shrink: 0; }
-    [data-theme="dark"] .tool-logo { filter: brightness(0) invert(1); opacity: 0.82; }
-    [data-theme="dark"] .tool-logo-fallback { background: #2d3550; color: #8892aa; }
-    .card-tool-row { display: flex; align-items: center; gap: 7px; line-height: 1; }
-    .card-tool-row .tname { font-weight: 700; font-size: 1rem; }
-    .card-tool-row .tname.prop { color: #C0392B; }
-    [data-theme="dark"] .card-tool-row .tname.prop { color: #e07070; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
     .hero { background: linear-gradient(135deg, var(--blue) 0%, var(--blue-light) 100%); color: #fff; padding: 4rem 1.5rem 3rem; text-align: center; }
     .hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; margin-bottom: 0.75rem; }
     .hero p { opacity: 0.88; font-size: 1.1rem; max-width: 580px; margin: 0 auto 2rem; }
@@ -92,6 +66,7 @@
     .filter-btn { padding: 0.4rem 1rem; border-radius: 20px; border: 2px solid var(--border); background: #fff; cursor: pointer; font-size: 0.82rem; font-weight: 600; color: var(--text-muted); transition: all 0.15s; }
     .filter-btn:hover, .filter-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
     .filter-label { font-size: 0.82rem; font-weight: 700; color: var(--text-muted); white-space: nowrap; }
+    [data-theme="dark"] .search-bar .search-bar-inner + .search-bar-inner { border-top-color: #30363d; }
     .grid { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
     .card { background: var(--card); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; display: flex; flex-direction: column; cursor: pointer; }
     .card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0,0,0,0.14); border-color: #AED6F1; }
@@ -166,7 +141,7 @@
 <div class="search-bar">
   <div class="search-bar-inner">
     <input class="search-input" type="search" placeholder="🔎  Search tools... (e.g. Slack, Notion, Figma)" oninput="handleSearch(this.value)" aria-label="Search comparisons">
-    <span class="filter-label">Filter:</span>
+    <span class="filter-label">Category:</span>
     <button class="filter-btn active" onclick="filterCards('all', this)">All</button>
     <button class="filter-btn" onclick="filterCards('communication', this)">💬 Communication (8)</button>
 <button class="filter-btn" onclick="filterCards('design', this)">🎨 Design (14)</button>
@@ -175,6 +150,13 @@
 <button class="filter-btn" onclick="filterCards('productivity', this)">📝 Productivity (21)</button>
 <button class="filter-btn" onclick="filterCards('project-management', this)">📋 Project Management (5)</button>
 <button class="filter-btn" onclick="filterCards('video-conferencing', this)">🎥 Video Conferencing (1)</button>
+  </div>
+  <div class="search-bar-inner" style="padding-top:0.5rem;border-top:1px solid var(--border);margin-top:0.5rem;">
+    <span class="filter-label">Setup difficulty:</span>
+    <button class="filter-btn diff-btn active" onclick="filterDifficulty('all', this)">All</button>
+    <button class="filter-btn diff-btn" onclick="filterDifficulty('easy', this)" title="Score 1-2: Very Easy or Easy">⚡ Easy (≤2)</button>
+    <button class="filter-btn diff-btn" onclick="filterDifficulty('moderate', this)" title="Score 3: Moderate">🔧 Moderate</button>
+    <button class="filter-btn diff-btn" onclick="filterDifficulty('advanced', this)" title="Score 4-5: Advanced">🛠️ Advanced</button>
   </div>
 </div>
 
@@ -232,26 +214,6 @@
   </div>
 </div>
 
-<div class="calc-banner" style="margin-top:0.75rem">
-  <div class="calc-banner-inner" style="background:linear-gradient(135deg,#0d1f2d,#0a1a2e);border-color:rgba(88,166,255,0.3)">
-    <div class="calc-banner-text">
-      <div class="title" style="color:#58a6ff">🔧 Free Stack Builder</div>
-      <div class="sub">Tick the tools you pay for — instantly see your free replacement stack + savings</div>
-    </div>
-    <a class="calc-banner-btn" href="stack-builder/" style="background:linear-gradient(135deg,#1a3a5c,#58a6ff);color:#0d1117">Build My Free Stack →</a>
-  </div>
-</div>
-
-<div class="calc-banner" style="margin-top:0.75rem">
-  <div class="calc-banner-inner" style="background:linear-gradient(135deg,#1a0d2e,#2d1a4a);border-color:rgba(139,92,246,0.3)">
-    <div class="calc-banner-text">
-      <div class="title" style="color:#a78bfa">🔌 Logo API for Developers</div>
-      <div class="sub">One URL, any tool logo — free tier available for dashboards, READMEs, and comparison pages</div>
-    </div>
-    <a class="calc-banner-btn" href="logo-api/" style="background:linear-gradient(135deg,#4c1d95,#7c3aed);color:#fff">Get API Key →</a>
-  </div>
-</div>
-
 
 
 <!-- PATCH 5: MOST POPULAR COMPARISONS ABOVE FOLD -->
@@ -305,17 +267,13 @@
 
 <div class="grid" id="card-grid">
 
-  <div class="card" data-category="communication" data-search="slack element communication">
+  <div class="card" data-category="communication" data-search="slack element communication" data-difficulty="3">
     <div class="card-category" style="background:#2ECC71">💬 Communication</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/slack" width="26" height="26" alt="Slack logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Slack</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/element" width="26" height="26" alt="Element logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#2ECC71">Element</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Slack</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#2ECC71">Element</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -323,6 +281,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Remote teams</span>
+        <span style="font-size:11px;background:#EAFAF1;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:4px;">🖥️ Moderate</span>
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -330,17 +289,13 @@
       <a class="cta" href="alternatives-to-slack/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Slack Alts</a>
     </div>
   </div>
-  <div class="card" data-category="communication" data-search="slack mattermost communication">
+  <div class="card" data-category="communication" data-search="slack mattermost communication" data-difficulty="2">
     <div class="card-category" style="background:#2ECC71">💬 Communication</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/slack" width="26" height="26" alt="Slack logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Slack</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/mattermost" width="26" height="26" alt="Mattermost logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#2ECC71">Mattermost</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Slack</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#2ECC71">Mattermost</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -348,6 +303,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Mid-size to enterprise</span>
+        <span style="font-size:11px;background:#EAFAF1;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:4px;">🖥️ Easy</span>
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -355,17 +311,13 @@
       <a class="cta" href="alternatives-to-slack/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Slack Alts</a>
     </div>
   </div>
-  <div class="card" data-category="communication" data-search="slack zulip communication">
+  <div class="card" data-category="communication" data-search="slack zulip communication" data-difficulty="3">
     <div class="card-category" style="background:#2ECC71">💬 Communication</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/slack" width="26" height="26" alt="Slack logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Slack</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/zulip" width="26" height="26" alt="Zulip logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#2ECC71">Zulip</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Slack</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#2ECC71">Zulip</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -373,6 +325,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Mid-size to enterprise</span>
+        <span style="font-size:11px;background:#EAFAF1;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:4px;">🖥️ Moderate</span>
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -380,17 +333,13 @@
       <a class="cta" href="alternatives-to-slack/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Slack Alts</a>
     </div>
   </div>
-  <div class="card" data-category="communication" data-search="discord element communication">
+  <div class="card" data-category="communication" data-search="discord element communication" data-difficulty="3">
     <div class="card-category" style="background:#2ECC71">💬 Communication</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/discord" width="26" height="26" alt="Discord logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Discord</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/element" width="26" height="26" alt="Element logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#2ECC71">Element</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Discord</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#2ECC71">Element</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -398,6 +347,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Remote teams</span>
+        <span style="font-size:11px;background:#EAFAF1;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:4px;">🖥️ Moderate</span>
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -405,17 +355,13 @@
       <a class="cta" href="alternatives-to-discord/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Discord Alts</a>
     </div>
   </div>
-  <div class="card" data-category="productivity" data-search="notion appflowy productivity">
+  <div class="card" data-category="productivity" data-search="notion appflowy productivity" data-difficulty="1">
     <div class="card-category" style="background:#3498DB">📝 Productivity</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/notion" width="26" height="26" alt="Notion logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Notion</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/appflowy" width="26" height="26" alt="AppFlowy logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#3498DB">AppFlowy</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Notion</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#3498DB">AppFlowy</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -423,6 +369,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Solo + small teams</span>
+        <span style="font-size:11px;background:#EAFAF1;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:4px;">🖥️ Very Easy</span>
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -430,17 +377,13 @@
       <a class="cta" href="alternatives-to-notion/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Notion Alts</a>
     </div>
   </div>
-  <div class="card" data-category="productivity" data-search="notion obsidian productivity">
+  <div class="card" data-category="productivity" data-search="notion obsidian productivity" data-difficulty="1">
     <div class="card-category" style="background:#3498DB">📝 Productivity</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/notion" width="26" height="26" alt="Notion logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Notion</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/obsidian" width="26" height="26" alt="Obsidian logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#3498DB">Obsidian</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Notion</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#3498DB">Obsidian</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -448,6 +391,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Solo + small teams</span>
+        <span style="font-size:11px;background:#EAFAF1;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:4px;">🖥️ Very Easy</span>
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -455,17 +399,13 @@
       <a class="cta" href="alternatives-to-notion/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Notion Alts</a>
     </div>
   </div>
-  <div class="card" data-category="productivity" data-search="notion logseq productivity">
+  <div class="card" data-category="productivity" data-search="notion logseq productivity" data-difficulty="1">
     <div class="card-category" style="background:#3498DB">📝 Productivity</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/notion" width="26" height="26" alt="Notion logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Notion</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/logseq" width="26" height="26" alt="Logseq logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#3498DB">Logseq</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Notion</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#3498DB">Logseq</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -473,6 +413,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Solo + small teams</span>
+        <span style="font-size:11px;background:#EAFAF1;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:4px;">🖥️ Very Easy</span>
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -480,17 +421,13 @@
       <a class="cta" href="alternatives-to-notion/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Notion Alts</a>
     </div>
   </div>
-  <div class="card" data-category="developer-tools" data-search="github gitlab developer tools">
+  <div class="card" data-category="developer-tools" data-search="github gitlab developer tools" data-difficulty="4">
     <div class="card-category" style="background:#9B59B6">⚙️ Developer Tools</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/github" width="26" height="26" alt="GitHub logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">GitHub</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/gitlab" width="26" height="26" alt="GitLab logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#9B59B6">GitLab</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">GitHub</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#9B59B6">GitLab</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -498,6 +435,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Mid-size to enterprise</span>
+        <span style="font-size:11px;background:#EAFAF1;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:4px;">🖥️ Advanced</span>
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -505,17 +443,13 @@
       <a class="cta" href="alternatives-to-github/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All GitHub Alts</a>
     </div>
   </div>
-  <div class="card" data-category="developer-tools" data-search="github gitea developer tools">
+  <div class="card" data-category="developer-tools" data-search="github gitea developer tools" data-difficulty="2">
     <div class="card-category" style="background:#9B59B6">⚙️ Developer Tools</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/github" width="26" height="26" alt="GitHub logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">GitHub</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/gitea" width="26" height="26" alt="Gitea logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#9B59B6">Gitea</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">GitHub</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#9B59B6">Gitea</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -523,6 +457,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Dev + engineering teams</span>
+        <span style="font-size:11px;background:#EAFAF1;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:4px;">🖥️ Easy</span>
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -530,17 +465,13 @@
       <a class="cta" href="alternatives-to-github/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All GitHub Alts</a>
     </div>
   </div>
-  <div class="card" data-category="design" data-search="figma penpot design">
+  <div class="card" data-category="design" data-search="figma penpot design" data-difficulty="2">
     <div class="card-category" style="background:#E91E63">🎨 Design</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/figma" width="26" height="26" alt="Figma logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Figma</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/penpot" width="26" height="26" alt="Penpot logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#E91E63">Penpot</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Figma</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#E91E63">Penpot</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -548,6 +479,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Design teams</span>
+        <span style="font-size:11px;background:#EAFAF1;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:4px;">🖥️ Easy</span>
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -555,17 +487,13 @@
       <a class="cta" href="alternatives-to-figma/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Figma Alts</a>
     </div>
   </div>
-  <div class="card" data-category="project-management" data-search="jira plane project management">
+  <div class="card" data-category="project-management" data-search="jira plane project management" data-difficulty="2">
     <div class="card-category" style="background:#F39C12">📋 Project Management</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/jira" width="26" height="26" alt="Jira logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Jira</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/plane" width="26" height="26" alt="Plane logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#F39C12">Plane</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Jira</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#F39C12">Plane</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -573,6 +501,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Dev + engineering teams</span>
+        <span style="font-size:11px;background:#EAFAF1;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:4px;">🖥️ Easy</span>
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -580,17 +509,13 @@
       <a class="cta" href="alternatives-to-jira/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Jira Alts</a>
     </div>
   </div>
-  <div class="card" data-category="project-management" data-search="trello wekan project management">
+  <div class="card" data-category="project-management" data-search="trello wekan project management" data-difficulty="2">
     <div class="card-category" style="background:#F39C12">📋 Project Management</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/trello" width="26" height="26" alt="Trello logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Trello</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/wekan" width="26" height="26" alt="WeKan logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#F39C12">WeKan</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Trello</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#F39C12">WeKan</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -598,6 +523,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Dev + engineering teams</span>
+        <span style="font-size:11px;background:#EAFAF1;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:4px;">🖥️ Easy</span>
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -605,17 +531,13 @@
       <a class="cta" href="alternatives-to-trello/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Trello Alts</a>
     </div>
   </div>
-  <div class="card" data-category="file-storage" data-search="dropbox nextcloud file storage">
+  <div class="card" data-category="file-storage" data-search="dropbox nextcloud file storage" data-difficulty="3">
     <div class="card-category" style="background:#1ABC9C">☁️ File Storage</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/dropbox" width="26" height="26" alt="Dropbox logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Dropbox</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/nextcloud" width="26" height="26" alt="Nextcloud logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#1ABC9C">Nextcloud</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Dropbox</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#1ABC9C">Nextcloud</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -623,6 +545,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Mid-size to enterprise</span>
+        <span style="font-size:11px;background:#EAFAF1;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:4px;">🖥️ Moderate</span>
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -630,17 +553,13 @@
       <a class="cta" href="alternatives-to-dropbox/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Dropbox Alts</a>
     </div>
   </div>
-  <div class="card" data-category="video-conferencing" data-search="zoom jitsi meet video conferencing">
+  <div class="card" data-category="video-conferencing" data-search="zoom jitsi meet video conferencing" data-difficulty="2">
     <div class="card-category" style="background:#E74C3C">🎥 Video Conferencing</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/zoom" width="26" height="26" alt="Zoom logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Zoom</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <span class="tool-logo-fallback" aria-hidden="true">J</span>
-        <span class="tname" style="color:#E74C3C">Jitsi Meet</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Zoom</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#E74C3C">Jitsi Meet</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -648,6 +567,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Any team size</span>
+        <span style="font-size:11px;background:#EAFAF1;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:4px;">🖥️ Easy</span>
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -655,17 +575,13 @@
       <a class="cta" href="alternatives-to-zoom/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Zoom Alts</a>
     </div>
   </div>
-  <div class="card" data-category="project-management" data-search="linear plane project management">
+  <div class="card" data-category="project-management" data-search="linear plane project management" data-difficulty="2">
     <div class="card-category" style="background:#F39C12">📋 Project Management</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/linear" width="26" height="26" alt="Linear logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Linear</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/plane" width="26" height="26" alt="Plane logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#F39C12">Plane</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Linear</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#F39C12">Plane</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -673,6 +589,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Dev + engineering teams</span>
+        <span style="font-size:11px;background:#EAFAF1;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:4px;">🖥️ Easy</span>
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -680,17 +597,13 @@
       <a class="cta" href="alternatives-to-linear/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Linear Alts</a>
     </div>
   </div>
-  <div class="card" data-category="project-management" data-search="asana taiga project management">
+  <div class="card" data-category="project-management" data-search="asana taiga project management" data-difficulty="3">
     <div class="card-category" style="background:#F39C12">📋 Project Management</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/asana" width="26" height="26" alt="Asana logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Asana</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/taiga" width="26" height="26" alt="Taiga logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#F39C12">Taiga</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Asana</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#F39C12">Taiga</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -698,6 +611,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Dev + engineering teams</span>
+        <span style="font-size:11px;background:#EAFAF1;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:4px;">🖥️ Moderate</span>
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -705,17 +619,13 @@
       <a class="cta" href="alternatives-to-asana/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Asana Alts</a>
     </div>
   </div>
-  <div class="card" data-category="communication" data-search="microsoft teams mattermost communication">
+  <div class="card" data-category="communication" data-search="microsoft teams mattermost communication" data-difficulty="2">
     <div class="card-category" style="background:#2ECC71">💬 Communication</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/microsoftteams" width="26" height="26" alt="Microsoft Teams logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Microsoft Teams</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/mattermost" width="26" height="26" alt="Mattermost logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#2ECC71">Mattermost</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Microsoft Teams</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#2ECC71">Mattermost</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -723,6 +633,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Mid-size to enterprise</span>
+        <span style="font-size:11px;background:#EAFAF1;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:4px;">🖥️ Easy</span>
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -730,17 +641,13 @@
       <a class="cta" href="alternatives-to-microsoft-teams/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Microsoft Teams Alts</a>
     </div>
   </div>
-  <div class="card" data-category="file-storage" data-search="google workspace nextcloud file storage">
+  <div class="card" data-category="file-storage" data-search="google workspace nextcloud file storage" data-difficulty="3">
     <div class="card-category" style="background:#1ABC9C">☁️ File Storage</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/google" width="26" height="26" alt="Google Workspace logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Google Workspace</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/nextcloud" width="26" height="26" alt="Nextcloud logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#1ABC9C">Nextcloud</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Google Workspace</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#1ABC9C">Nextcloud</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -748,6 +655,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Mid-size to enterprise</span>
+        <span style="font-size:11px;background:#EAFAF1;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:4px;">🖥️ Moderate</span>
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -755,17 +663,13 @@
       <a class="cta" href="alternatives-to-google-workspace/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Google Workspace Alts</a>
     </div>
   </div>
-  <div class="card" data-category="productivity" data-search="airtable nocodb productivity">
+  <div class="card" data-category="productivity" data-search="airtable nocodb productivity" data-difficulty="1">
     <div class="card-category" style="background:#3498DB">📝 Productivity</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/airtable" width="26" height="26" alt="Airtable logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Airtable</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/nocodb" width="26" height="26" alt="NocoDB logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#3498DB">NocoDB</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Airtable</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#3498DB">NocoDB</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -773,6 +677,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Dev + engineering teams</span>
+        <span style="font-size:11px;background:#EAFAF1;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:4px;">🖥️ Very Easy</span>
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -780,17 +685,13 @@
       <a class="cta" href="alternatives-to-airtable/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Airtable Alts</a>
     </div>
   </div>
-  <div class="card" data-category="project-management" data-search="monday.com plane project management">
+  <div class="card" data-category="project-management" data-search="monday.com plane project management" data-difficulty="2">
     <div class="card-category" style="background:#F39C12">📋 Project Management</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/monday" width="26" height="26" alt="Monday.com logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Monday.com</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/plane" width="26" height="26" alt="Plane logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#F39C12">Plane</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Monday.com</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#F39C12">Plane</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -798,6 +699,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Dev + engineering teams</span>
+        <span style="font-size:11px;background:#EAFAF1;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:4px;">🖥️ Easy</span>
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -805,17 +707,13 @@
       <a class="cta" href="alternatives-to-monday/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Monday.com Alts</a>
     </div>
   </div>
-  <div class="card" data-category="productivity" data-search="hubspot suitecrm productivity">
+  <div class="card" data-category="productivity" data-search="hubspot suitecrm productivity" data-difficulty="3">
     <div class="card-category" style="background:#3498DB">📝 Productivity</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/hubspot" width="26" height="26" alt="HubSpot logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">HubSpot</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <span class="tool-logo-fallback" aria-hidden="true">S</span>
-        <span class="tname" style="color:#3498DB">SuiteCRM</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">HubSpot</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#3498DB">SuiteCRM</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -823,6 +721,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Mid-size to enterprise</span>
+        <span style="font-size:11px;background:#EAFAF1;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:4px;">🖥️ Moderate</span>
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -830,17 +729,13 @@
       <a class="cta" href="alternatives-to-hubspot/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All HubSpot Alts</a>
     </div>
   </div>
-  <div class="card" data-category="productivity" data-search="mailchimp listmonk productivity">
+  <div class="card" data-category="productivity" data-search="mailchimp listmonk productivity" data-difficulty="2">
     <div class="card-category" style="background:#3498DB">📝 Productivity</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/mailchimp" width="26" height="26" alt="Mailchimp logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Mailchimp</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/listmonk" width="26" height="26" alt="Listmonk logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#3498DB">Listmonk</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Mailchimp</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#3498DB">Listmonk</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -848,6 +743,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Any team size</span>
+        <span style="font-size:11px;background:#EAFAF1;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:4px;">🖥️ Easy</span>
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -855,17 +751,13 @@
       <a class="cta" href="alternatives-to-mailchimp/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Mailchimp Alts</a>
     </div>
   </div>
-  <div class="card" data-category="productivity" data-search="wordpress.com ghost productivity">
+  <div class="card" data-category="productivity" data-search="wordpress.com ghost productivity" data-difficulty="2">
     <div class="card-category" style="background:#3498DB">📝 Productivity</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <span class="tool-logo-fallback" aria-hidden="true">W</span>
-        <span class="tname prop">WordPress.com</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/ghost" width="26" height="26" alt="Ghost logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#3498DB">Ghost</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">WordPress.com</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#3498DB">Ghost</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -873,6 +765,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Any team size</span>
+        <span style="font-size:11px;background:#EAFAF1;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:4px;">🖥️ Easy</span>
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -880,17 +773,13 @@
       <a class="cta" href="alternatives-to-wordpress-com/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All WordPress.com Alts</a>
     </div>
   </div>
-  <div class="card" data-category="productivity" data-search="confluence bookstack productivity">
+  <div class="card" data-category="productivity" data-search="confluence bookstack productivity" data-difficulty="0">
     <div class="card-category" style="background:#3498DB">📝 Productivity</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/confluence" width="26" height="26" alt="Confluence logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Confluence</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/bookstack" width="26" height="26" alt="BookStack logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#3498DB">BookStack</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Confluence</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#3498DB">BookStack</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -898,6 +787,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Any team size</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -905,17 +795,13 @@
       <a class="cta" href="alternatives-to-confluence/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Confluence Alts</a>
     </div>
   </div>
-  <div class="card" data-category="productivity" data-search="zendesk zammad productivity">
+  <div class="card" data-category="productivity" data-search="zendesk zammad productivity" data-difficulty="0">
     <div class="card-category" style="background:#3498DB">📝 Productivity</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/zendesk" width="26" height="26" alt="Zendesk logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Zendesk</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <span class="tool-logo-fallback" aria-hidden="true">Z</span>
-        <span class="tname" style="color:#3498DB">Zammad</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Zendesk</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#3498DB">Zammad</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -923,6 +809,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Any team size</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -930,17 +817,13 @@
       <a class="cta" href="alternatives-to-zendesk/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Zendesk Alts</a>
     </div>
   </div>
-  <div class="card" data-category="productivity" data-search="calendly cal.com productivity">
+  <div class="card" data-category="productivity" data-search="calendly cal.com productivity" data-difficulty="0">
     <div class="card-category" style="background:#3498DB">📝 Productivity</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <span class="tool-logo-fallback" aria-hidden="true">C</span>
-        <span class="tname prop">Calendly</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/caldotcom" width="26" height="26" alt="Cal.com logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#3498DB">Cal.com</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Calendly</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#3498DB">Cal.com</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -948,6 +831,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Any team size</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -955,17 +839,13 @@
       <a class="cta" href="alternatives-to-calendly/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Calendly Alts</a>
     </div>
   </div>
-  <div class="card" data-category="communication" data-search="intercom chatwoot communication">
+  <div class="card" data-category="communication" data-search="intercom chatwoot communication" data-difficulty="0">
     <div class="card-category" style="background:#2ECC71">💬 Communication</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/intercom" width="26" height="26" alt="Intercom logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Intercom</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <span class="tool-logo-fallback" aria-hidden="true">C</span>
-        <span class="tname" style="color:#2ECC71">Chatwoot</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Intercom</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#2ECC71">Chatwoot</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -973,6 +853,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Remote teams</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -980,17 +861,13 @@
       <a class="cta" href="alternatives-to-intercom/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Intercom Alts</a>
     </div>
   </div>
-  <div class="card" data-category="developer-tools" data-search="postman hoppscotch developer tools">
+  <div class="card" data-category="developer-tools" data-search="postman hoppscotch developer tools" data-difficulty="0">
     <div class="card-category" style="background:#9B59B6">⚙️ Developer Tools</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/postman" width="26" height="26" alt="Postman logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Postman</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <span class="tool-logo-fallback" aria-hidden="true">H</span>
-        <span class="tname" style="color:#9B59B6">Hoppscotch</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Postman</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#9B59B6">Hoppscotch</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -998,6 +875,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Dev + engineering teams</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1005,17 +883,13 @@
       <a class="cta" href="alternatives-to-postman/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Postman Alts</a>
     </div>
   </div>
-  <div class="card" data-category="productivity" data-search="1password bitwarden productivity">
+  <div class="card" data-category="productivity" data-search="1password bitwarden productivity" data-difficulty="0">
     <div class="card-category" style="background:#3498DB">📝 Productivity</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/1password" width="26" height="26" alt="1Password logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">1Password</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/bitwarden" width="26" height="26" alt="Bitwarden logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#3498DB">Bitwarden</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">1Password</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#3498DB">Bitwarden</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -1023,6 +897,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Any team size</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1030,17 +905,13 @@
       <a class="cta" href="alternatives-to-1password/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All 1Password Alts</a>
     </div>
   </div>
-  <div class="card" data-category="design" data-search="adobe photoshop gimp design">
+  <div class="card" data-category="design" data-search="adobe photoshop gimp design" data-difficulty="0">
     <div class="card-category" style="background:#E91E63">🎨 Design</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <span class="tool-logo-fallback" aria-hidden="true">A</span>
-        <span class="tname prop">Adobe Photoshop</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <span class="tool-logo-fallback" aria-hidden="true">G</span>
-        <span class="tname" style="color:#E91E63">GIMP</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Adobe Photoshop</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#E91E63">GIMP</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -1048,6 +919,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Design teams</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1055,17 +927,13 @@
       <a class="cta" href="alternatives-to-adobe-photoshop/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Adobe Photoshop Alts</a>
     </div>
   </div>
-  <div class="card" data-category="productivity" data-search="typeform formbricks productivity">
+  <div class="card" data-category="productivity" data-search="typeform formbricks productivity" data-difficulty="0">
     <div class="card-category" style="background:#3498DB">📝 Productivity</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <span class="tool-logo-fallback" aria-hidden="true">T</span>
-        <span class="tname prop">Typeform</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <span class="tool-logo-fallback" aria-hidden="true">F</span>
-        <span class="tname" style="color:#3498DB">Formbricks</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Typeform</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#3498DB">Formbricks</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -1073,6 +941,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Any team size</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1080,17 +949,13 @@
       <a class="cta" href="alternatives-to-typeform/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Typeform Alts</a>
     </div>
   </div>
-  <div class="card" data-category="design" data-search="miro excalidraw design">
+  <div class="card" data-category="design" data-search="miro excalidraw design" data-difficulty="0">
     <div class="card-category" style="background:#E91E63">🎨 Design</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/miro" width="26" height="26" alt="Miro logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Miro</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <span class="tool-logo-fallback" aria-hidden="true">E</span>
-        <span class="tname" style="color:#E91E63">Excalidraw</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Miro</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#E91E63">Excalidraw</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -1098,6 +963,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Design teams</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1105,17 +971,13 @@
       <a class="cta" href="alternatives-to-miro/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Miro Alts</a>
     </div>
   </div>
-  <div class="card" data-category="developer-tools" data-search="netlify coolify developer tools">
+  <div class="card" data-category="developer-tools" data-search="netlify coolify developer tools" data-difficulty="0">
     <div class="card-category" style="background:#9B59B6">⚙️ Developer Tools</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/netlify" width="26" height="26" alt="Netlify logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Netlify</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <span class="tool-logo-fallback" aria-hidden="true">C</span>
-        <span class="tname" style="color:#9B59B6">Coolify</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Netlify</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#9B59B6">Coolify</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -1123,6 +985,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Dev + engineering teams</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1130,17 +993,13 @@
       <a class="cta" href="alternatives-to-netlify/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Netlify Alts</a>
     </div>
   </div>
-  <div class="card" data-category="productivity" data-search="salesforce espocrm productivity">
+  <div class="card" data-category="productivity" data-search="salesforce espocrm productivity" data-difficulty="0">
     <div class="card-category" style="background:#3498DB">📝 Productivity</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/salesforce" width="26" height="26" alt="Salesforce logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Salesforce</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <span class="tool-logo-fallback" aria-hidden="true">E</span>
-        <span class="tname" style="color:#3498DB">EspoCRM</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Salesforce</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#3498DB">EspoCRM</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -1148,6 +1007,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Any team size</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1155,17 +1015,13 @@
       <a class="cta" href="alternatives-to-salesforce/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Salesforce Alts</a>
     </div>
   </div>
-  <div class="card" data-category="productivity" data-search="grammarly languagetool productivity">
+  <div class="card" data-category="productivity" data-search="grammarly languagetool productivity" data-difficulty="0">
     <div class="card-category" style="background:#3498DB">📝 Productivity</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <span class="tool-logo-fallback" aria-hidden="true">G</span>
-        <span class="tname prop">Grammarly</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <span class="tool-logo-fallback" aria-hidden="true">L</span>
-        <span class="tname" style="color:#3498DB">LanguageTool</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Grammarly</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#3498DB">LanguageTool</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -1173,6 +1029,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Any team size</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1180,17 +1037,13 @@
       <a class="cta" href="alternatives-to-grammarly/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Grammarly Alts</a>
     </div>
   </div>
-  <div class="card" data-category="productivity" data-search="shopify woocommerce productivity">
+  <div class="card" data-category="productivity" data-search="shopify woocommerce productivity" data-difficulty="0">
     <div class="card-category" style="background:#3498DB">📝 Productivity</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/shopify" width="26" height="26" alt="Shopify logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Shopify</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/woocommerce" width="26" height="26" alt="WooCommerce logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#3498DB">WooCommerce</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Shopify</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#3498DB">WooCommerce</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -1198,6 +1051,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Any team size</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1205,17 +1059,13 @@
       <a class="cta" href="alternatives-to-shopify/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Shopify Alts</a>
     </div>
   </div>
-  <div class="card" data-category="productivity" data-search="lastpass vaultwarden productivity">
+  <div class="card" data-category="productivity" data-search="lastpass vaultwarden productivity" data-difficulty="0">
     <div class="card-category" style="background:#3498DB">📝 Productivity</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/lastpass" width="26" height="26" alt="LastPass logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">LastPass</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <span class="tool-logo-fallback" aria-hidden="true">V</span>
-        <span class="tname" style="color:#3498DB">Vaultwarden</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">LastPass</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#3498DB">Vaultwarden</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -1223,6 +1073,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Any team size</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1230,17 +1081,13 @@
       <a class="cta" href="alternatives-to-lastpass/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All LastPass Alts</a>
     </div>
   </div>
-  <div class="card" data-category="productivity" data-search="quickbooks akaunting productivity">
+  <div class="card" data-category="productivity" data-search="quickbooks akaunting productivity" data-difficulty="0">
     <div class="card-category" style="background:#3498DB">📝 Productivity</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/quickbooks" width="26" height="26" alt="QuickBooks logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">QuickBooks</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <span class="tool-logo-fallback" aria-hidden="true">A</span>
-        <span class="tname" style="color:#3498DB">Akaunting</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">QuickBooks</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#3498DB">Akaunting</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -1248,6 +1095,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Any team size</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1255,17 +1103,13 @@
       <a class="cta" href="alternatives-to-quickbooks/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All QuickBooks Alts</a>
     </div>
   </div>
-  <div class="card" data-category="productivity" data-search="docusign docuseal productivity">
+  <div class="card" data-category="productivity" data-search="docusign docuseal productivity" data-difficulty="0">
     <div class="card-category" style="background:#3498DB">📝 Productivity</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <span class="tool-logo-fallback" aria-hidden="true">D</span>
-        <span class="tname prop">DocuSign</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <span class="tool-logo-fallback" aria-hidden="true">D</span>
-        <span class="tname" style="color:#3498DB">DocuSeal</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">DocuSign</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#3498DB">DocuSeal</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -1273,6 +1117,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Any team size</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1280,17 +1125,13 @@
       <a class="cta" href="alternatives-to-docusign/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All DocuSign Alts</a>
     </div>
   </div>
-  <div class="card" data-category="developer-tools" data-search="sentry glitchtip developer tools">
+  <div class="card" data-category="developer-tools" data-search="sentry glitchtip developer tools" data-difficulty="0">
     <div class="card-category" style="background:#9B59B6">⚙️ Developer Tools</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/sentry" width="26" height="26" alt="Sentry logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Sentry</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <span class="tool-logo-fallback" aria-hidden="true">G</span>
-        <span class="tname" style="color:#9B59B6">GlitchTip</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Sentry</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#9B59B6">GlitchTip</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -1298,6 +1139,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Dev + engineering teams</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1305,17 +1147,13 @@
       <a class="cta" href="alternatives-to-sentry/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Sentry Alts</a>
     </div>
   </div>
-  <div class="card" data-category="productivity" data-search="hotjar openreplay productivity">
+  <div class="card" data-category="productivity" data-search="hotjar openreplay productivity" data-difficulty="0">
     <div class="card-category" style="background:#3498DB">📝 Productivity</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <span class="tool-logo-fallback" aria-hidden="true">H</span>
-        <span class="tname prop">Hotjar</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <span class="tool-logo-fallback" aria-hidden="true">O</span>
-        <span class="tname" style="color:#3498DB">OpenReplay</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Hotjar</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#3498DB">OpenReplay</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -1323,6 +1161,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Any team size</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1330,17 +1169,13 @@
       <a class="cta" href="alternatives-to-hotjar/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Hotjar Alts</a>
     </div>
   </div>
-  <div class="card" data-category="communication" data-search="loom cap communication">
+  <div class="card" data-category="communication" data-search="loom cap communication" data-difficulty="0">
     <div class="card-category" style="background:#2ECC71">💬 Communication</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <span class="tool-logo-fallback" aria-hidden="true">L</span>
-        <span class="tname prop">Loom</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <span class="tool-logo-fallback" aria-hidden="true">C</span>
-        <span class="tname" style="color:#2ECC71">Cap</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Loom</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#2ECC71">Cap</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -1348,6 +1183,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Remote teams</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1355,17 +1191,13 @@
       <a class="cta" href="alternatives-to-loom/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Loom Alts</a>
     </div>
   </div>
-  <div class="card" data-category="design" data-search="canva penpot design">
+  <div class="card" data-category="design" data-search="canva penpot design" data-difficulty="2">
     <div class="card-category" style="background:#E91E63">🎨 Design</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/canva" width="26" height="26" alt="Canva logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Canva</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/penpot" width="26" height="26" alt="Penpot logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#E91E63">Penpot</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Canva</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#E91E63">Penpot</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -1373,6 +1205,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Design teams</span>
+        <span style="font-size:11px;background:#EAFAF1;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:4px;">🖥️ Easy</span>
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1380,17 +1213,13 @@
       <a class="cta" href="alternatives-to-canva/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Canva Alts</a>
     </div>
   </div>
-  <div class="card" data-category="design" data-search="canva inkscape design">
+  <div class="card" data-category="design" data-search="canva inkscape design" data-difficulty="0">
     <div class="card-category" style="background:#E91E63">🎨 Design</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/canva" width="26" height="26" alt="Canva logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Canva</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/inkscape" width="26" height="26" alt="Inkscape logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#E91E63">Inkscape</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Canva</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#E91E63">Inkscape</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -1398,6 +1227,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Design teams</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1405,17 +1235,13 @@
       <a class="cta" href="alternatives-to-canva/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Canva Alts</a>
     </div>
   </div>
-  <div class="card" data-category="design" data-search="sketch penpot design">
+  <div class="card" data-category="design" data-search="sketch penpot design" data-difficulty="2">
     <div class="card-category" style="background:#E91E63">🎨 Design</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/sketch" width="26" height="26" alt="Sketch logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Sketch</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/penpot" width="26" height="26" alt="Penpot logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#E91E63">Penpot</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Sketch</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#E91E63">Penpot</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -1423,6 +1249,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Design teams</span>
+        <span style="font-size:11px;background:#EAFAF1;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:4px;">🖥️ Easy</span>
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1430,17 +1257,13 @@
       <a class="cta" href="alternatives-to-sketch/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Sketch Alts</a>
     </div>
   </div>
-  <div class="card" data-category="design" data-search="adobe xd penpot design">
+  <div class="card" data-category="design" data-search="adobe xd penpot design" data-difficulty="2">
     <div class="card-category" style="background:#E91E63">🎨 Design</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/adobe" width="26" height="26" alt="Adobe XD logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Adobe XD</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/penpot" width="26" height="26" alt="Penpot logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#E91E63">Penpot</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Adobe XD</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#E91E63">Penpot</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -1448,6 +1271,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Design teams</span>
+        <span style="font-size:11px;background:#EAFAF1;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:4px;">🖥️ Easy</span>
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1455,17 +1279,13 @@
       <a class="cta" href="alternatives-to-adobe-xd/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Adobe XD Alts</a>
     </div>
   </div>
-  <div class="card" data-category="design" data-search="adobe illustrator inkscape design">
+  <div class="card" data-category="design" data-search="adobe illustrator inkscape design" data-difficulty="0">
     <div class="card-category" style="background:#E91E63">🎨 Design</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/adobeillustrator" width="26" height="26" alt="Adobe Illustrator logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Adobe Illustrator</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/inkscape" width="26" height="26" alt="Inkscape logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#E91E63">Inkscape</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Adobe Illustrator</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#E91E63">Inkscape</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -1473,6 +1293,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Design teams</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1480,17 +1301,13 @@
       <a class="cta" href="alternatives-to-adobe-illustrator/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Adobe Illustrator Alts</a>
     </div>
   </div>
-  <div class="card" data-category="design" data-search="adobe premiere pro kdenlive design">
+  <div class="card" data-category="design" data-search="adobe premiere pro kdenlive design" data-difficulty="0">
     <div class="card-category" style="background:#E91E63">🎨 Design</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <span class="tool-logo-fallback" aria-hidden="true">A</span>
-        <span class="tname prop">Adobe Premiere Pro</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <span class="tool-logo-fallback" aria-hidden="true">K</span>
-        <span class="tname" style="color:#E91E63">Kdenlive</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Adobe Premiere Pro</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#E91E63">Kdenlive</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -1498,6 +1315,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Design teams</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1505,17 +1323,13 @@
       <a class="cta" href="alternatives-to-adobe-premiere/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Adobe Premiere Pro Alts</a>
     </div>
   </div>
-  <div class="card" data-category="design" data-search="framer plasmic design">
+  <div class="card" data-category="design" data-search="framer plasmic design" data-difficulty="0">
     <div class="card-category" style="background:#E91E63">🎨 Design</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <span class="tool-logo-fallback" aria-hidden="true">F</span>
-        <span class="tname prop">Framer</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <span class="tool-logo-fallback" aria-hidden="true">P</span>
-        <span class="tname" style="color:#E91E63">Plasmic</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Framer</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#E91E63">Plasmic</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -1523,6 +1337,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Design teams</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1530,17 +1345,13 @@
       <a class="cta" href="alternatives-to-framer/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Framer Alts</a>
     </div>
   </div>
-  <div class="card" data-category="design" data-search="figma inkscape design">
+  <div class="card" data-category="design" data-search="figma inkscape design" data-difficulty="0">
     <div class="card-category" style="background:#E91E63">🎨 Design</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/figma" width="26" height="26" alt="Figma logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname prop">Figma</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/inkscape" width="26" height="26" alt="Inkscape logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#E91E63">Inkscape</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Figma</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#E91E63">Inkscape</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -1548,6 +1359,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Design teams</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1555,17 +1367,13 @@
       <a class="cta" href="alternatives-to-figma/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Figma Alts</a>
     </div>
   </div>
-  <div class="card" data-category="design" data-search="adobe photoshop penpot design">
+  <div class="card" data-category="design" data-search="adobe photoshop penpot design" data-difficulty="2">
     <div class="card-category" style="background:#E91E63">🎨 Design</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <span class="tool-logo-fallback" aria-hidden="true">A</span>
-        <span class="tname prop">Adobe Photoshop</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <img class="tool-logo" src="https://cdn.simpleicons.org/penpot" width="26" height="26" alt="Penpot logo" loading="lazy" onerror="this.style.display='none'">
-        <span class="tname" style="color:#E91E63">Penpot</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Adobe Photoshop</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#E91E63">Penpot</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -1573,6 +1381,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Design teams</span>
+        <span style="font-size:11px;background:#EAFAF1;color:#1A7A3F;padding:2px 8px;border-radius:20px;font-weight:600;margin-left:4px;">🖥️ Easy</span>
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1580,17 +1389,13 @@
       <a class="cta" href="alternatives-to-adobe-photoshop/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Adobe Photoshop Alts</a>
     </div>
   </div>
-  <div class="card" data-category="design" data-search="adobe audition audacity design">
+  <div class="card" data-category="design" data-search="adobe audition audacity design" data-difficulty="0">
     <div class="card-category" style="background:#E91E63">🎨 Design</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <span class="tool-logo-fallback" aria-hidden="true">A</span>
-        <span class="tname prop">Adobe Audition</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <span class="tool-logo-fallback" aria-hidden="true">A</span>
-        <span class="tname" style="color:#E91E63">Audacity</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Adobe Audition</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#E91E63">Audacity</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -1598,6 +1403,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Design teams</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1605,17 +1411,13 @@
       <a class="cta" href="alternatives-to-adobe-audition/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Adobe Audition Alts</a>
     </div>
   </div>
-  <div class="card" data-category="communication" data-search="streamyard obs studio communication">
+  <div class="card" data-category="communication" data-search="streamyard obs studio communication" data-difficulty="0">
     <div class="card-category" style="background:#2ECC71">💬 Communication</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <span class="tool-logo-fallback" aria-hidden="true">S</span>
-        <span class="tname prop">StreamYard</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <span class="tool-logo-fallback" aria-hidden="true">O</span>
-        <span class="tname" style="color:#2ECC71">OBS Studio</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">StreamYard</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#2ECC71">OBS Studio</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -1623,6 +1425,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Remote teams</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1630,17 +1433,13 @@
       <a class="cta" href="alternatives-to-streamyard/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All StreamYard Alts</a>
     </div>
   </div>
-  <div class="card" data-category="productivity" data-search="wix wordpress.org productivity">
+  <div class="card" data-category="productivity" data-search="wix wordpress.org productivity" data-difficulty="0">
     <div class="card-category" style="background:#3498DB">📝 Productivity</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <span class="tool-logo-fallback" aria-hidden="true">W</span>
-        <span class="tname prop">Wix</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <span class="tool-logo-fallback" aria-hidden="true">W</span>
-        <span class="tname" style="color:#3498DB">WordPress.org</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Wix</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#3498DB">WordPress.org</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -1648,6 +1447,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Any team size</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1655,17 +1455,13 @@
       <a class="cta" href="alternatives-to-wix/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Wix Alts</a>
     </div>
   </div>
-  <div class="card" data-category="productivity" data-search="squarespace wordpress.org productivity">
+  <div class="card" data-category="productivity" data-search="squarespace wordpress.org productivity" data-difficulty="0">
     <div class="card-category" style="background:#3498DB">📝 Productivity</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <span class="tool-logo-fallback" aria-hidden="true">S</span>
-        <span class="tname prop">Squarespace</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <span class="tool-logo-fallback" aria-hidden="true">W</span>
-        <span class="tname" style="color:#3498DB">WordPress.org</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Squarespace</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#3498DB">WordPress.org</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -1673,6 +1469,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Any team size</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1680,17 +1477,13 @@
       <a class="cta" href="alternatives-to-squarespace/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Squarespace Alts</a>
     </div>
   </div>
-  <div class="card" data-category="design" data-search="webflow plasmic design">
+  <div class="card" data-category="design" data-search="webflow plasmic design" data-difficulty="0">
     <div class="card-category" style="background:#E91E63">🎨 Design</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <span class="tool-logo-fallback" aria-hidden="true">W</span>
-        <span class="tname prop">Webflow</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <span class="tool-logo-fallback" aria-hidden="true">P</span>
-        <span class="tname" style="color:#E91E63">Plasmic</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">Webflow</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#E91E63">Plasmic</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -1698,6 +1491,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Design teams</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1705,17 +1499,13 @@
       <a class="cta" href="alternatives-to-webflow/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All Webflow Alts</a>
     </div>
   </div>
-  <div class="card" data-category="developer-tools" data-search="openai api ollama developer tools">
+  <div class="card" data-category="developer-tools" data-search="openai api ollama developer tools" data-difficulty="0">
     <div class="card-category" style="background:#9B59B6">⚙️ Developer Tools</div>
     <div class="card-body">
-      <div class="card-tool-row" style="margin-bottom:5px">
-        <span class="tool-logo-fallback" aria-hidden="true">O</span>
-        <span class="tname prop">OpenAI API</span>
-      </div>
-      <div style="font-size:0.68rem;font-weight:900;color:var(--text-muted);padding:2px 0 3px 4px;letter-spacing:0.05em;">VS</div>
-      <div class="card-tool-row" style="margin-bottom:8px">
-        <span class="tool-logo-fallback" aria-hidden="true">O</span>
-        <span class="tname" style="color:#9B59B6">Ollama</span>
+      <div class="vs-line">
+        <span class="tool-name" style="color:#C0392B">OpenAI API</span>
+        <span class="vs">VS</span>
+        <span class="tool-name" style="color:#9B59B6">Ollama</span>
       </div>
       <div class="savings">
         <span class="label">💰 Switch and save:</span>
@@ -1723,6 +1513,7 @@
       </div>
       <div style="margin-top:6px;">
         <span style="font-size:11px;background:#EBF4FA;color:#1F5C99;padding:2px 8px;border-radius:20px;font-weight:600;">👥 Dev + engineering teams</span>
+        
       </div>
     </div>
     <div class="card-footer" style="display:flex;gap:0.5rem;padding:0.75rem 1.25rem 1.25rem;">
@@ -1744,19 +1535,25 @@
   <a href="blog/">Blog</a> &nbsp;·&nbsp;
   <a href="changelog/">Changelog</a> &nbsp;·&nbsp;
   <a href="stats/">Stats</a> &nbsp;·&nbsp;
-  <a href="quiz/">Quiz</a> &nbsp;·&nbsp;
-  <a href="stack-builder/">Stack Builder</a> &nbsp;·&nbsp;
-  <a href="logo-api/">Logo API</a><br>
+  <a href="quiz/">Quiz</a><br>
   <!-- PATCH 6: reframed disclaimer -->
-  <span style="font-size:0.8rem; opacity:0.7">Updated April 24, 2026 &nbsp;·&nbsp; $0/month to operate &nbsp;·&nbsp; AI-researched daily · Verify details before switching</span>
+  <span style="font-size:0.8rem; opacity:0.7">Updated April 25, 2026 &nbsp;·&nbsp; $0/month to operate &nbsp;·&nbsp; AI-researched daily · Verify details before switching</span>
 </footer>
 
 <script>
 let activeCategory = 'all';
+let activeDifficulty = 'all';
 
 function filterCards(category, btn) {
   activeCategory = category;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.filter-btn:not(.diff-btn)').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  applyFilters();
+}
+
+function filterDifficulty(level, btn) {
+  activeDifficulty = level;
+  document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
   applyFilters();
 }
@@ -1769,32 +1566,20 @@ function applyFilters(query) {
   const q = query || document.querySelector('.search-input').value.toLowerCase();
   let visible = 0;
   document.querySelectorAll('#card-grid .card').forEach(card => {
-    const matchCat = activeCategory === 'all' || card.dataset.category === activeCategory;
-    const matchQ   = !q || card.dataset.search.includes(q);
-    card.style.display = (matchCat && matchQ) ? '' : 'none';
-    if (matchCat && matchQ) visible++;
+    const matchCat  = activeCategory === 'all' || card.dataset.category === activeCategory;
+    const matchQ    = !q || card.dataset.search.includes(q);
+    const score     = parseInt(card.dataset.difficulty || '0');
+    let matchDiff   = true;
+    if (activeDifficulty === 'easy')     matchDiff = score >= 1 && score <= 2;
+    if (activeDifficulty === 'moderate') matchDiff = score === 3;
+    if (activeDifficulty === 'advanced') matchDiff = score >= 4;
+    const show = matchCat && matchQ && matchDiff;
+    card.style.display = show ? '' : 'none';
+    if (show) visible++;
   });
   document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
 }
-
-// ── Dark mode ──────────────────────────────────────────────────────────
-(function() {
-  const saved = localStorage.getItem('theme');
-  if (saved) document.documentElement.setAttribute('data-theme', saved);
-  if (saved === 'dark') { const el = document.getElementById('dark-icon'); if (el) el.textContent = '☀️'; }
-})();
-function toggleDark() {
-  const html = document.documentElement;
-  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  html.setAttribute('data-theme', next);
-  localStorage.setItem('theme', next);
-  document.getElementById('dark-icon').textContent = next === 'dark' ? '☀️' : '🌙';
-}
 </script>
-
-<button class="dark-toggle" onclick="toggleDark()" title="Toggle dark mode">
-  <span id="dark-icon">🌙</span> Dark
-</button>
 
 </body>
 </html>
