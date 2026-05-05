@@ -3653,7 +3653,7 @@ def build_logo_api_page(site_dir: str, updated: str):
      <span class="c-green">alt</span>=<span class="c-orange">"Slack logo"</span><span class="c-blue">&gt;</span></pre></div>
   <div class="code-block"><pre><span class="c-grey">// JavaScript — dynamic logo loading</span>
 <span class="c-blue">const</span> <span class="c-green">getLogoUrl</span> = (<span class="c-orange">slug</span>) =>
-  <span class="c-orange">`https://osalfinder.com/logo-api/v1/${{YOUR_KEY}}/${{slug}}`</span>;
+  <span class="c-orange">'https://osalfinder.com/logo-api/v1/YOUR_KEY/' + slug</span>;
 
 <span class="c-blue">const</span> tools = [<span class="c-orange">'slack'</span>, <span class="c-orange">'notion'</span>, <span class="c-orange">'figma'</span>];
 tools.<span class="c-green">forEach</span>(slug => {{
