@@ -486,6 +486,57 @@ COMPARISON_PAGE = """<!DOCTYPE html>
   }}
   </script>
 
+  <!-- SoftwareApplication schema for {oss_name} -->
+  <script type="application/ld+json">
+  {{
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "{oss_name}",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web, Linux, Docker",
+    "offers": {{
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }},
+    "description": "{seo_description}"
+  }}
+  </script>
+
+  <!-- FAQPage schema -->
+  <script type="application/ld+json">
+  {{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {{
+        "@type": "Question",
+        "name": "Is {oss_name} a good alternative to {prop_name}?",
+        "acceptedAnswer": {{
+          "@type": "Answer",
+          "text": "{seo_description}"
+        }}
+      }},
+      {{
+        "@type": "Question",
+        "name": "How much does {oss_name} cost?",
+        "acceptedAnswer": {{
+          "@type": "Answer",
+          "text": "{oss_name} is free and open source. Self-hosting costs only server infrastructure, typically $5\u201320 per month regardless of team size, compared to per-seat pricing for {prop_name}."
+        }}
+      }},
+      {{
+        "@type": "Question",
+        "name": "How hard is it to self-host {oss_name}?",
+        "acceptedAnswer": {{
+          "@type": "Answer",
+          "text": "Self-hosting {oss_name} is rated {difficulty_label}. Setup takes approximately {difficulty_time} using {difficulty_method}."
+        }}
+      }}
+    ]
+  }}
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
 
@@ -4248,8 +4299,10 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
         verdict = extract_verdict(comp.get('comparison_markdown', ''), prop_name, oss_name)
         verdict_box_html = build_verdict_box(prop_name, oss_name, verdict)
 
-        difficulty_data  = HOSTING_DIFFICULTY.get(oss_key, {})
-        difficulty_label = difficulty_data.get('label', 'Varies')
+        difficulty_data   = HOSTING_DIFFICULTY.get(oss_key, {})
+        difficulty_label  = difficulty_data.get('label',  'Varies')
+        difficulty_time   = difficulty_data.get('time',   'Varies')
+        difficulty_method = difficulty_data.get('method', 'Manual')
         difficulty_card_html = build_difficulty_card(oss_key, oss_name)
 
         # PATCH 2: build primary CTAs
@@ -4331,6 +4384,8 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
             verdict_box=verdict_box_html,
             difficulty_card=difficulty_card_html,
             difficulty_label=difficulty_label,
+            difficulty_time=difficulty_time,
+            difficulty_method=difficulty_method,
             # PATCH 2: primary CTAs before AI content
             primary_cta=primary_cta_html,
             stay_if=stay_if_html,
