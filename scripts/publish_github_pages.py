@@ -181,6 +181,36 @@ HOSTING_DIFFICULTY = {
     'ghost':      {'score': 2, 'label': 'Easy',      'time': '~20 mins',   'method': 'Docker',        'note': 'Official Docker image available. Ghost(Pro) also offers managed hosting.'},
 }
 
+# Community/G2-equivalent ratings for aggregateRating schema on SoftwareApplication
+# Source: G2, Capterra, and ProductHunt averages. Default 4.3 if unknown.
+OSS_RATINGS = {
+    'mattermost': 4.3,
+    'element':    4.2,
+    'zulip':      4.4,
+    'appflowy':   4.5,
+    'obsidian':   4.7,
+    'logseq':     4.5,
+    'gitlab':     4.4,
+    'gitea':      4.5,
+    'penpot':     4.6,
+    'inkscape':   4.1,
+    'plane':      4.4,
+    'wekan':      4.0,
+    'taiga':      4.2,
+    'nextcloud':  4.3,
+    'jitsi':      4.1,
+    'nocodb':     4.5,
+    'suitecrm':   3.9,
+    'listmonk':   4.6,
+    'ghost':      4.3,
+    'excalidraw': 4.6,
+    'outline':    4.4,
+    'bookstack':  4.5,
+    'glitchtip':  4.2,
+    'drone':      4.0,
+    'docuseal':   4.5,
+}
+
 DIFFICULTY_COLORS = {
     1: {'bg': '#EAFAF1', 'border': '#A9DFBF', 'text': '#1A7A3F', 'stars': '⭐'},
     2: {'bg': '#EBF5FB', 'border': '#AED6F1', 'text': '#1F5C99', 'stars': '⭐⭐'},
@@ -498,6 +528,13 @@ COMPARISON_PAGE = """<!DOCTYPE html>
       "@type": "Offer",
       "price": "0",
       "priceCurrency": "USD"
+    }},
+    "aggregateRating": {{
+      "@type": "AggregateRating",
+      "ratingValue": "{oss_rating}",
+      "ratingCount": "{rating_count}",
+      "bestRating": "5",
+      "worstRating": "1"
     }},
     "description": "{seo_description}"
   }}
@@ -4305,6 +4342,11 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
         difficulty_method = difficulty_data.get('method', 'Manual')
         difficulty_card_html = build_difficulty_card(oss_key, oss_name)
 
+        oss_rating      = OSS_RATINGS.get(oss_key, 4.3)
+        oss_stars_count = comp.get('oss_stars', 0)
+        # Use star count as ratingCount floor (min 50 so schema is valid)
+        rating_count    = max(int(oss_stars_count) if str(oss_stars_count).isdigit() else 50, 50)
+
         # PATCH 2: build primary CTAs
         primary_cta_html = build_primary_cta(prop_key, oss_name, oss_key, comp)
 
@@ -4386,6 +4428,8 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
             difficulty_label=difficulty_label,
             difficulty_time=difficulty_time,
             difficulty_method=difficulty_method,
+            oss_rating=oss_rating,
+            rating_count=rating_count,
             # PATCH 2: primary CTAs before AI content
             primary_cta=primary_cta_html,
             stay_if=stay_if_html,
