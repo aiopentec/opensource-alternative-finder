@@ -405,21 +405,8 @@ def build_primary_cta(prop_key: str, oss_name: str, oss_key: str, comp: dict) ->
     prop_key_clean = prop_key.replace('_', '-')
     oss_key_clean  = oss_key.replace('_', '-')
     return f"""
-  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1.5rem;padding:0;">
-    <a href="{github_url}" target="_blank" rel="noopener"
-       style="display:inline-flex;align-items:center;gap:6px;background:#1A7A3F;color:#fff;
-              padding:10px 18px;border-radius:8px;font-size:14px;font-weight:700;text-decoration:none;">
-      ⭐ View {oss_name} on GitHub
-    </a>
-    <a href="../migrate-{prop_key_clean}-to-{oss_key_clean}/"
-       style="display:inline-flex;align-items:center;gap:6px;background:#fff;color:#1F5C99;
-              border:2px solid #1F5C99;padding:10px 18px;border-radius:8px;font-size:14px;
-              font-weight:700;text-decoration:none;">
-      📦 Step-by-step migration guide →
-    </a>
-  </div>"""
-  
-  def build_vps_block(oss_key: str, oss_name: str) -> str:
+
+def build_vps_block(oss_key: str, oss_name: str) -> str:
     VPS_TOOLS = {
         'mattermost': ('$6/mo', 'handles up to 100 users'),
         'element':    ('$12/mo', 'Element + Synapse needs 2GB RAM'),
@@ -471,6 +458,21 @@ def build_primary_cta(prop_key: str, oss_name: str, oss_key: str, comp: dict) ->
     </p>
   </div>"""
 
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1.5rem;padding:0;">
+    <a href="{github_url}" target="_blank" rel="noopener"
+       style="display:inline-flex;align-items:center;gap:6px;background:#1A7A3F;color:#fff;
+              padding:10px 18px;border-radius:8px;font-size:14px;font-weight:700;text-decoration:none;">
+      ⭐ View {oss_name} on GitHub
+    </a>
+    <a href="../migrate-{prop_key_clean}-to-{oss_key_clean}/"
+       style="display:inline-flex;align-items:center;gap:6px;background:#fff;color:#1F5C99;
+              border:2px solid #1F5C99;padding:10px 18px;border-radius:8px;font-size:14px;
+              font-weight:700;text-decoration:none;">
+      📦 Step-by-step migration guide →
+    </a>
+  </div>"""
+  
+ 
 
 # ── PATCH 5: build_popular_section ───────────────────────────────────────────
 def build_popular_section(all_comparisons: List[Dict]) -> str:
