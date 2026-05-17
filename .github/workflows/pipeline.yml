@@ -101,11 +101,6 @@ jobs:
 
   # ──────────────────────────────────────────────
   # JOB 3: GENERATE — runs 4 batches in parallel
-  # Matrix lets all batches run simultaneously
-  # Batch 1: pairs 1-10
-  # Batch 2: pairs 11-20
-  # Batch 3: pairs 21-30
-  # Batch 4: pairs 31-33
   # ──────────────────────────────────────────────
   generate:
     name: Generate Comparisons
@@ -118,7 +113,7 @@ jobs:
         github.event.inputs.mode == ''
       )
     strategy:
-      fail-fast: false      # If one batch fails, others still complete
+      fail-fast: false
       matrix:
         batch_index: [1, 2, 3, 4, 5, 6]
     env:
@@ -142,7 +137,7 @@ jobs:
         with:
           name: scrape-cache
           path: .cache/scrape/
-        continue-on-error: true   # OK if scrape was skipped
+        continue-on-error: true
 
       - name: Generate Comparisons (Batch ${{ matrix.batch_index }})
         run: |
@@ -181,7 +176,7 @@ jobs:
         github.event.inputs.mode == ''
       )
     permissions:
-      contents: write     # Required to push to gh-pages branch
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -211,6 +206,9 @@ jobs:
             --history data/star_history.json \
             --output .cache/publish/momentum.json
 
+      - name: Apply VPS Affiliate Patch
+        run: python add_vps_blocks.py
+
       - name: Build Static Site
         env:
           GOOGLE_SITE_VERIFICATION: ${{ secrets.GOOGLE_SITE_VERIFICATION }}
@@ -224,7 +222,6 @@ jobs:
           echo "Built $PAGES pages"
           echo "PAGES=$PAGES" >> $GITHUB_ENV
 
-      # ← ADD THIS
       - name: Add ads.txt
         run: echo "google.com, pub-4633315697698743, DIRECT, f08c47fec0942fa0" > site/ads.txt
 
