@@ -405,59 +405,6 @@ def build_primary_cta(prop_key: str, oss_name: str, oss_key: str, comp: dict) ->
     prop_key_clean = prop_key.replace('_', '-')
     oss_key_clean  = oss_key.replace('_', '-')
     return f"""
-
-def build_vps_block(oss_key: str, oss_name: str) -> str:
-    VPS_TOOLS = {
-        'mattermost': ('$6/mo', 'handles up to 100 users'),
-        'element':    ('$12/mo', 'Element + Synapse needs 2GB RAM'),
-        'zulip':      ('$12/mo', 'Zulip recommends 2GB RAM minimum'),
-        'gitlab':     ('$24/mo', 'GitLab needs 4GB RAM for CI/CD'),
-        'gitea':      ('$6/mo',  'extremely lightweight, runs on minimal hardware'),
-        'penpot':     ('$12/mo', 'Docker Compose setup needs 2GB RAM'),
-        'plane':      ('$6/mo',  'very lightweight self-host'),
-        'wekan':      ('$6/mo',  'runs fine on the smallest server'),
-        'nextcloud':  ('$12/mo', 'AIO installer needs at least 2GB'),
-        'jitsi':      ('$12/mo', 'video needs more RAM for concurrent calls'),
-        'taiga':      ('$12/mo', 'multi-container setup needs 2GB+'),
-        'nocodb':     ('$6/mo',  'single container — almost zero resources'),
-        'listmonk':   ('$6/mo',  'single binary, minimal resource usage'),
-        'ghost':      ('$6/mo',  'lightweight and well-optimised'),
-    }
-    if oss_key not in VPS_TOOLS:
-        return ''
-    cost, note = VPS_TOOLS[oss_key]
-    DO_LINK    = 'https://m.do.co/c/e4316dc73fa1'
-    VULTR_LINK = 'https://www.vultr.com/?ref=9901332'
-    return f"""
-  <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;
-              padding:1.25rem 1.5rem;margin-bottom:1.5rem;">
-    <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;
-                letter-spacing:0.1em;color:#16a34a;margin-bottom:0.5rem;">
-      🖥️ Ready to self-host {oss_name}?
-    </div>
-    <p style="font-size:0.88rem;color:#374151;margin-bottom:0.75rem;line-height:1.6;">
-      A <strong>{cost} server</strong> {note}. That's your only cost —
-      no per-seat fees, ever.
-    </p>
-    <div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-bottom:0.6rem;">
-      <a href="{DO_LINK}" target="_blank" rel="noopener sponsored"
-         style="display:inline-flex;align-items:center;gap:6px;background:#0080ff;
-                color:#fff;padding:0.5rem 1rem;border-radius:7px;text-decoration:none;
-                font-weight:700;font-size:0.82rem;">
-        DigitalOcean — $200 free credit →
-      </a>
-      <a href="{VULTR_LINK}" target="_blank" rel="noopener sponsored"
-         style="display:inline-flex;align-items:center;gap:6px;background:#fff;
-                color:#007bfc;border:2px solid #007bfc;padding:0.5rem 1rem;
-                border-radius:7px;text-decoration:none;font-weight:700;font-size:0.82rem;">
-        Vultr — $300 free credit →
-      </a>
-    </div>
-    <p style="font-size:0.72rem;color:#9ca3af;margin:0;">
-      Affiliate links — we earn a small commission at no cost to you.
-    </p>
-  </div>"""
-
   <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1.5rem;padding:0;">
     <a href="{github_url}" target="_blank" rel="noopener"
        style="display:inline-flex;align-items:center;gap:6px;background:#1A7A3F;color:#fff;
@@ -471,8 +418,7 @@ def build_vps_block(oss_key: str, oss_name: str) -> str:
       📦 Step-by-step migration guide →
     </a>
   </div>"""
-  
- 
+
 
 # ── PATCH 5: build_popular_section ───────────────────────────────────────────
 def build_popular_section(all_comparisons: List[Dict]) -> str:
@@ -875,7 +821,6 @@ COMPARISON_PAGE = """<!DOCTYPE html>
   {github_box}
 
   {migration_link}
-  {vps_block}
 
   <!-- PATCH 4: TOOL-SPECIFIC EMAIL CAPTURE -->
   <div class="email-box">
@@ -4436,8 +4381,6 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
         related_html = build_related_section(slug, prop_name, oss_name, all_comparisons)
 
         migrate_slug = build_migration_page(site_dir, comp, updated)
-        vps_block_html = build_vps_block(oss_key, oss_name)
-        vps_block=vps_block_html,
         migration_link_html = f"""
   <div class="card" style="background:linear-gradient(135deg,#EAFAF1,#D5F5E3);border-color:#A9DFBF;padding:1.25rem 1.5rem;">
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
