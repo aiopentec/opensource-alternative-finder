@@ -1,164 +1,210 @@
 #!/usr/bin/env python3
 """
-vps_patch.py
+add_vps_blocks.py
 ─────────────────────────────────────────────────────────────────────────────
-Adds a VPS hosting affiliate block to every self-hostable comparison page.
-This is the highest-value affiliate opportunity on the site — natural intent,
-zero friction.
+Automatically patches scripts/publish_github_pages.py to add VPS affiliate
+blocks to all self-hostable comparison pages.
 
-HOW TO USE:
-  1. Copy the build_vps_block() function into publish_github_pages.py
-     (paste it after the existing build_primary_cta() function, around line 195)
+Run from your repo root:
+    python add_vps_blocks.py
 
-  2. Replace YOUR_DO_LINK, YOUR_VULTR_LINK, YOUR_LINODE_LINK with your
-     actual affiliate links after signing up at:
-       DigitalOcean: https://www.digitalocean.com/referral-program
-       Vultr:        https://www.vultr.com/referral-program/
-       Linode/Akamai:https://www.linode.com/lp/referral/
-
-  3. In the build_site() function, find the line that builds migration_link_html
-     (around line 1150) and add {vps_block} to the template.
-
-  4. Add the vps_block variable to each comparison page build loop.
+Then commit and push the result.
 ─────────────────────────────────────────────────────────────────────────────
 """
 
-# ── STEP 1: Add this function to publish_github_pages.py ─────────────────────
-# Paste after build_primary_cta() function
+import sys
+from pathlib import Path
 
-VPS_AFFILIATE_LINKS = {
-    "digitalocean": "YOUR_DO_AFFILIATE_LINK",       # Replace with your DO link
-    "vultr":        "YOUR_VULTR_AFFILIATE_LINK",     # Replace with your Vultr link
-    "linode":       "YOUR_LINODE_AFFILIATE_LINK",    # Replace with your Linode link
-}
+TARGET = Path("scripts/publish_github_pages.py")
 
-VPS_SETUP_COST = {
-    # oss_key: (recommended_plan, monthly_cost, note)
-    "mattermost": ("$6/mo Droplet",  "$6",  "handles up to 100 users comfortably"),
-    "element":    ("$12/mo Droplet", "$12", "Element + Synapse needs 2GB+ RAM"),
-    "zulip":      ("$12/mo Droplet", "$12", "Zulip recommends 2GB RAM minimum"),
-    "gitlab":     ("$24/mo Droplet", "$24", "GitLab needs 4GB RAM — worth it for CI/CD"),
-    "gitea":      ("$6/mo Droplet",  "$6",  "Gitea is extremely lightweight — runs on minimal hardware"),
-    "penpot":     ("$12/mo Droplet", "$12", "Docker Compose setup needs 2GB RAM"),
-    "plane":      ("$6/mo Droplet",  "$6",  "Plane self-host is very lightweight"),
-    "wekan":      ("$6/mo Droplet",  "$6",  "WeKan runs fine on the smallest Droplet"),
-    "nextcloud":  ("$12/mo Droplet", "$12", "Nextcloud with AIO needs at least 2GB"),
-    "jitsi":      ("$12/mo Droplet", "$12", "Video requires more RAM for concurrent calls"),
-    "taiga":      ("$12/mo Droplet", "$12", "Multi-container setup needs 2GB+"),
-    "nocodb":     ("$6/mo Droplet",  "$6",  "NocoDB is single-container — very cheap to run"),
-    "suitecrm":   ("$12/mo Droplet", "$12", "SuiteCRM with LAMP stack needs 2GB+"),
-    "listmonk":   ("$6/mo Droplet",  "$6",  "Single binary — almost zero resource usage"),
-    "ghost":      ("$6/mo Droplet",  "$6",  "Ghost is lightweight and well-optimised"),
-}
+# ── The clean function to insert ──────────────────────────────────────────────
+# Uses .join() and format() instead of f-strings to avoid quote conflicts.
 
+NEW_FUNCTION = r"""
 
-def build_vps_block(oss_key: str, oss_name: str) -> str:
-    """
-    Returns the VPS hosting affiliate block HTML for self-hostable tools.
-    Returns empty string for tools that don't benefit from VPS recommendations.
-    """
-    if oss_key not in VPS_SETUP_COST:
+def build_vps_block(oss_key, oss_name):
+    VPS_TOOLS = {
+        "mattermost": ("$6/mo",  "handles up to 100 users comfortably"),
+        "element":    ("$12/mo", "needs 2GB RAM for Element + Synapse"),
+        "zulip":      ("$12/mo", "Zulip recommends 2GB RAM minimum"),
+        "gitlab":     ("$24/mo", "GitLab needs 4GB RAM for CI/CD pipelines"),
+        "gitea":      ("$6/mo",  "extremely lightweight, runs on minimal hardware"),
+        "penpot":     ("$12/mo", "Docker Compose setup needs 2GB RAM"),
+        "plane":      ("$6/mo",  "very lightweight self-host"),
+        "wekan":      ("$6/mo",  "runs fine on the smallest server"),
+        "nextcloud":  ("$12/mo", "AIO installer needs at least 2GB RAM"),
+        "jitsi":      ("$12/mo", "video conferencing needs more RAM for concurrent calls"),
+        "taiga":      ("$12/mo", "multi-container setup needs 2GB+"),
+        "nocodb":     ("$6/mo",  "single container, almost zero resource usage"),
+        "listmonk":   ("$6/mo",  "single binary, minimal resource usage"),
+        "ghost":      ("$6/mo",  "lightweight and well-optimised"),
+        "suitecrm":   ("$12/mo", "LAMP stack needs 2GB+ RAM"),
+    }
+    if oss_key not in VPS_TOOLS:
         return ""
+    cost, note = VPS_TOOLS[oss_key]
+    DO_LINK    = "https://m.do.co/c/e4316dc73fa1"
+    VULTR_LINK = "https://www.vultr.com/?ref=9901332"
+    parts = [
+        '<div style="background:#f0fdf4;border:1px solid #bbf7d0;'
+        'border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;">',
+        '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;'
+        'letter-spacing:0.1em;color:#16a34a;margin-bottom:0.5rem;">'
+        '\U0001f5a5\ufe0f Ready to self-host {name}?</div>'.format(name=oss_name),
+        '<p style="font-size:0.88rem;color:#374151;margin-bottom:0.75rem;line-height:1.6;">'
+        'A <strong>{cost} server</strong> {note}. No per-seat fees, ever.</p>'.format(
+            cost=cost, note=note),
+        '<div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-bottom:0.6rem;">',
+        '<a href="{do}" target="_blank" rel="noopener sponsored"'
+        ' style="background:#0080ff;color:#fff;padding:0.5rem 1rem;'
+        'border-radius:7px;text-decoration:none;font-weight:700;font-size:0.82rem;">'
+        'DigitalOcean \u2014 $200 free credit \u2192</a>'.format(do=DO_LINK),
+        ' <a href="{vultr}" target="_blank" rel="noopener sponsored"'
+        ' style="background:#fff;color:#007bfc;border:2px solid #007bfc;'
+        'padding:0.5rem 1rem;border-radius:7px;text-decoration:none;'
+        'font-weight:700;font-size:0.82rem;">'
+        'Vultr \u2014 $300 free credit \u2192</a>'.format(vultr=VULTR_LINK),
+        '</div>',
+        '<p style="font-size:0.72rem;color:#9ca3af;margin:0;">'
+        'Affiliate links \u2014 we earn a small commission at no cost to you.</p>',
+        '</div>',
+    ]
+    return "".join(parts)
 
-    plan, cost, note = VPS_SETUP_COST[oss_key]
-    do_link     = VPS_AFFILIATE_LINKS["digitalocean"]
-    vultr_link  = VPS_AFFILIATE_LINKS["vultr"]
-
-    return f"""
-  <div style="background:#fff;border:1px solid #E2E8F0;border-radius:14px;
-              padding:1.5rem 1.75rem;margin-bottom:1.5rem;
-              box-shadow:0 2px 8px rgba(0,0,0,0.06);">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;">
-      <span style="font-size:1.4rem;">🖥️</span>
-      <div>
-        <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;
-                    letter-spacing:0.1em;color:#718096;margin-bottom:2px;">
-          Ready to Self-Host {oss_name}?
-        </div>
-        <div style="font-size:1rem;font-weight:800;color:#1A202C;">
-          Get a server in under 60 seconds
-        </div>
-      </div>
-    </div>
-    <p style="font-size:0.88rem;color:#4A5568;margin-bottom:1rem;line-height:1.6;">
-      We recommend starting with a <strong>{plan}</strong> on DigitalOcean
-      — {note}. Total infrastructure cost: <strong>{cost}/month</strong>
-      regardless of team size, vs per-seat pricing forever.
-    </p>
-    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:0.75rem;">
-      <a href="{do_link}" target="_blank" rel="noopener sponsored"
-         style="display:inline-flex;align-items:center;gap:7px;
-                background:#0080FF;color:#fff;padding:0.6rem 1.25rem;
-                border-radius:8px;text-decoration:none;font-weight:700;
-                font-size:0.88rem;transition:opacity 0.15s;"
-         onmouseover="this.style.opacity='.9'" onmouseout="this.style.opacity='1'">
-        <img src="https://cdn.simpleicons.org/digitalocean/ffffff" width="18" height="18" alt="DigitalOcean">
-        DigitalOcean — $200 free credit
-      </a>
-      <a href="{vultr_link}" target="_blank" rel="noopener sponsored"
-         style="display:inline-flex;align-items:center;gap:7px;
-                background:#fff;color:#007BFC;border:2px solid #007BFC;
-                padding:0.6rem 1.25rem;border-radius:8px;text-decoration:none;
-                font-weight:700;font-size:0.88rem;">
-        <img src="https://cdn.simpleicons.org/vultr/007BFC" width="18" height="18" alt="Vultr">
-        Vultr — $100 free credit
-      </a>
-    </div>
-    <p style="font-size:0.72rem;color:#A0AEC0;margin:0;">
-      Affiliate disclosure: we earn a small commission if you sign up.
-      It costs you nothing and helps us keep this site free.
-    </p>
-  </div>"""
+"""
 
 
-# ── STEP 2: In build_site() inside the comparison page loop ──────────────────
-# Find this section (around line 1200 in publish_github_pages.py):
-#
-#   migration_link_html = f"""..."""
-#
-# BEFORE that line, add:
-#
-#   vps_block_html = build_vps_block(oss_key, oss_name)
-#
-# Then in the COMPARISON_PAGE.format() call, add:
-#   vps_block=vps_block_html,
-#
-# And in the COMPARISON_PAGE template string, add {vps_block} right after
-# {migration_link}:
-#   {migration_link}
-#   {vps_block}       ← add this line
+def find_anchor(text, candidates):
+    for c in candidates:
+        if c in text:
+            return c
+    return None
 
 
-# ── STEP 3: Also add to migration pages ──────────────────────────────────────
-# In build_migration_page(), find the savings_box div and add
-# build_vps_block(oss_key, oss_name) right after it.
-#
-# The migration page is the highest-intent moment — someone who just decided
-# to switch and is looking for how to do it is already primed to buy hosting.
+def patch_file():
+    # ── Verify file exists ────────────────────────────────────────────────────
+    if not TARGET.exists():
+        print(f"\n❌  File not found: {TARGET}")
+        print("    Run this script from your repo root.")
+        print("    Example:  cd opensource-alternative-finder")
+        print("              python add_vps_blocks.py")
+        sys.exit(1)
 
+    original = TARGET.read_text(encoding="utf-8")
+    patched  = original
 
-# ── VERIFICATION: after adding, check these pages have the block: ─────────────
-EXPECTED_PAGES = [
-    "slack-vs-mattermost",
-    "github-vs-gitea",
-    "zoom-vs-jitsi",
-    "notion-vs-appflowy",   # AppFlowy is local-first so skip VPS
-    "figma-vs-penpot",
-    "jira-vs-plane",
-    "dropbox-vs-nextcloud",
-]
+    # ── Guard against double-patching ─────────────────────────────────────────
+    if "def build_vps_block(" in original:
+        print("⚠️   build_vps_block() already exists in the file.")
+        # Still check if wiring is missing
+        if "{vps_block}" not in original:
+            print("     The function exists but is not wired into the template.")
+            print("     Continuing to add wiring only...")
+        else:
+            print("     File is already fully patched. No changes made.")
+            sys.exit(0)
+
+    # ────────────────────────────────────────────────────────────────────────────
+    # PATCH 1 — Insert the function
+    # ────────────────────────────────────────────────────────────────────────────
+    if "def build_vps_block(" not in patched:
+        anchors = [
+            "def build_difficulty_card(",
+            "def build_verdict_box(",
+            "def build_related_section(",
+            "def build_sitemap(",
+            "DIFFICULTY_COLORS = {",
+        ]
+        anchor = find_anchor(patched, anchors)
+        if anchor:
+            patched = patched.replace(anchor, NEW_FUNCTION + "\n" + anchor, 1)
+            print("✅  Patch 1: build_vps_block() function added")
+        else:
+            print("❌  Patch 1 FAILED: Could not find insertion point.")
+            print("    Please share the file and we'll fix it manually.")
+            sys.exit(1)
+
+    # ────────────────────────────────────────────────────────────────────────────
+    # PATCH 2 — Add vps_block_html variable before migration_link_html
+    # ────────────────────────────────────────────────────────────────────────────
+    if "vps_block_html = build_vps_block(" not in patched:
+        anchors = [
+            "        migration_link_html = f\"\"\"",
+            "        migration_link_html = f'''",
+            "        migration_link_html =",
+        ]
+        anchor = find_anchor(patched, anchors)
+        if anchor:
+            insert = "        vps_block_html = build_vps_block(oss_key, oss_name)\n"
+            patched = patched.replace(anchor, insert + anchor, 1)
+            print("✅  Patch 2: vps_block_html variable added")
+        else:
+            print("⚠️   Patch 2 SKIPPED: Could not find migration_link_html.")
+            print("    Add manually: vps_block_html = build_vps_block(oss_key, oss_name)")
+
+    # ────────────────────────────────────────────────────────────────────────────
+    # PATCH 3 — Add vps_block= to COMPARISON_PAGE.format() call
+    # ────────────────────────────────────────────────────────────────────────────
+    if "vps_block=vps_block_html," not in patched:
+        anchors = [
+            "            migration_link=migration_link_html,",
+            "            migration_link = migration_link_html,",
+        ]
+        anchor = find_anchor(patched, anchors)
+        if anchor:
+            patched = patched.replace(
+                anchor,
+                anchor + "\n            vps_block=vps_block_html,",
+                1
+            )
+            print("✅  Patch 3: vps_block= added to COMPARISON_PAGE.format()")
+        else:
+            print("⚠️   Patch 3 SKIPPED: Could not find migration_link= in format() call.")
+            print("    Add manually: vps_block=vps_block_html,")
+
+    # ────────────────────────────────────────────────────────────────────────────
+    # PATCH 4 — Add {vps_block} to the COMPARISON_PAGE template string
+    # ────────────────────────────────────────────────────────────────────────────
+    if "{vps_block}" not in patched:
+        anchors = [
+            "  {migration_link}\n",
+            "{migration_link}\n",
+        ]
+        anchor = find_anchor(patched, anchors)
+        if anchor:
+            patched = patched.replace(
+                anchor,
+                anchor + "  {vps_block}\n",
+                1
+            )
+            print("✅  Patch 4: {vps_block} placeholder added to template")
+        else:
+            print("⚠️   Patch 4 SKIPPED: Could not find {migration_link} in template.")
+            print("    Add {vps_block} after {migration_link} in COMPARISON_PAGE.")
+
+    # ────────────────────────────────────────────────────────────────────────────
+    # Write result
+    # ────────────────────────────────────────────────────────────────────────────
+    if patched == original:
+        print("\n⚠️   No changes were made. The file may already be patched")
+        print("    or the anchors could not be found.")
+        sys.exit(0)
+
+    TARGET.write_text(patched, encoding="utf-8")
+
+    print(f"\n✅  Done. {TARGET} has been patched successfully.")
+    print("\nNext steps:")
+    print("  1. Verify the file looks correct:")
+    print("     python -c \"import scripts.publish_github_pages\"")
+    print("     (no output = no syntax errors)")
+    print()
+    print("  2. Commit and push:")
+    print("     git add scripts/publish_github_pages.py")
+    print("     git commit -m 'Add VPS affiliate blocks to self-hosting pages'")
+    print("     git push")
+    print()
+    print("  3. Trigger pipeline: Actions → Run workflow → mode: publish")
+
 
 if __name__ == "__main__":
-    print("VPS Affiliate Block Preview")
-    print("=" * 60)
-    block = build_vps_block("mattermost", "Mattermost")
-    # Strip HTML tags for readable preview
-    import re
-    text = re.sub(r'<[^>]+>', '', block)
-    text = re.sub(r'\s+', ' ', text).strip()
-    print(text[:500])
-    print("\n" + "=" * 60)
-    print("This block will appear on all self-hostable comparison pages.")
-    print("\nTools with VPS blocks enabled:")
-    for key, (plan, cost, note) in VPS_SETUP_COST.items():
-        print(f"  {key}: {plan} ({cost}/mo)")
+    patch_file()
