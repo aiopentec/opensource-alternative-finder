@@ -195,40 +195,86 @@ def build_prompt(prop_key: str, oss_key: str) -> str:
     prop = TOOLS.get(prop_key, {})
     alt  = TOOLS.get(oss_key,  {})
     month = datetime.now().strftime('%B %Y')
-    return f"""You are a technical writer. Generate a structured Markdown comparison page.
-
-# {prop.get('name', prop_key)} vs {alt.get('name', oss_key)}
-
-Write the following sections in Markdown. Be objective, factual, and concise.
-
+    year  = datetime.now().strftime('%Y')
+    return f"""You are a technical writer for a software comparison site. Generate a detailed Markdown comparison page.
+ 
+Write the following sections in Markdown. Be objective, factual, and direct. Do not hedge.
+ 
+# {prop.get('name', prop_key)} vs {alt.get('name', oss_key)} ({year})
+ 
 ## Overview
 2-3 sentences: what both tools do and who benefits from this comparison.
-
+Mention the core use case and the key reason someone would switch.
+ 
 ## Key Differences
-5 bullet points covering: cost, data ownership, setup complexity, scalability, and ecosystem.
-
+Exactly 5 bullet points covering specific, named differences:
+cost, data ownership, setup complexity, scalability, and one specific
+feature or integration difference. Be concrete — name actual features,
+not generic categories.
+ 
 ## Pricing Comparison
 | Aspect | {prop.get('name', prop_key)} | {alt.get('name', oss_key)} |
 |--------|----------|---------|
 | Base Cost | {prop.get('pricing', 'N/A')} | {alt.get('pricing', 'Free')} |
 | License | {prop.get('license', 'Proprietary')} | {alt.get('license', 'Open Source')} |
 | Self-hosting | Not available | Available |
-| Per-user cost at 50 users | Calculate approximate | Calculate approximate |
-
+| Per-user cost at 50 users | Calculate approximate | $0 (server cost only) |
+| Per-user cost at 200 users | Calculate approximate | $0 (server cost only) |
+ 
 ## Pros and Cons
-Bullet lists of pros and cons for each tool.
-
+Bullet lists of 4-5 pros and cons for each tool.
+Include at least one honest limitation for {alt.get('name', oss_key)}.
+ 
 ## When to Choose Each
-Short paragraph for each tool describing the ideal user profile.
-
+One paragraph per tool. Be specific about team type, size, and use case.
+ 
 ## Migration Path
-2-3 practical steps someone would take to migrate from {prop.get('name', prop_key)} to {alt.get('name', oss_key)}.
-
+3-5 numbered steps for migrating from {prop.get('name', prop_key)} to {alt.get('name', oss_key)}.
+Include the actual export format and import tool where known.
+ 
 ---
-*Data sourced {month}. Verify current pricing at {prop.get('website', '')} and {alt.get('website', '')}.*
-
-Return ONLY the Markdown content. No preamble."""
-
+ 
+After the main comparison, include these four additional sections:
+ 
+## Our Take
+ 
+Write 3 paragraphs (200-230 words total). Include in this order:
+1. An honest production-readiness assessment of {alt.get('name', oss_key)} for most users right now
+2. One specific technical limitation worth knowing before switching
+   (name the actual missing feature or integration, not a generic caveat)
+3. A clear, direct recommendation: who should switch and who should not.
+   Do not use "it depends" without specifying exactly what it depends on.
+ 
+## Who Should Switch
+ 
+Write a bulleted list of exactly 5 specific user types or scenarios
+where switching from {prop.get('name', prop_key)} to {alt.get('name', oss_key)} clearly makes sense.
+ 
+Each bullet must be specific. Not "small teams" but "teams of under 20
+who self-host on a $6/month VPS and do not need [specific integration]."
+ 
+## FAQ
+ 
+Generate 5 questions that someone searching "{alt.get('name', oss_key)} vs {prop.get('name', prop_key)}"
+would actually ask. Answer each directly in 2-4 sentences.
+If the answer is no or not yet — say so. Do not soften it.
+ 
+Format:
+### [Question here]
+[Answer here]
+ 
+## Meta
+ 
+Output this JSON block at the very end. No markdown fences around it.
+Replace the placeholder values:
+ 
+{{"meta_description": "140-160 character description. Start with {alt.get('name', oss_key)}. Mention free or self-hosted. End with a clear action phrase like See full comparison or Free migration guide.", "publish_date_offset_days": INSERT_NUMBER_0_TO_240}}
+ 
+For publish_date_offset_days: choose a number between 0 and 240.
+Vary this — do not use the same number for every page.
+Higher numbers = older pages (published further in the past).
+ 
+Return ONLY the Markdown content plus the Meta JSON. No preamble."""
 
 # ──────────────────────────────────────────────────────────────
 # AI PROVIDER 1: GROQ (FREE — primary)
@@ -243,7 +289,7 @@ def generate_with_groq(prompt: str) -> str:
         json={
             'model': 'llama-3.3-70b-versatile',
             'messages': [{'role': 'user', 'content': prompt}],
-            'max_tokens': 1200,
+            'max_tokens': 1500,
             'temperature': 0.6
         },
         timeout=30
