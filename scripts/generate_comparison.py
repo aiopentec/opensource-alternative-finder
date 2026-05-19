@@ -9,10 +9,11 @@ Generates AI comparison pages using free APIs:
 Usage: python scripts/generate_comparison.py --index 1
 """
 
-import argparse, json, logging, os, sys, time
-from datetime import datetime
+import argparse, json, logging, os, re, sys, time
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict, List, Optional
+import random
 import requests
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -197,21 +198,21 @@ def build_prompt(prop_key: str, oss_key: str) -> str:
     month = datetime.now().strftime('%B %Y')
     year  = datetime.now().strftime('%Y')
     return f"""You are a technical writer for a software comparison site. Generate a detailed Markdown comparison page.
- 
+
 Write the following sections in Markdown. Be objective, factual, and direct. Do not hedge.
- 
+
 # {prop.get('name', prop_key)} vs {alt.get('name', oss_key)} ({year})
- 
+
 ## Overview
 2-3 sentences: what both tools do and who benefits from this comparison.
 Mention the core use case and the key reason someone would switch.
- 
+
 ## Key Differences
 Exactly 5 bullet points covering specific, named differences:
 cost, data ownership, setup complexity, scalability, and one specific
 feature or integration difference. Be concrete — name actual features,
 not generic categories.
- 
+
 ## Pricing Comparison
 | Aspect | {prop.get('name', prop_key)} | {alt.get('name', oss_key)} |
 |--------|----------|---------|
@@ -220,61 +221,62 @@ not generic categories.
 | Self-hosting | Not available | Available |
 | Per-user cost at 50 users | Calculate approximate | $0 (server cost only) |
 | Per-user cost at 200 users | Calculate approximate | $0 (server cost only) |
- 
+
 ## Pros and Cons
 Bullet lists of 4-5 pros and cons for each tool.
 Include at least one honest limitation for {alt.get('name', oss_key)}.
- 
+
 ## When to Choose Each
 One paragraph per tool. Be specific about team type, size, and use case.
- 
+
 ## Migration Path
 3-5 numbered steps for migrating from {prop.get('name', prop_key)} to {alt.get('name', oss_key)}.
 Include the actual export format and import tool where known.
- 
+
 ---
- 
+
 After the main comparison, include these four additional sections:
- 
+
 ## Our Take
- 
+
 Write 3 paragraphs (200-230 words total). Include in this order:
 1. An honest production-readiness assessment of {alt.get('name', oss_key)} for most users right now
 2. One specific technical limitation worth knowing before switching
    (name the actual missing feature or integration, not a generic caveat)
 3. A clear, direct recommendation: who should switch and who should not.
    Do not use "it depends" without specifying exactly what it depends on.
- 
+
 ## Who Should Switch
- 
+
 Write a bulleted list of exactly 5 specific user types or scenarios
 where switching from {prop.get('name', prop_key)} to {alt.get('name', oss_key)} clearly makes sense.
- 
+
 Each bullet must be specific. Not "small teams" but "teams of under 20
 who self-host on a $6/month VPS and do not need [specific integration]."
- 
+
 ## FAQ
- 
+
 Generate 5 questions that someone searching "{alt.get('name', oss_key)} vs {prop.get('name', prop_key)}"
 would actually ask. Answer each directly in 2-4 sentences.
 If the answer is no or not yet — say so. Do not soften it.
- 
+
 Format:
 ### [Question here]
 [Answer here]
- 
+
 ## Meta
- 
+
 Output this JSON block at the very end. No markdown fences around it.
 Replace the placeholder values:
- 
+
 {{"meta_description": "140-160 character description. Start with {alt.get('name', oss_key)}. Mention free or self-hosted. End with a clear action phrase like See full comparison or Free migration guide.", "publish_date_offset_days": INSERT_NUMBER_0_TO_240}}
- 
+
 For publish_date_offset_days: choose a number between 0 and 240.
 Vary this — do not use the same number for every page.
 Higher numbers = older pages (published further in the past).
- 
+
 Return ONLY the Markdown content plus the Meta JSON. No preamble."""
+
 
 # ──────────────────────────────────────────────────────────────
 # AI PROVIDER 1: GROQ (FREE — primary)
@@ -289,7 +291,7 @@ def generate_with_groq(prompt: str) -> str:
         json={
             'model': 'llama-3.3-70b-versatile',
             'messages': [{'role': 'user', 'content': prompt}],
-            'max_tokens': 1500,
+            'max_tokens': 2500,
             'temperature': 0.6
         },
         timeout=30
@@ -445,10 +447,9 @@ def generate_with_template(prop_key: str, oss_key: str) -> str:
     alt  = TOOLS.get(oss_key,  {})
     month = datetime.now().strftime('%B %Y')
     pair_key = (prop_key, oss_key)
-    
-    # Get detailed content if available, else generate generic
+
     details = TEMPLATE_DETAILS.get(pair_key)
-    
+
     if details:
         overview = details['overview']
         diff_bullets = '\n'.join(f'- {d}' for d in details['differences'])
@@ -466,14 +467,13 @@ def generate_with_template(prop_key: str, oss_key: str) -> str:
         when_oss  = f"{alt.get('name', oss_key)} is ideal for privacy-conscious teams, organizations with strict data sovereignty requirements, or anyone wanting to eliminate per-seat subscription costs at scale."
         migration = f"Export your data from {prop.get('name', prop_key)} in its standard export format, review {alt.get('name', oss_key)}'s import documentation, and plan for a pilot period where both tools run in parallel."
 
-    # Build cost at scale table
     prop_price_raw = prop.get('pricing', '$0')
     try:
         price_per_user = float(''.join(c for c in prop_price_raw.split('–')[0].split('/')[0] if c.isdigit() or c == '.'))
-        cost_50 = f"~${price_per_user * 50:,.0f}/month"
+        cost_50  = f"~${price_per_user * 50:,.0f}/month"
         cost_200 = f"~${price_per_user * 200:,.0f}/month"
-    except:
-        cost_50 = "See pricing page"
+    except Exception:
+        cost_50  = "See pricing page"
         cost_200 = "See pricing page"
 
     github_badge = f"\n> 📦 GitHub: [{alt.get('github', '')}](https://github.com/{alt.get('github', '')}) · ⭐ ~{alt.get('stars_approx', 'N/A')} stars" if alt.get('github') else ""
@@ -549,6 +549,57 @@ def generate_with_template(prop_key: str, oss_key: str) -> str:
 
 
 # ──────────────────────────────────────────────────────────────
+# META EXTRACTION — parses meta_description and publish_date
+# from the AI-generated response
+# ──────────────────────────────────────────────────────────────
+def extract_meta(response_text: str) -> dict:
+    """Extract the meta JSON block from the end of an AI response."""
+    patterns = [
+        r'\{[^{}]*"meta_description"[^{}]*"publish_date_offset_days"[^{}]*\}',
+        r'\{[^{}]*"publish_date_offset_days"[^{}]*"meta_description"[^{}]*\}',
+    ]
+    for pattern in patterns:
+        matches = list(re.finditer(pattern, response_text, re.DOTALL))
+        if matches:
+            try:
+                raw = matches[-1].group()
+                raw = re.sub(r'[\x00-\x1f\x7f]', ' ', raw)
+                return json.loads(raw)
+            except Exception:
+                pass
+    return {
+        "meta_description": "",
+        "publish_date_offset_days": random.randint(0, 240)
+    }
+
+
+def offset_to_date(offset_days: int) -> str:
+    """Convert a day offset to a realistic publish date string."""
+    jitter   = timedelta(days=random.randint(-2, 2))
+    pub_date = datetime.utcnow() - timedelta(days=int(offset_days)) + jitter
+    return pub_date.strftime("%B %d, %Y")
+
+
+def strip_meta_block(content: str) -> str:
+    """Remove the ## Meta section and its JSON from the markdown."""
+    # Remove from ## Meta heading to end of string
+    cleaned = re.sub(
+        r'\n*##\s*Meta\s*\n[\s\S]*',
+        '',
+        content,
+        flags=re.IGNORECASE
+    ).strip()
+    # Also remove any bare JSON object that looks like our meta block
+    cleaned = re.sub(
+        r'\n*\{[^{}]*"meta_description"[^{}]*\}\s*$',
+        '',
+        cleaned,
+        flags=re.DOTALL
+    ).strip()
+    return cleaned
+
+
+# ──────────────────────────────────────────────────────────────
 # MAIN GENERATION FUNCTION — waterfall: Groq → Gemini → Template
 # ──────────────────────────────────────────────────────────────
 def generate_comparison(prop_key: str, oss_key: str) -> Dict:
@@ -564,7 +615,7 @@ def generate_comparison(prop_key: str, oss_key: str) -> Dict:
         logger.info(f"    ✅ Generated with Groq")
     except Exception as e:
         logger.warning(f"    ⚠️  Groq unavailable ({type(e).__name__}) — trying Gemini...")
-        time.sleep(1)
+        time.sleep(2)
 
     if content is None:
         try:
@@ -582,25 +633,36 @@ def generate_comparison(prop_key: str, oss_key: str) -> Dict:
     prop_pricing = prop.get('pricing', 'N/A')
     oss_pricing  = alt.get('pricing', 'Free')
 
+    # Extract meta from AI response before stripping
+    meta             = extract_meta(content)
+    meta_description = meta.get('meta_description', '')
+    offset_days      = meta.get('publish_date_offset_days', random.randint(0, 240))
+    publish_date     = offset_to_date(offset_days)
+
+    # Strip the ## Meta block so raw JSON never appears on live pages
+    clean_content = strip_meta_block(content)
+
     return {
-        'id': f'{prop_key}-vs-{oss_key}',
-        'slug': f'{prop_key}-vs-{oss_key}',
-        'title': f"{prop.get('name', prop_key)} vs {alt.get('name', oss_key)}",
-        'proprietary_tool': prop.get('name', prop_key),
-        'proprietary_key': prop_key,
-        'oss_tool': alt.get('name', oss_key),
-        'oss_key': oss_key,
-        'category': alt.get('category', 'general'),
+        'id':                  f'{prop_key}-vs-{oss_key}',
+        'slug':                f'{prop_key}-vs-{oss_key}',
+        'title':               f"{prop.get('name', prop_key)} vs {alt.get('name', oss_key)}",
+        'proprietary_tool':    prop.get('name', prop_key),
+        'proprietary_key':     prop_key,
+        'oss_tool':            alt.get('name', oss_key),
+        'oss_key':             oss_key,
+        'category':            alt.get('category', 'general'),
         'proprietary_pricing': prop_pricing,
-        'oss_pricing': oss_pricing,
+        'oss_pricing':         oss_pricing,
         'proprietary_website': prop.get('website', ''),
-        'oss_website': alt.get('website', ''),
-        'oss_github': alt.get('github', ''),
-        'oss_stars': alt.get('stars_approx', ''),
-        'comparison_markdown': content,
-        'provider': provider_used,
-        'generated_at': datetime.utcnow().isoformat() + 'Z',
-        'status': 'generated'
+        'oss_website':         alt.get('website', ''),
+        'oss_github':          alt.get('github', ''),
+        'oss_stars':           alt.get('stars_approx', ''),
+        'comparison_markdown': clean_content,
+        'meta_description':    meta_description,
+        'publish_date':        publish_date,
+        'provider':            provider_used,
+        'generated_at':        datetime.utcnow().isoformat() + 'Z',
+        'status':              'generated'
     }
 
 
@@ -624,7 +686,7 @@ def main():
 
     logger.info(f"🎯 Generating batch {args.index}: {len(batch)} comparisons...")
     generated = []
-    failed = []
+    failed    = []
 
     for prop_key, oss_key in batch:
         prop_name = TOOLS.get(prop_key, {}).get('name', prop_key)
@@ -633,7 +695,7 @@ def main():
         try:
             result = generate_comparison(prop_key, oss_key)
             generated.append(result)
-            time.sleep(0.3)
+            time.sleep(2)   # Increased from 0.3 to reduce Groq rate-limit hits
         except Exception as e:
             logger.error(f"  ❌ Failed: {prop_key} vs {oss_key}: {e}")
             failed.append({'proprietary': prop_key, 'oss': oss_key, 'error': str(e)})
