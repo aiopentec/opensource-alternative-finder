@@ -170,6 +170,8 @@ jobs:
             --output .cache/publish/momentum.json
       - name: Apply VPS Affiliate Patch
         run: python add_vps_blocks.py
+      - name: Apply Publish Date Patch
+        run: python apply_publish_date_patch.py
       - name: Build Static Site
         env:
           GOOGLE_SITE_VERIFICATION: ${{ secrets.GOOGLE_SITE_VERIFICATION }}
