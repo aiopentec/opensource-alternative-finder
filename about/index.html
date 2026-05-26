@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>About Us | Open Source Alternative Finder</title>
+  <meta name="description" content="Meet the team behind Open Source Alternative Finder — a solo-built site helping businesses switch from expensive SaaS tools to free, open-source alternatives.">
+  <link rel="canonical" href="https://osalfinder.com/about/">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="About | Open Source Alternative Finder">
+  <meta property="og:description" content="Meet the solo founder behind OSALFinder — and learn how we research and publish open-source alternative comparisons.">
+  <meta property="og:url" content="https://osalfinder.com/about/">
+  <meta property="og:type" content="website">
+
+  <style>
+    :root{--blue:#1F5C99;--blue-light:#2980B9;--green:#1A7A3F;--bg:#F0F4F8;--card:#fff;--border:#E2E8F0;--text:#1A202C;--text-muted:#718096;--shadow:0 2px 8px rgba(0,0,0,0.08);}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.8;}
+    a{color:var(--blue);}
+    nav{background:var(--blue);padding:0.75rem 1.5rem;display:flex;align-items:center;gap:1rem;}
+    nav a{color:#fff;text-decoration:none;font-size:0.9rem;opacity:0.9;}nav a:hover{opacity:1;}nav .sep{color:rgba(255,255,255,0.4);}
+    .hero{background:linear-gradient(135deg,var(--blue) 0%,var(--blue-light) 100%);color:#fff;padding:3rem 1.5rem 2.5rem;text-align:center;}
+    .hero h1{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;margin-bottom:0.75rem;}
+    .hero p{opacity:0.85;font-size:1rem;max-width:560px;margin:0 auto;}
+    .content{max-width:800px;margin:2rem auto;padding:0 1.5rem;}
+    .card{background:var(--card);border-radius:12px;padding:2rem;margin-bottom:1.5rem;box-shadow:var(--shadow);border:1px solid var(--border);}
+    .card h2{font-size:1.2rem;font-weight:700;color:var(--blue);margin:0 0 1rem;padding-bottom:0.5rem;border-bottom:2px solid #EBF4FA;}
+    .card p{color:var(--text);margin-bottom:0.75rem;}.card p:last-child{margin-bottom:0;}
+    .card ul{margin:0.5rem 0 0.75rem 1.5rem;}.card li{margin:0.4rem 0;}
+
+    /* Author card */
+    .author-block{display:flex;gap:1.5rem;align-items:flex-start;}
+    .author-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--blue) 0%,var(--blue-light) 100%);display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0;color:#fff;}
+    .author-info h3{font-size:1.05rem;font-weight:700;margin-bottom:0.2rem;}
+    .author-info .role{font-size:0.85rem;color:var(--text-muted);margin-bottom:0.6rem;}
+    .author-info p{font-size:0.9rem;color:var(--text);margin-bottom:0.5rem;}
+    .author-links a{display:inline-block;font-size:0.8rem;background:#EBF4FA;border:1px solid #AED6F1;color:var(--blue);padding:0.2rem 0.65rem;border-radius:20px;margin:0.15rem;text-decoration:none;}
+    .author-links a:hover{background:var(--blue);color:#fff;}
+
+    /* Methodology steps */
+    .steps{list-style:none;margin:0;padding:0;counter-reset:steps;}
+    .steps li{counter-increment:steps;display:flex;gap:1rem;padding:0.9rem 0;border-bottom:1px solid var(--border);}
+    .steps li:last-child{border-bottom:none;padding-bottom:0;}
+    .steps li::before{content:counter(steps);background:var(--blue);color:#fff;font-weight:700;font-size:0.85rem;min-width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:0.1rem;}
+    .steps li .step-text strong{display:block;font-size:0.95rem;margin-bottom:0.1rem;}
+    .steps li .step-text span{font-size:0.88rem;color:var(--text-muted);}
+
+    /* AI transparency badge */
+    .ai-badge{background:#FFF8E7;border:1px solid #F6D860;border-radius:8px;padding:1rem 1.25rem;display:flex;gap:0.75rem;align-items:flex-start;margin-bottom:0.75rem;}
+    .ai-badge .icon{font-size:1.3rem;flex-shrink:0;}
+    .ai-badge p{font-size:0.88rem;color:#5C4B00;margin:0;}
+    .ai-badge strong{color:#3D3000;}
+
+    /* Mission grid */
+    .mission-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin-top:1rem;}
+    .mission-item{background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:1.25rem;}
+    .mission-item .icon{font-size:1.5rem;margin-bottom:0.5rem;}.mission-item .title{font-weight:700;font-size:0.95rem;margin-bottom:0.3rem;}.mission-item .desc{font-size:0.85rem;color:var(--text-muted);}
+
+    .tech-badge{display:inline-block;background:#EBF4FA;border:1px solid #AED6F1;color:var(--blue);font-size:0.78rem;font-weight:600;padding:0.25rem 0.7rem;border-radius:20px;margin:0.2rem;}
+
+    @media(max-width:540px){.author-block{flex-direction:column;align-items:center;text-align:center;}.author-links{text-align:center;}}
+
+    footer{text-align:center;padding:2.5rem 1rem;color:var(--text-muted);font-size:0.85rem;border-top:1px solid var(--border);margin-top:2rem;background:#fff;}footer a{color:var(--blue);}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="../">🔍 OS Alternative Finder</a>
+  <span class="sep">/</span>
+  <span style="color:#fff;opacity:0.7">About Us</span>
+</nav>
+
+<div class="hero">
+  <h1>About Open Source Alternative Finder</h1>
+  <p>Helping teams and individuals discover free, open-source alternatives to expensive SaaS tools — since 2024.</p>
+</div>
+
+<div class="content">
+
+  <!-- ── Author ───────────────────────────────────────────────────────────── -->
+  <div class="card">
+    <h2>👤 Who Built This</h2>
+    <div class="author-block">
+      <div class="author-avatar">👨‍💻</div>
+      <div class="author-info">
+        <h3>John Ogoina</h3>
+        <div class="role">Based in Nigeria &nbsp;·&nbsp; Building OSALFinder since 2024</div>
+        <p>
+          John started OSALFinder in 2024 because he kept running into the same problem: great
+          open-source tools existed for almost every expensive SaaS product, but there was nowhere
+          that compared them honestly — with real pricing tables, migration steps, and genuine
+          trade-off analysis rather than marketing copy.
+        </p>
+        <p>
+          He works across the full stack: Python automation pipelines, GitHub Actions, static site
+          generation, SEO, and content strategy. OSALFinder is his solo project, built and maintained
+          entirely on free infrastructure.
+        </p>
+        <div class="author-links">
+          <a href="https://github.com/aiopentec" target="_blank" rel="noopener">GitHub: aiopentec</a>
+          <a href="https://github.com/aiopentec/opensource-alternative-finder" target="_blank" rel="noopener">Source code</a>
+          <a href="../contact/">Contact</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Origin story ──────────────────────────────────────────────────────── -->
+  <div class="card">
+    <h2>🌱 Why John Built This</h2>
+    <p>
+      In 2024, John was helping a small business evaluate software and noticed the same pattern repeatedly:
+      he found teams paying $50–$200/month per seat for software where a self-hosted open-source alternative
+      existed that was 80–95% as capable — for the cost of a $6/month VPS.
+    </p>
+    <p>
+      The problem wasn't that these teams didn't know open-source alternatives existed. The problem was
+      that they couldn't quickly answer three questions: <em>Does it have the features we actually need?
+      How hard is the migration? What does self-hosting actually cost?</em>
+    </p>
+    <p>
+      OSALFinder is John's answer — covering 60+ tool pairs, rebuilt automatically every day,
+      running entirely on free infrastructure.
+    </p>
+  </div>
+
+  <!-- ── Editorial methodology ─────────────────────────────────────────────── -->
+  <div class="card">
+    <h2>📋 How We Research Comparisons</h2>
+    <p>Every comparison on OSALFinder follows a five-step research process:</p>
+    <ol class="steps">
+      <li>
+        <div class="step-text">
+          <strong>Tool selection</strong>
+          <span>We only cover open-source alternatives with active GitHub repositories (regular commits in the last 90 days) and meaningful community adoption (issues, PRs, discussions).</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-text">
+          <strong>Live data collection</strong>
+          <span>Our pipeline scrapes GitHub star counts, recent activity, and Reddit discussions daily so that momentum signals reflect the current state of each project — not last year's.</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-text">
+          <strong>AI-assisted analysis</strong>
+          <span>Groq (Llama 3.3 70B) and Google Gemini Flash generate structured comparison content from verified tool data. The AI is explicitly instructed to be honest about limitations, not to produce sales copy.</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-text">
+          <strong>Pricing verification</strong>
+          <span>Pricing tables reference each tool's official website. Because SaaS pricing changes frequently, we include a "verify before deciding" note on every page and rebuild the site daily.</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-text">
+          <strong>Migration guidance</strong>
+          <span>Every comparison includes a step-by-step migration path with real export/import formats where known — not generic advice. Where migration is genuinely difficult, we say so.</span>
+        </div>
+      </li>
+    </ol>
+  </div>
+
+  <!-- ── AI transparency ───────────────────────────────────────────────────── -->
+  <div class="card">
+    <h2>🤖 AI Content Transparency</h2>
+    <div class="ai-badge">
+      <div class="icon">⚠️</div>
+      <p><strong>AI-generated content disclosure:</strong> Comparison pages on this site are generated by large language models (Groq Llama 3.3 and Google Gemini Flash) from structured tool data. Factual details — pricing, GitHub stats, licensing — are sourced from live data. Editorial sections (Our Take, FAQ, Who Should Switch) reflect AI analysis based on publicly available information, not hands-on testing of every tool.</p>
+    </div>
+    <p>We believe in being transparent about this. AI lets a solo developer maintain 60+ detailed comparisons updated daily — something that would otherwise require a team. The trade-off is that AI-generated content can contain errors or become outdated between daily rebuilds.</p>
+    <p>If you spot an error, please <a href="https://github.com/aiopentec/opensource-alternative-finder/issues" target="_blank" rel="noopener">open an issue on GitHub</a> or <a href="../contact/">contact us</a> — corrections are always welcome and are typically applied within 24 hours.</p>
+  </div>
+
+  <!-- ── Mission ───────────────────────────────────────────────────────────── -->
+  <div class="card">
+    <h2>🎯 Our Mission</h2>
+    <p>Open Source Alternative Finder exists to help individuals, startups, and organizations save money without sacrificing quality. Powerful software should be accessible to everyone — not just teams that can afford enterprise SaaS subscriptions.</p>
+    <div class="mission-grid">
+      <div class="mission-item"><div class="icon">💰</div><div class="title">Save Money</div><div class="desc">Find free alternatives to tools costing thousands per year.</div></div>
+      <div class="mission-item"><div class="icon">🔓</div><div class="title">Own Your Data</div><div class="desc">Self-hosted tools mean your data stays on your servers.</div></div>
+      <div class="mission-item"><div class="icon">🔍</div><div class="title">Honest Analysis</div><div class="desc">We include limitations, not just upsides. Every tool has trade-offs.</div></div>
+      <div class="mission-item"><div class="icon">🌍</div><div class="title">Open Source</div><div class="desc">We practice what we preach — our pipeline is open source.</div></div>
+    </div>
+  </div>
+
+  <!-- ── How it works ──────────────────────────────────────────────────────── -->
+  <div class="card">
+    <h2>⚙️ How It Works</h2>
+    <p>The site is built and maintained by an automated GitHub Actions pipeline that runs every day at 6 AM UTC:</p>
+    <ul>
+      <li><strong>Data collection</strong> — GitHub star counts and Reddit discussions are scraped daily to track tool health and community activity</li>
+      <li><strong>AI analysis</strong> — Groq (Llama 3.3) and Google Gemini Flash generate detailed, structured comparisons from that data</li>
+      <li><strong>Static site generation</strong> — Python scripts build HTML pages from the structured comparison output</li>
+      <li><strong>Automatic deployment</strong> — GitHub Actions publishes to GitHub Pages, keeping the site current every day</li>
+    </ul>
+    <p>Total infrastructure cost: <strong>$0/month</strong>. All APIs are on free tiers. The source code is available on <a href="https://github.com/aiopentec/opensource-alternative-finder" target="_blank" rel="noopener">GitHub</a>.</p>
+    <div style="margin-top:0.75rem;">
+      <span class="tech-badge">Python 3.11</span>
+      <span class="tech-badge">GitHub Actions</span>
+      <span class="tech-badge">GitHub Pages</span>
+      <span class="tech-badge">Groq API (free tier)</span>
+      <span class="tech-badge">Google Gemini Flash (free tier)</span>
+      <span class="tech-badge">Static HTML/CSS/JS</span>
+    </div>
+  </div>
+
+  <!-- ── Affiliate disclosure ──────────────────────────────────────────────── -->
+  <div class="card">
+    <h2>🔗 Affiliate Disclosure</h2>
+    <p>Some links on this site — particularly links to VPS hosting providers like DigitalOcean and Vultr — are affiliate links. If you sign up through these links, OSALFinder earns a small commission at no extra cost to you.</p>
+    <p>Affiliate relationships <strong>do not influence which tools we cover or how we rate them.</strong> We cover all major open-source alternatives regardless of whether any affiliate relationship exists. The goal is always to give you the most accurate picture so you can make the right decision for your situation.</p>
+  </div>
+
+  <!-- ── CTA ──────────────────────────────────────────────────────────────── -->
+  <div class="card" style="text-align:center;padding:1.5rem;">
+    <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">Have a question, correction, or tool suggestion?</p>
+    <a href="../contact/" style="display:inline-block;background:var(--blue);color:#fff;padding:0.65rem 1.75rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.9rem;margin-right:0.75rem;">Contact Us →</a>
+    <a href="../" style="display:inline-block;background:#F0F4F8;color:var(--blue);padding:0.65rem 1.75rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.9rem;border:1px solid var(--border);">View All Comparisons</a>
+  </div>
+
+</div><!-- /content -->
+
+<footer>
+  Open Source Alternative Finder &nbsp;·&nbsp;
+  <a href="../">Home</a> &nbsp;·&nbsp;
+  <a href="../stack-builder/">Stack Builder</a> &nbsp;·&nbsp;
+  <a href="../logo-api/">Logo API</a> &nbsp;·&nbsp;
+  <a href="../contact/">Contact</a> &nbsp;·&nbsp;
+  <a href="../privacy/">Privacy Policy</a><br>
+  <span style="font-size:0.8rem;opacity:0.7">Updated May 2026</span>
+</footer>
+
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"d73d539da50842f1a3907810292f726c","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+
+</body>
+</html>
