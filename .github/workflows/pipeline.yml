@@ -170,8 +170,13 @@ jobs:
             --output .cache/publish/momentum.json
       - name: Apply VPS Affiliate Patch
         run: python add_vps_blocks.py
+        # Injects DigitalOcean + Vultr affiliate blocks on self-hosting tool pages.
+        # DigitalOcean: https://m.do.co/c/e4316dc73fa1  (25% recurring)
+        # Vultr:        https://www.vultr.com/?ref=9901332  ($10/signup)
       - name: Apply Publish Date Patch
         run: python apply_publish_date_patch.py
+        # Patches publish_github_pages.py to use per-page publish_date from
+        # each comparison JSON instead of date.today() for all pages.
       - name: Build Static Site
         env:
           GOOGLE_SITE_VERIFICATION: ${{ secrets.GOOGLE_SITE_VERIFICATION }}
