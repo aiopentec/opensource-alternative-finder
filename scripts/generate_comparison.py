@@ -474,6 +474,39 @@ def generate_with_template(prop_key: str, oss_key: str) -> str:
 
 {migration}
 
+## Our Take
+
+{oss_name} is production-ready for most teams willing to invest a few hours in setup. The self-hosted version gives you identical or better functionality to the paid {prop_name} tiers, with no recurring per-seat cost.
+
+The main technical limitation worth knowing: you are responsible for your own backups, updates, and uptime. If your server goes down, so does your {oss_name} instance. Plan for this with automated backups and a monitoring alert.
+
+Our recommendation: if your team has at least one developer and you are paying more than $100/month for {prop_name}, switching to self-hosted {oss_name} will pay for itself within the first month. If nobody on your team is comfortable with Linux or Docker, stay on {prop_name} until you have that resource.
+
+## Who Should Switch
+
+- Startups under 20 people paying per-seat fees they cannot yet justify
+- Dev teams who already self-host other tools and have the ops knowledge
+- Organizations in jurisdictions with strict data residency requirements
+- Teams who have evaluated {prop_name} paid features and only use the basics
+- Founders and solopreneurs who want the functionality without the subscription
+
+## FAQ
+
+### Is {oss_name} free to use?
+Yes. {oss_name} is free to self-host. Your only cost is the server, typically $6-$12/month on a VPS provider like DigitalOcean or Vultr.
+
+### How hard is it to migrate from {prop_name} to {oss_name}?
+For most teams, migration takes 2-4 hours. Export your {prop_name} data, follow the {oss_name} import guide, and test with a small group before switching everyone over.
+
+### Does {oss_name} get regular updates?
+Yes. {oss_name} has an active open-source community with regular releases. Check the GitHub repository for release frequency.
+
+### Can I use {oss_name} without technical knowledge?
+You need basic comfort with a VPS and command line. If that feels unfamiliar, there are managed hosting options that handle the server for you at a modest cost.
+
+### What happens if {oss_name} development stops?
+Because the source code is open, you can continue running whatever version you have indefinitely. You can also fork the project or switch to another tool at your own pace — no vendor can shut off your instance.
+
 ---
 *Data sourced {month}. Pricing and features change. Verify at [{prop_name}]({prop.get('website', '')}) and [{oss_name}]({alt.get('website', '')}) before making decisions.*
 
@@ -483,8 +516,8 @@ def generate_with_template(prop_key: str, oss_key: str) -> str:
 
 def extract_meta(response_text: str) -> dict:
     patterns = [
-        r'\{[^{{}}]*"meta_description"[^{{}}]*"publish_date_offset_days"[^{{}}]*\}',
-        r'\{[^{{}}]*"publish_date_offset_days"[^{{}}]*"meta_description"[^{{}}]*\}',
+        r'\{[^{}]*"meta_description"[^{}]*"publish_date_offset_days"[^{}]*\}',
+        r'\{[^{}]*"publish_date_offset_days"[^{}]*"meta_description"[^{}]*\}',
     ]
     for pattern in patterns:
         matches = list(re.finditer(pattern, response_text, re.DOTALL))
