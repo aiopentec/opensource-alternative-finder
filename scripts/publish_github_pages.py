@@ -2136,9 +2136,11 @@ def build_about_page(site_dir: str, updated: str):
           operates at $0/month. The source code is fully open.
         </p>
         <div class="author-links">
-          <a href="https://github.com/aiopentec" target="_blank" rel="noopener">GitHub: aiopentec</a>
-          <a href="https://github.com/aiopentec/opensource-alternative-finder" target="_blank" rel="noopener">Source code</a>
-          <a href="mailto:openaltshub@gmail.com">Email John</a>
+          <a href="https://www.linkedin.com/in/johnogoina" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://twitter.com/john_ogoina" target="_blank" rel="noopener">Twitter / X</a>
+          <a href="https://aiopentec.github.io/" target="_blank" rel="noopener">Portfolio</a>
+          <a href="https://github.com/aiopentec" target="_blank" rel="noopener">GitHub</a>
+          <a href="mailto:openaltshub@gmail.com">Email</a>
         </div>
       </div>
     </div>
