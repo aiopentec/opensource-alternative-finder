@@ -196,6 +196,8 @@ jobs:
         run: python add_vps_blocks.py
       - name: Apply Publish Date Patch
         run: python apply_publish_date_patch.py
+      - name: Apply ProductHunt Badge
+        run: python add_ph_badge.py
       - name: Build Static Site
         env:
           GOOGLE_SITE_VERIFICATION: ${{ secrets.GOOGLE_SITE_VERIFICATION }}
