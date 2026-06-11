@@ -3235,12 +3235,13 @@ def build_blog(site_dir: str, all_comparisons: List[Dict], updated: str):
         seo_desc     = tmpl['hero'][:155]
         tags_html    = ' '.join(f'<span class="tag">{t}</span>' for t in tmpl['tags'])
 
-        content_file = Path(__file__).parent.parent / 'blog_content' / f"{tmpl['slug']}.md"
-        if content_file.exists():
-            raw_md = content_file.read_text(encoding='utf-8')
-            raw_md = re.sub(r'^# .+\n', '', raw_md, count=1)
-            body_sections = markdown_to_html(raw_md)
-        elif comp:
+           content_file = Path(__file__).parent.parent / 
+           'blog_content' / f"{tmpl['slug']}.md"
+           if content_file.exists():
+               raw_md = content_file.read_text(encoding='utf-8')
+               raw_md = re.sub(r'^# .+\n', '', raw_md, count=1)
+               body_sections = markdown_to_html(raw_md)
+           elif comp:p:
             try:
                 base_price = float(''.join(c for c in (prop_pricing or '0').split('–')[0].split('/')[0] if c.isdigit() or c == '.') or 0)
             except Exception:
