@@ -243,12 +243,12 @@ TOOLS.forEach(t => {
 });
 
 function logoImg(slug, name) {
-  if (slug) return `<img src="https://cdn.simpleicons.org/${slug}" width="22" height="22" alt="${name}" loading="lazy" onerror="this.style.display='none'">`;
+  if (slug) return `<img src="javascript:void(0)" width="22" height="22" alt="${name}" loading="lazy" onerror="this.style.display='none'">`;
   return `<span class="t-fallback">${name[0].toUpperCase()}</span>`;
 }
 
 function logoImgSm(slug, name) {
-  if (slug) return `<img src="https://cdn.simpleicons.org/${slug}" width="20" height="20" alt="${name}" loading="lazy" onerror="this.style.display='none'">`;
+  if (slug) return `<img src="javascript:void(0)" width="20" height="20" alt="${name}" loading="lazy" onerror="this.style.display='none'">`;
   return `<span class="t-fallback">${name[0].toUpperCase()}</span>`;
 }
 
@@ -295,7 +295,7 @@ function render() {
     <div class="stack-item">
       <div class="stack-prop">${logoImgSm(t.pi, t.pn)}<span class="stack-prop-name">${t.pn}</span></div>
       <span class="stack-arrow">→</span>
-      <div class="stack-oss"><a href="../${t.slug}/" style="display:flex;align-items:center;gap:6px;text-decoration:none;">
+      <div class="stack-oss"><a href="javascript:void(0)" style="display:flex;align-items:center;gap:6px;text-decoration:none;">
         ${logoImgSm(t.oi, t.on)}<span class="stack-oss-name">${t.on}</span></a>
       </div>
       ${monthlySaving > 0 ? `<span class="stack-saving">${savingLabel}</span>` : ''}

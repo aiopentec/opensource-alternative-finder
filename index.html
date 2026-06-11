@@ -7,7 +7,7 @@
   <title>Open Source Alternative Finder — Free Replacements for Popular Paid Tools</title>
   <meta name="description" content="Discover free, open-source alternatives to Slack, Notion, Figma, Jira, Dropbox and more. AI-researched comparisons updated daily. Save thousands per year.">
   <meta name="keywords" content="open source alternatives, free software alternatives, self-hosted tools, slack alternative, notion alternative, figma alternative">
-  <link rel="canonical" href="https://osalfinder.com/">
+  <link rel="canonical" href="https://osalfinder.com/" />
   <meta name="google-site-verification" content="sgWLzv3yQVjDBJUjSqkzfFW2WDtfpWNMzQ-_pEw9sqQ">
   <meta name='impact-site-verification' value='e966ad45-df5a-41e8-9d33-b8f8527e8f93'>
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
@@ -30,9 +30,7 @@
     "name": "Open Source Alternative Finder",
     "url": "https://osalfinder.com/",
     "description": "AI-researched comparisons of open-source alternatives to popular paid software",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://osalfinder.com/?q={search_term_string}",
+    "potentialAction": {"@type": "ViewAction", "target": "https://osalfinder.com/"}",
       "query-input": "required name=search_term_string"
     }
   }
@@ -140,6 +138,17 @@
       .hero { padding: 2.5rem 1rem 2rem; }
     }
   </style>
+<script>
+// Redirect any ?ref= or ?q= variants to bare canonical URL
+(function() {
+  var url = window.location.href;
+  if (window.location.search) {
+    var params = new URLSearchParams(window.location.search);
+    // Preserve nothing — redirect bare URL
+    history.replaceState(null, '', window.location.pathname);
+  }
+})();
+</script>
 </head>
 <body>
 
