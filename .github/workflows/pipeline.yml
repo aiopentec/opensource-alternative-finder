@@ -198,16 +198,14 @@ jobs:
         run: python apply_publish_date_patch.py
       - name: Apply ProductHunt Badge
         run: python add_ph_badge.py
-      - name: Add Missing Functions
-        run: python add_missing_functions.py
-      - name: Apply GSC Fixes
-        run: python gsc_fixes.py
       - name: Build Static Site
         env:
           GOOGLE_SITE_VERIFICATION: ${{ secrets.GOOGLE_SITE_VERIFICATION }}
           SITE_BASE_URL: https://osalfinder.com
           ADSENSE_ID: ${{ secrets.ADSENSE_ID }}
         run: python scripts/publish_github_pages.py
+      - name: Apply GSC Fixes v2
+        run: python gsc_fixes_v2.py
       - name: Count Pages Built
         run: |
           PAGES=$(find site -name "index.html" | wc -l)
