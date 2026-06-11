@@ -32,7 +32,7 @@ import os
 import re
 import glob
 
-SITE_DIR = "_site"
+SITE_DIR = "site"
 
 
 # ─────────────────────────────────────────────
