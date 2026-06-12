@@ -3235,7 +3235,7 @@ def build_blog(site_dir: str, all_comparisons: List[Dict], updated: str):
         seo_desc     = tmpl['hero'][:155]
         tags_html    = ' '.join(f'<span class="tag">{t}</span>' for t in tmpl['tags'])
 
-        repo_root = Path(__file__).resolve().parent.parent
+        repo_root = Path.cwd()
         content_file = repo_root / 'blog_content' / f"{tmpl['slug']}.md"
         body_sections = ''
         if content_file.exists():
