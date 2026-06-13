@@ -366,6 +366,84 @@ TEMPLATE_DETAILS = {
         'when_oss': "Jitsi is ideal for small teams, privacy-conscious users, or anyone wanting quick meetings without requiring participants to install software.",
         'migration': "No migration needed. Share a Jitsi meeting link instead of a Zoom link. Replace Zoom calendar links with Jitsi room URLs."
     },
+    ('salesforce', 'vtiger'): {
+        'overview': "Salesforce is the world's leading CRM platform, used by enterprises globally for sales automation, customer service, and analytics. Vtiger CRM is a mature open-source alternative with a full-featured community edition covering contacts, leads, sales pipelines, and support ticketing — self-hosted at zero license cost.",
+        'differences': [
+            "**Cost**: Salesforce charges $25-$300+/user/month; Vtiger Community Edition is completely free to self-host",
+            "**Complexity**: Salesforce requires dedicated admins and often consultants; Vtiger is manageable by a small ops team",
+            "**Data ownership**: Vtiger self-hosted keeps all customer data on your own infrastructure",
+            "**Customization**: Both support custom fields and modules; Vtiger source code can be modified directly",
+            "**Ecosystem**: Salesforce AppExchange has thousands of add-ons; Vtiger has a smaller but growing extension library"
+        ],
+        'when_prop': "Salesforce suits large enterprises needing deep AI-driven analytics, complex multi-cloud integrations, and dedicated Salesforce admin teams to manage the platform.",
+        'when_oss': "Vtiger is ideal for SMBs and startups that need a full CRM without the $25-$300/user/month cost, especially teams comfortable running a VPS.",
+        'migration': "Export Salesforce records as CSV from the Data Export Service, then import contacts, leads, accounts, and opportunities into Vtiger using its built-in CSV importer. Map Salesforce custom fields to Vtiger equivalents before importing. Run both systems in parallel for 2-4 weeks before cutover."
+    },
+    ('zoho-crm', 'vtiger'): {
+        'overview': "Zoho CRM is a popular mid-market CRM platform offering sales automation, email marketing, and AI-powered insights at a lower price point than Salesforce. Vtiger CRM is a free open-source alternative that shares DNA with early Zoho and SugarCRM builds, making it a natural migration target for Zoho users wanting to eliminate per-seat costs.",
+        'differences': [
+            "**Cost**: Zoho CRM charges $14-$52/user/month; Vtiger Community Edition is free to self-host",
+            "**Hosting**: Vtiger runs on your own server; Zoho is cloud-only with no self-hosted option",
+            "**Data privacy**: Vtiger keeps all CRM data on infrastructure you control; Zoho stores data on their servers",
+            "**Feature parity**: Zoho has more built-in marketing automation; Vtiger covers core CRM needs well",
+            "**Vendor risk**: Vtiger eliminates dependency on Zoho pricing changes or account suspension"
+        ],
+        'when_prop': "Zoho CRM suits teams wanting a polished cloud CRM with tight integration into the broader Zoho suite including Books, Campaigns, and Desk.",
+        'when_oss': "Vtiger is the right move for SMBs paying Zoho per-seat fees who primarily use contacts, pipelines, and basic reporting — and have at least one technical person on the team.",
+        'migration': "Export Zoho CRM data via Settings → Data Administration → Export. Download CSVs for Contacts, Leads, Accounts, and Deals. Use Vtiger's CSV import tool to bring in each module. Recreate any Zoho workflow automations manually as Vtiger workflows."
+    },
+    ('hubspot', 'espocrm'): {
+        'overview': "HubSpot is an all-in-one CRM, marketing, and sales platform with a generous free tier that scales into expensive paid plans. EspoCRM is a clean, lightweight open-source CRM covering contacts, leads, accounts, opportunities, and reporting — entirely free to self-host with no feature gating.",
+        'differences': [
+            "**Cost**: HubSpot free tier is limited; paid plans run $15-$800+/month — EspoCRM self-hosted is always free",
+            "**Feature gating**: HubSpot locks key features behind higher tiers; EspoCRM gives full access from day one",
+            "**Data ownership**: EspoCRM on your server means your CRM data never leaves your infrastructure",
+            "**UI simplicity**: EspoCRM has a cleaner, faster interface than HubSpot's increasingly complex dashboard",
+            "**Marketing tools**: HubSpot has superior built-in email marketing automation; EspoCRM focuses on core CRM"
+        ],
+        'when_prop': "HubSpot suits marketing-led teams that need tight CRM and email campaign integration, landing pages, and lead scoring in a single managed platform.",
+        'when_oss': "EspoCRM is ideal for sales-focused teams that hit HubSpot's free tier limits or are facing $400+/month Professional plan costs and primarily need pipeline and contact management.",
+        'migration': "Export HubSpot contacts, companies, and deals as CSV via Settings → Data Management → Export. Import into EspoCRM using the built-in import wizard under Admin → Import. Map HubSpot deal stages to EspoCRM opportunity stages before importing. Note that HubSpot email sequences and workflows will need to be rebuilt manually."
+    },
+    ('quickbooks', 'dolibarr'): {
+        'overview': "QuickBooks is the dominant small business accounting platform from Intuit, used by millions of businesses for invoicing, payroll, and tax preparation. Dolibarr is a free open-source ERP and CRM that covers accounting, invoicing, stock management, and customer tracking — replacing both QuickBooks and a basic CRM in a single self-hosted install.",
+        'differences': [
+            "**Cost**: QuickBooks charges $30-$200+/month; Dolibarr is completely free to self-host",
+            "**Scope**: Dolibarr combines ERP, CRM, and accounting in one tool; QuickBooks is accounting-focused",
+            "**Data ownership**: Dolibarr self-hosted keeps all financial records on your own server",
+            "**Accountant access**: QuickBooks has native accountant collaboration features; Dolibarr requires sharing server access",
+            "**Tax compliance**: QuickBooks has built-in US tax filing integrations; Dolibarr requires manual tax configuration"
+        ],
+        'when_prop': "QuickBooks suits US-based small businesses needing seamless payroll processing, tax preparation, and direct accountant collaboration with minimal setup.",
+        'when_oss': "Dolibarr is ideal for small businesses outside the US, freelancers, or teams wanting to eliminate monthly SaaS fees and manage CRM and accounting in one self-hosted platform.",
+        'migration': "Export QuickBooks data via Reports → Export to Excel for your chart of accounts, customer list, and transaction history. Dolibarr supports CSV import for contacts and products. Financial history will need manual entry or accounting journal imports — plan for a clean start-of-year cutover to simplify the transition."
+    },
+    ('zoho-crm', 'dolibarr'): {
+        'overview': "Zoho CRM is a cloud-based sales and marketing platform popular with SMBs for its balance of features and price. Dolibarr is an open-source ERP and CRM that goes further — covering not just customer management but also invoicing, stock, and accounting — making it a compelling alternative for businesses wanting a single self-hosted system to replace multiple Zoho subscriptions.",
+        'differences': [
+            "**Cost**: Zoho CRM charges $14-$52/user/month plus additional Zoho apps; Dolibarr is free to self-host",
+            "**Scope**: Dolibarr is a full ERP replacing CRM, invoicing, and inventory tools; Zoho CRM is CRM-only",
+            "**Data control**: Dolibarr on your server means complete data sovereignty; Zoho is cloud-only",
+            "**Module breadth**: Dolibarr covers HR, projects, POS, and manufacturing modules; Zoho CRM requires separate paid apps",
+            "**UI modernity**: Zoho CRM has a more polished modern interface; Dolibarr's UI is functional but dated"
+        ],
+        'when_prop': "Zoho CRM suits teams already using the Zoho ecosystem who value tight integration between CRM, email, and support tools without managing any infrastructure.",
+        'when_oss': "Dolibarr is the right fit for small businesses paying for multiple Zoho apps who want to consolidate into one free self-hosted platform — especially outside the US where Zoho's pricing hits harder.",
+        'migration': "Export Zoho CRM contacts, accounts, and deals as CSV. Import into Dolibarr's Third Parties and Opportunities modules using the CSV import tool. For Zoho Books users, export invoices and products separately and import into Dolibarr's billing and product catalog modules."
+    },
+    ('salesforce', 'dolibarr'): {
+        'overview': "Salesforce is the enterprise CRM standard, powerful but expensive and complex. Dolibarr is a free open-source ERP and CRM built for SMBs, covering customer management, invoicing, stock, and projects in one self-hosted package — at a fraction of the operational cost.",
+        'differences': [
+            "**Cost**: Salesforce costs $25-$300+/user/month; Dolibarr is free with server costs under $15/month",
+            "**Target scale**: Salesforce is built for large enterprises; Dolibarr is optimized for SMBs under 100 users",
+            "**ERP scope**: Dolibarr combines CRM with accounting and inventory; Salesforce requires expensive add-ons for that",
+            "**Implementation**: Salesforce typically needs a consultant to implement; Dolibarr can be set up by a non-specialist",
+            "**Data ownership**: Dolibarr self-hosted gives you full control; Salesforce data lives on their infrastructure"
+        ],
+        'when_prop': "Salesforce suits enterprises with dedicated CRM admin teams, complex multi-territory sales operations, and budgets that justify $1,000-$10,000+/month in licenses.",
+        'when_oss': "Dolibarr is ideal for SMBs that were pushed toward Salesforce by a consultant but actually only need basic pipeline tracking, invoicing, and contact management.",
+        'migration': "Use Salesforce Data Export Service to download CSVs of Accounts, Contacts, Opportunities, and Tasks. Import Accounts and Contacts into Dolibarr's Third Parties module, and Opportunities into the Projects or CRM Opportunities module. Recreate key Salesforce reports manually as Dolibarr report templates."
+    },
 }
 
 
