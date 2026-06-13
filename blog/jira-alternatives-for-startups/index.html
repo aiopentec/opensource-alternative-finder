@@ -66,34 +66,89 @@
     <a href="../" style="font-size:0.85rem;font-weight:600;color:var(--blue);text-decoration:none;">← All Blog Posts</a>
   </div>
   <div class="article-body">
-    
-    <h2>The Pricing Problem</h2>
-    <p>Jira charges <strong>$7.75-$14.50/user/month</strong> per user per month. For a growing team, this adds up fast:</p>
-    <table>
-      <thead><tr><th>Team Size</th><th>Jira Monthly Cost</th><th>Annual Cost</th></tr></thead>
-      <tbody>
-        <tr><td>10 people</td><td>$0</td><td>$0</td></tr>
-        <tr><td>25 people</td><td>$0</td><td>$0</td></tr>
-        <tr><td>50 people</td><td>$0</td><td>$0</td></tr>
-      </tbody>
-    </table>
-    <p>The alternative? <strong>Plane</strong> is Free (self-hosted). Self-hosting costs only server infrastructure — typically $5–$20/month regardless of team size.</p>
-    <h2>What You Actually Get with Plane</h2>
-    <p>Plane covers the core use cases that most teams actually use Jira for:</p>
-    <ul>
-      <li>Full feature parity for 90% of common workflows</li>
-      <li>Complete data ownership — nothing stored on third-party servers</li>
-      <li>Setup time: ~30 mins using Docker Compose</li>
-      <li>Active open-source community with regular updates</li>
-      <li>No vendor lock-in — export your data any time</li>
-    </ul>
-    <h2>The Migration Path</h2>
-    <ol>
-      <li>Export your data from Jira in their standard export format</li>
-      <li>Set up Plane using the official Docker Compose installer</li>
-      <li>Import your data and invite your team</li>
-      <li>Run both tools in parallel for 2 weeks before cancelling Jira</li>
-    </ol>
+    <p>Jira was built for enterprise teams with dedicated project managers, compliance requirements, and the budget to support them. It's powerful because it has to be — Atlassian designed it to handle thousands of engineers across dozens of teams with complex workflow automations, custom permission schemes, and deep integration with the rest of the Atlassian stack.</p>
+<p>If your startup has fewer than 50 engineers, you're almost certainly paying for complexity you don't use. Jira's free tier caps at 10 users. The moment you hire your 11th employee, you're on the Standard plan at $8.15/user/month — a jump from $0 to over $100/month overnight. At 50 engineers, that's $4,890/year. At 100, $9,780/year. And that's before Confluence, which Jira doesn't include.</p>
+<p>The good news: the alternatives in 2026 are genuinely good. This article compares the strongest options — with a focus on Plane, the open-source alternative — and explains which type of team each one suits best.</p>
+<hr>
+<h2>1. What Jira Actually Costs in 2026</h2>
+<p>Jira Software's current pricing, verified as of June 2026:</p>
+<ul>
+<li><strong>Free</strong>: Up to 10 users, unlimited projects, basic roadmaps</li>
+<li><strong>Standard</strong>: $8.15/user/month (annual) — advanced permissions, audit logs, 250GB storage</li>
+<li><strong>Premium</strong>: $16/user/month (annual) — advanced roadmaps, asset management, sandbox environment</li>
+<li><strong>Enterprise</strong>: Custom pricing — unlimited sites, data residency, Atlassian Access included</li>
+</ul>
+<div class="table-wrapper"><table>
+<thead><tr><th>Team Size</th><th>Standard (annual)</th><th>Premium (annual)</th></tr></thead><tbody>
+<tr><td>10 people</td><td>Free</td><td>Free</td></tr>
+<tr><td>25 people</td><td>$2,445/year</td><td>$4,800/year</td></tr>
+<tr><td>50 people</td><td>$4,890/year</td><td>$9,600/year</td></tr>
+<tr><td>100 people</td><td>$9,780/year</td><td>$19,200/year</td></tr>
+</tbody></table></div>
+<p>Beyond the headline price, Jira's real cost drivers are the add-ons. SAML SSO requires Atlassian Access at $4/user/month on top of your Jira subscription. Confluence — the documentation tool most teams need alongside Jira — is a separate product at $5.75/user/month on Standard. A 50-person team using both Jira Standard and Confluence Standard is spending $13,890/year before any add-ons.</p>
+<p>Jira also has a well-documented performance problem at scale. Teams with backlogs exceeding 1,000 tickets regularly report page load times of 1.5–3 seconds. For developers who live in their issue tracker, that friction adds up.</p>
+<hr>
+<h2>2. Plane — The Open-Source Jira Alternative</h2>
+<p>Plane is an open-source project management tool that covers Jira's core use cases — issues, cycles (sprints), modules (epics), views, and roadmaps — with a cleaner interface and zero per-seat licensing cost when self-hosted.</p>
+<p>It's built on Django and Next.js, deployable via Docker Compose, and actively developed with regular releases. The GitHub repository has 30,000+ stars, which reflects genuine community adoption rather than novelty.</p>
+<p><strong>What Plane covers:</strong>
+<ul>
+<li>Issues with custom states, priorities, labels, and assignees</li>
+<li>Cycles (equivalent to Jira sprints) with burndown charts</li>
+<li>Modules (equivalent to epics) for grouping related work</li>
+<li>Views with saved filters for custom issue lists</li>
+<li>Roadmap view for timeline planning</li>
+<li>Inbox for triaging incoming requests</li>
+<li>GitHub integration for linking commits and PRs to issues</li>
+</ul></p>
+<p><strong>Pricing:</strong> The cloud-hosted version has a free tier for small teams and a Pro plan at $7/user/month. Self-hosted is free with no seat limits — you pay only for your server infrastructure, typically $10–20/month for a VPS that handles teams up to 100 people.</p>
+<p><strong>Setup:</strong> Docker Compose deployment, documented at plane.so/self-host. A server with 4GB RAM handles teams of up to 50 comfortably. Setup takes roughly 30–60 minutes for someone comfortable with Docker.</p>
+<hr>
+<h2>3. Linear — Best for Engineering-First Teams</h2>
+<p>Linear is not open-source, but it deserves a place in this comparison because it's the alternative that engineering teams consistently prefer over Jira in 2026.</p>
+<p>The core differentiator is speed. Linear uses a local-first architecture — your issues are stored in IndexedDB in the browser — which means the interface responds instantly rather than making round-trips to a server. Issue creation in Linear takes two keyboard shortcuts. In Jira, the same action typically requires 5–15 clicks through multiple dialogs.</p>
+<p>Linear's free tier is notably generous: unlimited team members, up to 250 issues per workspace. That covers most early-stage startups through their first year without requiring a credit card. The Standard plan at $8/user/month (annual) includes unlimited issues, advanced integrations, and private teams.</p>
+<p><strong>Where Linear falls short:</strong> It's opinionated by design. The workflow states are fixed (Backlog, Todo, In Progress, Done, Cancelled). Custom fields are limited. Reporting is basic. If you need Jira-style workflow automations, custom permission schemes, or Gantt charts with resource allocation, Linear won't satisfy those requirements. It's designed for teams that want to ship fast, not teams that need to manage complex organizational processes.</p>
+<hr>
+<h2>4. GitHub Projects — Best Free Option for GitHub-Native Teams</h2>
+<p>If your team is already paying for GitHub, GitHub Projects is free and more capable than most people realise. The 2024–2026 iterations added custom fields, roadmap views, sprint-style iterations, and saved views with filtering.</p>
+<p>For teams that live in GitHub anyway — engineers reviewing PRs, filing issues, and managing releases — adding a project board costs nothing extra and keeps all context in one place. Issues link directly to PRs and commits without any integration setup.</p>
+<p><strong>The limitation:</strong> GitHub Projects is genuinely designed for software development workflows. If you have mixed teams with non-technical members — design, marketing, customer success — they'll find the GitHub interface uncomfortable. It's also not self-hostable, which matters for teams with data sovereignty requirements.</p>
+<hr>
+<h2>5. Why Teams Leave Jira (And What to Watch Out For When Switching)</h2>
+<p>The most common reasons startups leave Jira: the interface feels slow compared to modern alternatives, the configuration overhead consumes engineering management time, the 10-user free tier cliff creates a forced upgrade moment, and the Atlassian ecosystem lock-in (Jira + Confluence + Bitbucket) generates a compounding bill that's hard to disentangle.</p>
+<p>The most common switching mistakes:</p>
+<p><strong>Migrating the mess.</strong> Your Jira backlog has accumulated years of closed issues, duplicate labels, inconsistent custom fields, and orphaned projects. Migrating everything as-is into a new tool recreates the problem. Use the migration as an opportunity to clean the backlog — archive everything older than 6 months, standardise labels, delete unused custom fields — before importing.</p>
+<p><strong>Underestimating the retraining cost.</strong> Jira has been the industry default for 15 years. Engineers who've used it for a decade will reach for familiar workflows that don't exist in lighter tools. Budget two to four weeks for the team to genuinely settle into a new tool before evaluating whether it's working.</p>
+<p><strong>Switching mid-sprint.</strong> Never migrate an active sprint. Finish the current cycle in Jira, migrate during a planned break, and start the next cycle in the new tool.</p>
+<hr>
+<h2>6. Plane vs Jira: Direct Comparison</h2>
+<div class="table-wrapper"><table>
+<thead><tr><th>Factor</th><th>Jira Standard</th><th>Plane (self-hosted)</th></tr></thead><tbody>
+<tr><td>Cost (25 people)</td><td>$2,445/year</td><td>$0 + ~$240/year server</td></tr>
+<tr><td>Free tier</td><td>Up to 10 users</td><td>Unlimited (self-hosted)</td></tr>
+<tr><td>Sprint/cycle tracking</td><td>Yes</td><td>Yes</td></tr>
+<tr><td>Epic/module grouping</td><td>Yes</td><td>Yes</td></tr>
+<tr><td>Roadmap view</td><td>Yes</td><td>Yes</td></tr>
+<tr><td>Custom workflows</td><td>Advanced</td><td>Basic</td></tr>
+<tr><td>SAML SSO</td><td>$4/user/month extra</td><td>Included (Enterprise plan)</td></tr>
+<tr><td>Self-hosting</td><td>No</td><td>Yes</td></tr>
+<tr><td>Data residency</td><td>Atlassian cloud</td><td>Your own server</td></tr>
+<tr><td>Performance</td><td>Slow with large backlogs</td><td>Fast</td></tr>
+<tr><td>Setup complexity</td><td>Zero (cloud)</td><td>30–60 mins (Docker)</td></tr>
+<tr><td>Confluence equivalent</td><td>Separate product</td><td>Not included</td></tr>
+</tbody></table></div>
+<p>The honest gap: Plane doesn't match Jira's depth on workflow automations, permission schemes, or advanced reporting. For teams that have built complex Jira configurations — custom issue types, multi-level permission hierarchies, Jira Automation rules — the migration is more than a tool switch; it's a workflow redesign.</p>
+<p>For startups that haven't built those configurations yet, starting on Plane avoids building them in the first place.</p>
+<hr>
+<h2>7. Which Tool Is Right for Your Startup?</h2>
+<p><strong>Choose Plane if:</strong> you're a team of 10–100 people where engineers are the primary users, you have or can get someone comfortable with Docker to set it up, you don't need integration with the broader Atlassian ecosystem, and cost is a real concern — especially if you're bootstrapped or early-stage with tight margins.</p>
+<p><strong>Choose Linear if:</strong> your team is engineering-first, values interface speed above all else, doesn't need deep workflow customisation, and is comfortable with a SaaS tool at $8/user/month.</p>
+<p><strong>Choose GitHub Projects if:</strong> your team lives in GitHub already, you primarily manage software development work, and you want zero additional tooling cost.</p>
+<p><strong>Stay with Jira if:</strong> you're deeply integrated with the Atlassian stack (Confluence, Bitbucket, Jira Service Management), you have compliance requirements that depend on Atlassian's certifications, your team has complex workflow automations that would take significant effort to rebuild, or you need the depth of Jira's custom field and permission systems.</p>
+<p>The decision is easiest for early-stage teams that haven't committed to Jira yet. Starting on Plane or Linear from day one avoids the migration cost entirely.</p>
+<hr>
+<p><em>OSALFinder tracks open-source alternatives to popular SaaS tools. See our <a href="/jira-vs-plane/" target="_blank" rel="noopener">Jira vs Plane comparison page</a> for a regularly updated feature and pricing breakdown.</em></p>
     
     <div style="background:#EAFAF1;border:1px solid #A9DFBF;border-radius:10px;padding:1.1rem 1.25rem;margin:1.5rem 0;">
       <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#1A7A3F;margin-bottom:0.4rem;">📊 Read the full comparison</div>

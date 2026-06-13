@@ -66,34 +66,112 @@
     <a href="../" style="font-size:0.85rem;font-weight:600;color:var(--blue);text-decoration:none;">← All Blog Posts</a>
   </div>
   <div class="article-body">
-    
-    <h2>The Pricing Problem</h2>
-    <p>DocuSign charges <strong>$15-$65+/user/month</strong> per user per month. For a growing team, this adds up fast:</p>
-    <table>
-      <thead><tr><th>Team Size</th><th>DocuSign Monthly Cost</th><th>Annual Cost</th></tr></thead>
-      <tbody>
-        <tr><td>10 people</td><td>$15,650</td><td>$187,800</td></tr>
-        <tr><td>25 people</td><td>$39,125</td><td>$469,500</td></tr>
-        <tr><td>50 people</td><td>$78,250</td><td>$939,000</td></tr>
-      </tbody>
-    </table>
-    <p>The alternative? <strong>DocuSeal</strong> is Free (self-hosted). Self-hosting costs only server infrastructure — typically $5–$20/month regardless of team size.</p>
-    <h2>What You Actually Get with DocuSeal</h2>
-    <p>DocuSeal covers the core use cases that most teams actually use DocuSign for:</p>
-    <ul>
-      <li>Full feature parity for 90% of common workflows</li>
-      <li>Complete data ownership — nothing stored on third-party servers</li>
-      <li>Self-hostable with Docker</li>
-      <li>Active open-source community with regular updates</li>
-      <li>No vendor lock-in — export your data any time</li>
-    </ul>
-    <h2>The Migration Path</h2>
-    <ol>
-      <li>Export your data from DocuSign in their standard export format</li>
-      <li>Set up DocuSeal using Docker</li>
-      <li>Import your data and invite your team</li>
-      <li>Run both tools in parallel for 2 weeks before cancelling DocuSign</li>
-    </ol>
+    <p>DocuSign processes over a billion transactions a year and holds roughly 70% of the e-signature market. It's also expensive in ways that compound quickly. Vendr's 2026 benchmark puts the median DocuSign contract at $17,250/year. A 50-person team on Business Pro pays between $24,000 and $39,000 annually — to put names on PDFs.</p>
+<p>DocuSeal is an open-source e-signature platform built in 2023 by a developer who got quoted too much to sign one document. It has 11,800+ GitHub stars, handles the same core signing workflow as DocuSign, produces legally binding signatures compliant with ESIGN, UETA, and eIDAS, and can be self-hosted on a $5/month VPS for a team of any size.</p>
+<p>This article compares them honestly — feature by feature, cost by cost, and limitation by limitation.</p>
+<hr>
+<h2>1. What DocuSign Actually Costs in 2026</h2>
+<p>DocuSign's pricing has a feature ladder that forces upgrades at specific capability thresholds.</p>
+<ul>
+<li><strong>Personal</strong>: $15/month — 5 envelopes/month only. Not usable for business at any volume.</li>
+<li><strong>Standard</strong>: $25/user/month (annual) — unlimited envelopes, basic templates, payment collection</li>
+<li><strong>Business Pro</strong>: $40/user/month (annual) — bulk send, signer attachments, advanced fields, payment integrations</li>
+<li><strong>Enhanced Plans</strong>: $65+/user/month — API access, custom branding, advanced workflows, SSO</li>
+</ul>
+<div class="table-wrapper"><table>
+<thead><tr><th>Team Size</th><th>Standard (annual)</th><th>Business Pro (annual)</th></tr></thead><tbody>
+<tr><td>5 people</td><td>$1,500/year</td><td>$2,400/year</td></tr>
+<tr><td>10 people</td><td>$3,000/year</td><td>$4,800/year</td></tr>
+<tr><td>25 people</td><td>$7,500/year</td><td>$12,000/year</td></tr>
+<tr><td>50 people</td><td>$15,000/year</td><td>$24,000/year</td></tr>
+</tbody></table></div>
+<p>Four things make the real cost higher than the headline rate:</p>
+<p><strong>The feature ladder.</strong> API access — needed for any integration with your CRM, billing system, or contract management workflow — requires the Enhanced plan at $65+/user/month. For a 10-person team that needs API access, that's $7,800/year just for the API tier. Bulk sending requires Business Pro. Custom branding requires Business Pro or above.</p>
+<p><strong>Envelope overages.</strong> The Personal plan caps at 5 envelopes/month. Some pricing configurations still have envelope limits; verify your plan's terms. Overage charges historically run $4.80 per envelope.</p>
+<p><strong>SSO requirements.</strong> SAML SSO requires Enhanced plans. Teams already paying for Okta or Entra ID face an expensive forced upgrade to connect their identity provider.</p>
+<p><strong>Annual contract lock-in.</strong> The discounted pricing requires annual commitment. Month-to-month pricing is 20–40% higher.</p>
+<hr>
+<h2>2. What DocuSeal Offers</h2>
+<p>DocuSeal is a Ruby on Rails application that handles the full e-signature workflow: upload a PDF, drag fields onto it, configure signers, send for signature, and receive a signed document with a cryptographic audit trail.</p>
+<p><strong>Core features:</strong></p>
+<ul>
+<li>PDF document upload and field placement (text, signature, date, checkbox, initials, and 7 more field types — 13 total, same as DocuSign)</li>
+<li>Multi-party signing with configurable signing order</li>
+<li>Email delivery of signing requests</li>
+<li>Audit trail with timestamps, IP addresses, and signer identity</li>
+<li>Template creation and reuse</li>
+<li>Webhook integrations for automating post-signing workflows</li>
+<li>REST API for embedding signing into your own applications</li>
+<li>Zapier integration</li>
+<li>Custom branding (logo, colours) on self-hosted instances</li>
+<li>Mobile-responsive signing interface</li>
+</ul>
+<p><strong>Legal compliance:</strong> DocuSeal signatures are legally binding under ESIGN (US), UETA (US), eIDAS (EU), and equivalent legislation in most jurisdictions. The audit trail includes the information required by these frameworks. The legal standing of an e-signature depends on the audit trail, not the vendor — DocuSeal's audit trail meets the same requirements as DocuSign's.</p>
+<p><strong>Pricing:</strong>
+<ul>
+<li>Self-hosted: free, unlimited documents, unlimited users</li>
+<li>Cloud free tier: 10 documents/month</li>
+<li>Cloud Pro: $20/user/month — unlimited documents, API access, custom branding</li>
+<li>API on self-hosted: $0.20 per document for embedded signing (not required for standard use)</li>
+</ul></p>
+<p>For teams that self-host and use DocuSeal through its web interface rather than embedding it via API, the cost is the server infrastructure — typically $5–20/month regardless of team size or document volume.</p>
+<hr>
+<h2>3. Feature Comparison: Where Each Tool Wins</h2>
+<div class="table-wrapper"><table>
+<thead><tr><th>Feature</th><th>DocuSign</th><th>DocuSeal (self-hosted)</th></tr></thead><tbody>
+<tr><td>Core signing workflow</td><td>✅ Excellent</td><td>✅ Excellent</td></tr>
+<tr><td>Field types</td><td>13</td><td>13</td></tr>
+<tr><td>Multi-party signing</td><td>✅</td><td>✅</td></tr>
+<tr><td>Signing order control</td><td>✅</td><td>✅</td></tr>
+<tr><td>Audit trail</td><td>✅</td><td>✅</td></tr>
+<tr><td>Templates</td><td>✅</td><td>✅</td></tr>
+<tr><td>Bulk send</td><td>Business Pro+</td><td>✅ Free</td></tr>
+<tr><td>API access</td><td>$65+/user/mo</td><td>$0.20/doc (embedded) or free (standard)</td></tr>
+<tr><td>Custom branding</td><td>Business Pro+</td><td>✅ Free (self-hosted)</td></tr>
+<tr><td>SAML SSO</td><td>Enhanced+</td><td>✅ Self-hosted</td></tr>
+<tr><td>Salesforce integration</td><td>Native (paid)</td><td>Via API/Zapier</td></tr>
+<tr><td>Mobile signing</td><td>✅</td><td>✅</td></tr>
+<tr><td>Offline signing</td><td>✅</td><td>❌</td></tr>
+<tr><td>Data residency</td><td>DocuSign cloud</td><td>Your infrastructure</td></tr>
+<tr><td>Compliance (ESIGN/UETA/eIDAS)</td><td>✅</td><td>✅</td></tr>
+<tr><td>HIPAA compliance</td><td>Enterprise</td><td>✅ Self-hosted</td></tr>
+<tr><td>User experience polish</td><td>Industry-leading</td><td>Good, improving</td></tr>
+</tbody></table></div>
+<p><strong>Where DocuSign is genuinely better:</strong> The user experience is more polished — particularly for signers who receive documents, which matters for client-facing workflows. Native Salesforce and HubSpot integrations work out of the box. Offline signing is supported. DocuSign's name recognition provides a minor trust signal with signers who've seen it before.</p>
+<p><strong>Where DocuSeal matches or exceeds DocuSign:</strong> Feature-for-feature on the signing workflow itself, DocuSeal is equivalent. Bulk send is free on self-hosted. Custom branding doesn't require an enterprise tier. API access costs $0.20/document for embedded use rather than $65+/user/month. HIPAA compliance is achievable on the free self-hosted tier because the data stays on your infrastructure.</p>
+<hr>
+<h2>4. Who Is Switching and Why</h2>
+<p>The organisations moving from DocuSign to DocuSeal in 2026 fall into clear patterns.</p>
+<p><strong>High-volume document teams.</strong> Legal departments, HR teams, and real estate companies that process hundreds of documents per month find that DocuSign's per-seat cost scales badly. A DocuSeal self-hosted instance handles unlimited documents for the price of a VPS. One legal services firm documented saving $23,000/year by switching from DocuSign Business Pro to self-hosted DocuSeal for internal contract processing.</p>
+<p><strong>Compliance-driven teams.</strong> Healthcare organisations operating under HIPAA, and European companies handling GDPR-sensitive documents, find that self-hosted DocuSeal resolves data residency requirements that DocuSign's cloud model can't satisfy without an Enterprise contract. On a self-hosted instance, signed documents never leave your infrastructure.</p>
+<p><strong>Developer-integrated workflows.</strong> Teams building signing into their own products — SaaS applications, client portals, HR systems — find DocuSign's API pricing ($65+/user/month plus per-envelope overages) prohibitive. DocuSeal's API charges $0.20 per embedded signing flow, which is economical at almost any volume.</p>
+<p><strong>Cost-driven SMBs.</strong> Small businesses that don't need Salesforce integration or DocuSign's brand recognition simply run DocuSeal on a $5/month VPS and never pay per-document fees.</p>
+<hr>
+<h2>5. Setting Up DocuSeal: What It Takes</h2>
+<p>DocuSeal is one of the simpler self-hosted tools to deploy. The official Docker image runs on any Linux server.</p>
+<p><strong>Requirements:</strong> A Linux server with 1GB+ RAM (a $5/month VPS is sufficient for most teams), Docker, a domain, and SSL.</p>
+<p><strong>Step 1:</strong> Pull the DocuSeal Docker image and create a <code>docker-compose.yml</code> with DocuSeal and a PostgreSQL database. The official documentation provides a copy-paste compose file.</p>
+<p><strong>Step 2:</strong> Set environment variables — your domain, database credentials, and an encryption secret key for signing cryptography.</p>
+<p><strong>Step 3:</strong> Start the containers with <code>docker compose up -d</code>. DocuSeal runs on port 3000 by default.</p>
+<p><strong>Step 4:</strong> Set up a reverse proxy (Nginx or Caddy) to handle SSL and route your domain to DocuSeal. Caddy handles Let's Encrypt certificate provisioning automatically.</p>
+<p><strong>Step 5:</strong> Create your admin account through the web interface, configure your email provider (SMTP) for sending signing requests, and you're operational.</p>
+<p>Total setup time: 30–90 minutes for someone comfortable with Docker. The setup is simpler than most self-hosted tools because DocuSeal has minimal dependencies.</p>
+<p>Ongoing maintenance: updates via <code>docker compose pull && docker compose up -d</code>, periodic database backups, and monitoring uptime. Roughly 1 hour per month.</p>
+<hr>
+<h2>6. Migrating from DocuSign to DocuSeal</h2>
+<p>The migration is less about data transfer and more about workflow transition.</p>
+<p><strong>What transfers:</strong> DocuSeal can accept PDF templates. If you have standard document templates in DocuSign (NDAs, offer letters, contracts), export them as PDFs and recreate the field placements in DocuSeal. This takes 10–15 minutes per template.</p>
+<p><strong>What doesn't transfer:</strong> Completed/signed documents from DocuSign stay in DocuSign's vault. Download your completed document archive from DocuSign before cancelling (Settings → Downloads). Signed PDFs are standard files — store them in your document management system regardless of which signing platform generated them.</p>
+<p><strong>Workflow changes:</strong> If you have Salesforce or HubSpot automations that trigger DocuSign sending, you'll need to reconfigure those to use DocuSeal's API or Zapier integration. This is the most significant technical work for teams with CRM integrations.</p>
+<p><strong>Recommended approach:</strong> Run DocuSeal in parallel with DocuSign for 30 days. Route new, non-critical documents through DocuSeal to build team familiarity. Cancel DocuSign at the next renewal date rather than mid-contract.</p>
+<hr>
+<h2>7. Should Your Team Switch?</h2>
+<p><strong>Switch to DocuSeal if:</strong> you're processing more than 20 documents per month and DocuSign's cost is a real concern; you have HIPAA or data residency requirements that self-hosting resolves; you need API access for integration but can't justify $65+/user/month for DocuSign's Enhanced tier; you're a developer building signing into a product and need per-document API economics rather than per-seat licensing; or you're a small business that doesn't need Salesforce integration or DocuSign's brand recognition.</p>
+<p><strong>Stay with DocuSign if:</strong> your clients specifically request DocuSign for familiarity or trust reasons; your workflow is deeply integrated with Salesforce or HubSpot via native DocuSign connectors that would require significant re-plumbing; you need offline signing capability; or you have no one who can manage a self-hosted server.</p>
+<p>The core question is whether the signing experience for your specific signers — clients, counterparties, employees — requires DocuSign's polish and brand recognition, or whether a clean, professional signing interface from your own domain is sufficient. For most internal document workflows and many external ones, DocuSeal is sufficient. For high-stakes client-facing contracts where DocuSign's name on the email builds trust, the calculus is different.</p>
+<p>At $17,250/year median contract value, the question is worth asking.</p>
+<hr>
+<p><em>OSALFinder tracks open-source alternatives to popular SaaS tools. See our <a href="/docusign-vs-docuseal/" target="_blank" rel="noopener">DocuSign vs DocuSeal comparison page</a> for a regularly updated feature and pricing breakdown.</em></p>
     
     <div style="background:#EAFAF1;border:1px solid #A9DFBF;border-radius:10px;padding:1.1rem 1.25rem;margin:1.5rem 0;">
       <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#1A7A3F;margin-bottom:0.4rem;">📊 Read the full comparison</div>

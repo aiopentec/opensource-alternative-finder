@@ -66,34 +66,75 @@
     <a href="../" style="font-size:0.85rem;font-weight:600;color:var(--blue);text-decoration:none;">← All Blog Posts</a>
   </div>
   <div class="article-body">
-    
-    <h2>The Pricing Problem</h2>
-    <p>GitHub charges <strong>Free / $7-$21/user</strong> per user per month. For a growing team, this adds up fast:</p>
-    <table>
-      <thead><tr><th>Team Size</th><th>GitHub Monthly Cost</th><th>Annual Cost</th></tr></thead>
-      <tbody>
-        <tr><td>10 people</td><td>$0</td><td>$0</td></tr>
-        <tr><td>25 people</td><td>$0</td><td>$0</td></tr>
-        <tr><td>50 people</td><td>$0</td><td>$0</td></tr>
-      </tbody>
-    </table>
-    <p>The alternative? <strong>Gitea</strong> is Free (self-hosted). Self-hosting costs only server infrastructure — typically $5–$20/month regardless of team size.</p>
-    <h2>What You Actually Get with Gitea</h2>
-    <p>Gitea covers the core use cases that most teams actually use GitHub for:</p>
-    <ul>
-      <li>Full feature parity for 90% of common workflows</li>
-      <li>Complete data ownership — nothing stored on third-party servers</li>
-      <li>Setup time: ~20 mins using Docker</li>
-      <li>Active open-source community with regular updates</li>
-      <li>No vendor lock-in — export your data any time</li>
-    </ul>
-    <h2>The Migration Path</h2>
-    <ol>
-      <li>Export your data from GitHub in their standard export format</li>
-      <li>Set up Gitea using the official Docker installer</li>
-      <li>Import your data and invite your team</li>
-      <li>Run both tools in parallel for 2 weeks before cancelling GitHub</li>
-    </ol>
+    <p>GitHub's March 2026 pricing changes introduced costs for self-hosted runner minutes at $0.002/minute, making CI/CD at scale more expensive than it used to be. GitHub Team costs $4/user/month. GitHub Enterprise is $21/user/month. For a 50-person engineering team on Enterprise, that's $12,600/year — before any runner costs, storage overages, or Copilot add-ons.</p>
+<p>Beyond cost, three other concerns drive teams toward self-hosted Git hosting. Data sovereignty: your source code lives on Microsoft's infrastructure unless you self-host. AI training concerns: GitHub's terms around Copilot and training data have prompted some organisations to move proprietary code off-platform. And the Atlassian server end-of-life precedent: teams that watched Atlassian kill Jira Server in 2024 are more cautious about platform dependency.</p>
+<p>This article covers the strongest self-hosted Git alternatives in 2026 — primarily Gitea and its community fork Forgejo — with setup requirements, feature comparisons, and migration guidance.</p>
+<hr>
+<h2>1. The Self-Hosted Git Landscape in 2026</h2>
+<p>Three tools dominate the self-hosted Git space:</p>
+<p><strong>Forgejo</strong> is a community-governed fork of Gitea that split in late 2022 when Gitea Ltd. became a for-profit entity. By 2026, Forgejo has shipped features faster, has better community governance, and is the default recommendation across most self-hosting communities (r/selfhosted, the Awesome-Selfhosted list, Codeberg). Forgejo is what Codeberg — the largest free-software Git hosting platform — runs.</p>
+<p><strong>Gitea</strong> is the original project, now maintained by Gitea Ltd. The codebase is still 95% identical to Forgejo in 2026. If you're already running Gitea and it works, there's no urgent reason to migrate. If you're choosing today, the community direction favours Forgejo.</p>
+<p><strong>GitLab CE</strong> is the open-source community edition of GitLab. It's significantly more capable than Gitea/Forgejo — full CI/CD with pipelines, a container registry, a package registry, security scanning, and a built-in Kubernetes integration — but it also requires substantially more resources (8GB+ RAM recommended) and more maintenance overhead. GitLab CE is the right choice for teams that need a full DevSecOps platform, not just Git hosting.</p>
+<p>This article focuses primarily on Forgejo and Gitea since they cover the use case most teams have: lightweight, self-hosted Git hosting that replaces GitHub's core functionality without the operational complexity of GitLab.</p>
+<hr>
+<h2>2. What Forgejo/Gitea Actually Provides</h2>
+<p>Both tools are written in Go and ship as a single static binary. They run on a Raspberry Pi, a $6/month VPS, or a bare-metal server in a data centre. Resource requirements: 512MB RAM for personal use, 1–2GB for small teams, 4GB for larger teams with active CI.</p>
+<p>The feature set covers what most teams actually use GitHub for:</p>
+<p><strong>Repository management:</strong> Full Git hosting with branches, tags, releases, and LFS (Large File Storage). Pull/merge requests with code review, inline comments, approval requirements, and merge protections.</p>
+<p><strong>Issue tracking:</strong> Issues, labels, milestones, and project boards. Not as capable as GitHub Projects' 2026 version, but covers standard issue tracking workflows.</p>
+<p><strong>CI/CD:</strong> Forgejo Actions and Gitea Actions are GitHub Actions-compatible — your existing workflow YAML files run without modification in most cases. This is the single most important feature for teams migrating from GitHub, since it eliminates the CI/CD rewrite that self-hosted Git used to require.</p>
+<p><strong>Package registries:</strong> npm, Maven, PyPI, Docker, Helm, Composer, and RubyGems registries built in. You can host your own packages alongside your code without a separate Artifactory or Nexus instance.</p>
+<p><strong>Authentication:</strong> LDAP, SMTP, OAuth2 (GitHub, Google, GitLab, Microsoft, Discord, generic OIDC), SAML 2.0, and PAM. Enterprise SSO works without add-ons.</p>
+<p><strong>Webhooks and API:</strong> REST API compatible with the Gitea API spec. Webhooks for all major events. Most GitHub-adjacent tooling (Dependabot alternatives, changelog generators, release automations) has community integrations.</p>
+<hr>
+<h2>3. Forgejo vs Gitea: Which to Choose</h2>
+<p>The functional difference in 2026 is small — 95% of the codebase is identical. The differences that exist are:</p>
+<p><strong>Governance:</strong> Forgejo is governed by a non-profit foundation with quarterly contributor meetings and a transparent roadmap. Gitea is governed by Gitea Ltd., a for-profit company registered in Hong Kong. If license stability and community control matter to your organisation, Forgejo's governance model is more aligned with open-source principles.</p>
+<p><strong>Feature velocity:</strong> Forgejo has shipped features faster since the fork — Forgejo Actions reached GitHub Actions compatibility ahead of Gitea Actions. ActivityPub federation (allowing repositories to federate across instances, similar to Mastodon) is a Forgejo-first feature.</p>
+<p><strong>Security defaults:</strong> Forgejo's Actions runner doesn't automatically mount the Docker socket, which is a meaningful security improvement over the default Gitea runner configuration. Forgejo also ships LXC container builds for more secure CI isolation.</p>
+<p><strong>Community direction:</strong> Most "best self-hosted Git" recommendations in 2026 have shifted from Gitea to Forgejo. The Awesome-Selfhosted list, r/selfhosted, and Codeberg all align with Forgejo.</p>
+<p><strong>Migration:</strong> If you're running Gitea now, migration to Forgejo is straightforward — the database formats are compatible. There's no urgency to migrate if Gitea is working, but new deployments should start with Forgejo.</p>
+<hr>
+<h2>4. Setting Up Forgejo: What It Actually Takes</h2>
+<p>The Docker Compose deployment is the standard path. Here's what the process involves.</p>
+<p><strong>Requirements:</strong> A Linux server with 1–2GB RAM (a $6/month VPS handles teams up to 20, $12/month for up to 50), Docker and Docker Compose, a domain, and DNS configured.</p>
+<p><strong>Step 1: Create a Docker Compose file.</strong> The official Forgejo Docker image is at <code>codeberg.org/forgejo/forgejo</code>. A minimal <code>docker-compose.yml</code> runs Forgejo with a PostgreSQL database.</p>
+<p><strong>Step 2: Configure environment variables.</strong> Set your domain, database credentials, admin email, and SSH port. The configuration is documented and defaults are sensible.</p>
+<p><strong>Step 3: Start the containers.</strong> <code>docker compose up -d</code> starts Forgejo and PostgreSQL. The setup wizard runs on first access via your domain.</p>
+<p><strong>Step 4: Configure SSL.</strong> Caddy or Nginx as a reverse proxy handles SSL via Let's Encrypt. The Forgejo documentation covers both setups.</p>
+<p><strong>Step 5: Configure Actions runners.</strong> If you're using Forgejo Actions for CI/CD, register one or more runners against your instance. Runners can run on the same server or on separate machines.</p>
+<p>Total time: 1–3 hours for someone comfortable with Docker and Linux. Ongoing maintenance: 1–2 hours per month for updates and backup verification.</p>
+<hr>
+<h2>5. Migrating from GitHub to Forgejo</h2>
+<p>The migration path is well-documented and the tooling has matured significantly.</p>
+<p><strong>Repository migration:</strong> Forgejo has a built-in migration wizard that pulls repositories directly from GitHub, including commit history, issues, pull requests, labels, milestones, and releases. Authentication via a GitHub personal access token is required. The migration runs in the background and handles repositories of any size.</p>
+<p><strong>CI/CD migration:</strong> GitHub Actions workflows are largely compatible with Forgejo Actions. Most standard actions (<code>actions/checkout</code>, <code>actions/setup-python</code>, <code>actions/setup-node</code>) have Forgejo-compatible equivalents maintained by the community. Marketplace actions that have no equivalent need to be rewritten, but the majority of common CI patterns work without modification.</p>
+<p><strong>What doesn't migrate automatically:</strong> GitHub Packages (you'll need to re-push package artifacts to your Forgejo package registry), GitHub Pages (set up a separate static hosting solution or self-host), GitHub Secrets (recreate in Forgejo's secret management), and any GitHub-specific features like Dependabot (use Renovate as a self-hosted alternative).</p>
+<p><strong>Recommended migration approach:</strong> Run Forgejo in parallel with GitHub for 4–6 weeks. Mirror active repositories to Forgejo using the built-in repository mirroring feature — commits to GitHub automatically sync to Forgejo. Migrate CI/CD for one project at a time, verify it works, then cut over. Don't attempt a hard cutover of the entire organisation at once.</p>
+<hr>
+<h2>6. Forgejo/Gitea vs GitHub: Honest Comparison</h2>
+<div class="table-wrapper"><table>
+<thead><tr><th>Factor</th><th>GitHub Team</th><th>Forgejo (self-hosted)</th></tr></thead><tbody>
+<tr><td>Cost (50 people)</td><td>$2,400/year</td><td>$0 + ~$144/year server</td></tr>
+<tr><td>GitHub Actions compatible</td><td>Native</td><td>Forgejo Actions</td></tr>
+<tr><td>Copilot AI coding</td><td>$10–19/user/month add-on</td><td>Not included</td></tr>
+<tr><td>Package registry</td><td>Yes</td><td>Yes (npm, PyPI, Docker, etc.)</td></tr>
+<tr><td>Self-hosting</td><td>No</td><td>Yes</td></tr>
+<tr><td>Data residency</td><td>Microsoft cloud</td><td>Your infrastructure</td></tr>
+<tr><td>Community integrations</td><td>Largest ecosystem</td><td>Smaller but growing</td></tr>
+<tr><td>Setup complexity</td><td>Zero</td><td>1–3 hours</td></tr>
+<tr><td>Maintenance overhead</td><td>None</td><td>1–2 hrs/month</td></tr>
+<tr><td>Issue tracking</td><td>GitHub Projects (capable)</td><td>Basic</td></tr>
+<tr><td>Security scanning</td><td>GitHub Advanced Security (paid)</td><td>Requires separate tooling</td></tr>
+</tbody></table></div>
+<p>The honest gaps: GitHub's issue tracking has improved significantly with GitHub Projects in 2024–2026 and is now more capable than Forgejo's. GitHub Copilot is a genuine productivity tool with no self-hosted equivalent of comparable quality. GitHub's security tooling (Dependabot, secret scanning, code scanning) is more mature and requires additional setup to replicate on self-hosted infrastructure.</p>
+<hr>
+<h2>7. Who Should Switch, and Who Should Stay</h2>
+<p><strong>Switch to Forgejo/Gitea if:</strong> your team is paying for GitHub Enterprise and the cost is a meaningful budget concern, you have compliance or data sovereignty requirements that require code to stay on your infrastructure, you have the DevOps capacity to manage a self-hosted server, or you're concerned about dependency on Microsoft's platform decisions.</p>
+<p><strong>Stay on GitHub if:</strong> your team benefits significantly from GitHub Copilot and considers it productivity-critical, your open-source projects depend on GitHub's visibility for attracting contributors, your CI/CD relies heavily on GitHub Marketplace actions that have no Forgejo equivalents, or you don't have anyone who can manage self-hosted infrastructure.</p>
+<p>The cost calculation is clearest for teams on GitHub Enterprise. A 50-person team saves $12,600/year in licensing by switching to self-hosted Forgejo — enough to pay for a dedicated DevOps hire for a meaningful portion of the year. For teams on GitHub Team at $4/user/month, the cost saving is smaller and the decision depends more on data sovereignty concerns than pure economics.</p>
+<hr>
+<p><em>OSALFinder tracks open-source alternatives to popular SaaS tools. See our <a href="/github-vs-gitea/" target="_blank" rel="noopener">GitHub vs Gitea comparison page</a> for a regularly updated feature and pricing breakdown.</em></p>
     
     <div style="background:#EAFAF1;border:1px solid #A9DFBF;border-radius:10px;padding:1.1rem 1.25rem;margin:1.5rem 0;">
       <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#1A7A3F;margin-bottom:0.4rem;">📊 Read the full comparison</div>
