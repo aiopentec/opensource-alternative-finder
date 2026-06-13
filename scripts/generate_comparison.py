@@ -81,6 +81,9 @@ TOOLS = {
     'coolify':         {'name': 'Coolify',          'category': 'developer-tools',    'pricing': 'Free (self-hosted)',       'license': 'Apache 2.0',                'website': 'https://coolify.io',          'description': 'Open-source self-hostable platform for deploying apps, databases, and services.',      'github': 'coollabsio/coolify',      'stars_approx': '35k'},
     'salesforce':      {'name': 'Salesforce',        'category': 'productivity',       'pricing': '$25-$300+/user/month',    'license': 'Proprietary',               'website': 'https://salesforce.com',      'description': 'The world leading CRM platform.',               'founded': '1999', 'company': 'Salesforce Inc'},
     'espocrm':         {'name': 'EspoCRM',           'category': 'productivity',       'pricing': 'Free (self-hosted)',       'license': 'AGPL 3.0',                  'website': 'https://espocrm.com',         'description': 'Open-source CRM with a clean interface covering sales, contacts, leads, and reporting.',                'github': 'espocrm/espocrm',         'stars_approx': '2k'},
+    'zoho-crm':        {'name': 'Zoho CRM',         'category': 'productivity',       'pricing': '$14-$52/user/month',      'license': 'Proprietary',               'website': 'https://zoho.com/crm',        'description': 'Feature-rich CRM platform from Zoho suite, popular with SMBs worldwide.',              'founded': '1996', 'company': 'Zoho Corporation'},
+    'vtiger':          {'name': 'Vtiger CRM',        'category': 'productivity',       'pricing': 'Free (self-hosted)',       'license': 'VPL / Open Source',         'website': 'https://vtiger.com',          'description': 'Open-source CRM with sales, marketing, and support modules plus a strong self-hosted community edition.', 'github': 'vtiger-crm/vtiger7', 'stars_approx': '1k'},
+    'dolibarr':        {'name': 'Dolibarr',          'category': 'productivity',       'pricing': 'Free (self-hosted)',       'license': 'GPL 3.0',                   'website': 'https://dolibarr.org',        'description': 'All-in-one open-source ERP and CRM for SMBs covering invoicing, accounting, stock, and customer management.', 'github': 'Dolibarr/dolibarr', 'stars_approx': '5k'},
     'grammarly':       {'name': 'Grammarly',         'category': 'productivity',       'pricing': 'Free / $12-$15/month',    'license': 'Proprietary',               'website': 'https://grammarly.com',       'description': 'AI-powered writing assistant that checks grammar, spelling, style, and tone.',              'founded': '2009', 'company': 'Grammarly Inc'},
     'languagetool':    {'name': 'LanguageTool',      'category': 'productivity',       'pricing': 'Free (self-hosted)',       'license': 'LGPL 2.1',                  'website': 'https://languagetool.org',    'description': 'Open-source grammar and spell checker supporting 30+ languages.',         'github': 'languagetool-org/languagetool', 'stars_approx': '12k'},
     'shopify':         {'name': 'Shopify',           'category': 'productivity',       'pricing': '$29-$299+/month',         'license': 'Proprietary',               'website': 'https://shopify.com',         'description': 'Leading e-commerce platform powering 4 million+ online stores.',               'founded': '2006', 'company': 'Shopify Inc'},
@@ -179,6 +182,12 @@ COMPARISON_PAIRS = [
     ('openai-api',       'ollama'),
     ('adobe-premiere',   'kdenlive'),
     ('adobe-xd',         'penpot'),
+    ('salesforce',       'vtiger'),
+    ('zoho-crm',         'vtiger'),
+    ('hubspot',          'espocrm'),
+    ('quickbooks',       'dolibarr'),
+    ('zoho-crm',         'dolibarr'),
+    ('salesforce',       'dolibarr'),
 ]
 
 
