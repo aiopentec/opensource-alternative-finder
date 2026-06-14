@@ -18,6 +18,7 @@ import json, logging, os, re
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List
+from migration_steps_override import MIGRATION_STEPS_OVERRIDE
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(levelname)-8s | %(message)s')
 logger = logging.getLogger(__name__)
@@ -1345,7 +1346,10 @@ def build_migration_page(site_dir: str, comp: dict, updated: str):
     migrate_dir.mkdir(parents=True, exist_ok=True)
 
     steps = extract_migration_steps(comp.get('comparison_markdown', ''))
-    if not steps:
+   override_key = f"{prop_key}-to-{oss_key}"
+   if override_key in MIGRATION_STEPS_OVERRIDE:
+       steps = MIGRATION_STEPS_OVERRIDE[override_key]
+   elif not steps:
         steps = [
             f"Export your data from {prop_name} using their built-in export tool (Settings → Export)",
             f"Set up {oss_name} on your own server or use their hosted option",
