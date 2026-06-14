@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Jira to Plane (June 13, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Jira to Plane (June 14, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Jira to Plane. Export your data, set up Plane, and switch your team — save $7.75-$14.50/user/month per month.">
   <meta name="keywords" content="migrate Jira to Plane, Jira to Plane migration, how to switch from Jira, Plane migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-jira-to-plane/">
   <meta name="robots" content="index, follow">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Jira to Plane (June 13, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Jira to Plane (June 14, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Jira to Plane. Export your data, set up Plane, and switch your team — save $7.75-$14.50/user/month per month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-jira-to-plane/">
   <script type="application/ld+json">
@@ -19,7 +19,7 @@
     "name": "How to Migrate from Jira to Plane",
     "description": "Complete step-by-step guide to migrating from Jira to Plane. Export your data, set up Plane, and switch your team — save $7.75-$14.50/user/month per month.",
     "totalTime": "~30 mins",
-    "step": [{"@type":"HowToStep","text":"Export your Jira data in CSV format."}, {"@type":"HowToStep","text":"Use a third-party import tool to import your data into Plane."}, {"@type":"HowToStep","text":"Configure your Plane instance to match your Jira workflow."}, {"@type":"HowToStep","text":"Test your Plane instance to ensure everything is working correctly."}, {"@type":"HowToStep","text":"Switch your team over to Plane and provide training on the new system."}]
+    "step": [{"@type":"HowToStep","text":"Before migrating, clean up your Jira backlog: archive issues older than 6 months, standardize labels, and remove unused custom fields. Migrating Jira's accumulated mess into Plane just recreates the same problems"}, {"@type":"HowToStep","text":"Export your Jira project as CSV: Project Settings → Issues → Export → CSV (current fields). For multiple projects, export each one separately"}, {"@type":"HowToStep","text":"Set up Plane first — either the cloud free tier or self-hosted via Docker Compose (plane.so/self-host). A 4GB RAM server handles teams up to 50 comfortably"}, {"@type":"HowToStep","text":"In Plane, create matching workspaces/projects for each Jira project before importing, so issues land in the right place"}, {"@type":"HowToStep","text":"Use Plane's CSV importer (Settings → Imports → Jira) to bring in issues. Map Jira's status names to Plane's states (Backlog, Todo, In Progress, Done, Cancelled) during the mapping step"}, {"@type":"HowToStep","text":"Jira epics map to Plane modules, and Jira sprints map to Plane cycles — but these don't auto-import from CSV. Recreate your current sprint structure manually in Plane after the issue import"}, {"@type":"HowToStep","text":"Custom workflow automations (Jira Automation rules) don't transfer. Audit which automations your team actually relies on and rebuild the critical ones using Plane's automation features or webhooks"}, {"@type":"HowToStep","text":"Never migrate mid-sprint. Finish the current Jira sprint, do the migration during a planned break between sprints, and start the next cycle fresh in Plane"}]
   }
   </script>
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
@@ -73,7 +73,7 @@
     <span class="hero-badge">💰 Save $7.75-$14.50/user/month/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     <span class="hero-badge">🖥️ Setup: Easy (~30 mins)</span>
-    <span class="hero-badge">📅 June 13, 2026</span>
+    <span class="hero-badge">📅 June 14, 2026</span>
   </div>
 </div>
 <div class="content">
@@ -89,23 +89,35 @@
     
     <div class="step-card">
       <div class="step-num">1</div>
-      <div class="step-text">Export your Jira data in CSV format.</div>
+      <div class="step-text">Before migrating, clean up your Jira backlog: archive issues older than 6 months, standardize labels, and remove unused custom fields. Migrating Jira's accumulated mess into Plane just recreates the same problems</div>
     </div>
     <div class="step-card">
       <div class="step-num">2</div>
-      <div class="step-text">Use a third-party import tool to import your data into Plane.</div>
+      <div class="step-text">Export your Jira project as CSV: Project Settings → Issues → Export → CSV (current fields). For multiple projects, export each one separately</div>
     </div>
     <div class="step-card">
       <div class="step-num">3</div>
-      <div class="step-text">Configure your Plane instance to match your Jira workflow.</div>
+      <div class="step-text">Set up Plane first — either the cloud free tier or self-hosted via Docker Compose (plane.so/self-host). A 4GB RAM server handles teams up to 50 comfortably</div>
     </div>
     <div class="step-card">
       <div class="step-num">4</div>
-      <div class="step-text">Test your Plane instance to ensure everything is working correctly.</div>
+      <div class="step-text">In Plane, create matching workspaces/projects for each Jira project before importing, so issues land in the right place</div>
     </div>
     <div class="step-card">
       <div class="step-num">5</div>
-      <div class="step-text">Switch your team over to Plane and provide training on the new system.</div>
+      <div class="step-text">Use Plane's CSV importer (Settings → Imports → Jira) to bring in issues. Map Jira's status names to Plane's states (Backlog, Todo, In Progress, Done, Cancelled) during the mapping step</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">6</div>
+      <div class="step-text">Jira epics map to Plane modules, and Jira sprints map to Plane cycles — but these don't auto-import from CSV. Recreate your current sprint structure manually in Plane after the issue import</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">7</div>
+      <div class="step-text">Custom workflow automations (Jira Automation rules) don't transfer. Audit which automations your team actually relies on and rebuild the critical ones using Plane's automation features or webhooks</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">8</div>
+      <div class="step-text">Never migrate mid-sprint. Finish the current Jira sprint, do the migration during a planned break between sprints, and start the next cycle fresh in Plane</div>
     </div>
   </div>
   <div class="card">

@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from GitHub to Gitea (June 13, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from GitHub to Gitea (June 14, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from GitHub to Gitea. Export your data, set up Gitea, and switch your team — save Free / $7-$21/user per month.">
   <meta name="keywords" content="migrate GitHub to Gitea, GitHub to Gitea migration, how to switch from GitHub, Gitea migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-github-to-gitea/">
   <meta name="robots" content="index, follow">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from GitHub to Gitea (June 13, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from GitHub to Gitea (June 14, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from GitHub to Gitea. Export your data, set up Gitea, and switch your team — save Free / $7-$21/user per month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-github-to-gitea/">
   <script type="application/ld+json">
@@ -19,7 +19,7 @@
     "name": "How to Migrate from GitHub to Gitea",
     "description": "Complete step-by-step guide to migrating from GitHub to Gitea. Export your data, set up Gitea, and switch your team — save Free / $7-$21/user per month.",
     "totalTime": "~20 mins",
-    "step": [{"@type":"HowToStep","text":"Export your data from GitHub in its standard export format, review Gitea import documentation, and plan a pilot period where both tools run in parallel."}]
+    "step": [{"@type":"HowToStep","text":"Set up your Gitea or Forgejo instance first via Docker Compose (a 1-2GB RAM VPS is sufficient for most teams) — complete the setup wizard and create your organization structure before migrating repos"}, {"@type":"HowToStep","text":"Generate a GitHub personal access token with repo read access — Gitea's migration wizard needs this to pull your repositories"}, {"@type":"HowToStep","text":"Use Gitea's built-in migration tool (+ → New Migration → GitHub) for each repository. This pulls commit history, issues, pull requests, labels, milestones, and releases in one operation"}, {"@type":"HowToStep","text":"For repositories you want to keep in sync during a transition period, use Gitea's repository mirroring feature instead of a one-time migration — commits to GitHub will automatically sync to Gitea"}, {"@type":"HowToStep","text":"Audit your GitHub Actions workflows: most standard actions (checkout, setup-node, setup-python) have Forgejo/Gitea Actions-compatible equivalents and will run with little to no modification"}, {"@type":"HowToStep","text":"Marketplace actions with no Forgejo equivalent need to be rewritten as custom scripts or replaced with self-hosted alternatives — identify these before cutover, not after"}, {"@type":"HowToStep","text":"GitHub Packages don't migrate automatically — re-publish your package artifacts to Gitea's built-in package registry (supports npm, Docker, PyPI, Maven, and more)"}, {"@type":"HowToStep","text":"Migrate one repository at a time, verify CI/CD works end-to-end on Gitea, then move to the next. Don't attempt an organization-wide cutover in a single day"}]
   }
   </script>
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
@@ -73,7 +73,7 @@
     <span class="hero-badge">💰 Save Free / $7-$21/user/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     <span class="hero-badge">🖥️ Setup: Easy (~20 mins)</span>
-    <span class="hero-badge">📅 June 13, 2026</span>
+    <span class="hero-badge">📅 June 14, 2026</span>
   </div>
 </div>
 <div class="content">
@@ -89,7 +89,35 @@
     
     <div class="step-card">
       <div class="step-num">1</div>
-      <div class="step-text">Export your data from GitHub in its standard export format, review Gitea import documentation, and plan a pilot period where both tools run in parallel.</div>
+      <div class="step-text">Set up your Gitea or Forgejo instance first via Docker Compose (a 1-2GB RAM VPS is sufficient for most teams) — complete the setup wizard and create your organization structure before migrating repos</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-text">Generate a GitHub personal access token with repo read access — Gitea's migration wizard needs this to pull your repositories</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-text">Use Gitea's built-in migration tool (+ → New Migration → GitHub) for each repository. This pulls commit history, issues, pull requests, labels, milestones, and releases in one operation</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">4</div>
+      <div class="step-text">For repositories you want to keep in sync during a transition period, use Gitea's repository mirroring feature instead of a one-time migration — commits to GitHub will automatically sync to Gitea</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">5</div>
+      <div class="step-text">Audit your GitHub Actions workflows: most standard actions (checkout, setup-node, setup-python) have Forgejo/Gitea Actions-compatible equivalents and will run with little to no modification</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">6</div>
+      <div class="step-text">Marketplace actions with no Forgejo equivalent need to be rewritten as custom scripts or replaced with self-hosted alternatives — identify these before cutover, not after</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">7</div>
+      <div class="step-text">GitHub Packages don't migrate automatically — re-publish your package artifacts to Gitea's built-in package registry (supports npm, Docker, PyPI, Maven, and more)</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">8</div>
+      <div class="step-text">Migrate one repository at a time, verify CI/CD works end-to-end on Gitea, then move to the next. Don't attempt an organization-wide cutover in a single day</div>
     </div>
   </div>
   <div class="card">
