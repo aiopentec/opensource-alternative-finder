@@ -180,8 +180,6 @@ COMPARISON_PAIRS = [
     ('squarespace',      'wordpress-org'),
     ('webflow',          'plasmic'),
     ('openai-api',       'ollama'),
-    ('adobe-premiere',   'kdenlive'),
-    ('adobe-xd',         'penpot'),
     ('salesforce',       'vtiger'),
     ('zoho-crm',         'vtiger'),
     ('hubspot',          'espocrm'),
