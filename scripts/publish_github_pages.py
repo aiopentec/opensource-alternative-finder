@@ -29,6 +29,7 @@ ADSENSE_ID     = os.getenv("ADSENSE_ID", "")
 GA_ID          = os.getenv("GA_ID", "G-FGB481RVVS")
 CARBON_SERVE   = os.getenv("CARBON_SERVE", "")
 CARBON_PLACEMENT = os.getenv("CARBON_PLACEMENT", "")
+PINTEREST_VERIFICATION = "ed16edc987d3232ef15f8e571ab58e9a"
 # ─────────────────────────────────────────────────────────────────────────────
 
 CATEGORY_ICONS = {
@@ -578,6 +579,9 @@ COMPARISON_PAGE = """<!DOCTYPE html>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
 
+  <!-- ✨ Pinterest domain verification - ADDED -->
+  <meta name="p:domain_verify" content="ed16edc987d3232ef15f8e571ab58e9a"/>
+
   {adsense_script}
   {ga_snippet}
 
@@ -914,6 +918,10 @@ INDEX_PAGE = """<!DOCTYPE html>
   </script>
 
   {adsense_script}
+
+  <!-- ✨ Pinterest domain verification - ADDED -->
+  <meta name="p:domain_verify" content="ed16edc987d3232ef15f8e571ab58e9a"/>
+
   {ga_snippet}
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
