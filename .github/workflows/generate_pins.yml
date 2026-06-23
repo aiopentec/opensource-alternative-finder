@@ -1,0 +1,51 @@
+name: Generate Pinterest Pins
+
+on:
+  workflow_dispatch:
+    inputs:
+      template:
+        description: 'Which template(s) to render'
+        required: false
+        default: 'ab'
+        type: choice
+        options: [ab, a, b]
+      team_size:
+        description: 'Team size for savings calculation'
+        required: false
+        default: '25'
+      limit:
+        description: 'Limit to first N comparisons (leave blank for all)'
+        required: false
+        default: ''
+
+jobs:
+  generate-pins:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install playwright
+          playwright install chromium --with-deps
+
+      - name: Generate pins
+        run: |
+          ARGS="--template ${{ github.event.inputs.template }} --team-size ${{ github.event.inputs.team_size }}"
+          if [ -n "${{ github.event.inputs.limit }}" ]; then
+            ARGS="$ARGS --limit ${{ github.event.inputs.limit }}"
+          fi
+          python scripts/generate_pinterest_pins.py $ARGS
+
+      - name: Upload pins as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pinterest-pins
+          path: pinterest_pins/
+          retention-days: 7
