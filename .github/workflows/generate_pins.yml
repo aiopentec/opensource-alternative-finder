@@ -25,6 +25,26 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Debug — show repo cache structure
+        run: |
+          echo "=== Root level ==="
+          ls -la
+          echo ""
+          echo "=== data/ (if exists) ==="
+          ls -la data/ 2>/dev/null || echo "data/ not found"
+          echo ""
+          echo "=== data/cache/ (if exists) ==="
+          ls -la data/cache/ 2>/dev/null || echo "data/cache/ not found"
+          echo ""
+          echo "=== .cache/ (if exists) ==="
+          ls -la .cache/ 2>/dev/null || echo ".cache/ not found"
+          echo ""
+          echo "=== .cache/publish/ (if exists) ==="
+          ls -la .cache/publish/ 2>/dev/null || echo ".cache/publish/ not found"
+          echo ""
+          echo "=== Searching all JSON files in repo ==="
+          find . -name "*.json" | grep -v node_modules | grep -v ".git" | head -30
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
