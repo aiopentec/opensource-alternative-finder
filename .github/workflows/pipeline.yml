@@ -1,51 +1,275 @@
+# .github/workflows/pipeline.yml
 name: Open Source Alternative Pipeline
 
 on:
+  schedule:
+    - cron: "0 6 * * *"
   workflow_dispatch:
     inputs:
-      template:
-        description: 'Which template(s) to render'
-        required: false
-        default: 'ab'
+      mode:
+        description: 'What to run'
+        required: true
+        default: 'full'
         type: choice
-        options: [ab, a, b]
-      team_size:
-        description: 'Team size for savings calculation'
-        required: false
-        default: '25'
-      limit:
-        description: 'Limit to first N comparisons (leave blank for all)'
-        required: false
-        default: ''
+        options:
+          - full
+          - scrape
+          - generate
+          - publish
+
+concurrency:
+  group: pipeline-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHON_VERSION: "3.11"
 
 jobs:
-  generate-pins:
+
+  setup:
+    name: Prepare Environment
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-
-      - name: Install dependencies
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+      - name: Install Dependencies
+        run: pip install -q -r requirements.txt
+      - name: Create Directories
         run: |
-          pip install playwright
-          playwright install chromium --with-deps
-
-      - name: Generate pins
+          mkdir -p .cache/scrape .cache/publish
+          mkdir -p dlq/failed dlq/dead dlq/success
+          mkdir -p site data/comparisons data/cache
+      - name: Verify Scripts Load
         run: |
-          ARGS="--cache-dir data/cache --template ${{ github.event.inputs.template }} --team-size ${{ github.event.inputs.team_size }}"
-          if [ -n "${{ github.event.inputs.limit }}" ]; then
-            ARGS="$ARGS --limit ${{ github.event.inputs.limit }}"
-          fi
-          python scripts/generate_pinterest_pins.py $ARGS
+          python -c "import sys; sys.path.insert(0,'scripts'); from utils_resilience import DeadLetterQueue; print('utils_resilience OK')"
+          python -c "import sys; sys.path.insert(0,'scripts'); print('Python path OK')"
 
-      - name: Upload pins as artifact
+
+  scrape:
+    name: Scrape Data Sources
+    needs: setup
+    runs-on: ubuntu-latest
+    if: |
+      github.event.inputs.mode == 'full' ||
+      github.event.inputs.mode == 'scrape' ||
+      github.event.inputs.mode == ''
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+      - run: pip install -q -r requirements.txt
+      - name: Create cache directories
+        run: mkdir -p .cache/scrape
+      - name: Scrape GitHub
+        run: python scripts/scrape_sources.py --source github --output .cache/scrape
+      - name: Scrape Reddit
+        run: python scripts/scrape_sources.py --source reddit --output .cache/scrape
+      - name: Upload Scrape Cache
         uses: actions/upload-artifact@v4
         with:
-          name: pinterest-pins
-          path: pinterest_pins/
+          name: scrape-cache
+          path: .cache/scrape/
+          retention-days: 1
+
+
+  generate:
+    name: Generate Comparisons
+    needs: [setup, scrape]
+    runs-on: ubuntu-latest
+    if: |
+      always() && (
+        github.event.inputs.mode == 'full' ||
+        github.event.inputs.mode == 'generate' ||
+        github.event.inputs.mode == ''
+      )
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        batch_index: [1, 2, 3, 4, 5, 6, 7]
+    env:
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+      - run: pip install -q -r requirements.txt
+      - name: Create directories
+        run: mkdir -p .cache/scrape .cache/publish dlq/failed dlq/dead dlq/success
+      - name: Download Scrape Cache
+        uses: actions/download-artifact@v4
+        with:
+          name: scrape-cache
+          path: .cache/scrape/
+        continue-on-error: true
+      - name: Generate Comparisons (Batch ${{ matrix.batch_index }})
+        run: |
+          python scripts/generate_comparison.py \
+            --index ${{ matrix.batch_index }} \
+            --output .cache/publish \
+            --dlq-dir ./dlq
+      - name: Upload Generated Comparisons
+        uses: actions/upload-artifact@v4
+        with:
+          name: generated-batch-${{ matrix.batch_index }}
+          path: .cache/publish/
+          retention-days: 1
+      - name: Upload DLQ (if any failures)
+        uses: actions/upload-artifact@v4
+        with:
+          name: dlq-batch-${{ matrix.batch_index }}
+          path: dlq/
           retention-days: 7
+        continue-on-error: true
+
+
+  publish:
+    name: Build and Publish Site
+    needs: [setup, generate]
+    runs-on: ubuntu-latest
+    if: |
+      always() && (
+        github.event.inputs.mode == 'full' ||
+        github.event.inputs.mode == 'publish' ||
+        github.event.inputs.mode == ''
+      )
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+      - run: pip install -q -r requirements.txt
+      - name: Create directories
+        run: mkdir -p .cache/publish site data/cache
+
+      # ── Download freshly generated comparisons (full / generate+publish runs) ──
+      - name: Download All Generated Comparisons
+        uses: actions/download-artifact@v4
+        with:
+          pattern: generated-batch-*
+          merge-multiple: true
+          path: .cache/publish/
+        continue-on-error: true
+
+      # ── Fallback: restore from repo cache (publish-only mode) ────────────────
+      # When running publish mode alone, the generate job never ran and the
+      # artifacts have expired. Read the last committed comparison JSONs instead.
+      - name: Restore comparison data from repo cache (publish-only fallback)
+        run: |
+          FRESH=$(ls .cache/publish/comparisons_*.json 2>/dev/null | wc -l)
+          if [ "$FRESH" -eq 0 ]; then
+            echo "No fresh artifacts found — restoring from data/cache/"
+            CACHED=$(ls data/cache/comparisons_*.json 2>/dev/null | wc -l)
+            if [ "$CACHED" -gt 0 ]; then
+              cp data/cache/comparisons_*.json .cache/publish/
+              echo "Restored $CACHED cached comparison JSON files."
+            else
+              echo "ERROR: No cached comparison data in data/cache/ either."
+              echo "Run the pipeline in 'full' or 'generate' mode at least once first."
+              exit 1
+            fi
+          else
+            echo "Using $FRESH freshly generated comparison JSON files."
+          fi
+
+      - name: Track GitHub Star Momentum
+        run: |
+          mkdir -p data
+          python scripts/track_stars.py \
+            --cache .cache/publish \
+            --history data/star_history.json \
+            --output .cache/publish/momentum.json
+      - name: Apply VPS Affiliate Patch
+        run: python add_vps_blocks.py
+      - name: Apply Publish Date Patch
+        run: python apply_publish_date_patch.py
+      - name: Apply ProductHunt Badge
+        run: python add_ph_badge.py
+      - name: Build Static Site
+        env:
+          GOOGLE_SITE_VERIFICATION: ${{ secrets.GOOGLE_SITE_VERIFICATION }}
+          SITE_BASE_URL: https://osalfinder.com
+          ADSENSE_ID: ${{ secrets.ADSENSE_ID }}
+        run: python scripts/publish_github_pages.py
+      - name: Apply GSC Fixes v2
+        run: python gsc_fixes_v2.py
+      - name: Count Pages Built
+        run: |
+          PAGES=$(find site -name "index.html" | wc -l)
+          echo "Built $PAGES pages"
+          echo "PAGES=$PAGES" >> $GITHUB_ENV
+          # Sanity check — abort deploy if site looks empty
+          if [ "$PAGES" -lt 10 ]; then
+            echo "ERROR: Only $PAGES pages built. Something went wrong — aborting deploy."
+            exit 1
+          fi
+      - name: Add ads.txt
+        run: echo "google.com, pub-4633315697698743, DIRECT, f08c47fec0942fa0" > site/ads.txt
+
+      # ── Deploy ────────────────────────────────────────────────────────────────
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+          cname: osalfinder.com
+          commit_message: "Auto-update #${{ github.run_number }}: ${{ env.PAGES }} pages"
+
+      # ── Commit generated data back to repo so publish-only mode works later ──
+      - name: Cache comparison data to repo
+        run: |
+          FRESH=$(ls .cache/publish/comparisons_*.json 2>/dev/null | wc -l)
+          if [ "$FRESH" -gt 0 ]; then
+            mkdir -p data/cache
+            cp .cache/publish/comparisons_*.json data/cache/
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add data/cache/ || true
+            git add data/star_history.json || true
+            git diff --staged --quiet || git commit -m "Cache comparison data + star history [skip ci]"
+            git push origin main || true
+            echo "Cached $FRESH comparison JSON files to data/cache/"
+          else
+            echo "No fresh comparison data to cache (publish-only run — skipping)."
+          fi
+
+      - name: Commit Star History
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/star_history.json || true
+          git diff --staged --quiet || git commit -m "Update star history [skip ci]"
+          git push origin main || true
+
+
+  summary:
+    name: Pipeline Summary
+    needs: [scrape, generate, publish]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Write Summary
+        run: |
+          echo "## Pipeline Run #${{ github.run_number }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Job | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Scrape    | ${{ needs.scrape.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Generate  | ${{ needs.generate.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Publish   | ${{ needs.publish.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Completed: $(date -u '+%Y-%m-%d %H:%M UTC')" >> $GITHUB_STEP_SUMMARY
+          echo "Mode: ${{ github.event.inputs.mode || 'scheduled' }}" >> $GITHUB_STEP_SUMMARY
