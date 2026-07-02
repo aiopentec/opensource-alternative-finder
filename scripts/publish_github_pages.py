@@ -910,9 +910,8 @@ INDEX_PAGE = """<!DOCTYPE html>
     "url": "{site_base_url}/",
     "description": "AI-researched comparisons of open-source alternatives to popular paid software",
     "potentialAction": {{
-      "@type": "SearchAction",
-      "target": "{site_base_url}/?q={{search_term_string}}",
-      "query-input": "required name=search_term_string"
+      "@type": "ViewAction",
+      "target": "{site_base_url}/"
     }}
   }}
   </script>
