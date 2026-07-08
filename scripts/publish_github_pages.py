@@ -851,7 +851,9 @@ COMPARISON_PAGE = """<!DOCTYPE html>
   <a href="../stack-builder/">Stack Builder</a> &nbsp;·&nbsp;
   <a href="../logo-api/">Logo API</a><br>
   <!-- PATCH 6: reframed AI disclaimer -->
-  <span style="font-size:0.8rem; opacity:0.7">AI-researched and updated daily. Community corrections welcome — <a href="https://github.com/aiopentec/opensource-alternative-finder/issues" style="color:#7fbfff">open a PR</a>. Verify pricing at official sites before switching.</span>
+  <span style="font-size:0.8rem; opacity:0.7">AI-researched and updated daily. Community corrections welcome — <a href="https://github.com/aiopentec/opensource-alternative-finder/issues" style="color:#7fbfff">open a PR</a>. Verify pricing at official sites before switching.</span><br>
+  <!-- PATCH: reciprocal portfolio network links -->
+  <span style="font-size:0.8rem; opacity:0.7">Part of a small network of independent, $0-cost comparison sites: <a href="https://emailtoolcompare.com" style="color:#7fbfff">Email Tool Compare</a> &middot; <a href="https://careertoolfinder.com" style="color:#7fbfff">CareerToolFinder</a> &middot; <a href="https://devstackcompare.com" style="color:#7fbfff">DevStackCompare</a> &middot; <a href="https://aitoolalternatives.com" style="color:#7fbfff">AI Tool Alternatives</a> &middot; <a href="https://aiopentec.github.io" style="color:#7fbfff">Full portfolio</a></span>
 </footer>
 
 <button class="dark-toggle" onclick="toggleDark()" title="Toggle dark mode">
