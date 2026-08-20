@@ -1,0 +1,234 @@
+#!/usr/bin/env python3
+"""
+migrate_content_generator.py
+Expands thin migrate-*/index.html pages with unique long-form content: an
+intro on why/when to migrate, detailed step explanations, a common-pitfalls
+section, and an FAQ — targeting 500-700 words of genuinely unique content
+per page (AdSense's thin-content bar is roughly 200 words).
+
+Waterfall (matches generate_comparison.py):
+  Primary:  Groq (llama-3.3-70b-versatile) — free, fast
+  Fallback: Google Gemini Flash             — free, reliable
+
+Output is cached to data/cache/migrate_content.json, keyed by
+"{prop_key}-to-{oss_key}". build_migration_page() in publish_github_pages.py
+reads this cache and renders the expanded sections when present, falling
+back to the existing short version for pairs not yet processed. Re-running
+this script skips pairs that already have cached content, so it's cheap
+and safe to re-run as new comparison pairs get added later.
+
+USAGE:
+    # Test run — only the first 4 pairs missing content. Do this first.
+    python3 scripts/migrate_content_generator.py --limit 4
+
+    # Full run — every pair still missing cached content
+    python3 scripts/migrate_content_generator.py
+
+    # Regenerate specific pairs even if already cached
+    python3 scripts/migrate_content_generator.py --slugs figma-to-penpot,slack-to-element --force
+
+    # Offline dry run — no API calls, writes placeholder content so you can
+    # test the build + audit pipeline without spending API quota
+    python3 scripts/migrate_content_generator.py --limit 4 --mock
+"""
+import argparse
+import glob
+import json
+import logging
+import os
+import re
+import sys
+import time
+
+import requests
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)-8s | %(message)s")
+logger = logging.getLogger(__name__)
+
+CACHE_PATH = "data/cache/migrate_content.json"
+COMPARISONS_GLOB = "data/cache/comparisons_*.json"
+
+
+def load_comparisons():
+    pairs = []
+    for path in sorted(glob.glob(COMPARISONS_GLOB)):
+        with open(path) as f:
+            data = json.load(f)
+        items = data.get("comparisons", data) if isinstance(data, dict) else data
+        pairs.extend(items)
+    return pairs
+
+
+def load_cache():
+    if os.path.exists(CACHE_PATH):
+        with open(CACHE_PATH) as f:
+            return json.load(f)
+    return {}
+
+
+def save_cache(cache):
+    os.makedirs(os.path.dirname(CACHE_PATH), exist_ok=True)
+    with open(CACHE_PATH, "w") as f:
+        json.dump(cache, f, indent=2)
+
+
+def build_prompt(comp):
+    prop = comp.get("proprietary_tool", "")
+    oss = comp.get("oss_tool", "")
+    prop_pricing = comp.get("proprietary_pricing", "a paid plan")
+    category = comp.get("category", "software")
+    return f"""You are writing long-form, original content for a migration guide page titled "How to Migrate from {prop} to {oss}".
+
+This is a {category} tool. {prop} costs {prop_pricing}; {oss} is a free/open-source alternative.
+
+Respond with ONLY valid JSON (no markdown fences, no preamble, no text before or after) in this exact structure:
+
+{{
+  "intro": "2-3 paragraphs (150-200 words total) on why and when someone would migrate from {prop} to {oss}. Be specific to these two tools, not generic filler.",
+  "steps": [
+    {{"title": "short step title", "detail": "2-4 sentences elaborating on this step, specific to {prop} and {oss}"}}
+  ],
+  "challenges": [
+    {{"issue": "a real challenge someone migrating from {prop} to {oss} would hit", "solution": "1-2 sentences on how to handle it"}}
+  ],
+  "faq": [
+    {{"q": "a real question someone would search when considering this migration", "a": "2-3 sentence answer"}}
+  ]
+}}
+
+Include 5-6 items in "steps" (covering export, setup, import, team onboarding, and cutover), 3 items in "challenges", and 3 items in "faq".
+Total content across all fields should be 500-700 words. Be concrete and specific to {prop} and {oss} — avoid generic phrasing that could apply to any software migration. No markdown formatting inside the JSON string values."""
+
+
+def generate_with_groq(prompt: str) -> str:
+    api_key = os.getenv("GROQ_API_KEY")
+    if not api_key:
+        raise ValueError("GROQ_API_KEY not set")
+    response = requests.post(
+        "https://api.groq.com/openai/v1/chat/completions",
+        headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+        json={
+            "model": "llama-3.3-70b-versatile",
+            "messages": [{"role": "user", "content": prompt}],
+            "max_tokens": 2000,
+            "temperature": 0.6,
+        },
+        timeout=30,
+    )
+    response.raise_for_status()
+    return response.json()["choices"][0]["message"]["content"]
+
+
+def generate_with_gemini(prompt: str) -> str:
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key:
+        raise ValueError("GEMINI_API_KEY not set")
+    response = requests.post(
+        f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}",
+        headers={"Content-Type": "application/json"},
+        json={"contents": [{"parts": [{"text": prompt}]}]},
+        timeout=30,
+    )
+    response.raise_for_status()
+    return response.json()["candidates"][0]["content"]["parts"][0]["text"]
+
+
+def parse_json_response(raw: str) -> dict:
+    # Strip markdown fences if the model added them despite instructions.
+    cleaned = re.sub(r"^```(?:json)?\s*|\s*```$", "", raw.strip(), flags=re.M)
+    return json.loads(cleaned)
+
+
+def mock_content(comp):
+    """Deterministic offline placeholder — lets you test the build/audit
+    pipeline end-to-end with zero API calls before spending real quota."""
+    prop, oss = comp.get("proprietary_tool", "Tool A"), comp.get("oss_tool", "Tool B")
+    return {
+        "intro": (f"[MOCK] Placeholder intro paragraph about migrating from {prop} to {oss}. " * 6).strip(),
+        "steps": [
+            {"title": f"Mock step {i}", "detail": (f"[MOCK] Detail for step {i} about {prop} to {oss}. " * 3).strip()}
+            for i in range(1, 6)
+        ],
+        "challenges": [
+            {"issue": f"[MOCK] Challenge {i} for {prop} to {oss}", "solution": f"[MOCK] Solution {i}."}
+            for i in range(1, 4)
+        ],
+        "faq": [
+            {"q": f"[MOCK] Question {i} about {prop} vs {oss}?", "a": f"[MOCK] Answer {i}."}
+            for i in range(1, 4)
+        ],
+    }
+
+
+def generate_for_pair(comp, mock=False):
+    if mock:
+        return mock_content(comp)
+    prompt = build_prompt(comp)
+    try:
+        raw = generate_with_groq(prompt)
+        return parse_json_response(raw)
+    except Exception as e:
+        logger.warning(f"Groq failed ({e}), falling back to Gemini")
+    try:
+        raw = generate_with_gemini(prompt)
+        return parse_json_response(raw)
+    except Exception as e:
+        logger.error(f"Gemini also failed ({e}) — skipping this pair")
+        return None
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--limit", type=int, default=None, help="Only process the first N pairs missing content")
+    ap.add_argument("--slugs", default=None, help="Comma-separated list of specific pair slugs (prop-to-oss) to (re)generate")
+    ap.add_argument("--force", action="store_true", help="Regenerate even if already cached")
+    ap.add_argument("--mock", action="store_true", help="Offline dry run — no API calls, writes placeholder content")
+    ap.add_argument("--sleep", type=float, default=2.0, help="Seconds to sleep between API calls (rate-limit friendly)")
+    args = ap.parse_args()
+
+    pairs = load_comparisons()
+    if not pairs:
+        logger.error(f"No comparison data found matching {COMPARISONS_GLOB} — nothing to generate content for.")
+        sys.exit(1)
+
+    cache = load_cache()
+    wanted_slugs = set(args.slugs.split(",")) if args.slugs else None
+
+    todo = []
+    for comp in pairs:
+        key = f"{comp.get('proprietary_key')}-to-{comp.get('oss_key')}"
+        if wanted_slugs and key not in wanted_slugs:
+            continue
+        if not args.force and key in cache:
+            continue
+        todo.append((key, comp))
+
+    if args.limit:
+        todo = todo[: args.limit]
+
+    if not todo:
+        logger.info("Nothing to do — all matching pairs already cached. Use --force to regenerate.")
+        return
+
+    logger.info(f"Generating expanded content for {len(todo)} pair(s){' [MOCK MODE]' if args.mock else ''}")
+
+    ok, failed = 0, 0
+    for i, (key, comp) in enumerate(todo, 1):
+        logger.info(f"[{i}/{len(todo)}] {key}")
+        content = generate_for_pair(comp, mock=args.mock)
+        if content:
+            cache[key] = content
+            ok += 1
+            save_cache(cache)  # incremental save — a mid-run failure won't lose progress
+        else:
+            failed += 1
+        if not args.mock and i < len(todo):
+            time.sleep(args.sleep)
+
+    logger.info(f"Done. {ok} succeeded, {failed} failed. Cache: {CACHE_PATH}")
+    if failed:
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
