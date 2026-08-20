@@ -1,0 +1,42 @@
+name: Apply Migrate Content Patch (one-time)
+
+# Manual-trigger only. Run this ONCE to patch scripts/publish_github_pages.py
+# so it knows how to render expanded migrate-* content. After it runs
+# successfully you can delete this workflow file and apply_migrate_content_patch.py
+# from the repo root — they've done their job. Safe to re-run regardless:
+# the patcher checks for its own marker and skips if already applied.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run patcher
+        run: python3 apply_migrate_content_patch.py
+
+      - name: Sanity-check the patched file imports cleanly
+        run: |
+          cd scripts
+          python3 -c "import ast; ast.parse(open('publish_github_pages.py').read())"
+          echo "Syntax OK"
+
+      - name: Commit patched file
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add scripts/publish_github_pages.py
+          git diff --staged --quiet && echo "Nothing to commit (already patched or no changes)" || git commit -m "Patch build_migration_page for expanded migrate content"
+          git push

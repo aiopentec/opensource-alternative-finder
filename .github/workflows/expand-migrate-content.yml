@@ -1,0 +1,78 @@
+name: Expand Thin Migrate Pages
+
+# Manual-trigger only. Use "limit" to test on a handful of pairs first
+# (e.g. 4), then re-run with limit left blank/0 to process everything
+# still missing content. Safe to re-run — pairs already in
+# data/cache/migrate_content.json are skipped unless you check "force".
+
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Only process this many pairs (blank or 0 = all remaining)"
+        required: false
+        default: "4"
+      force:
+        description: "Regenerate even pairs that already have cached content"
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  expand:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -q -r requirements.txt
+
+      - name: Generate expanded content
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          ARGS=""
+          if [ -n "${{ inputs.limit }}" ] && [ "${{ inputs.limit }}" != "0" ]; then
+            ARGS="$ARGS --limit ${{ inputs.limit }}"
+          fi
+          if [ "${{ inputs.force }}" = "true" ]; then
+            ARGS="$ARGS --force"
+          fi
+          python3 scripts/migrate_content_generator.py $ARGS
+
+      - name: Rebuild site locally (for audit only — not deployed from here)
+        env:
+          SITE_BASE_URL: https://osalfinder.com
+        run: |
+          mkdir -p .cache/publish
+          cp data/cache/comparisons_*.json .cache/publish/ 2>/dev/null || true
+          python3 scripts/publish_github_pages.py
+
+      - name: Audit word counts
+        run: |
+          python3 scripts/thin_content_audit.py --dir site --threshold 200 --csv data/audit_report.csv | tee audit_output.txt
+          {
+            echo "## Thin Content Audit"
+            echo ""
+            echo '```'
+            cat audit_output.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Commit updated content cache and audit report
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/cache/migrate_content.json data/audit_report.csv
+          git diff --staged --quiet || git commit -m "Expand migrate-* page content [skip ci]"
+          git push
