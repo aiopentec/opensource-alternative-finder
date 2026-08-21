@@ -100,6 +100,20 @@ Include 5-6 items in "steps" (covering export, setup, import, team onboarding, a
 Total content across all fields should be 500-700 words. Be concrete and specific to {prop} and {oss} — avoid generic phrasing that could apply to any software migration. No markdown formatting inside the JSON string values."""
 
 
+GROQ_QUOTA_EXHAUSTED = False  # set once we see a long retry-after — see generate_with_groq
+GROQ_MAX_SLEEP = 20  # never actually sleep longer than this for a single retry, regardless of what the API asks for
+
+
+class GroqQuotaExhausted(Exception):
+    """Raised when Groq's retry-after suggests the daily quota is spent, not a
+    transient per-minute throttle. Sleeping through a multi-minute wait here
+    is what caused a 55-pair run to blow past GitHub Actions' 6-hour job
+    timeout and get force-canceled with zero progress committed. Once we see
+    this, we stop calling Groq for the rest of the run and go straight to
+    Gemini instead of repeating the same multi-hundred-second wait per pair."""
+    pass
+
+
 def generate_with_groq(prompt: str, retries: int = 2) -> str:
     api_key = os.getenv("GROQ_API_KEY")
     if not api_key:
@@ -122,11 +136,20 @@ def generate_with_groq(prompt: str, retries: int = 2) -> str:
             return response.json()["choices"][0]["message"]["content"]
         except requests.exceptions.HTTPError as e:
             last_error = e
-            if response.status_code == 429 and attempt < retries:
+            if response.status_code == 429:
                 wait = int(response.headers.get("retry-after", 15))
-                logger.info(f"    Groq rate-limited, waiting {wait}s before retry {attempt + 1}/{retries}")
-                time.sleep(wait)
-                continue
+                if wait > GROQ_MAX_SLEEP:
+                    # A wait this long means the daily token/request quota is spent,
+                    # not a per-minute throttle — waiting it out here would block the
+                    # whole batch. Bail immediately; caller falls through to Gemini.
+                    raise GroqQuotaExhausted(
+                        f"Groq asked for a {wait}s wait (likely daily quota exhausted, "
+                        f"not a transient rate limit) — skipping Groq for the rest of this run"
+                    )
+                if attempt < retries:
+                    logger.info(f"    Groq rate-limited, waiting {wait}s before retry {attempt + 1}/{retries}")
+                    time.sleep(wait)
+                    continue
             raise
         except (ValueError, KeyError) as e:
             # Empty or malformed body (occasionally returned under load) — retry once.
@@ -185,23 +208,29 @@ def mock_content(comp):
 
 
 def generate_for_pair(comp, mock=False):
+    global GROQ_QUOTA_EXHAUSTED
     if mock:
         return mock_content(comp)
     prompt = build_prompt(comp)
 
-    # Retry the full call+parse cycle on Groq — a truncated or malformed JSON
-    # response is often a one-off generation quirk, not a systemic failure,
-    # and is worth a fresh attempt before giving up on Groq entirely.
-    for attempt in range(2):
-        try:
-            raw = generate_with_groq(prompt)
-            return parse_json_response(raw)
-        except Exception as e:
-            if attempt == 0:
-                logger.warning(f"    Groq attempt 1 failed ({e}), retrying...")
-                time.sleep(3)
-            else:
-                logger.warning(f"    Groq attempt 2 failed ({e}), falling back to Gemini")
+    if not GROQ_QUOTA_EXHAUSTED:
+        # Retry the full call+parse cycle on Groq — a truncated or malformed JSON
+        # response is often a one-off generation quirk, not a systemic failure,
+        # and is worth a fresh attempt before giving up on Groq entirely.
+        for attempt in range(2):
+            try:
+                raw = generate_with_groq(prompt)
+                return parse_json_response(raw)
+            except GroqQuotaExhausted as e:
+                logger.warning(f"    {e}")
+                GROQ_QUOTA_EXHAUSTED = True
+                break
+            except Exception as e:
+                if attempt == 0:
+                    logger.warning(f"    Groq attempt 1 failed ({e}), retrying...")
+                    time.sleep(3)
+                else:
+                    logger.warning(f"    Groq attempt 2 failed ({e}), falling back to Gemini")
 
     try:
         raw = generate_with_gemini(prompt)
@@ -260,6 +289,9 @@ def main():
             time.sleep(args.sleep)
 
     logger.info(f"Done. {ok} succeeded, {failed} failed. Cache: {CACHE_PATH}")
+    if GROQ_QUOTA_EXHAUSTED:
+        logger.info("Note: Groq's daily quota appeared exhausted partway through this run — "
+                     "remaining pairs were generated via Gemini only. This should reset on Groq's next daily cycle.")
     if failed:
         sys.exit(1)
 
