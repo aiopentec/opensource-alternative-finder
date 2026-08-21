@@ -1,0 +1,53 @@
+name: Fix Gemini Alias and Groq Resilience (one-time)
+
+# Manual-trigger only. Run this AFTER "Fix Deprecated AI Models (one-time)"
+# has already succeeded. This is a follow-up: that first patch swapped
+# gemini-1.5-flash for gemini-2.5-flash-lite, but testing showed
+# gemini-2.5-flash-lite ALSO 404ing. This switches to Google's
+# self-updating gemini-flash-lite-latest alias instead, and adds
+# retry-with-backoff to the Groq call to handle 429s gracefully.
+#
+# After this runs successfully, delete this workflow file and
+# fix_gemini_alias_and_resilience.py from the repo root. Safe to re-run
+# regardless — the patcher checks for the new alias and skips if already
+# applied, and refuses (with a clear message) if step one hasn't run yet.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run patcher
+        run: python3 fix_gemini_alias_and_resilience.py
+
+      - name: Sanity-check the patched file imports cleanly
+        run: |
+          cd scripts
+          python3 -c "import ast; ast.parse(open('generate_comparison.py').read())"
+          echo "Syntax OK"
+
+      - name: Confirm alias is present
+        run: |
+          grep -q "gemini-flash-lite-latest" scripts/generate_comparison.py
+          echo "Alias confirmed"
+
+      - name: Commit patched file
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add scripts/generate_comparison.py
+          git diff --staged --quiet && echo "Nothing to commit (already patched or no changes)" || git commit -m "Switch Gemini fallback to self-updating alias, add Groq retry/backoff"
+          git push
