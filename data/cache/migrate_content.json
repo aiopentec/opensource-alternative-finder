@@ -228,59 +228,59 @@
     ]
   },
   "notion-to-appflowy": {
-    "intro": "Migrating from Notion to AppFlowy is an increasingly popular move for users seeking greater data privacy, local-first control, and freedom from rising SaaS subscription fees. While Notion is a powerful cloud-based workspace, its proprietary ecosystem means you never truly own your raw files, and costs can quickly escalate for growing teams. AppFlowy offers a compelling open-source alternative that mirrors Notion's modular block-based editing and database structures while keeping your data securely stored on your own device.\n\nYou should consider making the switch if you are hitting Notion's storage limits, want lightning-fast offline access without relying on browser caching, or simply prefer an open-source software stack. AppFlowy eliminates recurring monthly overhead by allowing you to self-host or run entirely offline. However, because AppFlowy is a newer ecosystem prioritizing local control, the migration path requires a bit more hands-on effort than simply logging into a new web service. This guide will walk you through transitioning your knowledge base cleanly and effectively.",
+    "intro": "Migrating from Notion to AppFlowy is an increasingly popular move for users seeking to escape rising subscription costs and cloud-only lock-in. While Notion is a powerful all-in-one workspace charging between eight and twenty dollars per user monthly, AppFlowy offers a compelling open-source alternative built with Rust and Flutter. Individuals and teams choose AppFlowy when they want complete ownership of their data, local-first performance, and the peace of mind that comes with zero proprietary cloud dependencies.\n\nHowever, moving from a mature cloud ecosystem like Notion to a local-first open-source workspace requires deliberate planning. Notion stores pages in a proprietary cloud database format with deeply nested relational properties, whereas AppFlowy emphasizes local file management and modular architecture. This migration guide outlines the exact process to transition your databases, documents, and team workflows to AppFlowy without losing critical project history or organizational structure.",
     "steps": [
       {
-        "title": "Export Your Content from Notion",
-        "detail": "Open your Notion workspace and navigate to Settings & Members, then select Import/Export. Choose Markdown & CSV format to ensure your page hierarchies and database properties are preserved as closely as possible. Download the resulting zip file to your local machine and extract it to an easily accessible folder."
+        "title": "Export Your Notion Workspace",
+        "detail": "Open your Notion settings and navigate to Workspace Settings, then Export All Workspace Content. Choose Markdown and CSV format to ensure maximum compatibility for tables and text blocks. Download the resulting zip file once Notion finishes generating your data export package."
       },
       {
         "title": "Install and Configure AppFlowy",
-        "detail": "Download and install the native AppFlowy application for your operating system from the official website or GitHub repository. Because AppFlowy is open-source and local-first, you can run it completely offline or configure your own local database directory. Take a few moments to set up your workspace preferences and familiarize yourself with the keyboard shortcuts, which heavily mimic Notion."
+        "detail": "Download the latest version of AppFlowy from the official website or GitHub repository for your operating system. Launch the desktop application and configure your local storage directory where your workspace files and SQLite databases will reside securely on your machine."
       },
       {
-        "title": "Import Markdown Files into AppFlowy",
-        "detail": "Create a new folder or workspace inside AppFlowy to act as your migration landing zone. Use AppFlowy is import functionality to bring in the Markdown files and folders you extracted from Notion. Review the imported pages to ensure that nested pages and basic text formatting translated correctly."
+        "title": "Import Markdown Files and Databases",
+        "detail": "Use AppFlowy import utilities to ingest your unzipped Notion Markdown files into your new local workspace folder. Recreate your Notion database structures manually using AppFlowy grid and board views, as direct automated schema mapping for complex relations is still evolving."
       },
       {
-        "title": "Rebuild Complex Databases and Relations",
-        "detail": "While basic CSV imports bring over tabular data, advanced Notion features like relational databases, rollups, and complex formula properties may need to be manually recreated in AppFlowy. Rebuild your board, calendar, and table views using AppFlowy is native database properties. Test the filters and sorts to ensure your workflows function identically to how they did in Notion."
+        "title": "Rebuild Relations and Formulas",
+        "detail": "Review your imported databases to re-establish linked records and select properties that may have flattened during the markdown conversion. AppFlowy supports customizable database views, so map your Notion board, calendar, and table views to their corresponding AppFlowy layout equivalents."
       },
       {
-        "title": "Onboard Your Team and Establish Local Sync",
-        "detail": "If you are migrating a team workspace, distribute the AppFlowy application installer to your colleagues and establish a standardized folder structure. Because AppFlowy does not rely on Notion s proprietary cloud, configure your team's synchronization method\u2014whether through local network sharing or self-hosted server instances\u2014to ensure collaborative workflows remain uninterrupted."
+        "title": "Onboard Your Team and Set Up Sync",
+        "detail": "Introduce team members to the AppFlowy interface, emphasizing its speed and local-first data privacy advantages. Configure self-hosted synchronization or shared folder environments if your team requires collaborative access across multiple local machines."
       },
       {
-        "title": "Perform the Final Cutover and Cancel Notion",
-        "detail": "Run parallel workflows in both Notion and AppFlowy for at least one week to catch any missing pages, broken links, or overlooked database entries. Once you have verified that all operational data is fully accessible and functioning in AppFlowy, archive your remaining Notion workspaces. Finally, downgrade or cancel your Notion subscription to start saving on monthly software costs."
+        "title": "Perform the Final Cutover",
+        "detail": "Verify that all critical project trackers, meeting notes, and knowledge base documents are fully functional in AppFlowy. Cancel your paid Notion subscription to immediately start capturing cost savings once your team has fully transitioned their daily workflows."
       }
     ],
     "challenges": [
       {
-        "issue": "Complex Notion formulas and database rollups do not automatically translate during Markdown and CSV import.",
-        "solution": "Rebuild these advanced properties manually using AppFlowy s native database features and filter capabilities."
+        "issue": "Complex Notion relational databases and formula properties do not automatically map over during markdown import.",
+        "solution": "Rebuild key relations manually in AppFlowy using its native database views, and recreate essential formulas using AppFlowy's growing expression builder."
       },
       {
-        "issue": "Inline page comments and @mentions tied to Notion user IDs are lost in the text export.",
-        "solution": "Export critical conversation threads as PDFs or manually copy essential discussion notes into the page body before migrating."
+        "issue": "Notion's cloud-native real-time collaboration does not work out of the box in a local-first AppFlowy setup.",
+        "solution": "Set up AppFlowy Cloud or configure self-hosted synchronization infrastructure to enable multi-user real-time editing for your team."
       },
       {
-        "issue": "Real-time multi-player collaboration works differently in AppFlowy compared to Notion s cloud infrastructure.",
-        "solution": "Set up a self-hosted AppFlowy backend server to enable seamless real-time syncing across your team s local instances."
+        "issue": "Deeply nested page hierarchies and inline comments can get lost or flattened when exporting from Notion.",
+        "solution": "Organize your exported markdown folders carefully before importing, and manually reconstruct crucial nested page structures within AppFlowy's sidebar."
       }
     ],
     "faq": [
       {
-        "q": "Can I automatically import my entire Notion workspace with one click into AppFlowy?",
-        "a": "Not entirely. While you can bulk export your Notion pages as Markdown and CSV files and bring them into AppFlowy, complex databases, page relations, and inline comments require manual restructuring due to the structural differences between the two platforms."
+        "q": "Can I import my Notion pages directly into AppFlowy with one click?",
+        "a": "Not entirely. While AppFlowy supports importing Markdown and CSV files exported from Notion, complex database relations, inline comments, and specific page layouts require manual reorganization after the initial file import."
       },
       {
-        "q": "Is AppFlowy really free compared to Notion?",
-        "a": "Yes, AppFlowy is completely open-source and free to download and use locally. Unlike Notion, which charges per user for advanced workspace features and team collaboration tiers, AppFlowy lets you own your data without recurring software subscription fees."
+        "q": "Is AppFlowy completely free compared to Notion?",
+        "a": "Yes, AppFlowy is open-source software that you can download and use for free on your local machine. Unlike Notion, which charges tiered monthly subscription fees per user, AppFlowy gives you free control over your software and data."
       },
       {
-        "q": "Will my data remain private after migrating to AppFlowy?",
-        "a": "Absolutely. AppFlowy is built with a local-first architecture, meaning your notes and databases are stored directly on your machine rather than a third-party corporate cloud. You have total control over where your data lives and how it is synced."
+        "q": "How does AppFlowy handle team collaboration without Notion's cloud servers?",
+        "a": "AppFlowy offers AppFlowy Cloud as an optional service for seamless synchronization, or you can choose to self-host your data infrastructure. This gives teams the flexibility to collaborate securely without relying on third-party proprietary servers."
       }
     ]
   },
