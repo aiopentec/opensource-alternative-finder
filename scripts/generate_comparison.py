@@ -275,7 +275,7 @@ def generate_with_groq(prompt: str) -> str:
         'https://api.groq.com/openai/v1/chat/completions',
         headers={'Authorization': f'Bearer {api_key}', 'Content-Type': 'application/json'},
         json={
-            'model': 'llama-3.3-70b-versatile',
+            'model': 'openai/gpt-oss-120b',
             'messages': [{'role': 'user', 'content': prompt}],
             'max_tokens': 2500,
             'temperature': 0.6
@@ -291,7 +291,7 @@ def generate_with_gemini(prompt: str) -> str:
     if not api_key:
         raise ValueError('GEMINI_API_KEY not set')
     response = requests.post(
-        f'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}',
+        f'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key={api_key}',
         headers={'Content-Type': 'application/json'},
         json={'contents': [{'parts': [{'text': prompt}]}]},
         timeout=30
