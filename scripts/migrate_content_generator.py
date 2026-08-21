@@ -100,23 +100,42 @@ Include 5-6 items in "steps" (covering export, setup, import, team onboarding, a
 Total content across all fields should be 500-700 words. Be concrete and specific to {prop} and {oss} — avoid generic phrasing that could apply to any software migration. No markdown formatting inside the JSON string values."""
 
 
-def generate_with_groq(prompt: str) -> str:
+def generate_with_groq(prompt: str, retries: int = 2) -> str:
     api_key = os.getenv("GROQ_API_KEY")
     if not api_key:
         raise ValueError("GROQ_API_KEY not set")
-    response = requests.post(
-        "https://api.groq.com/openai/v1/chat/completions",
-        headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-        json={
-            "model": "openai/gpt-oss-120b",
-            "messages": [{"role": "user", "content": prompt}],
-            "max_tokens": 2000,
-            "temperature": 0.6,
-        },
-        timeout=30,
-    )
-    response.raise_for_status()
-    return response.json()["choices"][0]["message"]["content"]
+    last_error = None
+    for attempt in range(retries + 1):
+        try:
+            response = requests.post(
+                "https://api.groq.com/openai/v1/chat/completions",
+                headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+                json={
+                    "model": "openai/gpt-oss-120b",
+                    "messages": [{"role": "user", "content": prompt}],
+                    "max_tokens": 1400,  # ~500-700 words of output needs ~700-900 tokens; keep headroom modest to stay under Groq's 8,000 TPM free-tier cap
+                    "temperature": 0.6,
+                },
+                timeout=30,
+            )
+            response.raise_for_status()
+            return response.json()["choices"][0]["message"]["content"]
+        except requests.exceptions.HTTPError as e:
+            last_error = e
+            if response.status_code == 429 and attempt < retries:
+                wait = int(response.headers.get("retry-after", 15))
+                logger.info(f"    Groq rate-limited, waiting {wait}s before retry {attempt + 1}/{retries}")
+                time.sleep(wait)
+                continue
+            raise
+        except (ValueError, KeyError) as e:
+            # Empty or malformed body (occasionally returned under load) — retry once.
+            last_error = e
+            if attempt < retries:
+                time.sleep(5)
+                continue
+            raise
+    raise last_error
 
 
 def generate_with_gemini(prompt: str) -> str:
@@ -124,7 +143,12 @@ def generate_with_gemini(prompt: str) -> str:
     if not api_key:
         raise ValueError("GEMINI_API_KEY not set")
     response = requests.post(
-        f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key={api_key}",
+        # gemini-flash-lite-latest is Google's self-updating alias for their current
+        # Flash-Lite release. Pinning to a dated model name (e.g. gemini-2.5-flash-lite)
+        # is what broke this whole pipeline in the first place — Google retires dated
+        # names on a rolling basis. The alias is maintained specifically so callers
+        # don't have to chase this.
+        f"https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key={api_key}",
         headers={"Content-Type": "application/json"},
         json={"contents": [{"parts": [{"text": prompt}]}]},
         timeout=30,
@@ -183,7 +207,7 @@ def main():
     ap.add_argument("--slugs", default=None, help="Comma-separated list of specific pair slugs (prop-to-oss) to (re)generate")
     ap.add_argument("--force", action="store_true", help="Regenerate even if already cached")
     ap.add_argument("--mock", action="store_true", help="Offline dry run — no API calls, writes placeholder content")
-    ap.add_argument("--sleep", type=float, default=2.0, help="Seconds to sleep between API calls (rate-limit friendly)")
+    ap.add_argument("--sleep", type=float, default=8.0, help="Seconds to sleep between API calls (rate-limit friendly — Groq free tier is 8,000 TPM)")
     args = ap.parse_args()
 
     pairs = load_comparisons()
