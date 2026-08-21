@@ -1,0 +1,52 @@
+name: Fix Deprecated AI Models (one-time)
+
+# Manual-trigger only. Run this ONCE to fix scripts/generate_comparison.py,
+# which has been silently falling back to template-only content since
+# Aug 18, 2026 because Groq's llama-3.3-70b-versatile and Gemini's
+# gemini-1.5-flash were both deprecated/decommissioned around that date.
+#
+# After this runs successfully, delete this workflow file and
+# fix_deprecated_ai_models.py from the repo root — they've done their job.
+# Safe to re-run regardless: the patcher checks for the new model strings
+# and skips if already applied.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run patcher
+        run: python3 fix_deprecated_ai_models.py
+
+      - name: Sanity-check the patched file imports cleanly
+        run: |
+          cd scripts
+          python3 -c "import ast; ast.parse(open('generate_comparison.py').read())"
+          echo "Syntax OK"
+
+      - name: Confirm new model strings are present
+        run: |
+          grep -q "openai/gpt-oss-120b" scripts/generate_comparison.py
+          grep -q "gemini-2.5-flash-lite" scripts/generate_comparison.py
+          echo "Model strings confirmed"
+
+      - name: Commit patched file
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add scripts/generate_comparison.py
+          git diff --staged --quiet && echo "Nothing to commit (already patched or no changes)" || git commit -m "Fix deprecated Groq/Gemini model names in generate_comparison.py"
+          git push
