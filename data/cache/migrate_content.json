@@ -226,5 +226,233 @@
         "a": "Element's core client software and the Matrix protocol are completely free and open-source. If you choose to self-host your own homeserver, you only pay for your server hosting costs, whereas Element's managed hosting and enterprise tiers offer paid plans with advanced administrative support."
       }
     ]
+  },
+  "notion-to-appflowy": {
+    "intro": "Migrating from Notion to AppFlowy is an increasingly popular move for users seeking greater data privacy, local-first control, and freedom from rising SaaS subscription fees. While Notion is a powerful cloud-based workspace, its proprietary ecosystem means you never truly own your raw files, and costs can quickly escalate for growing teams. AppFlowy offers a compelling open-source alternative that mirrors Notion's modular block-based editing and database structures while keeping your data securely stored on your own device.\n\nYou should consider making the switch if you are hitting Notion's storage limits, want lightning-fast offline access without relying on browser caching, or simply prefer an open-source software stack. AppFlowy eliminates recurring monthly overhead by allowing you to self-host or run entirely offline. However, because AppFlowy is a newer ecosystem prioritizing local control, the migration path requires a bit more hands-on effort than simply logging into a new web service. This guide will walk you through transitioning your knowledge base cleanly and effectively.",
+    "steps": [
+      {
+        "title": "Export Your Content from Notion",
+        "detail": "Open your Notion workspace and navigate to Settings & Members, then select Import/Export. Choose Markdown & CSV format to ensure your page hierarchies and database properties are preserved as closely as possible. Download the resulting zip file to your local machine and extract it to an easily accessible folder."
+      },
+      {
+        "title": "Install and Configure AppFlowy",
+        "detail": "Download and install the native AppFlowy application for your operating system from the official website or GitHub repository. Because AppFlowy is open-source and local-first, you can run it completely offline or configure your own local database directory. Take a few moments to set up your workspace preferences and familiarize yourself with the keyboard shortcuts, which heavily mimic Notion."
+      },
+      {
+        "title": "Import Markdown Files into AppFlowy",
+        "detail": "Create a new folder or workspace inside AppFlowy to act as your migration landing zone. Use AppFlowy is import functionality to bring in the Markdown files and folders you extracted from Notion. Review the imported pages to ensure that nested pages and basic text formatting translated correctly."
+      },
+      {
+        "title": "Rebuild Complex Databases and Relations",
+        "detail": "While basic CSV imports bring over tabular data, advanced Notion features like relational databases, rollups, and complex formula properties may need to be manually recreated in AppFlowy. Rebuild your board, calendar, and table views using AppFlowy is native database properties. Test the filters and sorts to ensure your workflows function identically to how they did in Notion."
+      },
+      {
+        "title": "Onboard Your Team and Establish Local Sync",
+        "detail": "If you are migrating a team workspace, distribute the AppFlowy application installer to your colleagues and establish a standardized folder structure. Because AppFlowy does not rely on Notion s proprietary cloud, configure your team's synchronization method\u2014whether through local network sharing or self-hosted server instances\u2014to ensure collaborative workflows remain uninterrupted."
+      },
+      {
+        "title": "Perform the Final Cutover and Cancel Notion",
+        "detail": "Run parallel workflows in both Notion and AppFlowy for at least one week to catch any missing pages, broken links, or overlooked database entries. Once you have verified that all operational data is fully accessible and functioning in AppFlowy, archive your remaining Notion workspaces. Finally, downgrade or cancel your Notion subscription to start saving on monthly software costs."
+      }
+    ],
+    "challenges": [
+      {
+        "issue": "Complex Notion formulas and database rollups do not automatically translate during Markdown and CSV import.",
+        "solution": "Rebuild these advanced properties manually using AppFlowy s native database features and filter capabilities."
+      },
+      {
+        "issue": "Inline page comments and @mentions tied to Notion user IDs are lost in the text export.",
+        "solution": "Export critical conversation threads as PDFs or manually copy essential discussion notes into the page body before migrating."
+      },
+      {
+        "issue": "Real-time multi-player collaboration works differently in AppFlowy compared to Notion s cloud infrastructure.",
+        "solution": "Set up a self-hosted AppFlowy backend server to enable seamless real-time syncing across your team s local instances."
+      }
+    ],
+    "faq": [
+      {
+        "q": "Can I automatically import my entire Notion workspace with one click into AppFlowy?",
+        "a": "Not entirely. While you can bulk export your Notion pages as Markdown and CSV files and bring them into AppFlowy, complex databases, page relations, and inline comments require manual restructuring due to the structural differences between the two platforms."
+      },
+      {
+        "q": "Is AppFlowy really free compared to Notion?",
+        "a": "Yes, AppFlowy is completely open-source and free to download and use locally. Unlike Notion, which charges per user for advanced workspace features and team collaboration tiers, AppFlowy lets you own your data without recurring software subscription fees."
+      },
+      {
+        "q": "Will my data remain private after migrating to AppFlowy?",
+        "a": "Absolutely. AppFlowy is built with a local-first architecture, meaning your notes and databases are stored directly on your machine rather than a third-party corporate cloud. You have total control over where your data lives and how it is synced."
+      }
+    ]
+  },
+  "notion-to-obsidian": {
+    "intro": "Notion is a powerful all\u2011in\u2011one workspace, but its subscription pricing ($8\u2011$20 per user per month) and cloud\u2011only storage can become a pain point for individuals or teams that need offline access, granular version control, or complete data ownership. Obsidian, by contrast, stores every note as a plain\u2011text markdown file on your local drive, is free for personal use, and offers a thriving plugin ecosystem that can replicate many of Notion\u2019s database and collaboration features without recurring fees. When a workflow starts to rely heavily on backlinks, rapid note\u2011taking, or when the cost of scaling Notion users outweighs its convenience, many users find the switch to Obsidian both financially and technically appealing. Additionally, privacy\u2011focused professionals appreciate that Obsidian never syncs your data unless you enable a third\u2011party service, giving you full control over backups and encryption. This guide walks you through the practical steps of moving your content, setting up a shared vault for teams, and handling the quirks that arise when translating Notion\u2019s block\u2011based pages into Obsidian\u2019s markdown\u2011centric vault.",
+    "steps": [
+      {
+        "title": "Export Notion pages",
+        "detail": "In Notion, select the workspace or individual pages you want to move, click\u202f\u2018Export\u2019, and choose the Markdown\u202f+\u202fCSV format with sub\u2011pages included. The export will generate a zip file containing a folder hierarchy that mirrors your Notion page tree. Download the zip to a location where you can safely unpack it for the next step."
+      },
+      {
+        "title": "Unpack and clean up files",
+        "detail": "Extract the zip and review the folder structure; Notion often creates extra\u202f\u2018Untitled\u2019 folders and duplicate markdown files for embedded databases. Rename ambiguous files, delete empty folders, and move any attached images from the\u202f\u2018assets\u2019 sub\u2011folders into a central\u202f\u2018media\u2019 directory that you will later point to from Obsidian."
+      },
+      {
+        "title": "Create an Obsidian vault",
+        "detail": "Open Obsidian and click\u202f\u2018Create new vault\u2019, giving it a name that reflects your project or team. Choose the folder where you unpacked the Notion export as the vault location, or create a fresh folder and copy the cleaned markdown files into it. This vault will become the single source of truth for all future notes."
+      },
+      {
+        "title": "Import markdown files",
+        "detail": "Obsidian automatically indexes any *.md files placed in the vault, so once the files are copied, they appear in the sidebar as a nested graph. Verify that internal links (e.g., [[Page Name]]) still resolve; Notion\u2019s export often uses plain URLs that need to be manually converted to Obsidian\u2019s wiki\u2011link syntax."
+      },
+      {
+        "title": "Recreate databases and views",
+        "detail": "Notion tables export as CSV files; import each CSV into Obsidian using the Dataview or Table plugins, which let you treat CSV rows as linked notes or generate dynamic tables. For more complex relational databases, consider the \u2018Obsidian\u2011Kanban\u2019 or \u2018Meta\u2011Bind\u2019 plugins to simulate board views and linked properties."
+      },
+      {
+        "title": "Team onboarding and final cutover",
+        "detail": "If you work with a team, share the vault via a cloud\u2011sync service such as Obsidian Sync, Git, or a shared network drive. Conduct a short training session to show how backlinks, tags, and plugins replace Notion\u2019s relational blocks. Once everyone confirms that critical pages load correctly, archive the Notion workspace and switch daily operations to the Obsidian vault."
+      }
+    ],
+    "challenges": [
+      {
+        "issue": "Relational links break during export",
+        "solution": "After importing, run a global search for the original Notion URLs and replace them with Obsidian wiki\u2011links using a find\u2011and\u2011replace script or the Bulk Rename plugin."
+      },
+      {
+        "issue": "Embedded media files are scattered",
+        "solution": "Consolidate all images and PDFs into a single \u2018media\u2019 folder and update the markdown image paths to point to that folder; the Obsidian \u2018Attachment Folder Path\u2019 setting can automate this for new notes."
+      },
+      {
+        "issue": "Loss of Notion comments and mentions",
+        "solution": "Comments aren\u2019t exported, so copy any essential discussion into a dedicated \u201cComments\u201d section at the bottom of each note before deleting the Notion page."
+      }
+    ],
+    "faq": [
+      {
+        "q": "Can I keep Notion pages synced with Obsidian after migration?",
+        "a": "There is no native two\u2011way sync; you can periodically re\u2011export from Notion and overwrite the vault, but most users treat the Obsidian vault as the primary source and retire the Notion workspace."
+      },
+      {
+        "q": "How do I migrate Notion databases to Obsidian?",
+        "a": "Export each database as a CSV, then use plugins like Dataview or Table to render the CSV as linked notes or dynamic tables. You may need to create separate note files for rows that you want to reference individually."
+      },
+      {
+        "q": "Is there a way to preserve Notion comments and mentions in Obsidian?",
+        "a": "Comments are not part of the markdown export, so they must be copied manually. You can add them as blockquotes or a \u201cComments\u201d heading inside the corresponding Obsidian note to retain the context."
+      }
+    ]
+  },
+  "notion-to-logseq": {
+    "intro": "Notion has become a go\u2011to workspace for many startups and freelancers because its all\u2011in\u2011one pages, databases, and collaborative editing feel seamless, but the subscription can quickly climb to $8\u2011$20 per user each month. As teams grow, the recurring cost, the reliance on a proprietary cloud, and occasional concerns about data lock\u2011in push power users to explore self\u2011hosted, free alternatives. Logseq answers that call with a markdown\u2011first, graph\u2011oriented design that lives in a local folder, offers end\u2011to\u2011end encryption, and has a thriving open\u2011source community, making it attractive for anyone who wants full ownership of their notes without a monthly bill.\n\nThe migration makes sense when you\u2019ve already built a substantial knowledge base in Notion and want to keep it offline, need richer linking for research, or are looking to cut expenses while still supporting collaborative workflows. Because Logseq stores everything as plain\u2011text markdown and org\u2011mode files, you retain the ability to version\u2011control your data with Git, export to other tools, and avoid vendor\u2011specific lock\u2011in. The transition does require a few deliberate steps to map Notion\u2019s databases, properties, and page hierarchy into Logseq\u2019s file\u2011based structure, but the long\u2011term payoff is a faster, cheaper, and more private workspace.",
+    "steps": [
+      {
+        "title": "Export Notion workspace",
+        "detail": "Open Notion, select the top\u2011level pages you want to move, and use the Export \u2192 Markdown & CSV option. Choose \u201cInclude sub\u2011pages\u201d to capture the full hierarchy and download the zip file. This creates a folder of .md files for pages and .csv files for each database, which will be the raw material for Logseq."
+      },
+      {
+        "title": "Install Logseq and create a graph",
+        "detail": "Download the desktop client for Windows, macOS, or Linux from logseq.com and run the installer. When prompted, create a new graph by selecting an empty folder on your drive; this folder will hold all markdown files and assets. Logseq will initialize a .logseq folder with configuration files ready for import."
+      },
+      {
+        "title": "Convert Notion exports to Logseq format",
+        "detail": "Use a community script such as notion2logseq or the official Notion\u2011to\u2011Markdown converter to rename .csv files into markdown tables and add Logseq\u2011compatible front\u2011matter. Adjust property names (e.g., \u201cTags\u201d \u2192 \u201ctags\u201d) and replace Notion\u2019s block IDs with simple headings so that Logseq can parse the structure correctly."
+      },
+      {
+        "title": "Import converted files into the graph",
+        "detail": "Copy the transformed .md files into the graph folder, preserving the original sub\u2011folder layout to keep page nesting. Open Logseq; the app will automatically index the new files and display them in the sidebar. Verify that key pages appear and that tables render as markdown tables."
+      },
+      {
+        "title": "Recreate workflows with plugins and templates",
+        "detail": "Install Logseq plugins for task management, calendar sync, or kanban boards that mirror Notion\u2019s database views. Import any custom templates you used in Notion by saving them as .md snippets in the /templates folder. This step helps users transition without losing familiar shortcuts."
+      },
+      {
+        "title": "Team onboarding and cut\u2011over",
+        "detail": "Share the graph folder via a shared Git repository or Logseq Cloud, grant team members read/write access, and run a brief training session on markdown editing and graph navigation. Once everyone confirms their notes are intact, archive the Notion workspace to avoid duplicate effort and officially switch daily work to Logseq."
+      }
+    ],
+    "challenges": [
+      {
+        "issue": "Relational database properties in Notion don\u2019t map directly to Logseq tables",
+        "solution": "Flatten relations into markdown tables or use linked references manually; some converters attempt to preserve relations as inline links."
+      },
+      {
+        "issue": "Maintaining backlinks and page hierarchy after export",
+        "solution": "Run a post\u2011processing script to replace Notion\u2019s [[Page]] syntax with Logseq\u2019s same syntax and ensure folder structures reflect the original nesting."
+      },
+      {
+        "issue": "Coordinating real\u2011time collaboration without Notion\u2019s live editing",
+        "solution": "Leverage Git\u2011based sync for version control or enable Logseq Cloud, and establish a commit\u2011and\u2011pull routine to minimize merge conflicts."
+      }
+    ],
+    "faq": [
+      {
+        "q": "Can I keep Notion databases intact in Logseq?",
+        "a": "Notion\u2019s full database schema isn\u2019t supported natively; you need to export each database as a CSV, then convert it to a markdown table or use a script that creates separate pages for each row."
+      },
+      {
+        "q": "What happens to comments and mentions from Notion?",
+        "a": "Comments are not included in the markdown export, so you\u2019ll have to copy important remarks manually or pull them via the Notion API before the migration."
+      },
+      {
+        "q": "Is Logseq viable for large, distributed teams?",
+        "a": "Yes, especially when paired with a remote Git repo or Logseq Cloud; you\u2019ll just need to define a clear sync workflow and possibly add plugins for task assignment and permission handling."
+      }
+    ]
+  },
+  "github-to-gitlab": {
+    "intro": "Many organizations start on GitHub because of its massive ecosystem, but as they grow they hit limits that make GitLab a compelling alternative. GitLab\u2019s open\u2011source core eliminates per\u2011user licensing fees, offers a self\u2011hosted option for strict compliance, and bundles issue tracking, CI/CD, and security scanning into a single UI. When the cost of GitHub\u2019s paid plans ($7\u2011$21 per user) outweighs the budget, or when a team needs tighter control over data residency, moving to GitLab can reduce expenses and increase operational flexibility.\n\nThe migration makes the most sense when you already use GitHub for source control but want tighter integration with DevSecOps pipelines, more granular permission granularity, or the ability to run runners on internal hardware. Companies with regulatory requirements, large monorepos, or a desire to avoid vendor lock\u2011in often choose GitLab because it provides the same Git experience while letting them host the platform on\u2011premises or in a private cloud. Planning a systematic migration helps preserve commit history, issues, and CI configurations while minimizing downtime for developers.",
+    "steps": [
+      {
+        "title": "Export Repositories",
+        "detail": "List all repositories you own or contribute to via the GitHub API and run a git clone --mirror for each repo to capture every branch, tag, and commit. Store the bare mirrors in a secure location; they serve as the source for the GitLab import. If you have many repos, script the process with a loop that writes the repo URLs to a file and feeds them to git clone."
+      },
+      {
+        "title": "Export Issues & Pull Requests",
+        "detail": "Use GitHub\u2019s REST or GraphQL endpoints to pull issues, pull requests, comments, and labels into JSON files. Tools like github2gitlab or the official GitHub Exporter can automate this step and preserve timestamps and authorship. Exported data will later be fed to GitLab\u2019s import API or imported via the web UI\u2019s issue migration feature."
+      },
+      {
+        "title": "Set Up GitLab Instance",
+        "detail": "Deploy GitLab Community Edition on a VM, Docker, or Kubernetes, or sign up for a GitLab.com free tier. Create groups that mirror your GitHub organization structure, configure LDAP or SSO if needed, and enable shared runners for CI/CD. Adjust storage limits and backup schedules before any data lands on the new server."
+      },
+      {
+        "title": "Import Repositories",
+        "detail": "In GitLab, use the \u201cImport project\u201d UI or the /projects API to push each mirrored repository. Select the option to preserve all refs, and verify that large files are handled by Git LFS if you used it on GitHub. After the import, run git fsck on the new repo to ensure integrity before moving on."
+      },
+      {
+        "title": "Migrate CI/CD Pipelines",
+        "detail": "Translate .github/workflows YAML files into .gitlab-ci.yml syntax. Map GitHub secrets to GitLab CI/CD variables and register runners that match your execution environment. Test the new pipelines in a staging branch, fixing any syntax differences or missing Docker images, then enable them on the main branch."
+      },
+      {
+        "title": "Team Onboarding & Cutover",
+        "detail": "Invite all GitHub users to the corresponding GitLab groups, assigning roles that reflect their previous permissions. Communicate the new remote URL (git@gitlab.example.com:group/project.git) and have developers update their local clones with git remote set-url. Once every team confirms successful pushes and pipeline runs, disable write access on GitHub and archive the old repos."
+      }
+    ],
+    "challenges": [
+      {
+        "issue": "Very large repositories can time out during GitLab\u2019s import process.",
+        "solution": "Break the import into smaller chunks by pushing individual branches manually, or increase the import timeout setting in GitLab\u2019s configuration."
+      },
+      {
+        "issue": "GitHub\u2019s team\u2011based permission model does not map 1:1 to GitLab groups and access levels.",
+        "solution": "Export team membership via the GitHub API, then script the creation of matching GitLab groups and assign users with the appropriate role (Guest, Reporter, Developer, Maintainer)."
+      },
+      {
+        "issue": "GitHub Actions workflows often use syntax or marketplace actions that have no direct GitLab equivalent.",
+        "solution": "Rewrite the workflows using native GitLab CI jobs; leverage community conversion scripts for common actions and test each job in isolation before full pipeline activation."
+      }
+    ],
+    "faq": [
+      {
+        "q": "Will comments, reactions, and release assets be lost during migration?",
+        "a": "Most metadata\u2014issues, comments, labels, and releases\u2014can be exported via the GitHub API and re\u2011created in GitLab with the import tools. Reactions and some third\u2011party integrations may need manual recreation, but core discussion history is retained."
+      },
+      {
+        "q": "Is GitLab really free for large teams?",
+        "a": "GitLab Community Edition is open source and free to self\u2011host regardless of team size. GitLab.com\u2019s free tier offers unlimited private repos with a 5\u202fGB storage limit per project; paid tiers add advanced security and management features, but the core version remains cost\u2011free."
+      },
+      {
+        "q": "Can I keep GitHub and GitLab in sync while I transition?",
+        "a": "Yes. Set GitHub to read\u2011only after the initial export, enable repository mirroring in GitLab, and use webhooks or a CI job to push new commits from GitHub to GitLab until the cutover date. This ensures no work is lost during the switch."
+      }
+    ]
   }
 }
