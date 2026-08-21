@@ -7,8 +7,8 @@ section, and an FAQ — targeting 500-700 words of genuinely unique content
 per page (AdSense's thin-content bar is roughly 200 words).
 
 Waterfall (matches generate_comparison.py):
-  Primary:  Groq (llama-3.3-70b-versatile) — free, fast
-  Fallback: Google Gemini Flash             — free, reliable
+  Primary:  Groq (openai/gpt-oss-120b)   — free, fast
+  Fallback: Google Gemini 2.5 Flash-Lite — free, reliable
 
 Output is cached to data/cache/migrate_content.json, keyed by
 "{prop_key}-to-{oss_key}". build_migration_page() in publish_github_pages.py
@@ -108,7 +108,7 @@ def generate_with_groq(prompt: str) -> str:
         "https://api.groq.com/openai/v1/chat/completions",
         headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
         json={
-            "model": "llama-3.3-70b-versatile",
+            "model": "openai/gpt-oss-120b",
             "messages": [{"role": "user", "content": prompt}],
             "max_tokens": 2000,
             "temperature": 0.6,
@@ -124,7 +124,7 @@ def generate_with_gemini(prompt: str) -> str:
     if not api_key:
         raise ValueError("GEMINI_API_KEY not set")
     response = requests.post(
-        f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}",
+        f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key={api_key}",
         headers={"Content-Type": "application/json"},
         json={"contents": [{"parts": [{"text": prompt}]}]},
         timeout=30,
