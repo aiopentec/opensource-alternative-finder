@@ -4,6 +4,11 @@ name: Expand Thin Migrate Pages
 # (e.g. 4), then re-run with limit left blank/0 to process everything
 # still missing content. Safe to re-run — pairs already in
 # data/cache/migrate_content.json are skipped unless you check "force".
+#
+# To regenerate one or a few specific pairs (e.g. fixing a typo in one
+# pair's content), fill in "slugs" as a comma-separated list of
+# prop-to-oss slugs (e.g. "notion-to-appflowy") and check "force" — this
+# targets only those pairs regardless of what "limit" says.
 
 on:
   workflow_dispatch:
@@ -17,6 +22,10 @@ on:
         required: false
         default: false
         type: boolean
+      slugs:
+        description: "Comma-separated slugs to target specifically (e.g. notion-to-appflowy) — leave blank to process normally"
+        required: false
+        default: ""
 
 jobs:
   expand:
@@ -42,7 +51,9 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           ARGS=""
-          if [ -n "${{ inputs.limit }}" ] && [ "${{ inputs.limit }}" != "0" ]; then
+          if [ -n "${{ inputs.slugs }}" ]; then
+            ARGS="$ARGS --slugs ${{ inputs.slugs }}"
+          elif [ -n "${{ inputs.limit }}" ] && [ "${{ inputs.limit }}" != "0" ]; then
             ARGS="$ARGS --limit ${{ inputs.limit }}"
           fi
           if [ "${{ inputs.force }}" = "true" ]; then
