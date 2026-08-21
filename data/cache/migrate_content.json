@@ -1,0 +1,230 @@
+{
+  "slack-to-element": {
+    "intro": "Migrating from Slack to Element represents a strategic shift from a proprietary, siloed SaaS tool to an open, decentralized communication platform built on the Matrix protocol. Organizations typically make this move to eliminate mounting per-user subscription fees that range from $7.25 to $15 per month, reclaim absolute ownership of their organizational data, and meet stringent compliance requirements that forbid third-party cloud data processing. Element offers persistent end-to-end encryption by default and the flexibility to self-host on internal infrastructure or utilize secure managed hosting.\n\nWhile Slack offers immediate out-of-the-box convenience, its closed ecosystem limits deep customization and data portability. Element provides the same modern chat functionality\u2014including threaded conversations, voice and video calling, and rich media sharing\u2014without the recurring financial burden or vendor lock-in. Planning this migration requires a deliberate approach to account provisioning, channel mapping, and user re-training, as moving away from Slack means transitioning from a centralized proprietary database to a federated, decentralized network model.\n\nSuccessful migration hinges on a phased rollout that moves core teams first, establishes clear Matrix homeserver parameters, and carefully phases out legacy Slack workspaces. By executing a structured transition plan, organizations can drastically reduce software overhead while simultaneously upgrading their data sovereignty and long-term communication security.",
+    "steps": [
+      {
+        "title": "Audit and Export Slack Data",
+        "detail": "Begin by exporting your Slack workspace data using Slack built-in export tool, which is available in workspace settings depending on your current billing tier. Keep in mind that standard Slack exports typically include public channel history and uploaded file links, but private channel messages and direct messages require higher administrative privileges or compliance tools to extract."
+      },
+      {
+        "title": "Provision Your Element Environment",
+        "detail": "Decide whether your organization will self-host a Synapse Matrix homeserver for maximum control or use Element Enterprise Hosted for a managed experience. Configure your authentication providers, set up user directories, and establish global retention policies that align with your corporate governance standards before onboarding any users."
+      },
+      {
+        "title": "Map Channels and User Accounts",
+        "detail": "Create a comprehensive mapping document that translates your Slack channels and user groups into Element room structures. Bulk create user accounts on your Matrix homeserver, and use automated provisioning scripts to match Slack display names and email addresses with your new Element credentials."
+      },
+      {
+        "title": "Import Historical Data",
+        "detail": "Use community-driven Matrix migration scripts or specialized ingestion tools to parse your Slack JSON exports and populate your new Element rooms with historical message archives. Because native import capabilities vary, prioritize importing vital project channels first while leaving older, archived Slack threads for manual reference if necessary."
+      },
+      {
+        "title": "Onboard Your Team and Configure Bridges",
+        "detail": "Distribute Element client applications to your team members and conduct training sessions focused on Matrix security keys and cross-signing verification. During this transition window, you can deploy Matrix bridges to temporarily sync select Slack channels with Element rooms, allowing real-time communication between users still on Slack and early adopters on Element."
+      },
+      {
+        "title": "Execute the Final Cutover",
+        "detail": "Set a firm deadline to disable your Slack workspace logins and transition all remaining staff exclusively to Element. Revoke remaining Slack API tokens, archive the legacy Slack workspace to prevent accidental usage, and direct all internal and external communication exclusively through your new Element infrastructure."
+      }
+    ],
+    "challenges": [
+      {
+        "issue": "Loss of seamless third-party Slack app integrations and custom bots.",
+        "solution": "Replace native Slack apps with Element widgets, custom Matrix bots, or Appservice bridges that connect to external services like GitHub, Jira, and Google Calendar."
+      },
+      {
+        "issue": "User resistance to managing Matrix encryption keys and cross-signing devices.",
+        "solution": "Implement a centralized backup key recovery mechanism on your homeserver and provide clear, step-by-step internal documentation on how Element handles device verification."
+      },
+      {
+        "issue": "Incomplete data migration of direct messages and private channel histories from standard Slack exports.",
+        "solution": "Communicate clearly to your team that historical DMs will not transfer over, and encourage staff to manually copy any critical ongoing discussions before the Slack workspace is deactivated."
+      }
+    ],
+    "faq": [
+      {
+        "q": "Can we automatically import all our Slack message history and direct messages into Element?",
+        "a": "You can import public channel history using open-source Matrix migration tools that parse Slack JSON exports. However, due to Slack export limitations and privacy restrictions, direct messages and private channels generally cannot be automatically bulk-imported and often need to be archived for reference."
+      },
+      {
+        "q": "How does Element pricing compare to Slack since Element is open source?",
+        "a": "Element itself is free and open-source software, meaning you can self-host it at zero software cost aside from your server infrastructure. If you prefer a fully managed experience with enterprise support, Element offers paid hosting tiers that are typically significantly lower per user than Slack paid plans."
+      },
+      {
+        "q": "How do we handle external partners and clients who are accustomed to communicating via Slack Connect?",
+        "a": "Element supports bridging and guest access, allowing you to invite external users into specific Matrix rooms via simple web links without requiring them to create a full account. For clients firmly rooted in Slack, you can maintain a bridged connection between a Slack channel and an Element room during transitional periods."
+      }
+    ]
+  },
+  "slack-to-mattermost": {
+    "intro": "Migrating from Slack to Mattermost is a strategic move for organizations looking to reclaim control over their communication data, eliminate escalating per-user subscription fees, and meet stringent data residency requirements. While Slack is a powerful proprietary tool that charges between $7.25 and $15 per user per month, Mattermost offers a robust, open-source alternative that can be self-hosted on your own infrastructure for free, with enterprise-grade scaling options available.\n\nOrganizations typically initiate this migration when they hit Slack's message history limits on free tiers, when compliance mandates require keeping all message archives and file attachments on-premise, or when engineering teams want deep integration capabilities without paying for higher Slack pricing tiers. Moving from Slack's closed cloud ecosystem to Mattermost allows IT administrators to customize the source code, secure proprietary workflows behind corporate firewalls, and significantly reduce operational software expenditures.\n\nHowever, transitioning away from Slack requires careful planning regarding channel structures, user identity mapping, and historical data preservation. Because Mattermost uses a PostgreSQL or MySQL backend and a different API schema than Slack, the migration path involves specialized translation tools and administrative oversight to ensure a seamless experience for end users accustomed to Slack workflows.",
+    "steps": [
+      {
+        "title": "Audit and Export Slack Data",
+        "detail": "Begin by exporting your workspace data from Slack through the workspace settings dashboard if you are on an eligible plan. This generates a ZIP archive containing JSON files for public channels, direct messages, and uploaded files. Keep in mind that Slack restricts exports of private channels and direct messages depending on your workspace subscription level."
+      },
+      {
+        "title": "Provision Your Mattermost Server",
+        "detail": "Set up your target Mattermost environment by deploying the application via Docker, Kubernetes, or a direct Linux installation connected to a PostgreSQL or MySQL database. Configure your domain, set up TLS certificates, and establish SAML or LDAP authentication to match your identity provider before importing any data."
+      },
+      {
+        "title": "Map Users and Transform Data",
+        "detail": "Use community-maintained migration scripts or the Mattermost bulk load tool to process your exported Slack JSON files. You must map Slack user IDs and email addresses to your new Mattermost user accounts to preserve message authorship and maintain direct message continuity after the import."
+      },
+      {
+        "title": "Execute the Bulk Import",
+        "detail": "Import the transformed JSON data into your Mattermost database using the mattermost import bulk command-line tool. This populates your teams, public channels, and historical messages into the new server instance while verifying data integrity against your database schema."
+      },
+      {
+        "title": "Configure Integrations and Webhooks",
+        "detail": "Recreate your critical workflows by migrating Slack incoming webhooks, slash commands, and custom integrations to Mattermost equivalents. Mattermost supports most Slack-compatible webhook formats, though you may need to update endpoint URLs and adjust authorization tokens for custom bots."
+      },
+      {
+        "title": "Onboard Users and Cut Over",
+        "detail": "Invite your team members to the new Mattermost instance, instructing them to log in using your configured SSO provider and download the desktop or mobile clients. Once users have verified their access and channels, lock down the Slack workspace to officially complete the cutover."
+      }
+    ],
+    "challenges": [
+      {
+        "issue": "Slack export limitations hide private channels and direct messages on lower-tier plans.",
+        "solution": "Upgrade your Slack workspace temporarily to a plan that permits complete data exports, or communicate to your team that historical private chats will start fresh in Mattermost."
+      },
+      {
+        "issue": "File attachments referenced in Slack JSON exports do not automatically transfer into Mattermost file storage.",
+        "solution": "Write a custom script to download file links from the Slack export manifest and upload them directly into your Mattermost file storage backend during the migration window."
+      },
+      {
+        "issue": "Users accustomed to Slack keyboard shortcuts and emoji reactions may face a slight learning curve.",
+        "solution": "Enable Slack-compatible shortcut settings in Mattermost and prepopulate the custom emoji pack using your most popular Slack reactions before launch day."
+      }
+    ],
+    "faq": [
+      {
+        "q": "Can I migrate my message history and file attachments from Slack to Mattermost?",
+        "a": "Yes, public channel message history can be migrated using JSON export tools and bulk loaders. However, migrating file attachments requires extra scripting because Slack exports only provide downloadable URLs rather than the raw files themselves."
+      },
+      {
+        "q": "How does Mattermost pricing compare to Slack?",
+        "a": "Mattermost offers a free, fully functional open-source edition that you can self-host indefinitely without per-user fees. Slack charges between $7.25 and $15 per user per month for standard paid tiers, making Mattermost significantly more cost-effective for large organizations."
+      },
+      {
+        "q": "Will my existing Slack integrations and bots work in Mattermost?",
+        "a": "Many Slack-compatible incoming and outgoing webhooks work out of the box because Mattermost supports a similar payload format. However, complex Slack Apps built on Bolt framework or specific Slack APIs will need to be rewritten or reconfigured for the Mattermost plugin architecture."
+      }
+    ]
+  },
+  "slack-to-zulip": {
+    "intro": "Migrating from Slack to Zulip is a strategic move for organizations looking to escape Slack's escalating per-user pricing, message history paywalls, and chaotic unstructured chat. While Slack relies on a flat channel structure that easily devolves into noise and overlapping conversations, Zulip introduces a unique topic-based threading model. In Zulip, every conversation lives within a stream and is organized by a specific topic, which fundamentally transforms how teams communicate asynchronously without losing context.\n\nOrganizations typically make this switch when their Slack bill becomes unsustainable\u2014often paying between $7.25 and $15 per user monthly\u2014or when they require the robust data ownership and cost control of an open-source platform. By self-hosting Zulip or using its managed cloud service, teams gain unlimited message history and predictable expenses. However, moving from Slack's channel paradigm to Zulip's stream-and-topic architecture requires careful planning to ensure your team adapts successfully to a more organized, less chaotic way of working.",
+    "steps": [
+      {
+        "title": "Audit and Clean Up Your Slack Workspace",
+        "detail": "Before exporting, review your existing Slack channels, direct messages, and integrations to decide what is worth keeping. Archive obsolete channels and inactive bots to reduce clutter and streamline the migration process into your new Zulip organization."
+      },
+      {
+        "title": "Export Data from Slack",
+        "detail": "Workspace owners can export Slack data from the Workspace Settings menu by navigating to Import/Export and selecting Export. Note that Slack's standard export tool provides JSON files for public channels, while private channels and direct messages require higher-tier plans or specialized compliance exports."
+      },
+      {
+        "title": "Set Up Your Zulip Organization",
+        "detail": "Create a new Zulip organization either by spinning up a self-hosted server via Docker or by registering on Zulip Cloud. Configure your base settings, user authentication methods like Google or SAML, and initial permissions before bringing in any data."
+      },
+      {
+        "title": "Import Slack Data into Zulip",
+        "detail": "Use Zulip's built-in migration tool specifically designed to import Slack export archives. This script maps Slack users, public channels, and message histories into Zulip streams, preserving as much historical context as possible while adapting to Zulip's data structures."
+      },
+      {
+        "title": "Onboard Your Team and Explain Topics",
+        "detail": "Invite your team members to the new Zulip instance and guide them through the interface. Emphasize the importance of Zulip's topic-based threading, as Slack users are accustomed to replying in threads that vanish into sidebars rather than organizing conversations by distinct topic headers."
+      },
+      {
+        "title": "Execute the Final Cutover",
+        "detail": "Set a hard deadline to stop using Slack and officially switch your daily operations to Zulip. Disable your Slack workspace integrations, update company documentation with the new Zulip URL, and monitor user adoption closely during the first week."
+      }
+    ],
+    "challenges": [
+      {
+        "issue": "Slack users struggle to adapt to Zulip's topic-based threading model instead of flat channel feeds.",
+        "solution": "Conduct a mandatory 15-minute training session demonstrating how topics keep conversations organized and prevent cross-talk in busy streams."
+      },
+      {
+        "issue": "Standard Slack exports omit private channel history and direct message archives unless you have a paid enterprise plan.",
+        "solution": "Communicate to your team in advance that historical DMs will not transfer over, and encourage them to save critical notes before the cutover."
+      },
+      {
+        "issue": "Custom Slack integrations and slash commands break because they are not natively compatible with Zulip's API.",
+        "solution": "Review your active Slack app directory and replace essential tools with Zulip's built-in integrations or configure webhook equivalents."
+      }
+    ],
+    "faq": [
+      {
+        "q": "Can I import my message history from Slack into Zulip?",
+        "a": "Yes, Zulip provides official migration scripts that import public channel archives from a standard Slack export. The tool automatically maps users and preserves historical conversations within Zulip's streams, though private messages require enterprise-tier Slack exports."
+      },
+      {
+        "q": "How does Zulip's pricing compare to Slack?",
+        "a": "Slack charges between $7.25 and $15 per user per month with message history paywalls on free tiers. In contrast, Zulip is open-source and free to self-host indefinitely, and its managed cloud hosting is significantly more affordable than Slack's comparable enterprise pricing."
+      },
+      {
+        "q": "What is the biggest learning curve for users switching from Slack to Zulip?",
+        "a": "The main adjustment is learning to use Zulip's mandatory topic fields for every message sent to a stream. While Slack users are used to a single continuous chat feed, Zulip's topic system requires naming the subject of discussion, which drastically improves asynchronous readability."
+      }
+    ]
+  },
+  "discord-to-element": {
+    "intro": "Migrating from Discord to Element is a deliberate move away from proprietary walled gardens toward decentralized, end-to-end encrypted collaboration. Organizations and communities typically make this switch when data ownership, privacy regulations, and compliance become non-negotiable priorities. While Discord relies on centralized cloud servers controlled by a single corporation\u2014logging message histories and metadata\u2014Element is built on Matrix, an open-source, federated protocol that puts you in complete control of where your data lives.\n\nTiming this migration usually coincides with a growing need for enterprise-grade security, such as HIPAA or GDPR compliance, or a desire to escape Discord\u2019s increasingly aggressive monetization of basic features like custom emojis and larger file uploads. Transitioning from Discord servers and channels to Element spaces and rooms requires careful planning, as the underlying architecture is entirely different. However, the payoff is a resilient, transparent communication ecosystem where your community or team truly owns its digital infrastructure without vendor lock-in.",
+    "steps": [
+      {
+        "title": "Audit and Export Discord Content",
+        "detail": "Begin by cataloging your existing Discord channels, roles, and permission structures. Because Discord does not offer a native tool to directly export active servers into Matrix-compatible formats, use open-source Discord chat exporters to archive historical text logs, pins, and media attachments for reference."
+      },
+      {
+        "title": "Provision Your Element Environment",
+        "detail": "Decide whether to use Element Enterprise hosted infrastructure or self-host your own Matrix homeserver (such as Synapse or Dendrite) to meet your data residency requirements. Once your homeserver is operational, download the Element desktop or mobile clients and set up your admin accounts."
+      },
+      {
+        "title": "Recreate Structure with Spaces and Rooms",
+        "detail": "Translate Discord\u2019s server and channel hierarchy into Element's architecture by creating a Space to represent your Discord server. Inside that Space, build individual rooms that mirror your text and voice channels, and configure default end-to-end encryption for sensitive discussions."
+      },
+      {
+        "title": "Bridge Ongoing Discord Traffic",
+        "detail": "To ease the transition for your community, deploy an open-source Matrix-Discord bridge like appservice-discord. This allows messages to sync bidirectionally between your legacy Discord channels and your new Element rooms, ensuring no communication is lost during the overlap phase."
+      },
+      {
+        "title": "Onboard Users and Assign Roles",
+        "detail": "Invite your community members to create Matrix IDs on your homeserver and guide them through Element's cross-signing verification process. Map your former Discord administrative roles and permissions to Element power levels to maintain proper moderation control."
+      },
+      {
+        "title": "Execute the Final Cutover",
+        "detail": "Once your user base is active on Element and comfortable with the interface, shut down the Discord bridge and archive your old Discord server. Announce the official cutover date so all participants direct their communication exclusively through your new Element spaces."
+      }
+    ],
+    "challenges": [
+      {
+        "issue": "Discord's rich webhook ecosystem and custom bots do not work natively in Element.",
+        "solution": "Rewrite or replace your Discord bots with Matrix-compatible equivalents, utilizing Matrix webhooks and appservices which offer robust integration capabilities."
+      },
+      {
+        "issue": "Users accustomed to Discord's casual voice and video chat may find Element's calling features unfamiliar.",
+        "solution": "Integrate a dedicated WebRTC conferencing solution like Jitsi Meet directly into your Element rooms to provide a seamless, high-capacity voice and video experience."
+      },
+      {
+        "issue": "End-to-end encryption key management can confuse non-technical community members during initial login.",
+        "solution": "Enable Element's cryptographic cross-signing and secure key backup features during user onboarding so keys sync automatically across new devices without manual file exports."
+      }
+    ],
+    "faq": [
+      {
+        "q": "Can I automatically import my old Discord message history directly into Element?",
+        "a": "There is no automated native button to import Discord history directly into Matrix. However, you can use third-party chat exporters to save your logs as HTML or JSON files for archival purposes, or use a bridge to sync forward-looking messages from the moment you switch."
+      },
+      {
+        "q": "How does Element handle voice and video channels compared to Discord?",
+        "a": "While Discord has built-in, always-on voice channels, Element handles voice and video through integrated widgets like Jitsi Meet or native Matrix VoIP calls. Users simply click a call button inside a specific room to spin up an encrypted audio or video conference."
+      },
+      {
+        "q": "Is Element really free to use like Discord?",
+        "a": "Element's core client software and the Matrix protocol are completely free and open-source. If you choose to self-host your own homeserver, you only pay for your server hosting costs, whereas Element's managed hosting and enterprise tiers offer paid plans with advanced administrative support."
+      }
+    ]
+  }
+}
