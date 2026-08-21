@@ -113,7 +113,7 @@ def generate_with_groq(prompt: str, retries: int = 2) -> str:
                 json={
                     "model": "openai/gpt-oss-120b",
                     "messages": [{"role": "user", "content": prompt}],
-                    "max_tokens": 1400,  # ~500-700 words of output needs ~700-900 tokens; keep headroom modest to stay under Groq's 8,000 TPM free-tier cap
+                    "max_tokens": 2200,  # 500-700 words of content + JSON structure overhead (keys, quotes, braces) needs real headroom — 1400 was truncating responses mid-string
                     "temperature": 0.6,
                 },
                 timeout=30,
@@ -188,11 +188,21 @@ def generate_for_pair(comp, mock=False):
     if mock:
         return mock_content(comp)
     prompt = build_prompt(comp)
-    try:
-        raw = generate_with_groq(prompt)
-        return parse_json_response(raw)
-    except Exception as e:
-        logger.warning(f"Groq failed ({e}), falling back to Gemini")
+
+    # Retry the full call+parse cycle on Groq — a truncated or malformed JSON
+    # response is often a one-off generation quirk, not a systemic failure,
+    # and is worth a fresh attempt before giving up on Groq entirely.
+    for attempt in range(2):
+        try:
+            raw = generate_with_groq(prompt)
+            return parse_json_response(raw)
+        except Exception as e:
+            if attempt == 0:
+                logger.warning(f"    Groq attempt 1 failed ({e}), retrying...")
+                time.sleep(3)
+            else:
+                logger.warning(f"    Groq attempt 2 failed ({e}), falling back to Gemini")
+
     try:
         raw = generate_with_gemini(prompt)
         return parse_json_response(raw)
