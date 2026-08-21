@@ -9,6 +9,11 @@ name: Expand Thin Migrate Pages
 # pair's content), fill in "slugs" as a comma-separated list of
 # prop-to-oss slugs (e.g. "notion-to-appflowy") and check "force" — this
 # targets only those pairs regardless of what "limit" says.
+#
+# The commit step runs even if generation partially fails or times out
+# (if: always()), so whatever succeeded before a failure still gets saved
+# instead of being lost. timeout-minutes is capped well below GitHub's
+# 6-hour default so a stuck run fails fast rather than burning hours.
 
 on:
   workflow_dispatch:
@@ -30,6 +35,7 @@ on:
 jobs:
   expand:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     permissions:
       contents: write
 
@@ -62,6 +68,7 @@ jobs:
           python3 scripts/migrate_content_generator.py $ARGS
 
       - name: Rebuild site locally (for audit only — not deployed from here)
+        if: always()
         env:
           SITE_BASE_URL: https://osalfinder.com
         run: |
@@ -70,6 +77,7 @@ jobs:
           python3 scripts/publish_github_pages.py
 
       - name: Audit word counts
+        if: always()
         run: |
           python3 scripts/thin_content_audit.py --dir site --threshold 200 --csv data/audit_report.csv | tee audit_output.txt
           {
@@ -81,9 +89,10 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Commit updated content cache and audit report
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/cache/migrate_content.json data/audit_report.csv
-          git diff --staged --quiet || git commit -m "Expand migrate-* page content [skip ci]"
-          git push
+          git diff --staged --quiet && echo "Nothing new to commit" || git commit -m "Expand migrate-* page content [skip ci]"
+          git push || echo "Nothing to push"
