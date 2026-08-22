@@ -267,6 +267,19 @@ For publish_date_offset_days choose a number between 0 and 240. Vary this for ea
 Return ONLY the Markdown content plus the Meta JSON. No preamble."""
 
 
+GROQ_QUOTA_EXHAUSTED = False  # set once we see a long retry-after — see generate_with_groq
+GROQ_MAX_SLEEP = 20  # never actually sleep longer than this for a single retry, regardless of what the API asks for
+
+
+class GroqQuotaExhausted(Exception):
+    """Raised when Groq's retry-after suggests the daily quota is spent, not a
+    transient per-minute throttle. Sleeping through a multi-minute wait here is
+    what caused this pipeline to run for over an hour on a single batch. Once
+    we see this, we stop calling Groq for the rest of the run and go straight
+    to Gemini instead of repeating the same wait per pair."""
+    pass
+
+
 def generate_with_groq(prompt: str, retries: int = 2) -> str:
     api_key = os.getenv("GROQ_API_KEY")
     if not api_key:
@@ -289,11 +302,17 @@ def generate_with_groq(prompt: str, retries: int = 2) -> str:
             return response.json()['choices'][0]['message']['content']
         except requests.exceptions.HTTPError as e:
             last_error = e
-            if response.status_code == 429 and attempt < retries:
+            if response.status_code == 429:
                 wait = int(response.headers.get('retry-after', 15))
-                logger.info(f"    Groq rate-limited, waiting {wait}s before retry {attempt + 1}/{retries}")
-                time.sleep(wait)
-                continue
+                if wait > GROQ_MAX_SLEEP:
+                    raise GroqQuotaExhausted(
+                        f"Groq asked for a {wait}s wait (likely daily quota exhausted, "
+                        f"not a transient rate limit) — skipping Groq for the rest of this run"
+                    )
+                if attempt < retries:
+                    logger.info(f"    Groq rate-limited, waiting {wait}s before retry {attempt + 1}/{retries}")
+                    time.sleep(wait)
+                    continue
             raise
         except (ValueError, KeyError) as e:
             last_error = e
@@ -651,19 +670,24 @@ def strip_meta_block(content: str) -> str:
 
 
 def generate_comparison(prop_key: str, oss_key: str) -> Dict:
+    global GROQ_QUOTA_EXHAUSTED
     prompt        = build_prompt(prop_key, oss_key)
     prop          = TOOLS.get(prop_key, {})
     alt           = TOOLS.get(oss_key,  {})
     content       = None
     provider_used = None
 
-    try:
-        content = generate_with_groq(prompt)
-        provider_used = 'groq'
-        logger.info(f"    Generated with Groq")
-    except Exception as e:
-        logger.warning(f"    Groq unavailable ({type(e).__name__}) -- trying Gemini...")
-        time.sleep(2)
+    if not GROQ_QUOTA_EXHAUSTED:
+        try:
+            content = generate_with_groq(prompt)
+            provider_used = 'groq'
+            logger.info(f"    Generated with Groq")
+        except GroqQuotaExhausted as e:
+            logger.warning(f"    {e}")
+            GROQ_QUOTA_EXHAUSTED = True
+        except Exception as e:
+            logger.warning(f"    Groq unavailable ({type(e).__name__}) -- trying Gemini...")
+            time.sleep(2)
 
     if content is None:
         try:
