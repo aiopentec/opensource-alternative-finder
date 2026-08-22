@@ -1,0 +1,49 @@
+name: Fix Groq Uncapped Sleep (one-time, urgent)
+
+# Run this ONCE immediately to stop the pipeline from stalling on multi-minute
+# Groq rate-limit waits. After it succeeds, trigger "Open Source Alternative
+# Pipeline" again — the concurrency group will auto-cancel any still-stuck
+# run, and the new run will use the fixed code.
+#
+# Delete this workflow file and fix_groq_uncapped_sleep.py from the repo
+# root after this succeeds. Safe to re-run — skips if already applied.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run patcher
+        run: python3 fix_groq_uncapped_sleep.py
+
+      - name: Sanity-check the patched file imports cleanly
+        run: |
+          cd scripts
+          python3 -c "import ast; ast.parse(open('generate_comparison.py').read())"
+          echo "Syntax OK"
+
+      - name: Confirm circuit breaker is present
+        run: |
+          grep -q "GroqQuotaExhausted" scripts/generate_comparison.py
+          echo "Fix confirmed"
+
+      - name: Commit patched file
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add scripts/generate_comparison.py
+          git diff --staged --quiet && echo "Nothing to commit (already patched)" || git commit -m "Cap Groq retry sleep and add circuit breaker for daily quota exhaustion"
+          git push
