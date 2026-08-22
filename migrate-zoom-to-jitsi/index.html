@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Zoom to Jitsi Meet (August 20, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Zoom to Jitsi Meet (August 22, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Zoom to Jitsi Meet. Export your data, set up Jitsi Meet, and switch your team — save Free / $13.33+/user/month per month.">
   <meta name="keywords" content="migrate Zoom to Jitsi Meet, Zoom to Jitsi Meet migration, how to switch from Zoom, Jitsi Meet migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-zoom-to-jitsi/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Zoom to Jitsi Meet (August 20, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Zoom to Jitsi Meet (August 22, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Zoom to Jitsi Meet. Export your data, set up Jitsi Meet, and switch your team — save Free / $13.33+/user/month per month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-zoom-to-jitsi/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -21,7 +21,7 @@
     "name": "How to Migrate from Zoom to Jitsi Meet",
     "description": "Complete step-by-step guide to migrating from Zoom to Jitsi Meet. Export your data, set up Jitsi Meet, and switch your team — save Free / $13.33+/user/month per month.",
     "totalTime": "~30 mins",
-    "step": [{"@type":"HowToStep","text":"No migration needed. Share a Jitsi meeting link instead of a Zoom link. Replace Zoom calendar links with Jitsi room URLs."}]
+    "step": [{"@type":"HowToStep","text":"Export Zoom user and meeting data – use Zoom’s “Report > Export” to download CSV files of users, meetings, and recordings."}, {"@type":"HowToStep","text":"Provision a Jitsi Meet server – spin up a Ubuntu 22.04 VM, install Docker, and deploy the official `jitsi/docker-jitsi-meet` stack."}, {"@type":"HowToStep","text":"Configure DNS, TLS, and TURN – point a subdomain (e.g., meet.example.com) to the VM, obtain a Let’s Encrypt certificate, and set up coturn for NAT traversal."}, {"@type":"HowToStep","text":"Import user list – create corresponding LDAP or JWT accounts for SSO integration; Jitsi does not require pre‑created accounts but you may sync for admin purposes."}, {"@type":"HowToStep","text":"Test and cut over – run pilot meetings, verify recording storage, then redirect calendar invites to the new Jitsi Meet URLs."}]
   }
   </script>
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
@@ -75,7 +75,7 @@
     <span class="hero-badge">💰 Save Free / $13.33+/user/month/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     <span class="hero-badge">🖥️ Setup: Easy (~30 mins)</span>
-    <span class="hero-badge">📅 August 20, 2026</span>
+    <span class="hero-badge">📅 August 22, 2026</span>
   </div>
 </div>
 <div class="content">
@@ -92,7 +92,23 @@
     
     <div class="step-card">
       <div class="step-num">1</div>
-      <div class="step-text">No migration needed. Share a Jitsi meeting link instead of a Zoom link. Replace Zoom calendar links with Jitsi room URLs.</div>
+      <div class="step-text">Export Zoom user and meeting data – use Zoom’s “Report > Export” to download CSV files of users, meetings, and recordings.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-text">Provision a Jitsi Meet server – spin up a Ubuntu 22.04 VM, install Docker, and deploy the official `jitsi/docker-jitsi-meet` stack.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-text">Configure DNS, TLS, and TURN – point a subdomain (e.g., meet.example.com) to the VM, obtain a Let’s Encrypt certificate, and set up coturn for NAT traversal.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">4</div>
+      <div class="step-text">Import user list – create corresponding LDAP or JWT accounts for SSO integration; Jitsi does not require pre‑created accounts but you may sync for admin purposes.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">5</div>
+      <div class="step-text">Test and cut over – run pilot meetings, verify recording storage, then redirect calendar invites to the new Jitsi Meet URLs.</div>
     </div>
   </div>
   

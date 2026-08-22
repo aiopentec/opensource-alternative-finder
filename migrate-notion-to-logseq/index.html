@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Notion to Logseq (August 20, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Notion to Logseq (August 22, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Notion to Logseq. Export your data, set up Logseq, and switch your team — save $8-$20/user/month per month.">
   <meta name="keywords" content="migrate Notion to Logseq, Notion to Logseq migration, how to switch from Notion, Logseq migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-notion-to-logseq/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Notion to Logseq (August 20, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Notion to Logseq (August 22, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Notion to Logseq. Export your data, set up Logseq, and switch your team — save $8-$20/user/month per month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-notion-to-logseq/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -21,7 +21,7 @@
     "name": "How to Migrate from Notion to Logseq",
     "description": "Complete step-by-step guide to migrating from Notion to Logseq. Export your data, set up Logseq, and switch your team — save $8-$20/user/month per month.",
     "totalTime": "~2 mins",
-    "step": [{"@type":"HowToStep","text":"Export your data from Notion in its standard export format, review Logseq import documentation, and plan a pilot period where both tools run in parallel."}]
+    "step": [{"@type":"HowToStep","text":"Export your Notion workspace as Markdown & CSV via Settings & members > Settings > Export."}, {"@type":"HowToStep","text":"Unzip the downloaded archive on your local machine."}, {"@type":"HowToStep","text":"Open Logseq and create a new local graph pointing to a dedicated folder."}, {"@type":"HowToStep","text":"Move or copy your exported Markdown files from Notion into the `pages` directory of your new Logseq graph."}, {"@type":"HowToStep","text":"Re-index your graph in Logseq via the settings menu to parse internal links and tags correctly."}]
   }
   </script>
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
@@ -75,11 +75,11 @@
     <span class="hero-badge">💰 Save $8-$20/user/month/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     <span class="hero-badge">🖥️ Setup: Very Easy (~2 mins)</span>
-    <span class="hero-badge">📅 August 20, 2026</span>
+    <span class="hero-badge">📅 August 22, 2026</span>
   </div>
 </div>
 <div class="content">
-  
+  <div class="card"><p style="margin-bottom:1rem;color:var(--text);line-height:1.7;">Notion has become a go‑to workspace for many startups and freelancers because its all‑in‑one pages, databases, and collaborative editing feel seamless, but the subscription can quickly climb to $8‑$20 per user each month. As teams grow, the recurring cost, the reliance on a proprietary cloud, and occasional concerns about data lock‑in push power users to explore self‑hosted, free alternatives. Logseq answers that call with a markdown‑first, graph‑oriented design that lives in a local folder, offers end‑to‑end encryption, and has a thriving open‑source community, making it attractive for anyone who wants full ownership of their notes without a monthly bill.</p><p style="margin-bottom:1rem;color:var(--text);line-height:1.7;">The migration makes sense when you’ve already built a substantial knowledge base in Notion and want to keep it offline, need richer linking for research, or are looking to cut expenses while still supporting collaborative workflows. Because Logseq stores everything as plain‑text markdown and org‑mode files, you retain the ability to version‑control your data with Git, export to other tools, and avoid vendor‑specific lock‑in. The transition does require a few deliberate steps to map Notion’s databases, properties, and page hierarchy into Logseq’s file‑based structure, but the long‑term payoff is a faster, cheaper, and more private workspace.</p></div>
   <div class="savings-box">
     <div class="amount">$0</div>
     <div class="desc">
@@ -92,7 +92,27 @@
     
     <div class="step-card">
       <div class="step-num">1</div>
-      <div class="step-text">Export your data from Notion in its standard export format, review Logseq import documentation, and plan a pilot period where both tools run in parallel.</div>
+      <div class="step-text"><strong>Export Notion workspace</strong><br>Open Notion, select the top‑level pages you want to move, and use the Export → Markdown & CSV option. Choose “Include sub‑pages” to capture the full hierarchy and download the zip file. This creates a folder of .md files for pages and .csv files for each database, which will be the raw material for Logseq.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-text"><strong>Install Logseq and create a graph</strong><br>Download the desktop client for Windows, macOS, or Linux from logseq.com and run the installer. When prompted, create a new graph by selecting an empty folder on your drive; this folder will hold all markdown files and assets. Logseq will initialize a .logseq folder with configuration files ready for import.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-text"><strong>Convert Notion exports to Logseq format</strong><br>Use a community script such as notion2logseq or the official Notion‑to‑Markdown converter to rename .csv files into markdown tables and add Logseq‑compatible front‑matter. Adjust property names (e.g., “Tags” → “tags”) and replace Notion’s block IDs with simple headings so that Logseq can parse the structure correctly.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">4</div>
+      <div class="step-text"><strong>Import converted files into the graph</strong><br>Copy the transformed .md files into the graph folder, preserving the original sub‑folder layout to keep page nesting. Open Logseq; the app will automatically index the new files and display them in the sidebar. Verify that key pages appear and that tables render as markdown tables.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">5</div>
+      <div class="step-text"><strong>Recreate workflows with plugins and templates</strong><br>Install Logseq plugins for task management, calendar sync, or kanban boards that mirror Notion’s database views. Import any custom templates you used in Notion by saving them as .md snippets in the /templates folder. This step helps users transition without losing familiar shortcuts.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">6</div>
+      <div class="step-text"><strong>Team onboarding and cut‑over</strong><br>Share the graph folder via a shared Git repository or Logseq Cloud, grant team members read/write access, and run a brief training session on markdown editing and graph navigation. Once everyone confirms their notes are intact, archive the Notion workspace to avoid duplicate effort and officially switch daily work to Logseq.</div>
     </div>
   </div>
   
@@ -107,6 +127,10 @@
   </div>
   
   <div class="card">
+    <h2>⚠️ Common Challenges & How to Avoid Them</h2>
+    <div style="margin-bottom:1rem;"><strong style="color:var(--text);">Relational database properties in Notion don’t map directly to Logseq tables</strong><br><span style="color:var(--text-muted);">Flatten relations into markdown tables or use linked references manually; some converters attempt to preserve relations as inline links.</span></div><div style="margin-bottom:1rem;"><strong style="color:var(--text);">Maintaining backlinks and page hierarchy after export</strong><br><span style="color:var(--text-muted);">Run a post‑processing script to replace Notion’s [[Page]] syntax with Logseq’s same syntax and ensure folder structures reflect the original nesting.</span></div><div style="margin-bottom:1rem;"><strong style="color:var(--text);">Coordinating real‑time collaboration without Notion’s live editing</strong><br><span style="color:var(--text-muted);">Leverage Git‑based sync for version control or enable Logseq Cloud, and establish a commit‑and‑pull routine to minimize merge conflicts.</span></div>
+  </div>
+  <div class="card">
     <h2>🔗 Get Started</h2>
     <div class="tool-links">
       <a class="tool-link leave" href="https://notion.so" target="_blank" rel="noopener">Export from Notion →</a>
@@ -114,6 +138,10 @@
     </div>
   </div>
   
+  <div class="card">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">Can I keep Notion databases intact in Logseq?</strong><br><span style="color:var(--text-muted);">Notion’s full database schema isn’t supported natively; you need to export each database as a CSV, then convert it to a markdown table or use a script that creates separate pages for each row.</span></div><div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">What happens to comments and mentions from Notion?</strong><br><span style="color:var(--text-muted);">Comments are not included in the markdown export, so you’ll have to copy important remarks manually or pull them via the Notion API before the migration.</span></div><div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">Is Logseq viable for large, distributed teams?</strong><br><span style="color:var(--text-muted);">Yes, especially when paired with a remote Git repo or Logseq Cloud; you’ll just need to define a clear sync workflow and possibly add plugins for task assignment and permission handling.</span></div>
+  </div>
   <div class="card" style="text-align:center;padding:1.5rem;">
     <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">Want a full feature and pricing comparison before you switch?</p>
     <a class="back-btn" href="../notion-vs-logseq/">Read the Full Notion vs Logseq Comparison →</a>

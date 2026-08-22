@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Intercom to Chatwoot (August 20, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Intercom to Chatwoot (August 22, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Intercom to Chatwoot. Export your data, set up Chatwoot, and switch your team — save $39-$139+/month per month.">
   <meta name="keywords" content="migrate Intercom to Chatwoot, Intercom to Chatwoot migration, how to switch from Intercom, Chatwoot migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-intercom-to-chatwoot/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Intercom to Chatwoot (August 20, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Intercom to Chatwoot (August 22, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Intercom to Chatwoot. Export your data, set up Chatwoot, and switch your team — save $39-$139+/month per month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-intercom-to-chatwoot/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -21,7 +21,7 @@
     "name": "How to Migrate from Intercom to Chatwoot",
     "description": "Complete step-by-step guide to migrating from Intercom to Chatwoot. Export your data, set up Chatwoot, and switch your team — save $39-$139+/month per month.",
     "totalTime": "PT2H",
-    "step": [{"@type":"HowToStep","text":"Export your data from Intercom in its standard export format, review Chatwoot import documentation, and plan a pilot period where both tools run in parallel."}]
+    "step": [{"@type":"HowToStep","text":"Export data from Intercom: Use Intercom’s “Export Conversations” feature to download a CSV or JSON dump of all threads, users, and tags."}, {"@type":"HowToStep","text":"Map fields to Chatwoot schema: Align Intercom `user_id`, `conversation_id`, and `messages` to Chatwoot’s `contact`, `conversation`, and `message` tables."}, {"@type":"HowToStep","text":"Set up a Chatwoot instance: Deploy via Docker (`docker-compose up -d`) or on a managed Kubernetes service, configure SMTP, and enable the desired channels."}, {"@type":"HowToStep","text":"Import conversations: Run the built‑in `rails import:intercom` rake task (available in the `chatwoot-tools` gem) which consumes the exported JSON/CSV and creates matching records."}, {"@type":"HowToStep","text":"Validate and go live: Test a sample of imported threads, update DNS/Widget code on your site, and de‑activate the Intercom widget."}]
   }
   </script>
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
@@ -75,7 +75,7 @@
     <span class="hero-badge">💰 Save $39-$139+/month/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     
-    <span class="hero-badge">📅 August 20, 2026</span>
+    <span class="hero-badge">📅 August 22, 2026</span>
   </div>
 </div>
 <div class="content">
@@ -92,7 +92,23 @@
     
     <div class="step-card">
       <div class="step-num">1</div>
-      <div class="step-text">Export your data from Intercom in its standard export format, review Chatwoot import documentation, and plan a pilot period where both tools run in parallel.</div>
+      <div class="step-text">Export data from Intercom: Use Intercom’s “Export Conversations” feature to download a CSV or JSON dump of all threads, users, and tags.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-text">Map fields to Chatwoot schema: Align Intercom `user_id`, `conversation_id`, and `messages` to Chatwoot’s `contact`, `conversation`, and `message` tables.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-text">Set up a Chatwoot instance: Deploy via Docker (`docker-compose up -d`) or on a managed Kubernetes service, configure SMTP, and enable the desired channels.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">4</div>
+      <div class="step-text">Import conversations: Run the built‑in `rails import:intercom` rake task (available in the `chatwoot-tools` gem) which consumes the exported JSON/CSV and creates matching records.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">5</div>
+      <div class="step-text">Validate and go live: Test a sample of imported threads, update DNS/Widget code on your site, and de‑activate the Intercom widget.</div>
     </div>
   </div>
   

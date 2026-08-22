@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Notion to Obsidian (August 20, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Notion to Obsidian (August 22, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Notion to Obsidian. Export your data, set up Obsidian, and switch your team — save $8-$20/user/month per month.">
   <meta name="keywords" content="migrate Notion to Obsidian, Notion to Obsidian migration, how to switch from Notion, Obsidian migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-notion-to-obsidian/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Notion to Obsidian (August 20, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Notion to Obsidian (August 22, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Notion to Obsidian. Export your data, set up Obsidian, and switch your team — save $8-$20/user/month per month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-notion-to-obsidian/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -21,7 +21,7 @@
     "name": "How to Migrate from Notion to Obsidian",
     "description": "Complete step-by-step guide to migrating from Notion to Obsidian. Export your data, set up Obsidian, and switch your team — save $8-$20/user/month per month.",
     "totalTime": "~2 mins",
-    "step": [{"@type":"HowToStep","text":"Export your data from Notion in its standard export format, review Obsidian import documentation, and plan a pilot period where both tools run in parallel."}]
+    "step": [{"@type":"HowToStep","text":"Export your Notion workspace as Markdown & CSV files via Settings & Members > Export."}, {"@type":"HowToStep","text":"Unzip the downloaded export archive on your local machine."}, {"@type":"HowToStep","text":"Download and install Obsidian, then create a new local vault pointing to a folder of your choice."}, {"@type":"HowToStep","text":"Move the unzipped Notion markdown files directly into your new Obsidian vault folder."}, {"@type":"HowToStep","text":"Use the community "Importer" plugin within Obsidian to convert Notion database links and clean up formatting anomalies."}]
   }
   </script>
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
@@ -75,11 +75,11 @@
     <span class="hero-badge">💰 Save $8-$20/user/month/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     <span class="hero-badge">🖥️ Setup: Very Easy (~2 mins)</span>
-    <span class="hero-badge">📅 August 20, 2026</span>
+    <span class="hero-badge">📅 August 22, 2026</span>
   </div>
 </div>
 <div class="content">
-  
+  <div class="card"><p style="margin-bottom:1rem;color:var(--text);line-height:1.7;">Notion is a powerful all‑in‑one workspace, but its subscription pricing ($8‑$20 per user per month) and cloud‑only storage can become a pain point for individuals or teams that need offline access, granular version control, or complete data ownership. Obsidian, by contrast, stores every note as a plain‑text markdown file on your local drive, is free for personal use, and offers a thriving plugin ecosystem that can replicate many of Notion’s database and collaboration features without recurring fees. When a workflow starts to rely heavily on backlinks, rapid note‑taking, or when the cost of scaling Notion users outweighs its convenience, many users find the switch to Obsidian both financially and technically appealing. Additionally, privacy‑focused professionals appreciate that Obsidian never syncs your data unless you enable a third‑party service, giving you full control over backups and encryption. This guide walks you through the practical steps of moving your content, setting up a shared vault for teams, and handling the quirks that arise when translating Notion’s block‑based pages into Obsidian’s markdown‑centric vault.</p></div>
   <div class="savings-box">
     <div class="amount">$0</div>
     <div class="desc">
@@ -92,7 +92,27 @@
     
     <div class="step-card">
       <div class="step-num">1</div>
-      <div class="step-text">Export your data from Notion in its standard export format, review Obsidian import documentation, and plan a pilot period where both tools run in parallel.</div>
+      <div class="step-text"><strong>Export Notion pages</strong><br>In Notion, select the workspace or individual pages you want to move, click ‘Export’, and choose the Markdown + CSV format with sub‑pages included. The export will generate a zip file containing a folder hierarchy that mirrors your Notion page tree. Download the zip to a location where you can safely unpack it for the next step.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-text"><strong>Unpack and clean up files</strong><br>Extract the zip and review the folder structure; Notion often creates extra ‘Untitled’ folders and duplicate markdown files for embedded databases. Rename ambiguous files, delete empty folders, and move any attached images from the ‘assets’ sub‑folders into a central ‘media’ directory that you will later point to from Obsidian.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-text"><strong>Create an Obsidian vault</strong><br>Open Obsidian and click ‘Create new vault’, giving it a name that reflects your project or team. Choose the folder where you unpacked the Notion export as the vault location, or create a fresh folder and copy the cleaned markdown files into it. This vault will become the single source of truth for all future notes.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">4</div>
+      <div class="step-text"><strong>Import markdown files</strong><br>Obsidian automatically indexes any *.md files placed in the vault, so once the files are copied, they appear in the sidebar as a nested graph. Verify that internal links (e.g., [[Page Name]]) still resolve; Notion’s export often uses plain URLs that need to be manually converted to Obsidian’s wiki‑link syntax.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">5</div>
+      <div class="step-text"><strong>Recreate databases and views</strong><br>Notion tables export as CSV files; import each CSV into Obsidian using the Dataview or Table plugins, which let you treat CSV rows as linked notes or generate dynamic tables. For more complex relational databases, consider the ‘Obsidian‑Kanban’ or ‘Meta‑Bind’ plugins to simulate board views and linked properties.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">6</div>
+      <div class="step-text"><strong>Team onboarding and final cutover</strong><br>If you work with a team, share the vault via a cloud‑sync service such as Obsidian Sync, Git, or a shared network drive. Conduct a short training session to show how backlinks, tags, and plugins replace Notion’s relational blocks. Once everyone confirms that critical pages load correctly, archive the Notion workspace and switch daily operations to the Obsidian vault.</div>
     </div>
   </div>
   
@@ -107,6 +127,10 @@
   </div>
   
   <div class="card">
+    <h2>⚠️ Common Challenges & How to Avoid Them</h2>
+    <div style="margin-bottom:1rem;"><strong style="color:var(--text);">Relational links break during export</strong><br><span style="color:var(--text-muted);">After importing, run a global search for the original Notion URLs and replace them with Obsidian wiki‑links using a find‑and‑replace script or the Bulk Rename plugin.</span></div><div style="margin-bottom:1rem;"><strong style="color:var(--text);">Embedded media files are scattered</strong><br><span style="color:var(--text-muted);">Consolidate all images and PDFs into a single ‘media’ folder and update the markdown image paths to point to that folder; the Obsidian ‘Attachment Folder Path’ setting can automate this for new notes.</span></div><div style="margin-bottom:1rem;"><strong style="color:var(--text);">Loss of Notion comments and mentions</strong><br><span style="color:var(--text-muted);">Comments aren’t exported, so copy any essential discussion into a dedicated “Comments” section at the bottom of each note before deleting the Notion page.</span></div>
+  </div>
+  <div class="card">
     <h2>🔗 Get Started</h2>
     <div class="tool-links">
       <a class="tool-link leave" href="https://notion.so" target="_blank" rel="noopener">Export from Notion →</a>
@@ -114,6 +138,10 @@
     </div>
   </div>
   
+  <div class="card">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">Can I keep Notion pages synced with Obsidian after migration?</strong><br><span style="color:var(--text-muted);">There is no native two‑way sync; you can periodically re‑export from Notion and overwrite the vault, but most users treat the Obsidian vault as the primary source and retire the Notion workspace.</span></div><div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">How do I migrate Notion databases to Obsidian?</strong><br><span style="color:var(--text-muted);">Export each database as a CSV, then use plugins like Dataview or Table to render the CSV as linked notes or dynamic tables. You may need to create separate note files for rows that you want to reference individually.</span></div><div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">Is there a way to preserve Notion comments and mentions in Obsidian?</strong><br><span style="color:var(--text-muted);">Comments are not part of the markdown export, so they must be copied manually. You can add them as blockquotes or a “Comments” heading inside the corresponding Obsidian note to retain the context.</span></div>
+  </div>
   <div class="card" style="text-align:center;padding:1.5rem;">
     <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">Want a full feature and pricing comparison before you switch?</p>
     <a class="back-btn" href="../notion-vs-obsidian/">Read the Full Notion vs Obsidian Comparison →</a>

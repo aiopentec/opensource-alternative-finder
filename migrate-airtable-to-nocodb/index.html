@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Airtable to NocoDB (August 20, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Airtable to NocoDB (August 22, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Airtable to NocoDB. Export your data, set up NocoDB, and switch your team — save Free / $10-$20/user/month per month.">
   <meta name="keywords" content="migrate Airtable to NocoDB, Airtable to NocoDB migration, how to switch from Airtable, NocoDB migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-airtable-to-nocodb/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Airtable to NocoDB (August 20, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Airtable to NocoDB (August 22, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Airtable to NocoDB. Export your data, set up NocoDB, and switch your team — save Free / $10-$20/user/month per month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-airtable-to-nocodb/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -21,7 +21,7 @@
     "name": "How to Migrate from Airtable to NocoDB",
     "description": "Complete step-by-step guide to migrating from Airtable to NocoDB. Export your data, set up NocoDB, and switch your team — save Free / $10-$20/user/month per month.",
     "totalTime": "~5 mins",
-    "step": [{"@type":"HowToStep","text":"Export your data from Airtable in its standard export format, review NocoDB import documentation, and plan a pilot period where both tools run in parallel."}]
+    "step": [{"@type":"HowToStep","text":"Export from Airtable: In each base, use Download as CSV (or JSON via the API) for every table you want to move."}, {"@type":"HowToStep","text":"Prepare the target DB: Spin up a PostgreSQL/MySQL instance (Docker, cloud VM, or managed service) and create a schema that matches the CSV column headers."}, {"@type":"HowToStep","text":"Import into NocoDB: Use NocoDB’s CSV Import wizard or the `nc import` CLI to load each file into the corresponding table."}, {"@type":"HowToStep","text":"Generate APIs: Once tables are loaded, NocoDB automatically exposes REST and GraphQL endpoints; test them with Postman or your front‑end."}, {"@type":"HowToStep","text":"Recreate views & automations: Rebuild critical Airtable views as NocoDB “grid” or “gallery” views and connect external automation tools (Zapier, Make, or custom scripts) to the new APIs."}]
   }
   </script>
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
@@ -75,7 +75,7 @@
     <span class="hero-badge">💰 Save Free / $10-$20/user/month/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     <span class="hero-badge">🖥️ Setup: Very Easy (~5 mins)</span>
-    <span class="hero-badge">📅 August 20, 2026</span>
+    <span class="hero-badge">📅 August 22, 2026</span>
   </div>
 </div>
 <div class="content">
@@ -92,7 +92,23 @@
     
     <div class="step-card">
       <div class="step-num">1</div>
-      <div class="step-text">Export your data from Airtable in its standard export format, review NocoDB import documentation, and plan a pilot period where both tools run in parallel.</div>
+      <div class="step-text">Export from Airtable: In each base, use Download as CSV (or JSON via the API) for every table you want to move.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-text">Prepare the target DB: Spin up a PostgreSQL/MySQL instance (Docker, cloud VM, or managed service) and create a schema that matches the CSV column headers.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-text">Import into NocoDB: Use NocoDB’s CSV Import wizard or the `nc import` CLI to load each file into the corresponding table.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">4</div>
+      <div class="step-text">Generate APIs: Once tables are loaded, NocoDB automatically exposes REST and GraphQL endpoints; test them with Postman or your front‑end.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">5</div>
+      <div class="step-text">Recreate views & automations: Rebuild critical Airtable views as NocoDB “grid” or “gallery” views and connect external automation tools (Zapier, Make, or custom scripts) to the new APIs.</div>
     </div>
   </div>
   

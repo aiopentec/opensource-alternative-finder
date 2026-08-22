@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from GitHub to GitLab (August 20, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from GitHub to GitLab (August 22, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from GitHub to GitLab. Export your data, set up GitLab, and switch your team — save Free / $7-$21/user per month.">
   <meta name="keywords" content="migrate GitHub to GitLab, GitHub to GitLab migration, how to switch from GitHub, GitLab migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-github-to-gitlab/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from GitHub to GitLab (August 20, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from GitHub to GitLab (August 22, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from GitHub to GitLab. Export your data, set up GitLab, and switch your team — save Free / $7-$21/user per month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-github-to-gitlab/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -21,7 +21,7 @@
     "name": "How to Migrate from GitHub to GitLab",
     "description": "Complete step-by-step guide to migrating from GitHub to GitLab. Export your data, set up GitLab, and switch your team — save Free / $7-$21/user per month.",
     "totalTime": "~3-4 hours",
-    "step": [{"@type":"HowToStep","text":"GitLab provides a GitHub importer that migrates repositories, issues, PRs, wikis, and milestones. Update CI configuration from GitHub Actions to GitLab CI/CD YAML format."}]
+    "step": [{"@type":"HowToStep","text":"Export your data from GitHub using their built-in export tool (Settings → Export)"}, {"@type":"HowToStep","text":"Set up GitLab on your own server or use their hosted option"}, {"@type":"HowToStep","text":"Import your exported data into GitLab following their import documentation"}, {"@type":"HowToStep","text":"Invite your team members and recreate your workspace structure"}, {"@type":"HowToStep","text":"Run both tools in parallel for 1–2 weeks before fully switching"}]
   }
   </script>
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
@@ -75,11 +75,11 @@
     <span class="hero-badge">💰 Save Free / $7-$21/user/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     <span class="hero-badge">🖥️ Setup: Advanced (~3-4 hours)</span>
-    <span class="hero-badge">📅 August 20, 2026</span>
+    <span class="hero-badge">📅 August 22, 2026</span>
   </div>
 </div>
 <div class="content">
-  
+  <div class="card"><p style="margin-bottom:1rem;color:var(--text);line-height:1.7;">Many organizations start on GitHub because of its massive ecosystem, but as they grow they hit limits that make GitLab a compelling alternative. GitLab’s open‑source core eliminates per‑user licensing fees, offers a self‑hosted option for strict compliance, and bundles issue tracking, CI/CD, and security scanning into a single UI. When the cost of GitHub’s paid plans ($7‑$21 per user) outweighs the budget, or when a team needs tighter control over data residency, moving to GitLab can reduce expenses and increase operational flexibility.</p><p style="margin-bottom:1rem;color:var(--text);line-height:1.7;">The migration makes the most sense when you already use GitHub for source control but want tighter integration with DevSecOps pipelines, more granular permission granularity, or the ability to run runners on internal hardware. Companies with regulatory requirements, large monorepos, or a desire to avoid vendor lock‑in often choose GitLab because it provides the same Git experience while letting them host the platform on‑premises or in a private cloud. Planning a systematic migration helps preserve commit history, issues, and CI configurations while minimizing downtime for developers.</p></div>
   <div class="savings-box">
     <div class="amount">$0</div>
     <div class="desc">
@@ -92,7 +92,27 @@
     
     <div class="step-card">
       <div class="step-num">1</div>
-      <div class="step-text">GitLab provides a GitHub importer that migrates repositories, issues, PRs, wikis, and milestones. Update CI configuration from GitHub Actions to GitLab CI/CD YAML format.</div>
+      <div class="step-text"><strong>Export Repositories</strong><br>List all repositories you own or contribute to via the GitHub API and run a git clone --mirror for each repo to capture every branch, tag, and commit. Store the bare mirrors in a secure location; they serve as the source for the GitLab import. If you have many repos, script the process with a loop that writes the repo URLs to a file and feeds them to git clone.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-text"><strong>Export Issues & Pull Requests</strong><br>Use GitHub’s REST or GraphQL endpoints to pull issues, pull requests, comments, and labels into JSON files. Tools like github2gitlab or the official GitHub Exporter can automate this step and preserve timestamps and authorship. Exported data will later be fed to GitLab’s import API or imported via the web UI’s issue migration feature.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-text"><strong>Set Up GitLab Instance</strong><br>Deploy GitLab Community Edition on a VM, Docker, or Kubernetes, or sign up for a GitLab.com free tier. Create groups that mirror your GitHub organization structure, configure LDAP or SSO if needed, and enable shared runners for CI/CD. Adjust storage limits and backup schedules before any data lands on the new server.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">4</div>
+      <div class="step-text"><strong>Import Repositories</strong><br>In GitLab, use the “Import project” UI or the /projects API to push each mirrored repository. Select the option to preserve all refs, and verify that large files are handled by Git LFS if you used it on GitHub. After the import, run git fsck on the new repo to ensure integrity before moving on.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">5</div>
+      <div class="step-text"><strong>Migrate CI/CD Pipelines</strong><br>Translate .github/workflows YAML files into .gitlab-ci.yml syntax. Map GitHub secrets to GitLab CI/CD variables and register runners that match your execution environment. Test the new pipelines in a staging branch, fixing any syntax differences or missing Docker images, then enable them on the main branch.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">6</div>
+      <div class="step-text"><strong>Team Onboarding & Cutover</strong><br>Invite all GitHub users to the corresponding GitLab groups, assigning roles that reflect their previous permissions. Communicate the new remote URL (git@gitlab.example.com:group/project.git) and have developers update their local clones with git remote set-url. Once every team confirms successful pushes and pipeline runs, disable write access on GitHub and archive the old repos.</div>
     </div>
   </div>
   
@@ -107,6 +127,10 @@
   </div>
   
   <div class="card">
+    <h2>⚠️ Common Challenges & How to Avoid Them</h2>
+    <div style="margin-bottom:1rem;"><strong style="color:var(--text);">Very large repositories can time out during GitLab’s import process.</strong><br><span style="color:var(--text-muted);">Break the import into smaller chunks by pushing individual branches manually, or increase the import timeout setting in GitLab’s configuration.</span></div><div style="margin-bottom:1rem;"><strong style="color:var(--text);">GitHub’s team‑based permission model does not map 1:1 to GitLab groups and access levels.</strong><br><span style="color:var(--text-muted);">Export team membership via the GitHub API, then script the creation of matching GitLab groups and assign users with the appropriate role (Guest, Reporter, Developer, Maintainer).</span></div><div style="margin-bottom:1rem;"><strong style="color:var(--text);">GitHub Actions workflows often use syntax or marketplace actions that have no direct GitLab equivalent.</strong><br><span style="color:var(--text-muted);">Rewrite the workflows using native GitLab CI jobs; leverage community conversion scripts for common actions and test each job in isolation before full pipeline activation.</span></div>
+  </div>
+  <div class="card">
     <h2>🔗 Get Started</h2>
     <div class="tool-links">
       <a class="tool-link leave" href="https://github.com" target="_blank" rel="noopener">Export from GitHub →</a>
@@ -114,6 +138,10 @@
     </div>
   </div>
   
+  <div class="card">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">Will comments, reactions, and release assets be lost during migration?</strong><br><span style="color:var(--text-muted);">Most metadata—issues, comments, labels, and releases—can be exported via the GitHub API and re‑created in GitLab with the import tools. Reactions and some third‑party integrations may need manual recreation, but core discussion history is retained.</span></div><div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">Is GitLab really free for large teams?</strong><br><span style="color:var(--text-muted);">GitLab Community Edition is open source and free to self‑host regardless of team size. GitLab.com’s free tier offers unlimited private repos with a 5 GB storage limit per project; paid tiers add advanced security and management features, but the core version remains cost‑free.</span></div><div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">Can I keep GitHub and GitLab in sync while I transition?</strong><br><span style="color:var(--text-muted);">Yes. Set GitHub to read‑only after the initial export, enable repository mirroring in GitLab, and use webhooks or a CI job to push new commits from GitHub to GitLab until the cutover date. This ensures no work is lost during the switch.</span></div>
+  </div>
   <div class="card" style="text-align:center;padding:1.5rem;">
     <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">Want a full feature and pricing comparison before you switch?</p>
     <a class="back-btn" href="../github-vs-gitlab/">Read the Full GitHub vs GitLab Comparison →</a>

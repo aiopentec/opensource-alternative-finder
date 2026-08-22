@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from LastPass to Vaultwarden (August 20, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from LastPass to Vaultwarden (August 22, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from LastPass to Vaultwarden. Export your data, set up Vaultwarden, and switch your team — save Free / $3-$4/user/month per month.">
   <meta name="keywords" content="migrate LastPass to Vaultwarden, LastPass to Vaultwarden migration, how to switch from LastPass, Vaultwarden migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-lastpass-to-vaultwarden/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from LastPass to Vaultwarden (August 20, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from LastPass to Vaultwarden (August 22, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from LastPass to Vaultwarden. Export your data, set up Vaultwarden, and switch your team — save Free / $3-$4/user/month per month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-lastpass-to-vaultwarden/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -21,7 +21,7 @@
     "name": "How to Migrate from LastPass to Vaultwarden",
     "description": "Complete step-by-step guide to migrating from LastPass to Vaultwarden. Export your data, set up Vaultwarden, and switch your team — save Free / $3-$4/user/month per month.",
     "totalTime": "PT2H",
-    "step": [{"@type":"HowToStep","text":"Export your data from LastPass in its standard export format, review Vaultwarden import documentation, and plan a pilot period where both tools run in parallel."}]
+    "step": [{"@type":"HowToStep","text":"Export all vault items from LastPass via the *CSV* export feature (Settings → Advanced → Export)."}, {"@type":"HowToStep","text":"Sanitize the CSV to match Vaultwarden’s import schema (remove unsupported columns, ensure `username`, `password`, `url`, `name`)."}, {"@type":"HowToStep","text":"Deploy Vaultwarden on a server (Docker command: `docker run -d --name vaultwarden -v /vw-data:/data -p 80:80 vaultwarden/server:latest`)."}, {"@type":"HowToStep","text":"Import the cleaned CSV using Vaultwarden’s built‑in import tool (`/admin` → *Import Data* → select CSV)."}, {"@type":"HowToStep","text":"Validate that all entries appear correctly, re‑enable two‑factor authentication, and decommission the LastPass account."}]
   }
   </script>
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
@@ -75,7 +75,7 @@
     <span class="hero-badge">💰 Save Free / $3-$4/user/month/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     
-    <span class="hero-badge">📅 August 20, 2026</span>
+    <span class="hero-badge">📅 August 22, 2026</span>
   </div>
 </div>
 <div class="content">
@@ -92,7 +92,23 @@
     
     <div class="step-card">
       <div class="step-num">1</div>
-      <div class="step-text">Export your data from LastPass in its standard export format, review Vaultwarden import documentation, and plan a pilot period where both tools run in parallel.</div>
+      <div class="step-text">Export all vault items from LastPass via the *CSV* export feature (Settings → Advanced → Export).</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-text">Sanitize the CSV to match Vaultwarden’s import schema (remove unsupported columns, ensure `username`, `password`, `url`, `name`).</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-text">Deploy Vaultwarden on a server (Docker command: `docker run -d --name vaultwarden -v /vw-data:/data -p 80:80 vaultwarden/server:latest`).</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">4</div>
+      <div class="step-text">Import the cleaned CSV using Vaultwarden’s built‑in import tool (`/admin` → *Import Data* → select CSV).</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">5</div>
+      <div class="step-text">Validate that all entries appear correctly, re‑enable two‑factor authentication, and decommission the LastPass account.</div>
     </div>
   </div>
   

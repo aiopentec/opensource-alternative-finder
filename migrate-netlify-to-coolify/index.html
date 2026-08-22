@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Netlify to Coolify (August 20, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Netlify to Coolify (August 22, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Netlify to Coolify. Export your data, set up Coolify, and switch your team — save Free / $19-$99/month per month.">
   <meta name="keywords" content="migrate Netlify to Coolify, Netlify to Coolify migration, how to switch from Netlify, Coolify migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-netlify-to-coolify/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Netlify to Coolify (August 20, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Netlify to Coolify (August 22, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Netlify to Coolify. Export your data, set up Coolify, and switch your team — save Free / $19-$99/month per month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-netlify-to-coolify/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -21,7 +21,7 @@
     "name": "How to Migrate from Netlify to Coolify",
     "description": "Complete step-by-step guide to migrating from Netlify to Coolify. Export your data, set up Coolify, and switch your team — save Free / $19-$99/month per month.",
     "totalTime": "PT2H",
-    "step": [{"@type":"HowToStep","text":"Export your data from Netlify in its standard export format, review Coolify import documentation, and plan a pilot period where both tools run in parallel."}]
+    "step": [{"@type":"HowToStep","text":"Export Netlify site configuration – download the `netlify.toml` file and any environment variables via the Netlify UI or API."}, {"@type":"HowToStep","text":"Containerize the app – create a `Dockerfile` (or use an existing image) that replicates the build steps defined in `netlify.toml`."}, {"@type":"HowToStep","text":"Set up a Coolify server – provision a VM or Kubernetes node, install Docker, then run the Coolify installer (`curl -fsSL https://coolify.io/install.sh | bash`)."}, {"@type":"HowToStep","text":"Create a new project in Coolify – import the Docker image, add the exported environment variables, and configure the database services if needed."}, {"@type":"HowToStep","text":"Deploy and verify – trigger a build from Coolify’s dashboard, test the live URL, and switch DNS records from Netlify to your Coolify domain."}]
   }
   </script>
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
@@ -75,7 +75,7 @@
     <span class="hero-badge">💰 Save Free / $19-$99/month/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     
-    <span class="hero-badge">📅 August 20, 2026</span>
+    <span class="hero-badge">📅 August 22, 2026</span>
   </div>
 </div>
 <div class="content">
@@ -92,7 +92,23 @@
     
     <div class="step-card">
       <div class="step-num">1</div>
-      <div class="step-text">Export your data from Netlify in its standard export format, review Coolify import documentation, and plan a pilot period where both tools run in parallel.</div>
+      <div class="step-text">Export Netlify site configuration – download the `netlify.toml` file and any environment variables via the Netlify UI or API.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-text">Containerize the app – create a `Dockerfile` (or use an existing image) that replicates the build steps defined in `netlify.toml`.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-text">Set up a Coolify server – provision a VM or Kubernetes node, install Docker, then run the Coolify installer (`curl -fsSL https://coolify.io/install.sh | bash`).</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">4</div>
+      <div class="step-text">Create a new project in Coolify – import the Docker image, add the exported environment variables, and configure the database services if needed.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">5</div>
+      <div class="step-text">Deploy and verify – trigger a build from Coolify’s dashboard, test the live URL, and switch DNS records from Netlify to your Coolify domain.</div>
     </div>
   </div>
   
