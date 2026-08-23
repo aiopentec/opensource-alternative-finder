@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from GitHub to Gitea (August 22, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from GitHub to Gitea (August 23, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from GitHub to Gitea. Export your data, set up Gitea, and switch your team — save Free / $7-$21/user per month.">
   <meta name="keywords" content="migrate GitHub to Gitea, GitHub to Gitea migration, how to switch from GitHub, Gitea migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-github-to-gitea/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from GitHub to Gitea (August 22, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from GitHub to Gitea (August 23, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from GitHub to Gitea. Export your data, set up Gitea, and switch your team — save Free / $7-$21/user per month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-github-to-gitea/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -75,11 +75,11 @@
     <span class="hero-badge">💰 Save Free / $7-$21/user/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     <span class="hero-badge">🖥️ Setup: Easy (~20 mins)</span>
-    <span class="hero-badge">📅 August 22, 2026</span>
+    <span class="hero-badge">📅 August 23, 2026</span>
   </div>
 </div>
 <div class="content">
-  
+  <div class="card"><p style="margin-bottom:1rem;color:var(--text);line-height:1.7;">Migrating from GitHub to Gitea is a pragmatic move for engineering teams seeking absolute control over their source code, lower hosting costs, and enhanced data privacy. While GitHub remains the industry giant with a massive ecosystem, its cloud-centric model, rising enterprise pricing tiers, and strict telemetry policies do not suit every organization. Gitea offers a compelling, lightweight open-source alternative written in Go that replicates core Git hosting workflows while running comfortably on modest self-hosted hardware like a Raspberry Pi or a private Kubernetes cluster.</p><p style="margin-bottom:1rem;color:var(--text);line-height:1.7;">Organizations typically make the switch when compliance mandates require on-premise data residency, or when they want to eliminate per-seat SaaS costs for large internal teams. Gitea provides a familiar user interface, built-in issue tracking, pull requests, and continuous integration capabilities that minimize the learning curve for developers coming straight from GitHub. However, executing a seamless migration requires careful planning around repository data, webhook redirection, and user identity mapping to ensure your engineering velocity does not drop during the transition.</p></div>
   <div class="savings-box">
     <div class="amount">$0</div>
     <div class="desc">
@@ -92,35 +92,27 @@
     
     <div class="step-card">
       <div class="step-num">1</div>
-      <div class="step-text">Set up your Gitea or Forgejo instance first via Docker Compose (a 1-2GB RAM VPS is sufficient for most teams) — complete the setup wizard and create your organization structure before migrating repos</div>
+      <div class="step-text"><strong>Audit and Export GitHub Repositories</strong><br>Begin by listing all organization repositories, wikis, and gists you intend to move. You can use the GitHub CLI or API to bulk-export repository archives, ensuring you capture all branches, tags, and commit histories before initiating the transfer.</div>
     </div>
     <div class="step-card">
       <div class="step-num">2</div>
-      <div class="step-text">Generate a GitHub personal access token with repo read access — Gitea's migration wizard needs this to pull your repositories</div>
+      <div class="step-text"><strong>Provision and Configure Your Gitea Instance</strong><br>Deploy Gitea on your target infrastructure using Docker, a binary release, or a Helm chart. Configure your database backend, set up SMTP for team invitations, and adjust the app.ini file to enable features like Git LFS and package registries that match your GitHub usage.</div>
     </div>
     <div class="step-card">
       <div class="step-num">3</div>
-      <div class="step-text">Use Gitea's built-in migration tool (+ → New Migration → GitHub) for each repository. This pulls commit history, issues, pull requests, labels, milestones, and releases in one operation</div>
+      <div class="step-text"><strong>Migrate Repositories and History</strong><br>Leverage Gitea's built-in migration tool, which connects directly to GitHub via a personal access token. This importer automatically transfers repositories, issues, pull requests, and releases while preserving author metadata and commit timelines.</div>
     </div>
     <div class="step-card">
       <div class="step-num">4</div>
-      <div class="step-text">For repositories you want to keep in sync during a transition period, use Gitea's repository mirroring feature instead of a one-time migration — commits to GitHub will automatically sync to Gitea</div>
+      <div class="step-text"><strong>Configure Authentication and User Accounts</strong><br>Set up external authentication providers in Gitea, such as LDAP, OAuth2, or SAML, matching the identity providers you previously used with GitHub. Prompt team members to log in and link their accounts so that issue assignments and commit histories map correctly to their new profiles.</div>
     </div>
     <div class="step-card">
       <div class="step-num">5</div>
-      <div class="step-text">Audit your GitHub Actions workflows: most standard actions (checkout, setup-node, setup-python) have Forgejo/Gitea Actions-compatible equivalents and will run with little to no modification</div>
+      <div class="step-text"><strong>Update CI/CD Pipelines and Webhooks</strong><br>Rewrite your GitHub Actions workflows to Gitea Actions runners or alternative CI systems like Drone or Jenkins. Recreate repository webhooks in Gitea pointing to your deployment servers, internal chat tools, and artifact registries to restore automated feedback loops.</div>
     </div>
     <div class="step-card">
       <div class="step-num">6</div>
-      <div class="step-text">Marketplace actions with no Forgejo equivalent need to be rewritten as custom scripts or replaced with self-hosted alternatives — identify these before cutover, not after</div>
-    </div>
-    <div class="step-card">
-      <div class="step-num">7</div>
-      <div class="step-text">GitHub Packages don't migrate automatically — re-publish your package artifacts to Gitea's built-in package registry (supports npm, Docker, PyPI, Maven, and more)</div>
-    </div>
-    <div class="step-card">
-      <div class="step-num">8</div>
-      <div class="step-text">Migrate one repository at a time, verify CI/CD works end-to-end on Gitea, then move to the next. Don't attempt an organization-wide cutover in a single day</div>
+      <div class="step-text"><strong>Execute the Final Cutover</strong><br>Announce a brief read-only freeze on GitHub, perform a final delta migration for any commits made during the transition, and update your local Git remotes. Instruct developers to run git remote set-url origin for all active local repositories to point to the new Gitea instance.</div>
     </div>
   </div>
   
@@ -135,6 +127,10 @@
   </div>
   
   <div class="card">
+    <h2>⚠️ Common Challenges & How to Avoid Them</h2>
+    <div style="margin-bottom:1rem;"><strong style="color:var(--text);">GitHub Actions workflows are not natively compatible with Gitea's runner architecture.</strong><br><span style="color:var(--text-muted);">You will need to reconfigure your workflow syntax to use act-runner, Gitea's compatible runner implementation, and adjust secrets and environment variables manually.</span></div><div style="margin-bottom:1rem;"><strong style="color:var(--text);">Issue numbers and pull request references might mismatch if automated migrations encounter API rate limits.</strong><br><span style="color:var(--text-muted);">Use Gitea's administrative migration settings with a GitHub personal access token that has elevated scopes to prevent throttling, and verify critical pull request discussions post-import.</span></div><div style="margin-bottom:1rem;"><strong style="color:var(--text);">Team members accustomed to GitHub's extensive marketplace of third-party apps may find fewer integrations available out of the box in Gitea.</strong><br><span style="color:var(--text-muted);">Audit your critical integrations beforehand and utilize Gitea's native webhooks and API endpoints to build custom integrations or connect to webhook relay services.</span></div>
+  </div>
+  <div class="card">
     <h2>🔗 Get Started</h2>
     <div class="tool-links">
       <a class="tool-link leave" href="https://github.com" target="_blank" rel="noopener">Export from GitHub →</a>
@@ -142,6 +138,10 @@
     </div>
   </div>
   
+  <div class="card">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">Can I migrate GitHub Actions to Gitea Actions?</strong><br><span style="color:var(--text-muted);">Yes, Gitea Actions is largely compatible with the GitHub Actions workflow syntax because it uses the same underlying runner engine called act. However, you will need to deploy Gitea Actions runners on your own infrastructure and update any custom marketplace action references that rely specifically on GitHub-hosted runners.</span></div><div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">How does Gitea handle large file storage compared to GitHub?</strong><br><span style="color:var(--text-muted);">Gitea includes native support for Git LFS (Large File Storage), allowing you to store heavy binary files efficiently. You can configure Gitea to store LFS objects on local disk storage or offload them to S3-compatible object storage just like you would on enterprise GitHub.</span></div><div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">Is it possible to keep GitHub and Gitea synchronized during a gradual migration?</strong><br><span style="color:var(--text-muted);">While you can set up repository mirroring from GitHub to Gitea for read-only sync, maintaining a two-way sync for active development is discouraged due to potential merge conflicts and diverging commit histories. It is best to schedule a clear cutover window for each repository or team.</span></div>
+  </div>
   <div class="card" style="text-align:center;padding:1.5rem;">
     <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">Want a full feature and pricing comparison before you switch?</p>
     <a class="back-btn" href="../github-vs-gitea/">Read the Full GitHub vs Gitea Comparison →</a>

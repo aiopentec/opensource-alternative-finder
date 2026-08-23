@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Loom to Cap (August 22, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Loom to Cap (August 23, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Loom to Cap. Export your data, set up Cap, and switch your team — save Free / $12.50-$14.99/user/month per month.">
   <meta name="keywords" content="migrate Loom to Cap, Loom to Cap migration, how to switch from Loom, Cap migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-loom-to-cap/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Loom to Cap (August 22, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Loom to Cap (August 23, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Loom to Cap. Export your data, set up Cap, and switch your team — save Free / $12.50-$14.99/user/month per month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-loom-to-cap/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -21,7 +21,7 @@
     "name": "How to Migrate from Loom to Cap",
     "description": "Complete step-by-step guide to migrating from Loom to Cap. Export your data, set up Cap, and switch your team — save Free / $12.50-$14.99/user/month per month.",
     "totalTime": "PT2H",
-    "step": [{"@type":"HowToStep","text":"Export your data from Loom using their built-in export tool (Settings → Export)"}, {"@type":"HowToStep","text":"Set up Cap on your own server or use their hosted option"}, {"@type":"HowToStep","text":"Import your exported data into Cap following their import documentation"}, {"@type":"HowToStep","text":"Invite your team members and recreate your workspace structure"}, {"@type":"HowToStep","text":"Run both tools in parallel for 1–2 weeks before fully switching"}]
+    "step": [{"@type":"HowToStep","text":"Export recordings from Loom – use Loom’s “Download as MP4” feature or bulk export via the CSV manifest (MP4 files + CSV metadata)."}, {"@type":"HowToStep","text":"Set up a Cap server – provision a Linux VM, install Docker, and run `docker compose up -d` using the official Cap repository."}, {"@type":"HowToStep","text":"Import videos – place exported MP4s into the `/data/uploads` directory and run Cap’s `import-cli --metadata csv_path` to ingest metadata."}, {"@type":"HowToStep","text":"Recreate teams and permissions – map Loom workspaces to Cap groups via the admin UI or REST API."}, {"@type":"HowToStep","text":"Update links and embed codes – replace Loom URLs with your Cap domain in documentation, CRM, and internal portals."}]
   }
   </script>
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
@@ -75,11 +75,11 @@
     <span class="hero-badge">💰 Save Free / $12.50-$14.99/user/month/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     
-    <span class="hero-badge">📅 August 22, 2026</span>
+    <span class="hero-badge">📅 August 23, 2026</span>
   </div>
 </div>
 <div class="content">
-  
+  <div class="card"><p style="margin-bottom:1rem;color:var(--text);line-height:1.7;">Migrating from Loom to Cap is a logical step for individuals and teams looking to escape escalating software subscription costs while retaining the core ability to record, share, and collaborate via video messages. Loom charges between $12.50 and $14.99 per user per month for its business tiers, which quickly accumulates into a significant recurring line item for growing teams. In contrast, Cap offers a compelling free and open-source alternative that puts data sovereignty and cost savings front and center without sacrificing the snappy screen recording and instant link-sharing workflows users expect.</p><p style="margin-bottom:1rem;color:var(--text);line-height:1.7;">Organizations typically make the switch when they want to eliminate per-user software licensing overhead or require a solution that can be self-hosted for strict data privacy compliance. While Loom provides a polished, cloud-locked ecosystem with built-in AI transcription and cloud storage, Cap leverages open-source flexibility, allowing you to run your video workflows with complete independence. Transitioning does require rethinking your video archiving strategy since Loom's proprietary cloud library won't automatically sync over, but the resulting financial freedom and control over your media assets make the migration well worth the effort.</p></div>
   <div class="savings-box">
     <div class="amount">$0</div>
     <div class="desc">
@@ -92,23 +92,27 @@
     
     <div class="step-card">
       <div class="step-num">1</div>
-      <div class="step-text">Export your data from Loom using their built-in export tool (Settings → Export)</div>
+      <div class="step-text"><strong>Audit and Export Existing Loom Videos</strong><br>Begin by reviewing your current Loom library to identify critical async video updates, product walkthroughs, and tutorials that your team still actively references. Use Loom's bulk download feature or manually export your essential MP4 files to a secure local folder or cloud repository. This ensures you retain an offline archive before you cancel any active paid Loom subscriptions.</div>
     </div>
     <div class="step-card">
       <div class="step-num">2</div>
-      <div class="step-text">Set up Cap on your own server or use their hosted option</div>
+      <div class="step-text"><strong>Install and Configure Cap</strong><br>Download and install the Cap desktop application on your macOS or Windows machine, matching the workflow your team previously used with Loom. Configure your default microphone, webcam, and system audio settings within Cap to ensure high-fidelity recording quality from day one. If your organization requires self-hosting, follow the open-source repository documentation to set up your own Cap backend infrastructure.</div>
     </div>
     <div class="step-card">
       <div class="step-num">3</div>
-      <div class="step-text">Import your exported data into Cap following their import documentation</div>
+      <div class="step-text"><strong>Establish Your New Video Repository</strong><br>Since Cap operates on an open-source model rather than a massive proprietary cloud suite, decide where your team will permanently store and share exported MP4 recordings. You can upload migrated Loom files and new Cap recordings to shared cloud drives like Google Drive, Notion, or your own internal server. Update any critical documentation links that previously pointed to Loom URLs so they direct viewers to your new storage locations.</div>
     </div>
     <div class="step-card">
       <div class="step-num">4</div>
-      <div class="step-text">Invite your team members and recreate your workspace structure</div>
+      <div class="step-text"><strong>Run a Pilot Migration with Your Core Team</strong><br>Introduce Cap to a small group of power users or a single engineering or product squad before rolling it out company-wide. Have this pilot group record daily standups, bug reports, and design feedback using Cap instead of Loom. Gather feedback on rendering speeds, hotkey usability, and sharing workflows to smooth out any friction points before the full team transition.</div>
     </div>
     <div class="step-card">
       <div class="step-num">5</div>
-      <div class="step-text">Run both tools in parallel for 1–2 weeks before fully switching</div>
+      <div class="step-text"><strong>Onboard the Wider Team and Update Playbooks</strong><br>Host a brief training session to familiarize your broader organization with Cap's recording interface and keyboard shortcuts. Update your internal team handbook to mandate Cap for all future async video communications instead of Loom. Share best practices on how to generate and distribute viewing links using your newly established storage infrastructure.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">6</div>
+      <div class="step-text"><strong>Complete the Cutover and Cancel Loom</strong><br>Once all teams have successfully adopted Cap for daily async video creation and your essential Loom archives are safely backed up, initiate the final cutover. Log into your Loom account administrator settings and cancel your subscription to stop future per-user billing charges. Monitor your team's adoption metrics over the next billing cycle to confirm a clean and permanent break.</div>
     </div>
   </div>
   
@@ -123,6 +127,10 @@
   </div>
   
   <div class="card">
+    <h2>⚠️ Common Challenges & How to Avoid Them</h2>
+    <div style="margin-bottom:1rem;"><strong style="color:var(--text);">Loom's cloud-based video links will immediately break once you cancel your subscription.</strong><br><span style="color:var(--text-muted);">Download all critical MP4 files from Loom beforehand and re-upload them to your company's internal storage or shared drive, updating any outdated documentation links.</span></div><div style="margin-bottom:1rem;"><strong style="color:var(--text);">Cap lacks the automated, cloud-native AI summaries and transcriptions built directly into Loom's paid tiers.</strong><br><span style="color:var(--text-muted);">Integrate third-party open-source transcription tools or rely on manual summaries in your shared document notes alongside each Cap video link.</span></div><div style="margin-bottom:1rem;"><strong style="color:var(--text);">Team members accustomed to Loom's instant web-based link generation may struggle with Cap's open-source file-sharing workflow.</strong><br><span style="color:var(--text-muted);">Create a standardized template in Slack or Notion that pairs the Cap video file link with a brief written context and timestamp outline.</span></div>
+  </div>
+  <div class="card">
     <h2>🔗 Get Started</h2>
     <div class="tool-links">
       <a class="tool-link leave" href="https://loom.com" target="_blank" rel="noopener">Export from Loom →</a>
@@ -130,6 +138,10 @@
     </div>
   </div>
   
+  <div class="card">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">Is Cap completely free to use compared to Loom's paid plans?</strong><br><span style="color:var(--text-muted);">Yes, Cap is an open-source alternative that does not charge per-user monthly subscription fees like Loom's Business and Enterprise tiers. You can download and use the application freely, and even self-host if your organization requires complete data control.</span></div><div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">Can I automatically import my existing Loom video library into Cap?</strong><br><span style="color:var(--text-muted);">No direct automated import tool exists between Loom and Cap due to Loom's closed cloud ecosystem. You must manually or in bulk download your MP4 files from Loom and organize them within your own storage solution.</span></div><div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">How do team members share videos recorded in Cap without Loom's cloud hosting?</strong><br><span style="color:var(--text-muted);">Cap records high-quality videos locally on your machine, which you can then upload to your existing team cloud storage, messaging platforms like Slack, or a self-hosted server to generate shareable links.</span></div>
+  </div>
   <div class="card" style="text-align:center;padding:1.5rem;">
     <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">Want a full feature and pricing comparison before you switch?</p>
     <a class="back-btn" href="../loom-vs-cap/">Read the Full Loom vs Cap Comparison →</a>

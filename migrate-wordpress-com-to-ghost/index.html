@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from WordPress.com to Ghost (August 22, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from WordPress.com to Ghost (August 23, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from WordPress.com to Ghost. Export your data, set up Ghost, and switch your team — save Free / $4-$45+/month per month.">
   <meta name="keywords" content="migrate WordPress.com to Ghost, WordPress.com to Ghost migration, how to switch from WordPress.com, Ghost migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-wordpress-com-to-ghost/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from WordPress.com to Ghost (August 22, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from WordPress.com to Ghost (August 23, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from WordPress.com to Ghost. Export your data, set up Ghost, and switch your team — save Free / $4-$45+/month per month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-wordpress-com-to-ghost/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -21,7 +21,7 @@
     "name": "How to Migrate from WordPress.com to Ghost",
     "description": "Complete step-by-step guide to migrating from WordPress.com to Ghost. Export your data, set up Ghost, and switch your team — save Free / $4-$45+/month per month.",
     "totalTime": "~20 mins",
-    "step": [{"@type":"HowToStep","text":"Export content from WordPress.com – use the built‑in Tools → Export feature to download an XML file (WXR format)."}, {"@type":"HowToStep","text":"Convert the XML to Ghost’s JSON format – run the open‑source `wordpress-to-ghost` conversion script (`npm i -g @tryghost/migrator`)."}, {"@type":"HowToStep","text":"Create a new Ghost site – set up a VPS (Node.js, MySQL/SQLite, Nginx) or sign up for Ghost(Pro)."}, {"@type":"HowToStep","text":"Import the JSON file – in Ghost Admin, go to Labs → Import content and upload the converted file."}, {"@type":"HowToStep","text":"Verify redirects and SEO – add 301 redirects in your server config for old WordPress URLs to preserve search rankings."}]
+    "step": [{"@type":"HowToStep","text":"In WordPress.com, go to Tools → Export and download the XML (WXR) file."}, {"@type":"HowToStep","text":"Install Ghost locally or on a server (`npm install ghost-cli && ghost install`)."}, {"@type":"HowToStep","text":"In Ghost Admin, navigate to Labs → Import, upload the exported XML file; Ghost will convert posts to its JSON format."}, {"@type":"HowToStep","text":"Manually recreate menus, widgets, and any custom post types that did not transfer."}, {"@type":"HowToStep","text":"Point your domain’s DNS to the new Ghost instance and enable SSL."}]
   }
   </script>
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
@@ -75,11 +75,11 @@
     <span class="hero-badge">💰 Save Free / $4-$45+/month/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     <span class="hero-badge">🖥️ Setup: Easy (~20 mins)</span>
-    <span class="hero-badge">📅 August 22, 2026</span>
+    <span class="hero-badge">📅 August 23, 2026</span>
   </div>
 </div>
 <div class="content">
-  
+  <div class="card"><p style="margin-bottom:1rem;color:var(--text);line-height:1.7;">Migrating from WordPress.com to Ghost is a strategic move for publishers, writers, and creators who want to escape the escalating subscription tiers of WordPress.com business plans in favor of a lightning-fast, purpose-built publishing platform. While WordPress.com offers a massive plugin ecosystem and familiar Gutenberg blocks, it often bogs down sites with heavy bloat, intrusive upsells, and fragmented interfaces for memberships and newsletters. Ghost, by contrast, is designed specifically for independent journalism and modern membership businesses, providing a clean minimalist writing experience, native email newsletters, and built-in Stripe subscriptions without taking a percentage cut of your revenue.</p><p style="margin-bottom:1rem;color:var(--text);line-height:1.7;">You should consider making this jump when your WordPress.com site has matured beyond a basic blog and you need a dedicated space focused purely on content creation, audience engagement, and direct monetization. Ghost strips away the endless configuration menus of WordPress, replacing them with a streamlined dashboard that lets you publish posts, manage paid tiers, and send newsletters directly from a single editor. Although the migration requires shifting away from your old PHP-based plugins and adapting to Ghost's card-based writing system, the long-term payoff is a faster site, lower hosting overhead, and a direct connection with your readership.</p></div>
   <div class="savings-box">
     <div class="amount">$0</div>
     <div class="desc">
@@ -92,23 +92,27 @@
     
     <div class="step-card">
       <div class="step-num">1</div>
-      <div class="step-text">Export content from WordPress.com – use the built‑in Tools → Export feature to download an XML file (WXR format).</div>
+      <div class="step-text"><strong>Export Content from WordPress.com</strong><br>Log into your WordPress.com dashboard and navigate to Tools, then Export. Choose the WordPress export option to download an XML file containing all your posts, pages, comments, and categories. Note that you may need a paid WordPress.com plan that supports XML exports, or you will need to rely on the self-hosted migration workaround.</div>
     </div>
     <div class="step-card">
       <div class="step-num">2</div>
-      <div class="step-text">Convert the XML to Ghost’s JSON format – run the open‑source `wordpress-to-ghost` conversion script (`npm i -g @tryghost/migrator`).</div>
+      <div class="step-text"><strong>Set Up Your Ghost Instance</strong><br>Deploy a fresh Ghost site either by using Ghost Pro hosting or by self-hosting Ghost on an Ubuntu VPS using DigitalOcean or AWS. Complete the initial admin setup wizard, add your publication branding, and configure your basic site settings before touching any imported content.</div>
     </div>
     <div class="step-card">
       <div class="step-num">3</div>
-      <div class="step-text">Create a new Ghost site – set up a VPS (Node.js, MySQL/SQLite, Nginx) or sign up for Ghost(Pro).</div>
+      <div class="step-text"><strong>Import Content and Members into Ghost</strong><br>In your Ghost Admin panel, go to Settings, then Labs, and locate the Migration tool. Upload the XML file you exported from WordPress.com, and Ghost will automatically convert your old posts and pages into Ghost's native markdown and lexical card format.</div>
     </div>
     <div class="step-card">
       <div class="step-num">4</div>
-      <div class="step-text">Import the JSON file – in Ghost Admin, go to Labs → Import content and upload the converted file.</div>
+      <div class="step-text"><strong>Rebuild Navigation and Theme Styling</strong><br>Because WordPress themes do not transfer to Ghost, select a compatible theme from the Ghost Marketplace or install a custom Handlebars theme. Recreate your primary navigation menus in Ghost settings and upload your site logo and cover images to match your former branding.</div>
     </div>
     <div class="step-card">
       <div class="step-num">5</div>
-      <div class="step-text">Verify redirects and SEO – add 301 redirects in your server config for old WordPress URLs to preserve search rankings.</div>
+      <div class="step-text"><strong>Onboard Your Team and Staff Users</strong><br>Navigate to the Staff section in Ghost Admin to invite your former WordPress contributors, editors, or authors. Assign them appropriate roles such as Administrator, Editor, Author, or Contributor to restrict or grant publishing permissions matching your previous workflow.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">6</div>
+      <div class="step-text"><strong>Redirect Domains and Final Cutover</strong><br>Point your custom domain DNS records away from WordPress.com and toward your new Ghost server IP address via your domain registrar. Set up 301 redirects if your URL slug structure changes, and test your contact forms and newsletter signup flows before announcing the switch.</div>
     </div>
   </div>
   
@@ -123,6 +127,10 @@
   </div>
   
   <div class="card">
+    <h2>⚠️ Common Challenges & How to Avoid Them</h2>
+    <div style="margin-bottom:1rem;"><strong style="color:var(--text);">WordPress shortcodes and complex Gutenberg blocks break during the XML import, leaving raw text or broken HTML tags in your Ghost posts.</strong><br><span style="color:var(--text-muted);">Use a regex search-and-replace tool before importing, or manually clean up complex posts in the Ghost editor using HTML cards for embedded elements.</span></div><div style="margin-bottom:1rem;"><strong style="color:var(--text);">WordPress.com does not natively export subscriber payment data or Stripe configurations if you were using Paid Subscriptions or WooCommerce.</strong><br><span style="color:var(--text-muted);">Export your customer email lists as a CSV from WordPress, re-import them as members in Ghost, and prompt paid subscribers to update their billing details via Stripe.</span></div><div style="margin-bottom:1rem;"><strong style="color:var(--text);">Internal links pointing to old WordPress attachment URLs or category archives will result in 404 errors on your new Ghost site.</strong><br><span style="color:var(--text-muted);">Configure custom redirection rules in your Ghost hosting environment (using Nginx or Cloudflare) to catch legacy URL patterns and map them to new Ghost slugs.</span></div>
+  </div>
+  <div class="card">
     <h2>🔗 Get Started</h2>
     <div class="tool-links">
       <a class="tool-link leave" href="https://wordpress.com" target="_blank" rel="noopener">Export from WordPress.com →</a>
@@ -130,6 +138,10 @@
     </div>
   </div>
   
+  <div class="card">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">Will migrating from WordPress.com to Ghost hurt my SEO rankings?</strong><br><span style="color:var(--text-muted);">It can temporarily impact rankings if URL structures change, but you can prevent permanent drops by setting up proper 301 redirects for every old post slug. Ghost has built-in SEO metadata controls that allow you to replicate or improve your former WordPress SEO titles and descriptions.</span></div><div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">Can I keep using my favorite WordPress plugins on Ghost?</strong><br><span style="color:var(--text-muted);">No, Ghost does not support WordPress plugins because it runs on Node.js rather than PHP. However, many core WordPress features like email newsletters, memberships, SEO tags, and RSS feeds are already built natively into Ghost without needing third-party plugins.</span></div><div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">How do I handle user comments after moving from WordPress.com to Ghost?</strong><br><span style="color:var(--text-muted);">Ghost does not include a native comment system by default to keep the platform lightweight. You can easily integrate third-party commenting tools like Disqus, Commento, or Webmentions by embedding their script directly into your Ghost theme.</span></div>
+  </div>
   <div class="card" style="text-align:center;padding:1.5rem;">
     <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">Want a full feature and pricing comparison before you switch?</p>
     <a class="back-btn" href="../wordpress-com-vs-ghost/">Read the Full WordPress.com vs Ghost Comparison →</a>

@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Confluence to BookStack (August 22, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Confluence to BookStack (August 23, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Confluence to BookStack. Export your data, set up BookStack, and switch your team — save $5.75-$11/user/month per month.">
   <meta name="keywords" content="migrate Confluence to BookStack, Confluence to BookStack migration, how to switch from Confluence, BookStack migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-confluence-to-bookstack/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Confluence to BookStack (August 22, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Confluence to BookStack (August 23, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Confluence to BookStack. Export your data, set up BookStack, and switch your team — save $5.75-$11/user/month per month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-confluence-to-bookstack/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -21,7 +21,7 @@
     "name": "How to Migrate from Confluence to BookStack",
     "description": "Complete step-by-step guide to migrating from Confluence to BookStack. Export your data, set up BookStack, and switch your team — save $5.75-$11/user/month per month.",
     "totalTime": "PT2H",
-    "step": [{"@type":"HowToStep","text":"Export from Confluence: In Confluence Cloud, go to *Space Settings → Content Tools → Export* and choose XML (full space export)."}, {"@type":"HowToStep","text":"Convert XML to Markdown/HTML: Use the open‑source script `confluence2markdown` to transform the XML into a folder of Markdown files preserving page hierarchy."}, {"@type":"HowToStep","text":"Prepare BookStack instance: Install BookStack on a LEMP stack, create the target book and chapter structure, and enable the import API."}, {"@type":"HowToStep","text":"Import content: Run the community tool `bookstack-import` (or the built‑in CSV import) pointing at the Markdown folder; the script maps pages to chapters automatically."}, {"@type":"HowToStep","text":"Validate and adjust permissions: Review imported pages, fix any broken links, and configure BookStack roles to match the previous Confluence permission model."}]
+    "step": [{"@type":"HowToStep","text":"Export from Confluence: In Confluence Cloud, go to *Space Settings → Content Tools → Export* and choose HTML (or XML for full fidelity)."}, {"@type":"HowToStep","text":"Convert to Markdown: Use a tool like `pandoc` or `html2md` to batch‑convert the exported HTML files to Markdown, which BookStack natively ingests."}, {"@type":"HowToStep","text":"Prepare BookStack: Install BookStack on your server (Docker or manual LAMP stack) and create a target *Book* for each Confluence space."}, {"@type":"HowToStep","text":"Import: In BookStack admin, use Tools → Import → Markdown to upload the converted files; assign them to the appropriate book/chapter hierarchy."}, {"@type":"HowToStep","text":"Validate & Adjust: Review imported pages for formatting issues, re‑link internal references, and set role‑based permissions."}]
   }
   </script>
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
@@ -75,11 +75,11 @@
     <span class="hero-badge">💰 Save $5.75-$11/user/month/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     
-    <span class="hero-badge">📅 August 22, 2026</span>
+    <span class="hero-badge">📅 August 23, 2026</span>
   </div>
 </div>
 <div class="content">
-  
+  <div class="card"><p style="margin-bottom:1rem;color:var(--text);line-height:1.7;">Migrating from Atlassian Confluence to BookStack represents a strategic shift from a costly, hierarchical enterprise wiki to a streamlined, open-source knowledge base. While Confluence charges tiered per-user pricing ranging from five to eleven dollars per month and locks your data inside Atlassian cloud infrastructure, BookStack is completely free, self-hosted, and open-source. Organizations typically make this transition to reduce recurring software expenditures, regain absolute ownership of their documentation data, and escape the growing complexity of the Atlassian ecosystem.</p><p style="margin-bottom:1rem;color:var(--text);line-height:1.7;">BookStack organizes content using a strict three-tier structural model consisting of Shelves, Books, Chapters, and Pages. This differs significantly from Confluence's more fluid space-and-page tree architecture. When planning your migration, you need to account for this structural translation, as well as how your team will adapt to BookStack's WYSIWYG and Markdown editing interfaces instead of the Confluence editor. Successfully executing this move requires careful data extraction, a clean self-hosted deployment, and a structured cutover plan to ensure zero disruption to your daily operations.</p></div>
   <div class="savings-box">
     <div class="amount">$0</div>
     <div class="desc">
@@ -92,23 +92,27 @@
     
     <div class="step-card">
       <div class="step-num">1</div>
-      <div class="step-text">Export from Confluence: In Confluence Cloud, go to *Space Settings → Content Tools → Export* and choose XML (full space export).</div>
+      <div class="step-text"><strong>Audit and Clean Up Confluence Spaces</strong><br>Before exporting, review your existing Confluence spaces to archive outdated pages and remove redundant attachments. Confluence accumulated technical debt over years of use often does not need to be carried over to your fresh BookStack instance. Reducing this footprint speeds up the migration process and ensures your new knowledge base starts clean.</div>
     </div>
     <div class="step-card">
       <div class="step-num">2</div>
-      <div class="step-text">Convert XML to Markdown/HTML: Use the open‑source script `confluence2markdown` to transform the XML into a folder of Markdown files preserving page hierarchy.</div>
+      <div class="step-text"><strong>Export Content from Confluence</strong><br>Use Confluence's built-in space export feature to generate XML or HTML backups of your documentation. For cloud instances, you may need to rely on site exports or third-party exporter apps to capture all page hierarchies, comments, and embedded images properly. Ensure you securely download all exported archives to your local migration workstation.</div>
     </div>
     <div class="step-card">
       <div class="step-num">3</div>
-      <div class="step-text">Prepare BookStack instance: Install BookStack on a LEMP stack, create the target book and chapter structure, and enable the import API.</div>
+      <div class="step-text"><strong>Deploy and Configure BookStack</strong><br>Set up a production-ready BookStack instance on your own infrastructure using Docker or a traditional LAMP stack. Configure your environment variables, establish SSL certificates, and set up authentication integrations like LDAP or SAML if your organization requires centralized user management. Having a stable BookStack environment ready is essential before importing any content.</div>
     </div>
     <div class="step-card">
       <div class="step-num">4</div>
-      <div class="step-text">Import content: Run the community tool `bookstack-import` (or the built‑in CSV import) pointing at the Markdown folder; the script maps pages to chapters automatically.</div>
+      <div class="step-text"><strong>Map Confluence Spaces to BookStack Shelves and Books</strong><br>Design your BookStack information architecture by mapping each Confluence space to a BookStack Book or Shelf. Because BookStack enforces a strict hierarchy, translating Confluence parent-child page trees into BookStack Chapters and Pages requires deliberate planning. Document this mapping schema beforehand to maintain consistency during the import phase.</div>
     </div>
     <div class="step-card">
       <div class="step-num">5</div>
-      <div class="step-text">Validate and adjust permissions: Review imported pages, fix any broken links, and configure BookStack roles to match the previous Confluence permission model.</div>
+      <div class="step-text"><strong>Import Content into BookStack</strong><br>Import your prepared content into BookStack using custom migration scripts, the REST API, or manual recreation for smaller knowledge bases. Since there is no native one-click importer from Confluence to BookStack, most administrators write Python or PHP scripts to parse the Confluence HTML exports and push them directly into BookStack. Verify that page formatting and internal links are preserved during this translation.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">6</div>
+      <div class="step-text"><strong>Onboard Users and Execute Cutover</strong><br>Invite your team members to the new BookStack instance and conduct a brief orientation on its shelf-and-book navigation model. Run the Confluence and BookStack instances in parallel for a short validation window before setting Confluence to read-only mode. Once team leads sign off on the imported data, officially retire your Confluence subscription.</div>
     </div>
   </div>
   
@@ -123,6 +127,10 @@
   </div>
   
   <div class="card">
+    <h2>⚠️ Common Challenges & How to Avoid Them</h2>
+    <div style="margin-bottom:1rem;"><strong style="color:var(--text);">Confluence macros and complex third-party add-ons do not have native equivalents in BookStack.</strong><br><span style="color:var(--text-muted);">Identify critical macros like Jira issue panels or draw.io diagrams prior to export and replace them with standard BookStack image embeds, code blocks, or native text tables.</span></div><div style="margin-bottom:1rem;"><strong style="color:var(--text);">There is no official automated tool for migrating historical page versions and comment threads from Confluence.</strong><br><span style="color:var(--text-muted);">Accept that historical versions will remain in your Confluence archives and migrate only the latest published revision of each page to keep the BookStack database lean.</span></div><div style="margin-bottom:1rem;"><strong style="color:var(--text);">Internal links pointing to old Confluence URL structures will break immediately after cutover.</strong><br><span style="color:var(--text-muted);">Write server-level rewrite rules or use BookStack API scripting to update internal hyperlink paths during the import phase so document cross-references remain functional.</span></div>
+  </div>
+  <div class="card">
     <h2>🔗 Get Started</h2>
     <div class="tool-links">
       <a class="tool-link leave" href="https://atlassian.com/confluence" target="_blank" rel="noopener">Export from Confluence →</a>
@@ -130,6 +138,10 @@
     </div>
   </div>
   
+  <div class="card">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">Is there an official migration tool from Atlassian Confluence to BookStack?</strong><br><span style="color:var(--text-muted);">No, BookStack does not provide a native automated Confluence importer. Administrators typically rely on Confluence HTML or XML exports combined with custom scripts interacting with the BookStack REST API to handle the transfer.</span></div><div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">How does BookStack handle user permissions compared to Confluence?</strong><br><span style="color:var(--text-muted);">Confluence manages permissions heavily through user groups and space-level restrictions tied to Atlassian accounts. BookStack offers a more granular role-based access control system that lets you assign permissions down to individual shelves, books, chapters, and pages.</span></div><div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">Can I self-host BookStack for free without user license limits?</strong><br><span style="color:var(--text-muted);">Yes, BookStack is open-source software licensed under the MIT license, meaning there are zero per-user licensing fees or artificial user caps. You only pay for the underlying server infrastructure required to host the application.</span></div>
+  </div>
   <div class="card" style="text-align:center;padding:1.5rem;">
     <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">Want a full feature and pricing comparison before you switch?</p>
     <a class="back-btn" href="../confluence-vs-bookstack/">Read the Full Confluence vs BookStack Comparison →</a>

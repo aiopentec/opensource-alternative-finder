@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Calendly to Cal.com (August 22, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Calendly to Cal.com (August 23, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Calendly to Cal.com. Export your data, set up Cal.com, and switch your team — save Free / $8-$16/user/month per month.">
   <meta name="keywords" content="migrate Calendly to Cal.com, Calendly to Cal.com migration, how to switch from Calendly, Cal.com migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-calendly-to-cal-com/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Calendly to Cal.com (August 22, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Calendly to Cal.com (August 23, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Calendly to Cal.com. Export your data, set up Cal.com, and switch your team — save Free / $8-$16/user/month per month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-calendly-to-cal-com/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -21,7 +21,7 @@
     "name": "How to Migrate from Calendly to Cal.com",
     "description": "Complete step-by-step guide to migrating from Calendly to Cal.com. Export your data, set up Cal.com, and switch your team — save Free / $8-$16/user/month per month.",
     "totalTime": "PT2H",
-    "step": [{"@type":"HowToStep","text":"Export your data from Calendly using their built-in export tool (Settings → Export)"}, {"@type":"HowToStep","text":"Set up Cal.com on your own server or use their hosted option"}, {"@type":"HowToStep","text":"Import your exported data into Cal.com following their import documentation"}, {"@type":"HowToStep","text":"Invite your team members and recreate your workspace structure"}, {"@type":"HowToStep","text":"Run both tools in parallel for 1–2 weeks before fully switching"}]
+    "step": [{"@type":"HowToStep","text":"Export Calendly data – In Calendly, go to *Settings → Export* and download meetings as a CSV file (includes event name, participant email, start/end times)."}, {"@type":"HowToStep","text":"Prepare the CSV – Ensure column headers match Cal.com’s import schema (`event_name`, `start_time`, `end_time`, `email`)."}, {"@type":"HowToStep","text":"Set up Cal.com – Deploy the open‑source stack via Docker Compose or your preferred orchestration; configure domain and SSL."}, {"@type":"HowToStep","text":"Import events – Use Cal.com’s admin UI → *Data Import* → upload the CSV, or run the provided `import_events` CLI script for bulk loads."}, {"@type":"HowToStep","text":"Validate & switch DNS – Test a few bookings, update any embedded Calendly widgets to the new Cal.com URLs, and deactivate the Calendly account."}]
   }
   </script>
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
@@ -75,11 +75,11 @@
     <span class="hero-badge">💰 Save Free / $8-$16/user/month/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     
-    <span class="hero-badge">📅 August 22, 2026</span>
+    <span class="hero-badge">📅 August 23, 2026</span>
   </div>
 </div>
 <div class="content">
-  
+  <div class="card"><p style="margin-bottom:1rem;color:var(--text);line-height:1.7;">Migrating from Calendly to Cal.com is a logical step for individuals and teams looking to escape per-user SaaS pricing in favor of an open-source, highly extensible scheduling infrastructure. While Calendly popularized frictionless cloud-based appointment booking, its proprietary ecosystem limits deep customization, white-labeling, and data ownership. Cal.com offers a robust alternative that mirrors Calendly core event types, round-robin routing, and calendar integrations while giving you the freedom to self-host or leverage their managed cloud platform.</p><p style="margin-bottom:1rem;color:var(--text);line-height:1.7;">You should consider making the switch when your team outgrows Calendly tier-based pricing limits, requires custom branding without rigid enterprise paywalls, or needs to integrate scheduling workflows directly into custom application databases via webhooks and APIs. Cal.com provides an intuitive routing form builder and infrastructure that scales cost-effectively, making it the premier choice for developer-centric organizations and growing businesses wanting absolute control over their meeting workflows.</p></div>
   <div class="savings-box">
     <div class="amount">$0</div>
     <div class="desc">
@@ -92,23 +92,27 @@
     
     <div class="step-card">
       <div class="step-num">1</div>
-      <div class="step-text">Export your data from Calendly using their built-in export tool (Settings → Export)</div>
+      <div class="step-text"><strong>Audit and Export Calendly Settings</strong><br>Begin by reviewing your active Calendly event types, active team members, and webhook configurations. While Calendly does not provide a direct one-click data migration tool to export event types, you can manually document your availability schedules, buffer times, and custom intake questions to prepare for recreation in Cal.com.</div>
     </div>
     <div class="step-card">
       <div class="step-num">2</div>
-      <div class="step-text">Set up Cal.com on your own server or use their hosted option</div>
+      <div class="step-text"><strong>Set Up Your Cal.com Account and Connect Calendars</strong><br>Sign up for a Cal.com account or spin up a self-hosted instance using Docker if you require data sovereignty. Connect your primary Google Calendar, Outlook, or Apple accounts just as you did in Calendly to ensure conflict detection syncs instantly across all your personal and professional calendars.</div>
     </div>
     <div class="step-card">
       <div class="step-num">3</div>
-      <div class="step-text">Import your exported data into Cal.com following their import documentation</div>
+      <div class="step-text"><strong>Recreate Event Types and Routing Forms</strong><br>Use Cal.com interface to rebuild your standard 15-minute, 30-minute, and custom event types. Take advantage of Cal.com advanced features by setting up granular team routing forms that dynamically qualify leads and assign meetings based on specific visitor inputs.</div>
     </div>
     <div class="step-card">
       <div class="step-num">4</div>
-      <div class="step-text">Invite your team members and recreate your workspace structure</div>
+      <div class="step-text"><strong>Onboard Team Members and Roles</strong><br>Invite your colleagues to your Cal.com organization dashboard and assign appropriate administrative or member permissions. Unlike Calendly billing model which charges strictly per active user seat, Cal.com open-source model or cloud tiers offer flexible scaling for growing organizations.</div>
     </div>
     <div class="step-card">
       <div class="step-num">5</div>
-      <div class="step-text">Run both tools in parallel for 1–2 weeks before fully switching</div>
+      <div class="step-text"><strong>Update Embeds and Share New Links</strong><br>Replace your old Calendly inline embeds and popup widget codes on your website with Cal.com corresponding React components or iframe snippets. Update your email signatures, social media bios, and outbound sales sequences to point directly to your new Cal.com booking URLs.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">6</div>
+      <div class="step-text"><strong>Decommission Calendly and Test End-to-End</strong><br>Run a series of test bookings through your new Cal.com links to verify that calendar invites, SMS reminders, and video conferencing links like Zoom or Google Meet generate correctly. Once verified, cancel your Calendly subscription to complete the migration.</div>
     </div>
   </div>
   
@@ -123,6 +127,10 @@
   </div>
   
   <div class="card">
+    <h2>⚠️ Common Challenges & How to Avoid Them</h2>
+    <div style="margin-bottom:1rem;"><strong style="color:var(--text);">Calendly does not offer an automated export button for event types and historical booking data.</strong><br><span style="color:var(--text-muted);">You will need to manually copy event descriptions, questions, and availability rules. Plan this transition during a scheduled maintenance window to avoid booking disruptions.</span></div><div style="margin-bottom:1rem;"><strong style="color:var(--text);">Existing marketing materials, email templates, and website embeds still point to your old Calendly URLs.</strong><br><span style="color:var(--text-muted);">Use URL forwarding on your custom domain if applicable, or systematically update your high-traffic touchpoints using a centralized link management tool before canceling Calendly.</span></div><div style="margin-bottom:1rem;"><strong style="color:var(--text);">Team members accustomed to Calendly simplified interface may experience a brief learning curve with Cal.com advanced customization options.</strong><br><span style="color:var(--text-muted);">Host a short internal training session highlighting Cal.com routing forms and app store integrations to help your team feel comfortable with the new dashboard.</span></div>
+  </div>
+  <div class="card">
     <h2>🔗 Get Started</h2>
     <div class="tool-links">
       <a class="tool-link leave" href="https://calendly.com" target="_blank" rel="noopener">Export from Calendly →</a>
@@ -130,6 +138,10 @@
     </div>
   </div>
   
+  <div class="card">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">Can I keep my existing calendar integrations when moving from Calendly to Cal.com?</strong><br><span style="color:var(--text-muted);">Yes. Cal.com supports seamless synchronization with Google Calendar, Microsoft Outlook, Apple Calendar, and Exchange. Your availability rules and conflict checking will function identically to your previous Calendly setup.</span></div><div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">Is Cal.com really free compared to Calendly paid tiers?</strong><br><span style="color:var(--text-muted);">Cal.com offers a robust free tier for individuals and a completely free open-source code base that you can self-host on your own infrastructure. They also offer paid managed cloud plans for teams needing advanced features and enterprise support without managing servers.</span></div><div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">How do I handle custom booking links and domains during the switch?</strong><br><span style="color:var(--text-muted);">Cal.com allows you to set custom usernames and even white-label your scheduling links with custom domains on higher tiers. This ensures your branding remains consistent for clients clicking your new booking URLs.</span></div>
+  </div>
   <div class="card" style="text-align:center;padding:1.5rem;">
     <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">Want a full feature and pricing comparison before you switch?</p>
     <a class="back-btn" href="../calendly-vs-cal-com/">Read the Full Calendly vs Cal.com Comparison →</a>

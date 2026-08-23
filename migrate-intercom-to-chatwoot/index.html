@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Intercom to Chatwoot (August 22, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Intercom to Chatwoot (August 23, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Intercom to Chatwoot. Export your data, set up Chatwoot, and switch your team — save $39-$139+/month per month.">
   <meta name="keywords" content="migrate Intercom to Chatwoot, Intercom to Chatwoot migration, how to switch from Intercom, Chatwoot migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-intercom-to-chatwoot/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Intercom to Chatwoot (August 22, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Intercom to Chatwoot (August 23, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Intercom to Chatwoot. Export your data, set up Chatwoot, and switch your team — save $39-$139+/month per month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-intercom-to-chatwoot/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -21,7 +21,7 @@
     "name": "How to Migrate from Intercom to Chatwoot",
     "description": "Complete step-by-step guide to migrating from Intercom to Chatwoot. Export your data, set up Chatwoot, and switch your team — save $39-$139+/month per month.",
     "totalTime": "PT2H",
-    "step": [{"@type":"HowToStep","text":"Export data from Intercom: Use Intercom’s “Export Conversations” feature to download a CSV or JSON dump of all threads, users, and tags."}, {"@type":"HowToStep","text":"Map fields to Chatwoot schema: Align Intercom `user_id`, `conversation_id`, and `messages` to Chatwoot’s `contact`, `conversation`, and `message` tables."}, {"@type":"HowToStep","text":"Set up a Chatwoot instance: Deploy via Docker (`docker-compose up -d`) or on a managed Kubernetes service, configure SMTP, and enable the desired channels."}, {"@type":"HowToStep","text":"Import conversations: Run the built‑in `rails import:intercom` rake task (available in the `chatwoot-tools` gem) which consumes the exported JSON/CSV and creates matching records."}, {"@type":"HowToStep","text":"Validate and go live: Test a sample of imported threads, update DNS/Widget code on your site, and de‑activate the Intercom widget."}]
+    "step": [{"@type":"HowToStep","text":"Export data from Intercom: Use Intercom’s “Export Conversations” feature to download a CSV or JSON file containing all messages, users, and tags."}, {"@type":"HowToStep","text":"Prepare the import schema: Map Intercom fields to Chatwoot’s `conversations`, `messages`, and `contacts` tables; a community‑maintained Python script (`intercom_to_chatwoot.py`) handles this conversion."}, {"@type":"HowToStep","text":"Set up a Chatwoot instance: Deploy via Docker Compose or your preferred Kubernetes Helm chart, ensuring PostgreSQL is reachable."}, {"@type":"HowToStep","text":"Run the import tool: Execute the script with `python intercom_to_chatwoot.py --input exported.json --db-url postgresql://...`."}, {"@type":"HowToStep","text":"Validate and go live: Test a sample of migrated threads, configure webhooks for your channels, and point your website widget to the new Chatwoot endpoint."}]
   }
   </script>
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
@@ -75,11 +75,11 @@
     <span class="hero-badge">💰 Save $39-$139+/month/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     
-    <span class="hero-badge">📅 August 22, 2026</span>
+    <span class="hero-badge">📅 August 23, 2026</span>
   </div>
 </div>
 <div class="content">
-  
+  <div class="card"><p style="margin-bottom:1rem;color:var(--text);line-height:1.7;">Migrating from Intercom to Chatwoot is one of the most effective ways for growing businesses to slash their software overhead without sacrificing customer communication quality. While Intercom remains a powerful platform for customer messaging, its per-seat pricing and escalating add-on costs for bots and help centers can quickly push monthly bills past $139 per user. For bootstrapped startups, mid-sized support teams, and privacy-conscious organizations, Chatwoot emerges as the ideal alternative. As an open-source customer engagement suite, Chatwoot provides core capabilities that mirror Intercom—including omnichannel inboxes, shared team notes, automated chatbots, and live chat widgets—while offering complete data sovereignty through self-hosting or a predictable managed cloud tier.</p><p style="margin-bottom:1rem;color:var(--text);line-height:1.7;">Organizations typically initiate this transition when Intercom invoices begin outpacing team growth, or when internal compliance requires moving customer conversation data onto private infrastructure. Moving away from Intercom does require careful planning because proprietary ecosystems do not always map cleanly onto open-source architecture. However, by systematically auditing your canned responses, exporting historical customer data, and reconfiguring your webhooks, you can execute a seamless transition to Chatwoot. This guide walks you through every phase of the migration process, helping you preserve agent productivity, maintain continuity for your customers, and successfully cut ties with Intercom's restrictive pricing model.</p></div>
   <div class="savings-box">
     <div class="amount">$0</div>
     <div class="desc">
@@ -92,23 +92,27 @@
     
     <div class="step-card">
       <div class="step-num">1</div>
-      <div class="step-text">Export data from Intercom: Use Intercom’s “Export Conversations” feature to download a CSV or JSON dump of all threads, users, and tags.</div>
+      <div class="step-text"><strong>Audit Your Intercom Setup</strong><br>Before exporting data, document all active Intercom features including custom attributes, team assignment rules, assignment tags, and automated workflows. Review your current widget placements across your websites and mobile apps so you know exactly where the Intercom script needs replacement. Identifying your essential configurations early prevents workflow disruptions after the switch to Chatwoot.</div>
     </div>
     <div class="step-card">
       <div class="step-num">2</div>
-      <div class="step-text">Map fields to Chatwoot schema: Align Intercom `user_id`, `conversation_id`, and `messages` to Chatwoot’s `contact`, `conversation`, and `message` tables.</div>
+      <div class="step-text"><strong>Deploy Your Chatwoot Instance</strong><br>Choose between Chatwoot's managed cloud service or self-hosting the open-source edition via Docker or Kubernetes. Provisioning your own server gives you total control over database storage and security compliance, matching strict enterprise requirements. Once running, configure your domain, brand logos, and system settings within the Chatwoot dashboard.</div>
     </div>
     <div class="step-card">
       <div class="step-num">3</div>
-      <div class="step-text">Set up a Chatwoot instance: Deploy via Docker (`docker-compose up -d`) or on a managed Kubernetes service, configure SMTP, and enable the desired channels.</div>
+      <div class="step-text"><strong>Export Data from Intercom</strong><br>Use Intercom's export tools to download your customer contact lists, user attributes, and historical conversation logs in CSV format. While Intercom does not provide a direct one-click importer for Chatwoot, these exported files serve as the primary dataset for migration scripts. Ensure you capture contact identifiers like email addresses and user IDs to maintain continuity.</div>
     </div>
     <div class="step-card">
       <div class="step-num">4</div>
-      <div class="step-text">Import conversations: Run the built‑in `rails import:intercom` rake task (available in the `chatwoot-tools` gem) which consumes the exported JSON/CSV and creates matching records.</div>
+      <div class="step-text"><strong>Import Contacts and Set Up Inboxes</strong><br>Import your cleaned CSV contact lists into Chatwoot using its contact management tools or API endpoints. Next, configure your communication channels—such as website live chat widgets, email channels, and social media integrations like WhatsApp or Facebook—inside Chatwoot's inbox settings. Recreate your team structure by inviting agents, assigning roles, and setting up appropriate team inboxes.</div>
     </div>
     <div class="step-card">
       <div class="step-num">5</div>
-      <div class="step-text">Validate and go live: Test a sample of imported threads, update DNS/Widget code on your site, and de‑activate the Intercom widget.</div>
+      <div class="step-text"><strong>Rebuild Automations and Knowledge Base</strong><br>Translate Intercom's Business Messenger rules and automated assignment macros into Chatwoot's automation rules and labels. If you relied on Intercom Articles, migrate your help center content by exporting your articles and publishing them natively to Chatwoot's Portal feature. Test your custom chatbots and routing rules thoroughly before pushing live.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">6</div>
+      <div class="step-text"><strong>Cut Over the Widget and Go Live</strong><br>Remove the Intercom JavaScript snippet from your website's header and replace it with the Chatwoot website widget code. Perform end-to-end testing by sending test messages through your live chat, email, and social channels to verify that agents receive notifications instantly. Once verified, cancel your Intercom subscription to finalize the migration.</div>
     </div>
   </div>
   
@@ -123,6 +127,10 @@
   </div>
   
   <div class="card">
+    <h2>⚠️ Common Challenges & How to Avoid Them</h2>
+    <div style="margin-bottom:1rem;"><strong style="color:var(--text);">Intercom's historical conversation logs and internal agent notes do not import natively into Chatwoot.</strong><br><span style="color:var(--text-muted);">Write a custom Python migration script utilizing the Chatwoot REST API to programmatically ingest historical contacts and past conversation transcripts, or archive the Intercom export as a searchable reference database.</span></div><div style="margin-bottom:1rem;"><strong style="color:var(--text);">Recreating complex Intercom Resolution Bot flows within Chatwoot's native automation engine.</strong><br><span style="color:var(--text-muted);">Map out your branching decision trees and use Chatwoot's integration capabilities with webhook tools like n8n or Make to replicate advanced automated routing and FAQ deflection.</span></div><div style="margin-bottom:1rem;"><strong style="color:var(--text);">User friction and retraining agents accustomed to Intercom's specific UI layout and keyboard shortcuts.</strong><br><span style="color:var(--text-muted);">Run a one-week parallel testing phase where agents handle inbound queries in Chatwoot while keeping Intercom open as a fallback, utilizing Chatwoot's intuitive keyboard shortcuts guide for quick onboarding.</span></div>
+  </div>
+  <div class="card">
     <h2>🔗 Get Started</h2>
     <div class="tool-links">
       <a class="tool-link leave" href="https://intercom.com" target="_blank" rel="noopener">Export from Intercom →</a>
@@ -130,6 +138,10 @@
     </div>
   </div>
   
+  <div class="card">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">Can I migrate historical customer conversation history from Intercom to Chatwoot?</strong><br><span style="color:var(--text-muted);">Direct automated migration of full chat transcripts is not built into out-of-the-box settings because of differing data schemas. However, you can use Chatwoot's REST API to programmatically import past conversations and customer profiles, or keep your Intercom data exported as a static archive.</span></div><div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">How does Chatwoot pricing compare to Intercom?</strong><br><span style="color:var(--text-muted);">Intercom charges steep monthly fees starting around $39 to $139 plus extra per-seat and usage fees that scale aggressively. Chatwoot offers a free open-source version that you can self-host indefinitely, and a managed cloud plan starting at a fraction of Intercom's cost with no hidden user seat penalties.</span></div><div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">Will my customers experience downtime during the migration from Intercom to Chatwoot?</strong><br><span style="color:var(--text-muted);">Downtime is minimal if you execute the cutover correctly. By deploying your Chatwoot instance, importing contacts, and swapping out the JavaScript tracking snippet on your website during low-traffic hours, your chat widget will transition smoothly with zero lost customer inquiries.</span></div>
+  </div>
   <div class="card" style="text-align:center;padding:1.5rem;">
     <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">Want a full feature and pricing comparison before you switch?</p>
     <a class="back-btn" href="../intercom-vs-chatwoot/">Read the Full Intercom vs Chatwoot Comparison →</a>

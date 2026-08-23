@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Framer to Plasmic (August 22, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Framer to Plasmic (August 23, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Framer to Plasmic. Export your data, set up Plasmic, and switch your team — save Free / $15-$35/month per month.">
   <meta name="keywords" content="migrate Framer to Plasmic, Framer to Plasmic migration, how to switch from Framer, Plasmic migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-framer-to-plasmic/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Framer to Plasmic (August 22, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Framer to Plasmic (August 23, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Framer to Plasmic. Export your data, set up Plasmic, and switch your team — save Free / $15-$35/month per month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-framer-to-plasmic/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -21,7 +21,7 @@
     "name": "How to Migrate from Framer to Plasmic",
     "description": "Complete step-by-step guide to migrating from Framer to Plasmic. Export your data, set up Plasmic, and switch your team — save Free / $15-$35/month per month.",
     "totalTime": "PT2H",
-    "step": [{"@type":"HowToStep","text":"Export projects from Framer – use the “Export to Code” feature to download a ZIP containing React components and style sheets."}, {"@type":"HowToStep","text":"Install the Plasmic CLI – `npm i -g @plasmicapp/cli` and run `plasmic init` in your repo to create a Plasmic project."}, {"@type":"HowToStep","text":"Import the exported code – run `plasmic sync --from=./framer-export` to map Framer components to Plasmic pages."}, {"@type":"HowToStep","text":"Reconnect data sources – replace Framer’s CMS bindings with Plasmic’s GraphQL/REST content API or your preferred headless CMS."}, {"@type":"HowToStep","text":"Deploy – push the updated repo to your CI pipeline; Plasmic’s build will generate the final static or server‑rendered bundle."}]
+    "step": [{"@type":"HowToStep","text":"Export your data from Framer using their built-in export tool (Settings → Export)"}, {"@type":"HowToStep","text":"Set up Plasmic on your own server or use their hosted option"}, {"@type":"HowToStep","text":"Import your exported data into Plasmic following their import documentation"}, {"@type":"HowToStep","text":"Invite your team members and recreate your workspace structure"}, {"@type":"HowToStep","text":"Run both tools in parallel for 1–2 weeks before fully switching"}]
   }
   </script>
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
@@ -75,11 +75,11 @@
     <span class="hero-badge">💰 Save Free / $15-$35/month/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     
-    <span class="hero-badge">📅 August 22, 2026</span>
+    <span class="hero-badge">📅 August 23, 2026</span>
   </div>
 </div>
 <div class="content">
-  
+  <div class="card"><p style="margin-bottom:1rem;color:var(--text);line-height:1.7;">Migrating from Framer to Plasmic is a strategic move for teams looking to break free from closed ecosystems, proprietary hosting locks, and escalating per-seat SaaS costs. While Framer excels as an all-in-one designer-focused landing page builder, Plasmic is engineered for teams that need deep code-level integration, clean React output, and flexible deployment architecture. You might consider this migration when your marketing site needs to scale into a complex web application, when engineering needs true React components rather than black-box code exports, or simply when you want to eliminate Framer's rigid monthly subscription model in favor of Plasmic's developer-first paradigm.</p><p style="margin-bottom:1rem;color:var(--text);line-height:1.7;">Moving your projects to Plasmic does not mean starting entirely from scratch, but it does require shifting your mental model from designing standalone pages to building a structured component system. Plasmic integrates directly into your existing codebase—whether Next.js, Gatsby, or Remix—allowing designers and developers to collaborate within the same repository. By making this transition, you retain granular visual control while empowering developers to maintain clean architecture, custom data fetching, and production-grade performance without the constraints of Framer's proprietary runtime.</p></div>
   <div class="savings-box">
     <div class="amount">$0</div>
     <div class="desc">
@@ -92,23 +92,27 @@
     
     <div class="step-card">
       <div class="step-num">1</div>
-      <div class="step-text">Export projects from Framer – use the “Export to Code” feature to download a ZIP containing React components and style sheets.</div>
+      <div class="step-text"><strong>Audit and Inventory Your Framer Project</strong><br>Before touching Plasmic, catalog your existing Framer pages, global styles, custom breakpoints, and CMS collections. Identify which elements are static design assets and which rely on Framer-specific interactions or third-party code overrides that will need to be rebuilt.</div>
     </div>
     <div class="step-card">
       <div class="step-num">2</div>
-      <div class="step-text">Install the Plasmic CLI – `npm i -g @plasmicapp/cli` and run `plasmic init` in your repo to create a Plasmic project.</div>
+      <div class="step-text"><strong>Initialize Your Plasmic Project and Codebase</strong><br>Create a new project in Plasmic and connect it to your target React framework repository using the Plasmic CLI or codegen integration. This establishes the vital bridge between the Plasmic visual canvas and your local codebase, setting up your initial design tokens and global themes.</div>
     </div>
     <div class="step-card">
       <div class="step-num">3</div>
-      <div class="step-text">Import the exported code – run `plasmic sync --from=./framer-export` to map Framer components to Plasmic pages.</div>
+      <div class="step-text"><strong>Rebuild Global Styles and Design Tokens</strong><br>Map your Framer color styles, typography, and spacing tokens into Plasmic's design system settings. Setting up tokens early ensures consistency across all pages and aligns your visual variables with CSS modules or Tailwind configurations in your codebase.</div>
     </div>
     <div class="step-card">
       <div class="step-num">4</div>
-      <div class="step-text">Reconnect data sources – replace Framer’s CMS bindings with Plasmic’s GraphQL/REST content API or your preferred headless CMS.</div>
+      <div class="step-text"><strong>Recreate Components and Layouts Visually</strong><br>Rebuild your Framer components inside Plasmic using its robust Flexbox and CSS Grid layout engines. Unlike Framer's absolute positioning tendencies by default, Plasmic enforces clean, responsive HTML structures that translate directly into maintainable React component trees.</div>
     </div>
     <div class="step-card">
       <div class="step-num">5</div>
-      <div class="step-text">Deploy – push the updated repo to your CI pipeline; Plasmic’s build will generate the final static or server‑rendered bundle.</div>
+      <div class="step-text"><strong>Connect Data Sources and CMS Content</strong><br>Migrate your Framer CMS collections to Plasmic's built-in CMS or hook Plasmic directly into your external headless CMS like Sanity, Strapi, or Contentful. Plasmic offers powerful data-binding capabilities that allow visual components to render dynamic content effortlessly.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">6</div>
+      <div class="step-text"><strong>Launch and Cut Over Production DNS</strong><br>Deploy your Plasmic-powered React application through your preferred hosting provider such as Vercel, Netlify, or AWS. Once thorough QA is complete, update your DNS records to point your domain to the new deployment, completing your migration from Framer.</div>
     </div>
   </div>
   
@@ -123,6 +127,10 @@
   </div>
   
   <div class="card">
+    <h2>⚠️ Common Challenges & How to Avoid Them</h2>
+    <div style="margin-bottom:1rem;"><strong style="color:var(--text);">Framer's proprietary interactions and code overrides do not automatically translate to Plasmic.</strong><br><span style="color:var(--text-muted);">Rebuild complex animations and state logic using Plasmic's built-in interaction system or by writing standard React code hooks directly within your registered components.</span></div><div style="margin-bottom:1rem;"><strong style="color:var(--text);">Framer relies heavily on absolute positioning, which can cause layout shifts when imported into Plasmic's strict flexbox model.</strong><br><span style="color:var(--text-muted);">Embrace Plasmic's auto-layout and flexbox tools during the component rebuild phase to ensure robust, truly responsive designs across all screen sizes.</span></div><div style="margin-bottom:1rem;"><strong style="color:var(--text);">Migrating Framer CMS data requires manual export and re-import into Plasmic or an external headless CMS.</strong><br><span style="color:var(--text-muted);">Export your Framer collection items to CSV, then use API scripts or Plasmic's CMS import tools to populate your new data structures rapidly.</span></div>
+  </div>
+  <div class="card">
     <h2>🔗 Get Started</h2>
     <div class="tool-links">
       <a class="tool-link leave" href="https://framer.com" target="_blank" rel="noopener">Export from Framer →</a>
@@ -130,6 +138,10 @@
     </div>
   </div>
   
+  <div class="card">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">Can I automatically import my Framer design files directly into Plasmic?</strong><br><span style="color:var(--text-muted);">No, direct one-click importing of Framer files into Plasmic is not supported because the two platforms use fundamentally different underlying code architectures. You will need to recreate your layouts and components inside the Plasmic canvas, though you can reuse exported image assets and copied text content.</span></div><div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">How does hosting work after migrating from Framer to Plasmic?</strong><br><span style="color:var(--text-muted);">Unlike Framer which hosts your site on their proprietary infrastructure, Plasmic generates standard React code that lives in your own repository. You can host your site anywhere you like, including Vercel, Netlify, AWS, or your own custom servers, giving you complete ownership and eliminating hosting lock-in.</span></div><div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">Is Plasmic harder to learn for designers coming from Framer?</strong><br><span style="color:var(--text-muted);">Plasmic has a slightly steeper initial learning curve because it is built around real web development principles like CSS Flexbox, Grid, and React component architecture. However, designers familiar with Framer's visual controls will quickly adapt to Plasmic's canvas once they understand its developer-friendly mental model.</span></div>
+  </div>
   <div class="card" style="text-align:center;padding:1.5rem;">
     <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">Want a full feature and pricing comparison before you switch?</p>
     <a class="back-btn" href="../framer-vs-plasmic/">Read the Full Framer vs Plasmic Comparison →</a>

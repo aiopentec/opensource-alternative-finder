@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Trello to WeKan (August 22, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Trello to WeKan (August 23, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Trello to WeKan. Export your data, set up WeKan, and switch your team — save Free / $5+/user/month per month.">
   <meta name="keywords" content="migrate Trello to WeKan, Trello to WeKan migration, how to switch from Trello, WeKan migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-trello-to-wekan/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Trello to WeKan (August 22, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Trello to WeKan (August 23, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Trello to WeKan. Export your data, set up WeKan, and switch your team — save Free / $5+/user/month per month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-trello-to-wekan/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -21,7 +21,7 @@
     "name": "How to Migrate from Trello to WeKan",
     "description": "Complete step-by-step guide to migrating from Trello to WeKan. Export your data, set up WeKan, and switch your team — save Free / $5+/user/month per month.",
     "totalTime": "~20 mins",
-    "step": [{"@type":"HowToStep","text":"In Trello, open the board you want to move → Menu → More → Print and Export → Export JSON. Save the file locally."}, {"@type":"HowToStep","text":"Set up a WeKan instance (Docker compose is the quickest) and ensure the server is reachable."}, {"@type":"HowToStep","text":"Log into WeKan as an admin, go to Administration → Import, select the Trello JSON file, and click Import."}, {"@type":"HowToStep","text":"Verify that lists, cards, labels, and members appear correctly; adjust any custom fields manually."}, {"@type":"HowToStep","text":"Invite your team to the new WeKan board, deactivate the Trello board, and archive the old JSON for backup."}]
+    "step": [{"@type":"HowToStep","text":"Export from Trello – Open each board, click *Menu → More → Print and Export → Export as JSON*. Save the JSON files locally."}, {"@type":"HowToStep","text":"Prepare WeKan server – Deploy WeKan via Docker (`docker run -d -p 8080:8080 wekanapp/wekan`) or install on a Linux VM following the official docs."}, {"@type":"HowToStep","text":"Create a target board – In WeKan, create a new board that will receive the imported cards."}, {"@type":"HowToStep","text":"Import JSON – Use the WeKan “Import board” feature (found under *Board Settings → Import*), upload the Trello JSON file, and map lists and cards."}, {"@type":"HowToStep","text":"Validate & adjust – Verify that members, labels, and attachments migrated correctly; re‑assign permissions and set up any required plugins (e.g., Slack webhook)."}]
   }
   </script>
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
@@ -75,11 +75,11 @@
     <span class="hero-badge">💰 Save Free / $5+/user/month/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     <span class="hero-badge">🖥️ Setup: Easy (~20 mins)</span>
-    <span class="hero-badge">📅 August 22, 2026</span>
+    <span class="hero-badge">📅 August 23, 2026</span>
   </div>
 </div>
 <div class="content">
-  
+  <div class="card"><p style="margin-bottom:1rem;color:var(--text);line-height:1.7;">Migrating from Trello to WeKan is a popular move for teams looking to break free from Atlassian's proprietary ecosystem, recurring per-user subscription fees, and strict data residency requirements. While Trello offers a polished, cloud-hosted Kanban experience starting at five dollars per user per month, its free tier imposes strict board limits, and enterprise plans become expensive quickly. WeKan provides a powerful, free, and open-source alternative that you can self-host on your own infrastructure, giving you absolute ownership of your project data.</p><p style="margin-bottom:1rem;color:var(--text);line-height:1.7;">Deciding to make the leap usually happens when organizations hit compliance hurdles regarding cloud storage or simply want to eliminate SaaS bloat by utilizing Docker or Node.js servers they already manage. WeKan mirrors Trello's intuitive card-and-list Kanban interface closely enough that your team will feel right at home, but it trades slick marketing for complete data privacy and customization. Transitioning requires shifting your mindset from a managed service to a self-hosted environment, but the long-term cost savings and autonomy make the effort entirely worthwhile.</p><p style="margin-bottom:1rem;color:var(--text);line-height:1.7;">Before initiating the move, evaluate your current Trello workspace usage to determine whether you rely heavily on complex Power-Ups that may not have direct equivalents in WeKan. While core Kanban boards, checklists, and labels translate smoothly, niche integrations require a bit of re-engineering. This guide walks you through extracting your data, spinning up your own WeKan instance, migrating your boards, and getting your team onboarded for a seamless cutover.</p></div>
   <div class="savings-box">
     <div class="amount">$0</div>
     <div class="desc">
@@ -92,23 +92,27 @@
     
     <div class="step-card">
       <div class="step-num">1</div>
-      <div class="step-text">In Trello, open the board you want to move → Menu → More → Print and Export → Export JSON. Save the file locally.</div>
+      <div class="step-text"><strong>Export your Trello boards</strong><br>Open each board in Trello, navigate to the menu, select Print and Export, and choose Export as JSON. Save these JSON files locally on your machine, as they contain all your cards, lists, descriptions, and comments. Note that Trello requires you to export boards individually unless you hold an Enterprise workspace license.</div>
     </div>
     <div class="step-card">
       <div class="step-num">2</div>
-      <div class="step-text">Set up a WeKan instance (Docker compose is the quickest) and ensure the server is reachable.</div>
+      <div class="step-text"><strong>Deploy your WeKan instance</strong><br>Set up your self-hosted WeKan environment using Docker, Snap, or a manual Node.js installation on your preferred server. Configure your environment variables, including root URL settings and mail server credentials, to ensure user invitations and notifications function correctly after deployment.</div>
     </div>
     <div class="step-card">
       <div class="step-num">3</div>
-      <div class="step-text">Log into WeKan as an admin, go to Administration → Import, select the Trello JSON file, and click Import.</div>
+      <div class="step-text"><strong>Create user accounts and set permissions</strong><br>Log into your newly installed WeKan admin panel and provision accounts for your team members. Assign appropriate roles such as admin, board member, or commenter to replicate the access levels your crew previously enjoyed in Trello.</div>
     </div>
     <div class="step-card">
       <div class="step-num">4</div>
-      <div class="step-text">Verify that lists, cards, labels, and members appear correctly; adjust any custom fields manually.</div>
+      <div class="step-text"><strong>Import boards into WeKan</strong><br>Navigate to the board creation menu in WeKan and select the option to import from a Trello JSON file. Upload the files you exported earlier and verify that lists, cards, and labels populate correctly in the new interface. Repeat this process for each board you are bringing over from Trello.</div>
     </div>
     <div class="step-card">
       <div class="step-num">5</div>
-      <div class="step-text">Invite your team to the new WeKan board, deactivate the Trello board, and archive the old JSON for backup.</div>
+      <div class="step-text"><strong>Reconfigure integrations and attachments</strong><br>Because Trello Power-Ups do not automatically carry over during a JSON import, manually set up webhook integrations, calendar syncs, or custom fields in WeKan. Re-upload critical file attachments if the JSON export omitted binary data due to size limitations.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">6</div>
+      <div class="step-text"><strong>Execute team cutover and archive Trello</strong><br>Host a brief orientation showing your team how to navigate WeKan's interface, keyboard shortcuts, and card views. Once everyone confirms they can access their assigned boards and workflows, officially deactivate your paid Trello workspaces to finalize the migration.</div>
     </div>
   </div>
   
@@ -123,6 +127,10 @@
   </div>
   
   <div class="card">
+    <h2>⚠️ Common Challenges & How to Avoid Them</h2>
+    <div style="margin-bottom:1rem;"><strong style="color:var(--text);">Trello attachments and member assignments sometimes fail to map perfectly through the JSON import.</strong><br><span style="color:var(--text-muted);">Manually re-link essential files and re-assign board members to their respective cards within WeKan immediately following the import.</span></div><div style="margin-bottom:1rem;"><strong style="color:var(--text);">Trello Power-Ups like Calendar or Butler automation scripts do not transfer to WeKan automatically.</strong><br><span style="color:var(--text-muted);">Rebuild critical automations using WeKan's native board rules and utilize built-in calendar or ICS feeds for scheduling views.</span></div><div style="margin-bottom:1rem;"><strong style="color:var(--text);">Self-hosting WeKan means your team loses access if your local server or cloud VPS experiences downtime.</strong><br><span style="color:var(--text-muted);">Implement a robust automated backup routine targeting your MongoDB database and configure high-availability hosting infrastructure.</span></div>
+  </div>
+  <div class="card">
     <h2>🔗 Get Started</h2>
     <div class="tool-links">
       <a class="tool-link leave" href="https://trello.com" target="_blank" rel="noopener">Export from Trello →</a>
@@ -130,6 +138,10 @@
     </div>
   </div>
   
+  <div class="card">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">Can I automatically import all my Trello boards at once?</strong><br><span style="color:var(--text-muted);">No, Trello's standard export feature only allows you to download boards one by one as JSON files. You will need to export and import each board individually into WeKan, though the process is straightforward and takes only a few minutes per board.</span></div><div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">Is WeKan really free to use?</strong><br><span style="color:var(--text-muted);">Yes, WeKan is completely free and open-source software licensed under the MIT license. However, you will need to account for the hosting costs of running your own server, VPS, or Docker container to keep the application online.</span></div><div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">Will my team need retraining to use WeKan instead of Trello?</strong><br><span style="color:var(--text-muted);">Very little retraining is required because WeKan was explicitly designed to emulate Trello's popular Kanban board layout. Anyone familiar with dragging cards across lists in Trello will instantly understand how to navigate WeKan's interface.</span></div>
+  </div>
   <div class="card" style="text-align:center;padding:1.5rem;">
     <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">Want a full feature and pricing comparison before you switch?</p>
     <a class="back-btn" href="../trello-vs-wekan/">Read the Full Trello vs WeKan Comparison →</a>

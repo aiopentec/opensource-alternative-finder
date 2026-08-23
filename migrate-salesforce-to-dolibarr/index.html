@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Salesforce to Dolibarr (August 22, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Salesforce to Dolibarr (August 23, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Salesforce to Dolibarr. Export your data, set up Dolibarr, and switch your team — save $25-$300+/user/month per month.">
   <meta name="keywords" content="migrate Salesforce to Dolibarr, Salesforce to Dolibarr migration, how to switch from Salesforce, Dolibarr migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-salesforce-to-dolibarr/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Salesforce to Dolibarr (August 22, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Salesforce to Dolibarr (August 23, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Salesforce to Dolibarr. Export your data, set up Dolibarr, and switch your team — save $25-$300+/user/month per month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-salesforce-to-dolibarr/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -21,7 +21,7 @@
     "name": "How to Migrate from Salesforce to Dolibarr",
     "description": "Complete step-by-step guide to migrating from Salesforce to Dolibarr. Export your data, set up Dolibarr, and switch your team — save $25-$300+/user/month per month.",
     "totalTime": "PT2H",
-    "step": [{"@type":"HowToStep","text":"Export Data from Salesforce: Use Salesforce’s Data Export Service to generate ZIP files containing CSVs for Accounts, Contacts, Leads, Opportunities, and Custom Objects."}, {"@type":"HowToStep","text":"Normalize CSV Structure: Map Salesforce fields to Dolibarr equivalents (e.g., Account → Third‑party, Contact → Person, Opportunity → Proposal). Clean any pick‑list values that don’t match Dolibarr’s limited lists."}, {"@type":"HowToStep","text":"Set Up Dolibarr Instance: Install Dolibarr on a LAMP/LEMP stack (Ubuntu 22.04 recommended) and enable the “Import/Export” module."}, {"@type":"HowToStep","text":"Import via Dolibarr’s CSV Import Tool: Navigate to *Home → Tools → Import* and select the appropriate entity (Third‑party, Person, etc.). Upload the prepared CSV files; the tool will validate and create records."}, {"@type":"HowToStep","text":"Validate & Adjust: Run reports in Dolibarr to verify record counts, relationships, and data integrity. Re‑import any failed rows after correcting formatting errors."}]
+    "step": [{"@type":"HowToStep","text":"Export data from Salesforce: Use Salesforce’s Data Export service to generate CSV files for Leads, Accounts, Contacts, Opportunities, and Products."}, {"@type":"HowToStep","text":"Map fields to Dolibarr: Align Salesforce columns with Dolibarr’s database schema (e.g., `AccountName → societe.nom`)."}, {"@type":"HowToStep","text":"Prepare import files: Clean CSVs, remove unsupported columns, and ensure required fields (e.g., `status`) are populated."}, {"@type":"HowToStep","text":"Import into Dolibarr: Use Dolibarr’s built‑in “Import” module (found under Tools → Import) for each entity, selecting the corresponding CSV file."}, {"@type":"HowToStep","text":"Validate and adjust: Run reports in Dolibarr to confirm record counts, relationships, and data integrity; address any mismatches manually or via custom scripts."}]
   }
   </script>
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
@@ -75,11 +75,11 @@
     <span class="hero-badge">💰 Save $25-$300+/user/month/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     
-    <span class="hero-badge">📅 August 22, 2026</span>
+    <span class="hero-badge">📅 August 23, 2026</span>
   </div>
 </div>
 <div class="content">
-  
+  <div class="card"><p style="margin-bottom:1rem;color:var(--text);line-height:1.7;">Migrating from Salesforce to Dolibarr is a strategic move for businesses looking to slash overhead while retaining robust ERP and CRM capabilities. Salesforce is a powerhouse, but its escalating per-user licensing fees ($25 to $300+ per user monthly), costly add-ons, and complex ecosystem can drain budgets for small to medium-sized enterprises. Dolibarr ERP/CRM offers a compelling open-source alternative. Because Dolibarr is free to download and self-host, companies eliminate recurring software subscriptions, gaining full control over their data infrastructure without sacrificing essential features like invoicing, third-party management, and pipeline tracking.</p><p style="margin-bottom:1rem;color:var(--text);line-height:1.7;">Organizations typically make the switch when they outgrow the financial justification for Salesforce's enterprise tiers or when they require an on-premise deployment for strict data sovereignty. While Salesforce excels in massive, highly customized multi-departmental architectures, Dolibarr shines for lean operations that need a straightforward, modular platform without the bloat. Transitioning requires careful planning—mapping Salesforce objects like Accounts, Contacts, and Opportunities to Dolibarr's database structure—but the long-term cost savings and absence of vendor lock-in make the migration effort well worth it for budget-conscious teams.</p></div>
   <div class="savings-box">
     <div class="amount">$0</div>
     <div class="desc">
@@ -92,23 +92,27 @@
     
     <div class="step-card">
       <div class="step-num">1</div>
-      <div class="step-text">Export Data from Salesforce: Use Salesforce’s Data Export Service to generate ZIP files containing CSVs for Accounts, Contacts, Leads, Opportunities, and Custom Objects.</div>
+      <div class="step-text"><strong>Audit and Cleanse Salesforce Data</strong><br>Before exporting, review your Salesforce org to archive inactive accounts and standardize fields. Standardize picklist values in Salesforce so they align cleanly with Dolibarr third-party and contact categories, preventing data corruption during the transfer.</div>
     </div>
     <div class="step-card">
       <div class="step-num">2</div>
-      <div class="step-text">Normalize CSV Structure: Map Salesforce fields to Dolibarr equivalents (e.g., Account → Third‑party, Contact → Person, Opportunity → Proposal). Clean any pick‑list values that don’t match Dolibarr’s limited lists.</div>
+      <div class="step-text"><strong>Export Data from Salesforce</strong><br>Use Salesforce Data Loader or standard CSV export reports to extract your core relational data. You will need separate CSV files for Accounts, Contacts, Products, Suppliers, and Open Opportunities to match Dolibarr's relational import modules.</div>
     </div>
     <div class="step-card">
       <div class="step-num">3</div>
-      <div class="step-text">Set Up Dolibarr Instance: Install Dolibarr on a LAMP/LEMP stack (Ubuntu 22.04 recommended) and enable the “Import/Export” module.</div>
+      <div class="step-text"><strong>Install and Configure Dolibarr</strong><br>Deploy Dolibarr on your chosen server environment, whether local or cloud-hosted. Enable the specific modules you need—such as Third Parties, Commercial (for proposals and orders), and Invoice modules—to mirror the functionality you utilized in Salesforce.</div>
     </div>
     <div class="step-card">
       <div class="step-num">4</div>
-      <div class="step-text">Import via Dolibarr’s CSV Import Tool: Navigate to *Home → Tools → Import* and select the appropriate entity (Third‑party, Person, etc.). Upload the prepared CSV files; the tool will validate and create records.</div>
+      <div class="step-text"><strong>Map and Import CSV Data</strong><br>Utilize Dolibarr's built-in Admin Tools data import assistant to upload your CSV files. Carefully map Salesforce fields like Billing Street and Account Name to Dolibarr's corresponding database attributes, running test imports on a staging environment first.</div>
     </div>
     <div class="step-card">
       <div class="step-num">5</div>
-      <div class="step-text">Validate & Adjust: Run reports in Dolibarr to verify record counts, relationships, and data integrity. Re‑import any failed rows after correcting formatting errors.</div>
+      <div class="step-text"><strong>Configure Users and Permissions</strong><br>Recreate your sales and administrative user accounts within Dolibarr. Assign user groups and permission profiles that reflect your previous Salesforce security matrix, ensuring staff only access the modules relevant to their roles.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">6</div>
+      <div class="step-text"><strong>Run Parallel Testing and Cutover</strong><br>Run Salesforce and Dolibarr concurrently for one billing cycle to verify that invoicing, quote generation, and CRM logs match expectations. Once verified, freeze Salesforce writes, perform a final delta import of recent leads, and officially cut over your team to Dolibarr.</div>
     </div>
   </div>
   
@@ -123,6 +127,10 @@
   </div>
   
   <div class="card">
+    <h2>⚠️ Common Challenges & How to Avoid Them</h2>
+    <div style="margin-bottom:1rem;"><strong style="color:var(--text);">Salesforce uses complex relational objects like Leads, Accounts, and Contacts separated cleanly, whereas Dolibarr combines companies and people into 'Third Parties' with distinct contact links.</strong><br><span style="color:var(--text-muted);">Restructure your exported CSV data to merge company and individual attributes into Dolibarr's third-party and linked-contact format before running the import tool.</span></div><div style="margin-bottom:1rem;"><strong style="color:var(--text);">Salesforce automation rules, Apex triggers, and Process Builder workflows have no direct equivalent in base Dolibarr.</strong><br><span style="color:var(--text-muted);">Audit your critical workflows and replace them using Dolibarr's built-in notification triggers, hooks, or community modules from the Dolistore marketplace.</span></div><div style="margin-bottom:1rem;"><strong style="color:var(--text);">Self-hosting Dolibarr means your IT team is now responsible for database backups, security patches, and server uptime instead of Salesforce's managed cloud.</strong><br><span style="color:var(--text-muted);">Set up automated nightly database dumps and server monitoring scripts, or contract a managed hosting provider specializing in PHP/MySQL applications.</span></div>
+  </div>
+  <div class="card">
     <h2>🔗 Get Started</h2>
     <div class="tool-links">
       <a class="tool-link leave" href="https://salesforce.com" target="_blank" rel="noopener">Export from Salesforce →</a>
@@ -130,6 +138,10 @@
     </div>
   </div>
   
+  <div class="card">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">Can I migrate my historical Salesforce email logs and activity history to Dolibarr?</strong><br><span style="color:var(--text-muted);">Direct migration of historical Salesforce activity timelines is difficult due to proprietary data schemas. Most organizations choose to export past emails and notes as static PDF or CSV archive files and attach them to the relevant third-party records in Dolibarr for reference.</span></div><div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">How does Dolibarr handle custom fields that we created in Salesforce?</strong><br><span style="color:var(--text-muted);">Dolibarr features a robust Extrafields management system accessible via the setup menu. You can recreate your custom Salesforce text, date, and select fields in Dolibarr before importing your CSV data.</span></div><div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">Is there any official migration tool provided by Dolibarr to import from Salesforce?</strong><br><span style="color:var(--text-muted);">There is no automated one-click Salesforce-to-Dolibarr migration wizard. Migration relies on standardizing your Salesforce data into CSV formats and utilizing Dolibarr's native mass import assistant tool.</span></div>
+  </div>
   <div class="card" style="text-align:center;padding:1.5rem;">
     <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">Want a full feature and pricing comparison before you switch?</p>
     <a class="back-btn" href="../salesforce-vs-dolibarr/">Read the Full Salesforce vs Dolibarr Comparison →</a>

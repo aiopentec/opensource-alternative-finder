@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Sketch to Penpot (August 22, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Sketch to Penpot (August 23, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Sketch to Penpot. Export your data, set up Penpot, and switch your team — save $9-$20/user/month per month.">
   <meta name="keywords" content="migrate Sketch to Penpot, Sketch to Penpot migration, how to switch from Sketch, Penpot migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-sketch-to-penpot/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Sketch to Penpot (August 22, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Sketch to Penpot (August 23, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Sketch to Penpot. Export your data, set up Penpot, and switch your team — save $9-$20/user/month per month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-sketch-to-penpot/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -21,7 +21,7 @@
     "name": "How to Migrate from Sketch to Penpot",
     "description": "Complete step-by-step guide to migrating from Sketch to Penpot. Export your data, set up Penpot, and switch your team — save $9-$20/user/month per month.",
     "totalTime": "~30 mins",
-    "step": [{"@type":"HowToStep","text":"Export assets from Sketch – Use File → Export… to generate SVG, PNG, or PDF files for each artboard."}, {"@type":"HowToStep","text":"Export design tokens – Install the “Sketch2Penpot” plugin to export colors, typography, and spacing as a JSON file."}, {"@type":"HowToStep","text":"Set up Penpot – Deploy the Docker image (`docker run -d -p 9001:9001 penpotapp/penpot`) or sign up for Penpot Cloud."}, {"@type":"HowToStep","text":"Import assets – In Penpot, go to Projects → Import and select the exported SVG/PNG files; use the JSON token file via Settings → Design Tokens."}, {"@type":"HowToStep","text":"Validate and adjust – Re‑link symbols, verify component states, and update any prototype links that didn’t translate automatically."}]
+    "step": [{"@type":"HowToStep","text":"Export assets from Sketch: Use File → Export… to generate a `.sketch` file or batch‑export SVG/PDF assets."}, {"@type":"HowToStep","text":"Prepare Penpot instance: Deploy Penpot via Docker (`docker run -d ...`) or sign up for the hosted SaaS."}, {"@type":"HowToStep","text":"Import into Penpot: In Penpot, go to Projects → Import and select the exported `.sketch` file; Penpot’s built‑in importer converts artboards, layers, and vectors."}, {"@type":"HowToStep","text":"Recreate design system tokens: Map Sketch Symbols to Penpot Components manually, then use Penpot’s Style Library to rebuild colors, typography, and spacing tokens."}, {"@type":"HowToStep","text":"Validate and iterate: Review imported screens for fidelity, fix any missing interactions, and train the team on Penpot’s collaboration workflow."}]
   }
   </script>
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
@@ -75,11 +75,11 @@
     <span class="hero-badge">💰 Save $9-$20/user/month/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     <span class="hero-badge">🖥️ Setup: Easy (~30 mins)</span>
-    <span class="hero-badge">📅 August 22, 2026</span>
+    <span class="hero-badge">📅 August 23, 2026</span>
   </div>
 </div>
 <div class="content">
-  
+  <div class="card"><p style="margin-bottom:1rem;color:var(--text);line-height:1.7;">Migrating from Sketch to Penpot represents a strategic shift from a macOS-centric, subscription-based design environment to a web-native, open-source platform that eliminates per-user licensing fees. Teams often make this move to break free from Mac hardware locks, streamline developer handoff using CSS-native flexbox and grid layouts, and embrace truly open standards where design files are stored transparently in SVG.</p><p style="margin-bottom:1rem;color:var(--text);line-height:1.7;">While Sketch has long been a staple of the Mac ecosystem with its mature plugin architecture and native performance, Penpot offers modern collaborative capabilities that rival cloud-first competitors without sacrificing user freedom or data privacy. You should consider migrating when your organization expands to cross-platform operating systems, when you want to self-host your design infrastructure for compliance, or when you are looking to eliminate recurring design software overhead as your team scales.</p><p style="margin-bottom:1rem;color:var(--text);line-height:1.7;">Executing this transition successfully requires understanding how Sketch symbols and text styles map to Penpot components and typography tokens. Although the underlying paradigms share similarities, bridging the gap between macOS desktop workflows and browser-based SVG rendering demands a structured approach to auditing libraries, cleaning up legacy artboards, and retraining team members on Penpot layout engines.</p></div>
   <div class="savings-box">
     <div class="amount">$0</div>
     <div class="desc">
@@ -92,23 +92,27 @@
     
     <div class="step-card">
       <div class="step-num">1</div>
-      <div class="step-text">Export assets from Sketch – Use File → Export… to generate SVG, PNG, or PDF files for each artboard.</div>
+      <div class="step-text"><strong>Audit and Clean Your Sketch Libraries</strong><br>Before exporting, open your Sketch files and clean up unused symbols, orphan text styles, and cluttered layers. Consolidate your design tokens so that color palettes and typography scales translate cleanly without generating redundant styles in Penpot.</div>
     </div>
     <div class="step-card">
       <div class="step-num">2</div>
-      <div class="step-text">Export design tokens – Install the “Sketch2Penpot” plugin to export colors, typography, and spacing as a JSON file.</div>
+      <div class="step-text"><strong>Export Assets and Prepare .sketch Files</strong><br>Ensure your Sketch documents are saved locally in the standard .sketch format. While Penpot features native SVG import capabilities, keeping your source files organized ensures that artboards, groups, and bitmap assets retain their hierarchy during conversion.</div>
     </div>
     <div class="step-card">
       <div class="step-num">3</div>
-      <div class="step-text">Set up Penpot – Deploy the Docker image (`docker run -d -p 9001:9001 penpotapp/penpot`) or sign up for Penpot Cloud.</div>
+      <div class="step-text"><strong>Set Up Your Penpot Workspace</strong><br>Create a Penpot account or provision your self-hosted instance, then configure your team spaces and permission structures. Recreate your global design tokens—such as color palettes and grid parameters—in Penpot's dashboard before importing actual design files.</div>
     </div>
     <div class="step-card">
       <div class="step-num">4</div>
-      <div class="step-text">Import assets – In Penpot, go to Projects → Import and select the exported SVG/PNG files; use the JSON token file via Settings → Design Tokens.</div>
+      <div class="step-text"><strong>Import Files into Penpot</strong><br>Use Penpot's import functionality to upload your prepared .sketch files directly into your designated workspaces. Review the imported artboards immediately to verify that fonts, vector paths, and nested component structures rendered correctly.</div>
     </div>
     <div class="step-card">
       <div class="step-num">5</div>
-      <div class="step-text">Validate and adjust – Re‑link symbols, verify component states, and update any prototype links that didn’t translate automatically.</div>
+      <div class="step-text"><strong>Rebuild Complex Components and Overrides</strong><br>Because Sketch symbols and Penpot components handle overrides differently, you will need to manually inspect complex UI kits. Re-establish component variants, interactive states, and responsive constraints using Penpot's CSS-based layout tools.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">6</div>
+      <div class="step-text"><strong>Onboard Team and Execute Cutover</strong><br>Conduct team workshops focusing on Penpot's web-native interface, comment threads, and developer inspection tools. Once the team is comfortable, archive your legacy Sketch files and designate Penpot as the single source of truth for all active product design.</div>
     </div>
   </div>
   
@@ -123,6 +127,10 @@
   </div>
   
   <div class="card">
+    <h2>⚠️ Common Challenges & How to Avoid Them</h2>
+    <div style="margin-bottom:1rem;"><strong style="color:var(--text);">Sketch plugins and custom data generators do not transfer over to Penpot.</strong><br><span style="color:var(--text-muted);">Identify critical workflow plugins in Sketch and find native Penpot alternatives or build custom scripts using Penpot's open API.</span></div><div style="margin-bottom:1rem;"><strong style="color:var(--text);">Complex symbol overrides and nested symbol structures may break or flatten during import.</strong><br><span style="color:var(--text-muted);">Rebuild heavily nested components natively inside Penpot using its robust component system and flexible layout rules.</span></div><div style="margin-bottom:1rem;"><strong style="color:var(--text);">Proprietary or local macOS system fonts used in Sketch may not render identically in a browser-based tool.</strong><br><span style="color:var(--text-muted);">Upload missing typography files to Penpot's shared workspace font library or standardize on web-safe Google Fonts.</span></div>
+  </div>
+  <div class="card">
     <h2>🔗 Get Started</h2>
     <div class="tool-links">
       <a class="tool-link leave" href="https://sketch.com" target="_blank" rel="noopener">Export from Sketch →</a>
@@ -130,6 +138,10 @@
     </div>
   </div>
   
+  <div class="card">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">Can I open .sketch files directly in Penpot?</strong><br><span style="color:var(--text-muted);">Yes, Penpot supports importing standard .sketch files. However, due to differences in rendering engines and layout models, you should expect to spend some time adjusting complex components, text styles, and constraints after the import is complete.</span></div><div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">How does Penpot handle layout compared to Sketch?</strong><br><span style="color:var(--text-muted);">Sketch relies heavily on grouped layers and third-party plugins for layout, whereas Penpot is built entirely around web standards using Flexbox and CSS Grid. This means your designs translate much more naturally into production-ready code for developers.</span></div><div style="margin-bottom:1.25rem;"><strong style="color:var(--text);">Is Penpot really free, and can I host it on our own servers?</strong><br><span style="color:var(--text-muted);">Penpot is open-source and free to use on their cloud infrastructure, but it also offers a self-hosted Docker version. This makes it ideal for organizations with strict data governance policies who want complete control over their design infrastructure without paying per-seat fees.</span></div>
+  </div>
   <div class="card" style="text-align:center;padding:1.5rem;">
     <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">Want a full feature and pricing comparison before you switch?</p>
     <a class="back-btn" href="../sketch-vs-penpot/">Read the Full Sketch vs Penpot Comparison →</a>
