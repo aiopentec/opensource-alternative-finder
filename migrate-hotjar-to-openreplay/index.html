@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Hotjar to OpenReplay (August 24, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Hotjar to OpenReplay (August 25, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Hotjar to OpenReplay. Export your data, set up OpenReplay, and switch your team — save Free / $32-$80+/month per month.">
   <meta name="keywords" content="migrate Hotjar to OpenReplay, Hotjar to OpenReplay migration, how to switch from Hotjar, OpenReplay migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-hotjar-to-openreplay/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Hotjar to OpenReplay (August 24, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Hotjar to OpenReplay (August 25, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Hotjar to OpenReplay. Export your data, set up OpenReplay, and switch your team — save Free / $32-$80+/month per month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-hotjar-to-openreplay/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -21,7 +21,7 @@
     "name": "How to Migrate from Hotjar to OpenReplay",
     "description": "Complete step-by-step guide to migrating from Hotjar to OpenReplay. Export your data, set up OpenReplay, and switch your team — save Free / $32-$80+/month per month.",
     "totalTime": "PT2H",
-    "step": [{"@type":"HowToStep","text":"Export Hotjar data – use Hotjar’s Data Export API to download recordings and heatmaps as JSON/CSV files."}, {"@type":"HowToStep","text":"Set up OpenReplay – spin up the OpenReplay Docker compose stack or Helm chart on your chosen environment."}, {"@type":"HowToStep","text":"Transform data – convert Hotjar JSON to OpenReplay’s session event schema (timestamp, type, selector, coordinates). A community‑provided `hotjar-to-openreplay` script handles this mapping."}, {"@type":"HowToStep","text":"Import sessions – run the OpenReplay CLI `openreplay import --source ./exported-data` to ingest the transformed files."}, {"@type":"HowToStep","text":"Validate & configure – verify replay fidelity, connect your analytics stack (e.g., Grafana), and decommission the Hotjar script from production pages."}]
+    "step": [{"@type":"HowToStep","text":"Export Hotjar recordings – Use Hotjar’s “Export recordings” feature to download JSON files (via the API) or MP4 videos for each session you wish to keep."}, {"@type":"HowToStep","text":"Set up OpenReplay server – Deploy the OpenReplay Docker compose stack on a Linux VM or Kubernetes cluster; configure PostgreSQL and Redis as per the official docs."}, {"@type":"HowToStep","text":"Install SDK – Replace the Hotjar script tag with the OpenReplay JavaScript SDK (`import { init } from '@openreplay/tracker'`)."}, {"@type":"HowToStep","text":"Import recordings – Run OpenReplay’s `import-recordings` CLI tool, pointing it at the exported JSON directory (`openreplay import --src ./hotjar_export`)."}, {"@type":"HowToStep","text":"Validate & decommission – Verify that session replays, network logs, and error captures appear correctly in OpenReplay; then remove the Hotjar script and cancel the Hotjar subscription."}]
   }
   </script>
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
@@ -75,7 +75,7 @@
     <span class="hero-badge">💰 Save Free / $32-$80+/month/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     
-    <span class="hero-badge">📅 August 24, 2026</span>
+    <span class="hero-badge">📅 August 25, 2026</span>
   </div>
 </div>
 <div class="content">
