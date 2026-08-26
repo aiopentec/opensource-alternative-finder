@@ -165,23 +165,14 @@ def fix_email_links(html, filepath):
 
 # ─────────────────────────────────────────────
 # Fix 6: Canonical tag on homepage
-# Ensure it points to bare https://osalfinder.com/ with no query string
-# Also inject a JS canonical enforcer for ?ref= and ?q= variants
+# Ensure it points to bare https://osalfinder.com/ with no query string.
+# (No JS enforcer here — a real <link rel="canonical"> is the correct,
+#  standard signal for ?ref=/?q= tracking-parameter URLs. A prior version
+#  of this fix also injected a history.replaceState() JS shim to strip
+#  query strings client-side, but that never sends a real HTTP redirect,
+#  and Googlebot's renderer was classifying the resulting URL change as
+#  a redirect anyway — one GSC could never cleanly validate. Removed.)
 # ─────────────────────────────────────────────
-
-CANONICAL_ENFORCER_JS = """
-<script>
-// Redirect any ?ref= or ?q= variants to bare canonical URL
-(function() {
-  var url = window.location.href;
-  if (window.location.search) {
-    var params = new URLSearchParams(window.location.search);
-    // Preserve nothing — redirect bare URL
-    history.replaceState(null, '', window.location.pathname);
-  }
-})();
-</script>
-""".strip()
 
 def fix_homepage_canonical(html, filepath):
     # Only run on the homepage index.html
@@ -191,7 +182,7 @@ def fix_homepage_canonical(html, filepath):
 
     result = html
 
-    # 1. Ensure canonical tag is bare URL (no query string)
+    # Ensure canonical tag is bare URL (no query string)
     result = re.sub(
         r'<link\s+rel=["\']canonical["\'][^>]*>',
         '<link rel="canonical" href="https://osalfinder.com/" />',
@@ -203,10 +194,6 @@ def fix_homepage_canonical(html, filepath):
             "<head>",
             '<head>\n<link rel="canonical" href="https://osalfinder.com/" />'
         )
-
-    # 2. Inject JS canonical enforcer before </head>
-    if "history.replaceState" not in result:
-        result = result.replace("</head>", CANONICAL_ENFORCER_JS + "\n</head>")
 
     return result
 
