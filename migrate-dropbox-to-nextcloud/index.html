@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export from Dropbox – Use Dropbox’s “Export data” tool to download each user’s files as a ZIP archive (or use the Dropbox API to pull a full folder tree)."
+      "text": "Export existing user files, folder structures, and metadata from Dropbox using official client sync folders or archive downloads."
     },
     {
       "@type": "HowToStep",
-      "text": "Prepare the Nextcloud server – Install the latest Nextcloud LTS release on a Linux VM, enable the Files app, and configure LDAP/SSO if needed."
+      "text": "Provision and secure your target Nextcloud server instance, configuring the required database, PHP modules, and object storage if applicable."
     },
     {
       "@type": "HowToStep",
-      "text": "Create user accounts – Import the user list via the `occ:user:add` command or the web UI; match usernames to Dropbox accounts."
+      "text": "Import user accounts and file directories into Nextcloud using the Nextcloud command-line interface (`occ files:scan`) or the WebDAV migration interface."
     },
     {
       "@type": "HowToStep",
-      "text": "Import files – Use the `occ:files:scan` command after copying each ZIP’s contents into the corresponding Nextcloud data directory, or employ the “Import” feature of the “External storage” app to point to the ZIPs directly."
+      "text": "Verify file integrity, folder permissions, and user access controls across the newly imported directory structure."
     },
     {
       "@type": "HowToStep",
-      "text": "Validate and switch – Verify permissions, run a pilot group, then update DNS or client configurations to point users to the new Nextcloud endpoint."
+      "text": "Deploy Nextcloud desktop and mobile sync clients to end-users and decommission active Dropbox enterprise accounts."
     }
   ]
 }

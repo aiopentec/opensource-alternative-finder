@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export from Trello – In Trello, open a board, click *Menu → More → Print and Export → Export JSON*. Save the `.json` file."
+      "text": "In Trello, open the board you want to move, click Menu → More → Print and Export → Export JSON to download the board data."
     },
     {
       "@type": "HowToStep",
-      "text": "Prepare WeKan instance – Deploy WeKan (Docker `docker run -d -p 8080:80 wekanteam/wekan`) and ensure PostgreSQL is running."
+      "text": "Set up a WeKan instance (Docker compose or manual Node install) and ensure the server is reachable."
     },
     {
       "@type": "HowToStep",
-      "text": "Install import plugin – In WeKan, enable the “Import from Trello JSON” community plugin via *Admin → Plugins*."
+      "text": "In WeKan, navigate to Administration → Import Board, select the exported JSON file, and click Import."
     },
     {
       "@type": "HowToStep",
-      "text": "Import the JSON – Navigate to *Board → Import*, upload the Trello JSON file, and map users to existing WeKan accounts."
+      "text": "Verify that lists, cards, labels, and members appear correctly; adjust any custom fields manually."
     },
     {
       "@type": "HowToStep",
-      "text": "Validate and adjust – Verify card attachments, custom fields, and members; recreate any Power‑Ups (e.g., Calendar) using WeKan plugins or external integrations."
+      "text": "Invite your team to the new WeKan board and deactivate the corresponding Trello board to avoid duplicate work."
     }
   ]
 }

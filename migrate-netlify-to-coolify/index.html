@@ -24,19 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export your existing static site build artifacts or clone your Git repository, and ensure all build commands, environment variables, and Node.js versions are documented."
+      "text": "Export Netlify site – Use Netlify’s “Site Settings → General → Export site” to download a ZIP containing the built static assets and a `netlify.toml` configuration file."
     },
     {
       "@type": "HowToStep",
-      "text": "Provision a fresh Linux Virtual Private Server (Ubuntu 22.04+ recommended) and run the official Coolify installation script via SSH."
+      "text": "Create Docker image – Write a `Dockerfile` that copies the exported `dist` folder into an Nginx container (or any runtime you prefer)."
     },
     {
       "@type": "HowToStep",
-      "text": "Access the Coolify dashboard in your browser, configure your Git provider integration, and create a new static or application resource pointing to your repository."
+      "text": "Push to registry – Build the image locally and push it to a private registry (Docker Hub, GitHub Packages, or your own Harbor instance)."
     },
     {
       "@type": "HowToStep",
-      "text": "Define your build and start commands in the Coolify dashboard matching your Netlify configuration, then map your custom domain and update your DNS records to point to your new server IP."
+      "text": "Add to Coolify – In the Coolify UI, create a new “Application”, select “Docker Compose”, and reference the image tag you just pushed."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Configure domain & SSL – Use Coolify’s built‑in Let’s Encrypt integration to attach your custom domain and enable HTTPS, then verify that the site serves correctly."
     }
   ]
 }

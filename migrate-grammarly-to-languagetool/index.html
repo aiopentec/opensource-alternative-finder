@@ -24,19 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export personal dictionary terms, custom rules, and user data from Grammarly by downloading account data via the account privacy settings page."
+      "text": "Export existing documents – In Grammarly, copy each file to `.docx` or `.txt` (the UI allows “Download” for premium users)."
     },
     {
       "@type": "HowToStep",
-      "text": "Deploy the LanguageTool self-hosted Docker container on your internal Kubernetes cluster or virtual machine infrastructure."
+      "text": "Set up a LanguageTool server – Deploy the Docker image (`languagetool/languagetool`) or install the Java JAR on a Linux host."
     },
     {
       "@type": "HowToStep",
-      "text": "Import custom vocabulary and spelling exceptions into LanguageTool's server configuration files or database."
+      "text": "Import texts – Use LanguageTool’s web UI to upload the exported files, or call the `/v2/check` REST endpoint in batch mode."
     },
     {
       "@type": "HowToStep",
-      "text": "Deploy the LanguageTool browser extension or LibreOffice plugin to end-user workstations, configuring the extension settings to point to your internal self-hosted server URL."
+      "text": "Map custom dictionaries – Transfer any Grammarly personal word list to LanguageTool’s `user-words.txt`."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Validate and train – Run a pilot batch, review false positives, and add custom rules as needed before full rollout."
     }
   ]
 }

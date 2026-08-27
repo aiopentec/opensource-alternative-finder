@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export from Loom: In Loom’s Settings → Data Export, request a CSV of video metadata and download all MP4 files via the “Download all” option (ZIP archive)."
+      "text": "Export recordings from Loom – use Loom’s “Download all videos” feature to obtain MP4 files and export the analytics CSV for reference."
     },
     {
       "@type": "HowToStep",
-      "text": "Prepare Cap server: Deploy the latest Cap Docker image on a Linux host, configure storage (e.g., S3‑compatible bucket) and enable the import plugin."
+      "text": "Set up a Cap server – provision a Linux VM or Kubernetes cluster, install Docker, and run Cap’s official `docker-compose.yml`."
     },
     {
       "@type": "HowToStep",
-      "text": "Import videos: Use Cap’s CLI tool `cap-import --metadata loom.csv --videos ./videos/` to ingest the CSV and associate each MP4 with a new record."
+      "text": "Import videos – use Cap’s CLI tool `cap-import` to bulk‑load MP4 files into the new instance (e.g., `cap-import --dir ./loom_videos`)."
     },
     {
       "@type": "HowToStep",
-      "text": "Map users: Create corresponding user accounts in Cap (via API or admin UI) and assign ownership based on the Loom email column."
+      "text": "Migrate metadata – write a short script that reads the Loom CSV and calls Cap’s REST API (`POST /api/v1/videos/{id}/metadata`) to attach titles, tags, and view counts."
     },
     {
       "@type": "HowToStep",
-      "text": "Validate and cut over: Verify playback, update internal links, and disable Loom access for the migrated teams."
+      "text": "Update workflows – replace Loom share links with Cap URLs, adjust any Slack bots to call Cap’s webhook endpoint, and decommission Loom accounts."
     }
   ]
 }

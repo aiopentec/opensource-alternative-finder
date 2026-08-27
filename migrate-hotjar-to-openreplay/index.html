@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export your data from Hotjar using their built-in export tool (Settings → Export)"
+      "text": "Export recordings from Hotjar – use Hotjar’s CSV export for session metadata and the “Export recordings” feature which provides a ZIP of MP4 video files."
     },
     {
       "@type": "HowToStep",
-      "text": "Set up OpenReplay on your own server or use their hosted option"
+      "text": "Set up OpenReplay server – deploy the Docker‑compose stack (frontend, backend, PostgreSQL, and ClickHouse) on your infrastructure."
     },
     {
       "@type": "HowToStep",
-      "text": "Import your exported data into OpenReplay following their import documentation"
+      "text": "Convert Hotjar recordings – transform MP4 files into OpenReplay’s raw event format using the open‑source `hotjar-to-openreplay` conversion script (available on GitHub)."
     },
     {
       "@type": "HowToStep",
-      "text": "Invite your team members and recreate your workspace structure"
+      "text": "Import data – run OpenReplay’s `import` CLI tool pointing to the converted JSON payloads."
     },
     {
       "@type": "HowToStep",
-      "text": "Run both tools in parallel for 1–2 weeks before fully switching"
+      "text": "Validate and switch tracking code – replace the Hotjar script tag with the OpenReplay SDK snippet on all pages, then monitor for any missing events."
     }
   ]
 }

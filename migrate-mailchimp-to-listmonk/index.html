@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export from Mailchimp: In Mailchimp’s Audience dashboard, click *Export Audience* to download a CSV file containing email, name, tags, and merge fields."
+      "text": "Export your data from Mailchimp using their built-in export tool (Settings → Export)"
     },
     {
       "@type": "HowToStep",
-      "text": "Prepare the CSV for Listmonk: Ensure columns match Listmonk’s import schema (`email`, `name`, `attributes` JSON). Remove any Mailchimp‑only columns (e.g., `status`)."
+      "text": "Set up Listmonk on your own server or use their hosted option"
     },
     {
       "@type": "HowToStep",
-      "text": "Set up Listmonk: Deploy Listmonk via Docker (`docker run -d -p 9000:9000 ...`) and configure a PostgreSQL instance."
+      "text": "Import your exported data into Listmonk following their import documentation"
     },
     {
       "@type": "HowToStep",
-      "text": "Import contacts: Use Listmonk’s UI → *Subscribers* → *Import* or call the `/api/subscribers/import` endpoint with the CSV payload."
+      "text": "Invite your team members and recreate your workspace structure"
     },
     {
       "@type": "HowToStep",
-      "text": "Recreate campaigns: Export Mailchimp campaign HTML, upload to Listmonk’s campaign editor, and map automation triggers manually using Listmonk’s webhook system."
+      "text": "Run both tools in parallel for 1–2 weeks before fully switching"
     }
   ]
 }
