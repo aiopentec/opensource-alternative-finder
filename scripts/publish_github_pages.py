@@ -1431,6 +1431,16 @@ def build_migration_page(site_dir: str, comp: dict, updated: str):
     seo_desc  = f"Complete step-by-step guide to migrating from {prop_name} to {oss_name}. Export your data, set up {oss_name}, and switch your team — save {comp.get('proprietary_pricing','money')} per month."
     canonical = f"{SITE_BASE_URL}/{migrate_slug}/"
 
+    howto_schema = {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": f"How to Migrate from {prop_name} to {oss_name}",
+        "description": seo_desc,
+        "totalTime": diff.get('time', 'PT2H'),
+        "step": [{"@type": "HowToStep", "text": s} for s in steps],
+    }
+    howto_json = json.dumps(howto_schema, ensure_ascii=False, indent=2)
+
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1448,14 +1458,7 @@ def build_migration_page(site_dir: str, comp: dict, updated: str):
   <meta property="og:url" content="{canonical}">
   {get_adsense_snippet()}
   <script type="application/ld+json">
-  {{
-    "@context": "https://schema.org",
-    "@type": "HowTo",
-    "name": "How to Migrate from {prop_name} to {oss_name}",
-    "description": "{seo_desc}",
-    "totalTime": "{diff.get('time', 'PT2H')}",
-    "step": [{', '.join([f'{{"@type":"HowToStep","text":"{s}"}}' for s in steps])}]
-  }}
+  {howto_json}
   </script>
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
   <style>
