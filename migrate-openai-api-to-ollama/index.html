@@ -16,13 +16,30 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
   <script type="application/ld+json">
   {
-    "@context": "https://schema.org",
-    "@type": "HowTo",
-    "name": "How to Migrate from OpenAI API to Ollama",
-    "description": "Complete step-by-step guide to migrating from OpenAI API to Ollama. Export your data, set up Ollama, and switch your team — save Pay per use ($0.01+/1k tokens) per month.",
-    "totalTime": "PT2H",
-    "step": [{"@type":"HowToStep","text":"Audit your current OpenAI API implementation to identify all model dependencies, system prompts, and hardcoded parameter settings (e.g., temperature, max tokens)."}, {"@type":"HowToStep","text":"Install Ollama locally and download the equivalent open-weight model using `ollama pull llama3` (or your preferred compatible model)."}, {"@type":"HowToStep","text":"Update your application code to point the OpenAI SDK base URL to your local Ollama endpoint (`http://localhost:11434/v1`), as Ollama natively supports the OpenAI API chat completions schema."}, {"@type":"HowToStep","text":"Run integration tests to validate output formatting, latency, and model behavior, adjusting system prompts where open-weight models differ in instruction following."}]
-  }
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Migrate from OpenAI API to Ollama",
+  "description": "Complete step-by-step guide to migrating from OpenAI API to Ollama. Export your data, set up Ollama, and switch your team — save Pay per use ($0.01+/1k tokens) per month.",
+  "totalTime": "PT2H",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "text": "Audit your current OpenAI API implementation to identify all model dependencies, system prompts, and hardcoded parameter settings (e.g., temperature, max tokens)."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Install Ollama locally and download the equivalent open-weight model using `ollama pull llama3` (or your preferred compatible model)."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Update your application code to point the OpenAI SDK base URL to your local Ollama endpoint (`http://localhost:11434/v1`), as Ollama natively supports the OpenAI API chat completions schema."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Run integration tests to validate output formatting, latency, and model behavior, adjusting system prompts where open-weight models differ in instruction following."
+    }
+  ]
+}
   </script>
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
   <style>

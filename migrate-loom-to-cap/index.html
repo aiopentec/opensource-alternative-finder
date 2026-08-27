@@ -16,13 +16,34 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
   <script type="application/ld+json">
   {
-    "@context": "https://schema.org",
-    "@type": "HowTo",
-    "name": "How to Migrate from Loom to Cap",
-    "description": "Complete step-by-step guide to migrating from Loom to Cap. Export your data, set up Cap, and switch your team — save Free / $12.50-$14.99/user/month per month.",
-    "totalTime": "PT2H",
-    "step": [{"@type":"HowToStep","text":"Export from Loom: In Loom’s Settings → Data Export, request a CSV of video metadata and download all MP4 files via the “Download all” option (ZIP archive)."}, {"@type":"HowToStep","text":"Prepare Cap server: Deploy the latest Cap Docker image on a Linux host, configure storage (e.g., S3‑compatible bucket) and enable the import plugin."}, {"@type":"HowToStep","text":"Import videos: Use Cap’s CLI tool `cap-import --metadata loom.csv --videos ./videos/` to ingest the CSV and associate each MP4 with a new record."}, {"@type":"HowToStep","text":"Map users: Create corresponding user accounts in Cap (via API or admin UI) and assign ownership based on the Loom email column."}, {"@type":"HowToStep","text":"Validate and cut over: Verify playback, update internal links, and disable Loom access for the migrated teams."}]
-  }
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Migrate from Loom to Cap",
+  "description": "Complete step-by-step guide to migrating from Loom to Cap. Export your data, set up Cap, and switch your team — save Free / $12.50-$14.99/user/month per month.",
+  "totalTime": "PT2H",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "text": "Export from Loom: In Loom’s Settings → Data Export, request a CSV of video metadata and download all MP4 files via the “Download all” option (ZIP archive)."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Prepare Cap server: Deploy the latest Cap Docker image on a Linux host, configure storage (e.g., S3‑compatible bucket) and enable the import plugin."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Import videos: Use Cap’s CLI tool `cap-import --metadata loom.csv --videos ./videos/` to ingest the CSV and associate each MP4 with a new record."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Map users: Create corresponding user accounts in Cap (via API or admin UI) and assign ownership based on the Loom email column."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Validate and cut over: Verify playback, update internal links, and disable Loom access for the migrated teams."
+    }
+  ]
+}
   </script>
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
   <style>

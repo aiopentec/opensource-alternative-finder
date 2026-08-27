@@ -16,13 +16,46 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
   <script type="application/ld+json">
   {
-    "@context": "https://schema.org",
-    "@type": "HowTo",
-    "name": "How to Migrate from Slack to Mattermost",
-    "description": "Complete step-by-step guide to migrating from Slack to Mattermost. Export your data, set up Mattermost, and switch your team — save $7.25-$15/user/month per month.",
-    "totalTime": "~30 mins",
-    "step": [{"@type":"HowToStep","text":"Export your Slack workspace data: Workspace Settings → Import/Export Data → Export. Note that free and Pro plans only export public channel history — private channels and DMs require a Business+ or Enterprise export"}, {"@type":"HowToStep","text":"Download and install mmetl (the Mattermost ETL tool) from Mattermost's GitHub releases — it's the official tool for converting Slack exports into Mattermost's import format"}, {"@type":"HowToStep","text":"Run `mmetl check` on your Slack export zip first to validate the file structure and catch problems before conversion"}, {"@type":"HowToStep","text":"Convert the export: `mmetl convert slack_export.zip mattermost_import.jsonl` — this processes messages, users, channels, and timestamps into a single JSONL file"}, {"@type":"HowToStep","text":"Before importing, create the destination team in Mattermost manually, and enable "Allow any user with an account on this server to join this team" in the team settings — the import will fail without this"}, {"@type":"HowToStep","text":"Check for email mismatches between Slack and Mattermost accounts before importing. Mismatched emails cause messages to be attributed to placeholder accounts instead of the correct user"}, {"@type":"HowToStep","text":"Upload and process the import using mmctl: `mmctl import upload mattermost_import.jsonl` followed by `mmctl import process <upload-id>`. The import is idempotent — re-running it won't create duplicate posts"}, {"@type":"HowToStep","text":"If the import fails on file size, increase Mattermost's MaxFileSize setting in config.json before retrying. For large imports, use the `--workers 4` flag with mmetl to speed up conversion"}]
-  }
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Migrate from Slack to Mattermost",
+  "description": "Complete step-by-step guide to migrating from Slack to Mattermost. Export your data, set up Mattermost, and switch your team — save $7.25-$15/user/month per month.",
+  "totalTime": "~30 mins",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "text": "Export your Slack workspace data: Workspace Settings → Import/Export Data → Export. Note that free and Pro plans only export public channel history — private channels and DMs require a Business+ or Enterprise export"
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Download and install mmetl (the Mattermost ETL tool) from Mattermost's GitHub releases — it's the official tool for converting Slack exports into Mattermost's import format"
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Run `mmetl check` on your Slack export zip first to validate the file structure and catch problems before conversion"
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Convert the export: `mmetl convert slack_export.zip mattermost_import.jsonl` — this processes messages, users, channels, and timestamps into a single JSONL file"
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Before importing, create the destination team in Mattermost manually, and enable \"Allow any user with an account on this server to join this team\" in the team settings — the import will fail without this"
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Check for email mismatches between Slack and Mattermost accounts before importing. Mismatched emails cause messages to be attributed to placeholder accounts instead of the correct user"
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Upload and process the import using mmctl: `mmctl import upload mattermost_import.jsonl` followed by `mmctl import process <upload-id>`. The import is idempotent — re-running it won't create duplicate posts"
+    },
+    {
+      "@type": "HowToStep",
+      "text": "If the import fails on file size, increase Mattermost's MaxFileSize setting in config.json before retrying. For large imports, use the `--workers 4` flag with mmetl to speed up conversion"
+    }
+  ]
+}
   </script>
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
   <style>
