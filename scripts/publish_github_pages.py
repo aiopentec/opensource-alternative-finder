@@ -474,11 +474,15 @@ COMPARISON_PAGE = """<!DOCTYPE html>
   <meta property="og:description" content="{seo_description}">
   <meta property="og:url" content="{canonical_url}">
   <meta property="og:site_name" content="Open Source Alternative Finder">
+  <meta property="og:image" content="{site_base_url}/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{seo_title}">
   <meta name="twitter:description" content="{seo_description}">
+  <meta name="twitter:image" content="{site_base_url}/og-default.png">
 
   <!-- Schema.org structured data -->
   <script type="application/ld+json">
@@ -487,11 +491,21 @@ COMPARISON_PAGE = """<!DOCTYPE html>
     "@type": "Article",
     "headline": "{title}",
     "description": "{seo_description}",
+    "image": "{site_base_url}/og-default.png",
     "dateModified": "{iso_date}",
-    "publisher": {{
+    "author": {{
       "@type": "Organization",
       "name": "Open Source Alternative Finder",
       "url": "{site_base_url}"
+    }},
+    "publisher": {{
+      "@type": "Organization",
+      "name": "Open Source Alternative Finder",
+      "url": "{site_base_url}",
+      "logo": {{
+        "@type": "ImageObject",
+        "url": "{site_base_url}/logo-square.png"
+      }}
     }},
     "breadcrumb": {{
       "@type": "BreadcrumbList",
@@ -878,10 +892,14 @@ INDEX_PAGE = """<!DOCTYPE html>
   <meta property="og:description" content="Find free, open-source replacements for popular paid tools. AI-researched comparisons updated daily.">
   <meta property="og:url" content="{site_base_url}/">
   <meta property="og:site_name" content="Open Source Alternative Finder">
+  <meta property="og:image" content="{site_base_url}/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Open Source Alternative Finder">
   <meta name="twitter:description" content="Find free, open-source replacements for Slack, Notion, Figma, and more.">
+  <meta name="twitter:image" content="{site_base_url}/og-default.png">
 
   <script type="application/ld+json">
   {{
@@ -4722,6 +4740,17 @@ Open Source Alternative Finder · Updated {updated} · <a href="../privacy/">Pri
     # Static files
     with open(Path(site_dir) / 'favicon.ico', 'wb') as f:
         f.write(b'')
+    # Default social-share image (og:image / twitter:image). Used by the
+    # homepage and comparison-page templates below; twitter:card was set to
+    # summary_large_image sitewide but had no image to back it, so shares
+    # were rendering blank.
+    import shutil
+    og_default_src = Path(__file__).parent.parent / "assets" / "og-default.png"
+    if og_default_src.exists():
+        shutil.copy(og_default_src, Path(site_dir) / 'og-default.png')
+    logo_square_src = Path(__file__).parent.parent / "assets" / "logo-square.png"
+    if logo_square_src.exists():
+        shutil.copy(logo_square_src, Path(site_dir) / 'logo-square.png')
     with open(Path(site_dir) / 'CNAME', 'w') as f:
         f.write("osalfinder.com\n")
     with open(Path(site_dir) / 'CNAME.example', 'w') as f:
