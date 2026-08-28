@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export your existing customer data, contacts, and historical conversations from Intercom in CSV or JSON format using the Intercom Data Export API."
+      "text": "Export data from Intercom – use Intercom’s “Export all conversations” feature to download a CSV or JSON archive of messages and user profiles."
     },
     {
       "@type": "HowToStep",
-      "text": "Provision a production-ready server environment (Docker/Kubernetes with PostgreSQL and Redis) and deploy your self-hosted Chatwoot instance."
+      "text": "Set up Chatwoot – provision a server (Docker or Kubernetes), run `docker-compose up -d`, and configure TLS and a PostgreSQL instance."
     },
     {
       "@type": "HowToStep",
-      "text": "Use Chatwoot's administrative import utilities or custom scripts interfacing with the Chatwoot REST API to ingest historical contact and conversation records."
+      "text": "Import users – map Intercom user fields to Chatwoot contacts and import via Chatwoot’s `bin/rails import:contacts` script (supports CSV)."
     },
     {
       "@type": "HowToStep",
-      "text": "Replace the Intercom JavaScript widget snippet on your website and applications with the Chatwoot live chat SDK script tag."
+      "text": "Import conversations – use the `bin/rails import:conversations` rake task, feeding the JSON export; map Intercom tags to Chatwoot labels."
     },
     {
       "@type": "HowToStep",
-      "text": "Test all inbound channels (email, website widget, social media) to verify message routing before fully decommissioning your Intercom account."
+      "text": "Validate & go live – run a QA session, update DNS to point the chat widget to your Chatwoot instance, and deactivate the Intercom widget."
     }
   ]
 }

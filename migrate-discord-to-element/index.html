@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export your Discord server chat history using an open-source tool like `DiscordChatExporter` to save logs in HTML, JSON, or CSV format."
+      "text": "Export Discord data: In Discord Settings → Privacy & Safety → Request Data, download the ZIP containing JSON files of messages, channels, and users."
     },
     {
       "@type": "HowToStep",
-      "text": "Provision a Matrix homeserver (such as Synapse) on your own infrastructure or sign up with a managed Matrix hosting provider like Element Matrix Services."
+      "text": "Transform to Matrix format: Use the open‑source `discord-matrix-bridge` script to convert Discord JSON into Matrix room events (NDJSON)."
     },
     {
       "@type": "HowToStep",
-      "text": "Create your new rooms, spaces, and user accounts within your Element homeserver environment."
+      "text": "Set up a Matrix homeserver: Deploy Synapse (Docker or native) or another Matrix implementation and configure admin credentials."
     },
     {
       "@type": "HowToStep",
-      "text": "Utilize community-made migration scripts or Matrix room import tools to push historical chat logs into your new Element rooms if retention is legally or operationally required."
+      "text": "Import converted data: Run Synapse’s `importer` tool (`manage.py import_rooms`) pointing at the NDJSON files."
     },
     {
       "@type": "HowToStep",
-      "text": "Invite your users to download the Element client, log into your homeserver, and decommission your Discord server."
+      "text": "Invite users to Element: Share the homeserver URL; users log in with existing credentials or SSO and begin using Element."
     }
   ]
 }

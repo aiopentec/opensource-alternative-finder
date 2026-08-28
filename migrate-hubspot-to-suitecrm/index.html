@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export HubSpot data – Use HubSpot’s “Export” tool to download Contacts, Companies, Deals, and Tickets as CSV files (one file per object)."
+      "text": "Export HubSpot data – Use HubSpot’s native export to CSV for Contacts, Companies, Deals, and Tickets (Settings → Data Management → Export)."
     },
     {
       "@type": "HowToStep",
-      "text": "Prepare CSVs for SuiteCRM – Map HubSpot columns to SuiteCRM fields; rename headers to match SuiteCRM’s import template (e.g., `email_address`, `account_name`)."
+      "text": "Prepare CSVs for SuiteCRM – Map HubSpot fields to SuiteCRM modules; ensure required columns (e.g., `first_name`, `last_name`, `email`) are present."
     },
     {
       "@type": "HowToStep",
-      "text": "Set up SuiteCRM instance – Provision a server (Linux, Apache/Nginx, MySQL/MariaDB), install the latest SuiteCRM release, and apply security patches."
+      "text": "Set up SuiteCRM environment – Provision a Linux VM, install LAMP stack, and deploy the latest SuiteCRM release from GitHub."
     },
     {
       "@type": "HowToStep",
-      "text": "Import data – In SuiteCRM, navigate to Admin > Import, select the appropriate module, upload the prepared CSV, and run the import wizard. Verify record counts and relationships."
+      "text": "Import with SuiteCRM’s “Import” tool – Navigate to the target module (e.g., Contacts) → Import → Upload CSV → Map fields → Run import."
     },
     {
       "@type": "HowToStep",
-      "text": "Recreate automations – Rebuild critical workflows using SuiteCRM’s Process Author or integrate a dedicated marketing automation tool (e.g., Mautic) to replicate HubSpot sequences."
+      "text": "Validate and reconcile – Run reports to compare record counts, fix any mismatched relationships, and deactivate HubSpot API keys."
     }
   ]
 }

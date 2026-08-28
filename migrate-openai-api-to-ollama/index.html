@@ -24,23 +24,19 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export your existing prompt templates and application logic configurations from your current OpenAI integration codebase."
+      "text": "Audit your current codebase for OpenAI API calls and identify endpoints utilizing advanced proprietary features such as Assistants, File Search, or Vision, which require rewriting."
     },
     {
       "@type": "HowToStep",
-      "text": "Install Ollama locally via the command line and pull your target model using `ollama pull [model_name]`."
+      "text": "Install the Ollama CLI locally or on your self-hosted server (`curl -fsSL https://ollama.com/install.sh`), and pull your desired open-weights model using `ollama pull llama3`."
     },
     {
       "@type": "HowToStep",
-      "text": "Update your application's API base URL configuration from `https://api.openai.com/v1` to your local Ollama endpoint (`http://localhost:11434/v1`)."
+      "text": "Configure your application's environment variables to point your OpenAI client library base URL to your local Ollama instance (`http://localhost:11434/v1`)."
     },
     {
       "@type": "HowToStep",
-      "text": "Replace proprietary OpenAI model identifiers (e.g., `gpt-4o`) with equivalent open-weights model identifiers (e.g., `llama3`)."
-    },
-    {
-      "@type": "HowToStep",
-      "text": "Test all application endpoints using standard HTTP clients or LangChain adapters to verify output compatibility."
+      "text": "Execute integration test suites to validate output quality, adjust prompt engineering for open-weights model nuances, and verify token throughput performance."
     }
   ]
 }

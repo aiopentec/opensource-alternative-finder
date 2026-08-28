@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export data from Salesforce: Use Salesforce’s Data Export Service to generate CSV files for Accounts, Contacts, Leads, Opportunities, and Products."
+      "text": "Export Data from Salesforce – Use Salesforce’s Data Export Wizard to generate ZIP files containing CSV files for Accounts, Contacts, Leads, Opportunities, and Cases."
     },
     {
       "@type": "HowToStep",
-      "text": "Map fields to Dolibarr: Align Salesforce columns with Dolibarr module fields (e.g., Account → Third‑party, Opportunity → Proposal)."
+      "text": "Map Fields to Dolibarr – Align Salesforce columns with Dolibarr’s import schema (e.g., `AccountName` → `company_name`)."
     },
     {
       "@type": "HowToStep",
-      "text": "Prepare import files: Clean CSVs, ensure UTF‑8 encoding, and split large files into ≤10 000‑row chunks."
+      "text": "Set Up Dolibarr Environment – Install Dolibarr on a LAMP server, enable the “Import/Export” module, and create the necessary entities (Customers, Prospects, Invoices)."
     },
     {
       "@type": "HowToStep",
-      "text": "Import into Dolibarr: Use Dolibarr’s built‑in “CSV Import” module for Third‑parties, Invoices, and Products; for Opportunities, import as Proposals via the “Import Proposals” plugin."
+      "text": "Import CSV Files – In Dolibarr, navigate to *Tools → Import* and select the corresponding CSV for each entity; use the built‑in field‑mapping wizard to validate data."
     },
     {
       "@type": "HowToStep",
-      "text": "Validate and go live: Run reconciliation reports, adjust permissions, and decommission the Salesforce org after confirming data integrity."
+      "text": "Validate & Go Live – Run spot checks, reconcile record counts, and configure user permissions. Deactivate Salesforce accounts only after confirming data integrity in Dolibarr."
     }
   ]
 }

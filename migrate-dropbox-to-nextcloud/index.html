@@ -24,19 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export User Data: Export user files and folder structures from Dropbox using bulk download tools or the official Dropbox API to a local staging server."
+      "text": "Export Data from Dropbox: Export user lists and download file archives directly from the Dropbox Admin Console, or use rclone to sync all files locally from a mounted Dropbox directory."
     },
     {
       "@type": "HowToStep",
-      "text": "Provision Nextcloud Server: Set up a production-ready Linux server running Apache or Nginx, PHP, and a database (PostgreSQL or MySQL) with Nextcloud installed."
+      "text": "Provision Nextcloud Server: Set up a dedicated Linux server or virtual machine running Ubuntu/Debian, and install the Nextcloud container via Docker or the official installation script with a robust database (PostgreSQL or MySQL)."
     },
     {
       "@type": "HowToStep",
-      "text": "Import Files: Use the Nextcloudocc command-line tool (specifically `files:scan`) to import the exported file directory structure directly into the target user accounts without losing folder hierarchies."
+      "text": "Import Users: Use the Nextcloudocc command-line tool (specifically `user:add` or LDAP integration) to recreate user accounts and match existing directory structures."
     },
     {
       "@type": "HowToStep",
-      "text": "Reconfigure Clients: Uninstall the Dropbox desktop and mobile synchronization clients and replace them with the official Nextcloud sync clients configured to point to your new server URL."
+      "text": "Upload Files: Transfer the downloaded file directories into the respective Nextcloud user data directories, then execute the command `occ files:scan --all` to index the imported files into the Nextcloud database."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Install Desktop and Mobile Clients: Deploy the Nextcloud client applications to user workstations and point them to the new self-hosted server URL."
     }
   ]
 }

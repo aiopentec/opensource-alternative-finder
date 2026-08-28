@@ -24,7 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export your data from Slack in its standard export format, review Zulip import documentation, and plan a pilot period where both tools run in parallel."
+      "text": "Export Slack data – In the Slack admin console, generate a JSON export (includes channels, messages, and files)."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Set up Zulip – Deploy a self‑hosted Zulip instance via Docker or your preferred cloud provider."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Install the import tool – Use Zulip’s `zulip-import` script (`python3 manage.py import-slack`) to ingest the Slack JSON file."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Map users and channels – Align Slack usernames with Zulip accounts; create matching streams and topics."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Validate and go live – Verify message integrity, update integrations, and point team members to the new Zulip URL."
     }
   ]
 }

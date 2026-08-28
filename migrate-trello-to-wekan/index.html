@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "In Trello, open each board, click Menu → More → Print and Export, and download the board as a JSON file."
+      "text": "In Trello, open the board menu → More → Print and Export → Export JSON. Save the `.json` file."
     },
     {
       "@type": "HowToStep",
-      "text": "Set up a WeKan instance (Docker recommended) and ensure the database is running."
+      "text": "Set up a WeKan instance (Docker compose is the quickest): `docker run -d -p 8080:8080 wekan/wekan`."
     },
     {
       "@type": "HowToStep",
-      "text": "In WeKan, navigate to Admin → Import, select the Trello JSON file, and click Import Board."
+      "text": "Install the community wekan-import plugin or use the built‑in import script: `node import.js --file board.json`."
     },
     {
       "@type": "HowToStep",
-      "text": "Verify card titles, descriptions, labels, and members; re‑assign any missing users manually."
+      "text": "Verify card titles, labels, and members; adjust any custom fields manually."
     },
     {
       "@type": "HowToStep",
-      "text": "Deactivate Trello accounts or downgrade plans once all active boards are confirmed in WeKan."
+      "text": "Invite users to the new WeKan board and deactivate the Trello board to avoid duplicate work."
     }
   ]
 }

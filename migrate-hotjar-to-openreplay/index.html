@@ -24,19 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export recordings from Hotjar – use Hotjar’s API to pull session data as JSON (`/api/v1/recordings`) and heatmaps as CSV."
+      "text": "Export Hotjar recordings – use Hotjar’s “Export recordings” feature to download MP4 files and CSV metadata."
     },
     {
       "@type": "HowToStep",
-      "text": "Set up OpenReplay server – deploy the Docker Compose stack (or Helm chart) and configure PostgreSQL + optional S3 bucket for assets."
+      "text": "Set up OpenReplay – provision a Docker‑Compose stack (frontend, backend, PostgreSQL) on your server or Kubernetes cluster."
     },
     {
       "@type": "HowToStep",
-      "text": "Convert format – run the `openreplay-cli import --format hotjar-json` tool to translate Hotjar JSON into OpenReplay’s internal schema."
+      "text": "Convert recordings – run `openreplay-cli import --format mp4 --metadata recordings.csv` to ingest the MP4 files and associated data."
     },
     {
       "@type": "HowToStep",
-      "text": "Validate and go live – replay a sample of imported sessions, adjust storage retention settings, and de‑activate the Hotjar script tag."
+      "text": "Map custom events – if you used Hotjar’s custom tags, recreate them in OpenReplay via its API (`POST /api/events`)."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Validate and switch – verify that recordings appear in the OpenReplay UI, update the script tag on your site to point to the new endpoint, and de‑activate Hotjar."
     }
   ]
 }

@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export data from Typeform – use the “Export → CSV” option to download all responses and form definitions."
+      "text": "Export from Typeform – In the Typeform dashboard, go to *Results → Export* and download responses as a CSV file."
     },
     {
       "@type": "HowToStep",
-      "text": "Set up Formbricks – deploy the Docker compose file on your server, configure a PostgreSQL database, and run the initial migration script."
+      "text": "Map fields – Align Typeform column headers to Formbricks survey field IDs (refer to Formbricks’ import schema)."
     },
     {
       "@type": "HowToStep",
-      "text": "Map fields – create a Formbricks survey matching the Typeform structure; use the provided `formbricks-cli import-csv` tool to map CSV columns to survey questions."
+      "text": "Set up Formbricks – Deploy Formbricks on your server (Docker compose or Helm chart) and create a matching survey via the UI or API."
     },
     {
       "@type": "HowToStep",
-      "text": "Validate imports – run a sanity check via the Formbricks admin UI to ensure all responses appear correctly."
+      "text": "Import data – Use the Formbricks CSV import endpoint (`POST /api/v1/responses/import`) or the admin UI’s “Import CSV” button."
     },
     {
       "@type": "HowToStep",
-      "text": "Redirect traffic – replace the Typeform embed URL with the Formbricks embed snippet on your website or app, and deactivate the old Typeform account."
+      "text": "Validate & go live – Verify that all responses appear correctly, adjust any conditional logic, and point your traffic to the new Formbricks endpoint."
     }
   ]
 }

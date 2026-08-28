@@ -24,23 +24,19 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export your WordPress.com content using the WordPress XML export tool located in Tools > Export."
+      "text": "Export from WordPress.com: In the WordPress.com dashboard, go to *Tools → Export* and download the WXR (XML) file containing posts, pages, and media."
     },
     {
       "@type": "HowToStep",
-      "text": "Install and configure a fresh instance of Ghost on your target server or Ghost(Pro)."
+      "text": "Prepare Ghost environment: Set up a Node.js server (e.g., on DigitalOcean, Render, or Vercel) and install Ghost via the official CLI (`ghost install`)."
     },
     {
       "@type": "HowToStep",
-      "text": "Navigate to Ghost Admin settings, locate the Labs section, and use the migration tool to upload your WordPress XML export file."
+      "text": "Import into Ghost: In Ghost Admin, navigate to *Labs → Import* and upload the WXR file; Ghost will map authors, tags, and images automatically."
     },
     {
       "@type": "HowToStep",
-      "text": "Review imported posts, pages, and tags in the Ghost dashboard, then manually map internal links and upload theme assets."
-    },
-    {
-      "@type": "HowToStep",
-      "text": "Update your DNS records to point your domain name to your new Ghost server instance."
+      "text": "Verify & relink: Check for broken links, adjust theme styling, and configure redirects in Ghost’s `routes.yaml` to preserve SEO equity."
     }
   ]
 }

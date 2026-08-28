@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export your vault from LastPass via the *CSV* export feature in the admin console."
+      "text": "Log in to your LastPass account via the web browser vault, navigate to Advanced Options, and select Export."
     },
     {
       "@type": "HowToStep",
-      "text": "Prepare a Vaultwarden instance (Docker compose or binary) with TLS enabled and a persistent SQLite or PostgreSQL database."
+      "text": "Export your vault data as an unencrypted `.csv` file format. *(Warning: Delete this file securely immediately after migration).*"
     },
     {
       "@type": "HowToStep",
-      "text": "Convert the CSV to Bitwarden JSON using the open‑source `lastpass-to-bitwarden` converter script."
+      "text": "Open your Vaultwarden (or official Bitwarden web vault) instance, navigate to Tools, and select Import Data."
     },
     {
       "@type": "HowToStep",
-      "text": "Import the JSON file into Vaultwarden through the web UI (`Settings → Import Data`) or via the `/api/ciphers/import` endpoint."
+      "text": "Choose LastPass (csv) from the format dropdown, upload your exported file, and confirm the import."
     },
     {
       "@type": "HowToStep",
-      "text": "Verify that all entries, folders, and TOTP secrets migrated correctly, then decommission LastPass accounts."
+      "text": "Verify that all folders, logins, and secure notes transferred successfully, then permanently delete your LastPass account."
     }
   ]
 }

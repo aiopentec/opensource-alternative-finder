@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export Grammarly data – Use Grammarly’s “Download your data” feature to obtain a JSON export of all documents and suggestions."
+      "text": "Export existing company style guides and custom dictionaries from Grammarly into plain text or CSV formats where applicable."
     },
     {
       "@type": "HowToStep",
-      "text": "Set up LanguageTool server – Deploy the official Docker image (`languagetool/languagetool`) on your infrastructure, configure SSL, and expose the REST API."
+      "text": "Provision a dedicated server or Kubernetes cluster and deploy the LanguageTool Docker container (`erikvl89/languagetool` or official enterprise images)."
     },
     {
       "@type": "HowToStep",
-      "text": "Convert export format – Transform Grammarly’s JSON into LanguageTool’s plain‑text or `.lt` format using a simple Python script (available in the LanguageTool GitHub repo)."
+      "text": "Configure reverse proxy settings, SSL certificates, and internal DNS for the new LanguageTool instance."
     },
     {
       "@type": "HowToStep",
-      "text": "Import into LanguageTool – Upload the converted files via the LanguageTool API’s `/v2/check` endpoint for batch processing or store them in your document management system."
+      "text": "Deploy the LanguageTool browser extension or desktop client to user workstations, pointing them to the self-hosted server URL instead of the default cloud endpoint."
     },
     {
       "@type": "HowToStep",
-      "text": "Validate & train – Run a pilot with a subset of users, adjust custom rules, and monitor performance before full rollout."
+      "text": "Decommission Grammarly licenses and verify that team workflows function correctly against the local instance."
     }
   ]
 }

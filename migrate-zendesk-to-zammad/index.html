@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export your existing customer records, ticket history, and agent data from Zendesk into CSV or JSON format using the Zendesk API or native export tools."
+      "text": "Export from Zendesk: In Zendesk Admin → Tools → Export, generate a JSON or CSV archive of all tickets, users, and organizations."
     },
     {
       "@type": "HowToStep",
-      "text": "Provision a production-ready Linux server or Docker environment that meets Zammad's system requirements."
+      "text": "Prepare the data: Map Zendesk fields to Zammad’s schema (e.g., `subject` → `title`, `status` → `state`). Clean any custom fields that have no counterpart."
     },
     {
       "@type": "HowToStep",
-      "text": "Install Zammad on your target server and complete the initial web-based administrator configuration."
+      "text": "Set up Zammad: Deploy Zammad via Docker (`docker‑compose up -d`) or on a VM, configure PostgreSQL, and enable HTTPS."
     },
     {
       "@type": "HowToStep",
-      "text": "Use Zammad's built-in migration wizard or custom scripts via the REST API to import your exported Zendesk tickets, users, and organizations."
+      "text": "Import using Zammad’s CSV importer: Navigate to Admin → Import → CSV, upload the transformed ticket CSV, and run the import wizard."
     },
     {
       "@type": "HowToStep",
-      "text": "Verify ticket history, test email channel integrations, and switch your DNS or forwarding rules over to the new Zammad instance."
+      "text": "Validate & go live: Verify ticket counts, agent assignments, and SLA timers; then point your support email and chat webhooks to the new Zammad instance."
     }
   ]
 }

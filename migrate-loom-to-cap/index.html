@@ -24,19 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export existing video assets and metadata from Loom using bulk export tools or manual downloads in MP4 format."
+      "text": "Export recordings from Loom – Use Loom’s UI or API to download each video as an MP4 file and, optionally, export the associated CSV analytics."
     },
     {
       "@type": "HowToStep",
-      "text": "Provision a dedicated server and storage volume for your self-hosted Cap instance, ensuring adequate disk space for video libraries."
+      "text": "Prepare the Cap ingestion server – Deploy Cap using the official Docker compose file or Helm chart, ensuring storage volumes are mounted for video files."
     },
     {
       "@type": "HowToStep",
-      "text": "Deploy Cap using Docker Compose, configuring environment variables for database connections and object storage."
+      "text": "Transfer MP4 files – Copy the exported MP4s to the Cap server’s `/data/recordings` directory (or any path configured in `CAP_RECORDINGS_DIR`)."
     },
     {
       "@type": "HowToStep",
-      "text": "Upload exported MP4 files and associated metadata into your self-hosted Cap environment, or distribute access links to your team to begin recording natively."
+      "text": "Import metadata – If you need analytics, write a small script that reads Loom’s CSV and posts the data to Cap’s `/api/v1/metadata` endpoint."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Validate and decommission – Verify that all videos play correctly in Cap, update internal documentation, and cancel Loom licenses."
     }
   ]
 }

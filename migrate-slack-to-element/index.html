@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export Slack data – In Slack Admin settings, request a workspace export; the output is a ZIP containing JSON files for messages, files, and channel metadata."
+      "text": "Export Slack data – In Slack admin settings, request a workspace export; the output is a ZIP containing JSON files for messages and files."
     },
     {
       "@type": "HowToStep",
-      "text": "Set up an Element server – Deploy a Synapse instance (Docker, Kubernetes, or native install) and configure TLS and federation as needed."
+      "text": "Set up a Matrix homeserver – Deploy Synapse (or another Matrix server) on your preferred environment, configure TLS, and create an admin account."
     },
     {
       "@type": "HowToStep",
-      "text": "Convert JSON to Matrix format – Use the open‑source `slack2matrix` script to transform Slack JSON into Matrix Event JSON."
+      "text": "Convert Slack JSON to Matrix format – Use the open‑source `slack2matrix` conversion script to map channels to rooms and users to Matrix IDs."
     },
     {
       "@type": "HowToStep",
-      "text": "Import into Synapse – Run Synapse’s `importer` tool (`manage.py import_room`) with the converted files to populate rooms."
+      "text": "Import into Element – Run Synapse’s `importer` tool with the converted data; it populates rooms and history."
     },
     {
       "@type": "HowToStep",
-      "text": "Invite users and decommission Slack – Send Element invite links, provide onboarding docs, and disable Slack access once adoption metrics are met."
+      "text": "Invite users to Element – Send registration links, enable SSO if needed, and decommission Slack after verification."
     }
   ]
 }

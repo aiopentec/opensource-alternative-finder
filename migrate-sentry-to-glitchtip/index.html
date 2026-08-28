@@ -24,23 +24,19 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export data from Sentry: Use the Sentry API or `sentry-cli export` to generate a JSON dump of projects, issues, and events."
+      "text": "Export your existing alert rules and project configurations from Sentry manually, as there is no native automated config importer."
     },
     {
       "@type": "HowToStep",
-      "text": "Prepare the GlitchTip environment: Deploy GlitchTip via Docker Compose or Helm, configure PostgreSQL, and set up a domain with TLS."
+      "text": "Deploy GlitchTip using Docker Compose and connect it to a dedicated PostgreSQL database."
     },
     {
       "@type": "HowToStep",
-      "text": "Import into GlitchTip: Run the `glitchtip-importer` tool, pointing it at the Sentry JSON file and the target GlitchTip instance."
+      "text": "Update your application error tracking configuration by pointing the existing Sentry SDK DSN to your new GlitchTip instance URL."
     },
     {
       "@type": "HowToStep",
-      "text": "Re‑create alerts and integrations: Manually configure Slack, email, or webhook notifications in GlitchTip to match your previous Sentry rules."
-    },
-    {
-      "@type": "HowToStep",
-      "text": "Validate and cut over: Verify that new errors appear in GlitchTip, decommission the Sentry DSN in your applications, and monitor for any missing events during the transition window."
+      "text": "Verify error capture by triggering a test exception in your staging environment and confirming it appears in the GlitchTip dashboard."
     }
   ]
 }
