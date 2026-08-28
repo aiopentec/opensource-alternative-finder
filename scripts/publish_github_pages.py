@@ -14,7 +14,7 @@ Patches applied:
 Usage: python scripts/publish_github_pages.py
 """
 
-import json, logging, os, re
+import hashlib, json, logging, os, re
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List
@@ -3275,6 +3275,33 @@ def build_blog(site_dir: str, all_comparisons: List[Dict], updated: str):
     today_fmt = datetime.utcnow().strftime('%B %d, %Y')
     year      = datetime.utcnow().strftime('%Y')
 
+    # ── Per-post publish/modified date tracking ──────────────────────────
+    # datePublished and dateModified should reflect when a post's content
+    # actually first appeared / last changed, not today's date on every
+    # rebuild. State persists in data/cache/, which the pipeline already
+    # commits back to the repo.
+    blog_state_path = Path('data/cache/blog_state.json')
+    if blog_state_path.exists():
+        with open(blog_state_path) as f:
+            blog_state = json.load(f)
+    else:
+        blog_state = {}
+
+    def get_blog_dates(slug: str, content_file: Path):
+        if content_file.exists():
+            content_hash = hashlib.sha256(content_file.read_bytes()).hexdigest()[:16]
+        else:
+            content_hash = 'no-file'
+        prev = blog_state.get(slug)
+        if prev:
+            published = prev.get('published', today)
+            modified = today if prev.get('hash') != content_hash else prev.get('modified', published)
+        else:
+            published = today
+            modified = today
+        blog_state[slug] = {'hash': content_hash, 'published': published, 'modified': modified}
+        return published, modified
+
     POST_TEMPLATES = [
         {'slug':'why-teams-are-switching-from-figma-to-penpot','comp_key':'figma-vs-penpot','title':f'Why Design Teams Are Switching from Figma to Penpot in {year}','hero':'The Adobe acquisition attempt changed everything. Here\'s why thousands of design teams are moving to Penpot — and what the migration actually looks like.','tags':['design','figma','penpot','open-source'],'read_time':'5 min read'},
         {'slug':'true-cost-of-slack-for-growing-teams','comp_key':'slack-vs-mattermost','title':f'The True Cost of Slack for Growing Teams in {year} (And What to Do About It)','hero':'Slack\'s per-seat pricing sounds reasonable at 5 people. At 50 it\'s a different story. Here\'s the real maths — and a free alternative that\'s good enough for most teams.','tags':['communication','slack','mattermost','saas-costs'],'read_time':'4 min read'},
@@ -3288,6 +3315,11 @@ def build_blog(site_dir: str, all_comparisons: List[Dict], updated: str):
 
     comp_by_slug = {c.get('slug',''): c for c in all_comparisons}
     posts_built  = []
+
+    def _save_blog_state():
+        blog_state_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(blog_state_path, 'w') as f:
+            json.dump(blog_state, f, indent=2)
 
     for tmpl in POST_TEMPLATES:
         post_dir = blog_dir / tmpl['slug']
@@ -3306,6 +3338,7 @@ def build_blog(site_dir: str, all_comparisons: List[Dict], updated: str):
 
         repo_root = Path.cwd()
         content_file = repo_root / 'blog_content' / f"{tmpl['slug']}.md"
+        post_published, post_modified = get_blog_dates(tmpl['slug'], content_file)
         body_sections = ''
         if content_file.exists():
             raw_md = content_file.read_text(encoding='utf-8')
@@ -3389,7 +3422,7 @@ def build_blog(site_dir: str, all_comparisons: List[Dict], updated: str):
   <meta property="og:description" content="{seo_desc}">
   <meta property="og:url" content="{canonical}">
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"Article","headline":"{tmpl['title']}","description":"{seo_desc}","dateModified":"{today}","datePublished":"{today}","author":{{"@type":"Organization","name":"Open Source Alternative Finder"}},"publisher":{{"@type":"Organization","name":"Open Source Alternative Finder","url":"{SITE_BASE_URL}"}}}}
+  {{"@context":"https://schema.org","@type":"Article","headline":"{tmpl['title']}","description":"{seo_desc}","dateModified":"{post_modified}","datePublished":"{post_published}","author":{{"@type":"Organization","name":"Open Source Alternative Finder"}},"publisher":{{"@type":"Organization","name":"Open Source Alternative Finder","url":"{SITE_BASE_URL}"}}}}
   </script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-FGB481RVVS"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','G-FGB481RVVS');</script>
@@ -3514,6 +3547,7 @@ def build_blog(site_dir: str, all_comparisons: List[Dict], updated: str):
     with open(blog_dir / 'index.html', 'w') as f:
         f.write(blog_index)
     logger.info(f"   📝 blog/ — {len(posts_built)} posts + index")
+    _save_blog_state()
     return posts_built
 
 
