@@ -216,6 +216,9 @@ jobs:
             echo "ERROR: Only $PAGES pages built. Something went wrong — aborting deploy."
             exit 1
           fi
+      - name: Audit Migrate Page Content
+        run: |
+          python3 scripts/thin_content_audit.py --dir site --threshold 200 --csv data/audit_report.csv
       - name: Add ads.txt
         run: echo "google.com, pub-4633315697698743, DIRECT, f08c47fec0942fa0" > site/ads.txt
 
@@ -239,6 +242,7 @@ jobs:
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git add data/cache/ || true
             git add data/star_history.json || true
+            git add data/audit_report.csv || true
             git diff --staged --quiet || git commit -m "Cache comparison data + star history [skip ci]"
             git push origin main || true
             echo "Cached $FRESH comparison JSON files to data/cache/"
