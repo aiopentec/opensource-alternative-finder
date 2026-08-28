@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Grammarly to LanguageTool (August 27, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Grammarly to LanguageTool (August 28, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Grammarly to LanguageTool. Export your data, set up LanguageTool, and switch your team — save Free / $12-$15/month per month.">
   <meta name="keywords" content="migrate Grammarly to LanguageTool, Grammarly to LanguageTool migration, how to switch from Grammarly, LanguageTool migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-grammarly-to-languagetool/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Grammarly to LanguageTool (August 27, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Grammarly to LanguageTool (August 28, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Grammarly to LanguageTool. Export your data, set up LanguageTool, and switch your team — save Free / $12-$15/month per month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-grammarly-to-languagetool/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export existing documents – In Grammarly, copy each file to `.docx` or `.txt` (the UI allows “Download” for premium users)."
+      "text": "Export Grammarly data – Use Grammarly’s “Download your data” feature to obtain a JSON export of all documents and suggestions."
     },
     {
       "@type": "HowToStep",
-      "text": "Set up a LanguageTool server – Deploy the Docker image (`languagetool/languagetool`) or install the Java JAR on a Linux host."
+      "text": "Set up LanguageTool server – Deploy the official Docker image (`languagetool/languagetool`) on your infrastructure, configure SSL, and expose the REST API."
     },
     {
       "@type": "HowToStep",
-      "text": "Import texts – Use LanguageTool’s web UI to upload the exported files, or call the `/v2/check` REST endpoint in batch mode."
+      "text": "Convert export format – Transform Grammarly’s JSON into LanguageTool’s plain‑text or `.lt` format using a simple Python script (available in the LanguageTool GitHub repo)."
     },
     {
       "@type": "HowToStep",
-      "text": "Map custom dictionaries – Transfer any Grammarly personal word list to LanguageTool’s `user-words.txt`."
+      "text": "Import into LanguageTool – Upload the converted files via the LanguageTool API’s `/v2/check` endpoint for batch processing or store them in your document management system."
     },
     {
       "@type": "HowToStep",
-      "text": "Validate and train – Run a pilot batch, review false positives, and add custom rules as needed before full rollout."
+      "text": "Validate & train – Run a pilot with a subset of users, adjust custom rules, and monitor performance before full rollout."
     }
   ]
 }
@@ -96,7 +96,7 @@
     <span class="hero-badge">💰 Save Free / $12-$15/month/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     
-    <span class="hero-badge">📅 August 27, 2026</span>
+    <span class="hero-badge">📅 August 28, 2026</span>
   </div>
 </div>
 <div class="content">
