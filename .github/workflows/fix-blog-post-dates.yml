@@ -1,0 +1,47 @@
+name: Fix Blog Post Dates (one-time)
+
+# Run this ONCE to stop stamping every blog post's datePublished AND
+# dateModified with today's date on every rebuild. Starts tracking real
+# per-post publish/modified dates in data/cache/blog_state.json instead.
+# Delete this workflow file and fix_blog_post_dates.py from the repo root
+# after this succeeds. Safe to re-run — skips if already applied.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run patcher
+        run: python3 fix_blog_post_dates.py
+
+      - name: Sanity-check the patched file imports cleanly
+        run: |
+          cd scripts
+          python3 -c "import ast; ast.parse(open('publish_github_pages.py').read())"
+          echo "Syntax OK"
+
+      - name: Confirm blog date tracking is present
+        run: |
+          grep -q "blog_state" scripts/publish_github_pages.py
+          echo "Fix confirmed"
+
+      - name: Commit patched file
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add scripts/publish_github_pages.py
+          git diff --staged --quiet && echo "Nothing to commit (already patched)" || git commit -m "Track real per-post publish/modified dates for blog instead of stamping today on every run"
+          git push
