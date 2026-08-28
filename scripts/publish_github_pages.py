@@ -4496,6 +4496,34 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
     updated   = datetime.utcnow().strftime('%B %d, %Y')
     iso_date  = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
 
+    # ── Per-comparison freshness tracking ────────────────────────────────
+    # dateModified should only advance when a comparison's actual facts
+    # change, not on every pipeline run. State persists in data/cache/,
+    # which the pipeline already commits back to the repo.
+    freshness_state_path = Path('data/cache/freshness_state.json')
+    if freshness_state_path.exists():
+        with open(freshness_state_path) as f:
+            freshness_state = json.load(f)
+    else:
+        freshness_state = {}
+
+    def get_last_verified(comp: Dict) -> str:
+        slug = comp.get('slug', '')
+        fingerprint = '|'.join([
+            str(comp.get('proprietary_pricing', '')),
+            str(comp.get('oss_pricing', '')),
+            str(comp.get('oss_stars', '')),
+            str(comp.get('oss_website', '')),
+            str(comp.get('proprietary_website', '')),
+        ])
+        prev = freshness_state.get(slug)
+        if prev and prev.get('fingerprint') == fingerprint:
+            last_verified = prev.get('last_verified', iso_date)
+        else:
+            last_verified = iso_date
+        freshness_state[slug] = {'fingerprint': fingerprint, 'last_verified': last_verified}
+        return last_verified
+
     data_dir = Path(site_dir) / 'data'
     data_dir.mkdir(exist_ok=True)
     with open(data_dir / 'comparisons.json', 'w') as f:
@@ -4626,13 +4654,15 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
     </div>
   </div>"""
 
+        last_verified = get_last_verified(comp)
+
         page_html = COMPARISON_PAGE.format(
             title=comp['title'],
             seo_title=seo_title,
             seo_description=seo_desc,
             canonical_url=canonical,
             site_base_url=SITE_BASE_URL,
-            iso_date=iso_date,
+            iso_date=last_verified,
             category_slug=category,
             category_label=cat_label,
             category_icon=cat_icon,
@@ -4696,6 +4726,10 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
       <a class="cta" href="alternatives-to-{prop_key}/" style="flex:1;background:#EBF4FA;color:#1F5C99;font-size:0.78rem;">All {prop_name} Alts</a>
     </div>
   </div>"""
+
+    freshness_state_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(freshness_state_path, 'w') as f:
+        json.dump(freshness_state, f, indent=2)
 
     # Category index pages
     for category in categories:
