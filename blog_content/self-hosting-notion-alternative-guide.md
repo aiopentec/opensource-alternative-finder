@@ -10,7 +10,7 @@ AppFlowy is the open-source alternative that maps most directly to Notion's feat
 
 ## 1. What Notion Costs in 2026
 
-Notion's current pricing, verified as of June 2026:
+Notion's pricing as of August 2026 (always confirm current rates at notion.com/pricing before budgeting):
 
 - **Free**: Unlimited pages and blocks for personal use, 7-day page history, 5MB file upload limit, 10 guests
 - **Plus**: $10/user/month (annual) — unlimited file uploads, 30-day version history, unlimited guests
