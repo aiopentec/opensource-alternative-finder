@@ -2,7 +2,7 @@
 
 Jira was built for enterprise teams with dedicated project managers, compliance requirements, and the budget to support them. It's powerful because it has to be — Atlassian designed it to handle thousands of engineers across dozens of teams with complex workflow automations, custom permission schemes, and deep integration with the rest of the Atlassian stack.
 
-If your startup has fewer than 50 engineers, you're almost certainly paying for complexity you don't use. Jira's free tier caps at 10 users. The moment you hire your 11th employee, you're on the Standard plan at $8.15/user/month — a jump from $0 to over $100/month overnight. At 50 engineers, that's $4,890/year. At 100, $9,780/year. And that's before Confluence, which Jira doesn't include.
+If your startup has fewer than 50 engineers, you're almost certainly paying for complexity you don't use. Jira's free tier caps at 10 users. The moment you hire your 11th employee, you're on the Standard plan at $7.91/user/month — a jump from $0 to nearly $100/month overnight. At 50 engineers, that's $4,746/year. At 100, $9,492/year. And that's before Confluence, which Jira doesn't include.
 
 The good news: the alternatives in 2026 are genuinely good. This article compares the strongest options — with a focus on Plane, the open-source alternative — and explains which type of team each one suits best.
 
@@ -13,16 +13,16 @@ The good news: the alternatives in 2026 are genuinely good. This article compare
 Jira Software's current pricing, verified as of June 2026:
 
 - **Free**: Up to 10 users, unlimited projects, basic roadmaps
-- **Standard**: $8.15/user/month (annual) — advanced permissions, audit logs, 250GB storage
-- **Premium**: $16/user/month (annual) — advanced roadmaps, asset management, sandbox environment
+- **Standard**: $7.91/user/month (annual) — advanced permissions, audit logs, 250GB storage
+- **Premium**: $14.54/user/month (annual) — advanced roadmaps, asset management, sandbox environment
 - **Enterprise**: Custom pricing — unlimited sites, data residency, Atlassian Access included
 
 | Team Size | Standard (annual) | Premium (annual) |
 |---|---|---|
 | 10 people | Free | Free |
-| 25 people | $2,445/year | $4,800/year |
-| 50 people | $4,890/year | $9,600/year |
-| 100 people | $9,780/year | $19,200/year |
+| 25 people | $2,373/year | $4,362/year |
+| 50 people | $4,746/year | $8,724/year |
+| 100 people | $9,492/year | $17,448/year || Team Size | Standard (annual) | Premium (annual) |
 
 Beyond the headline price, Jira's real cost drivers are the add-ons. SAML SSO requires Atlassian Access at $4/user/month on top of your Jira subscription. Confluence — the documentation tool most teams need alongside Jira — is a separate product at $5.75/user/month on Standard. A 50-person team using both Jira Standard and Confluence Standard is spending $13,890/year before any add-ons.
 
