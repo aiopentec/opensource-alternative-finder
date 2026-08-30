@@ -24,19 +24,19 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export API Prompts and Schemas: Export your existing OpenAI API request payloads, system prompts, and JSON schema definitions from your codebase or logging system into standard JSON format."
+      "text": "Audit your existing OpenAI API calls to identify model dependencies, system prompts, and temperature settings."
     },
     {
       "@type": "HowToStep",
-      "text": "Install and Configure Ollama: Install the Ollama runtime on your local or staging server and pull an equivalent open-weight model (e.g., `ollama pull llama3` or `mistral`) matching your performance requirements."
+      "text": "Install Ollama locally and pull the open-weight equivalent of your OpenAI model using `ollama pull [model-name]`."
     },
     {
       "@type": "HowToStep",
-      "text": "Map the API Endpoints: Update your application's base URL from `https://api.openai.com/v1` to `http://localhost:11434/v1` since Ollama provides an OpenAI-compatible REST API."
+      "text": "Update your application's base URL and API client configuration from OpenAI's endpoint to `http://localhost:11434` (Ollama is compatible with the OpenAI chat completions API format)."
     },
     {
       "@type": "HowToStep",
-      "text": "Test and Validate Outputs: Run your test suite against the local Ollama instance, adjusting temperature settings and system prompts to account for differences in model behavior between GPT and open-weight alternatives."
+      "text": "Run integration and accuracy tests to validate that the open-weight model meets your output quality requirements."
     }
   ]
 }

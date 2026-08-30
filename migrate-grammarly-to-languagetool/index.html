@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export existing custom user dictionaries and personal style rules from Grammarly (note: Grammarly does not provide a direct bulk export tool for user dictionaries; terms must be exported or transcribed manually)."
+      "text": "Export Grammarly data – Use Grammarly’s “Download Data” feature to export all documents as a ZIP of `.txt` or `.docx` files."
     },
     {
       "@type": "HowToStep",
-      "text": "Deploy the LanguageTool Docker container on your internal server infrastructure following the official repository documentation."
+      "text": "Set up LanguageTool server – Deploy the official Docker image (`languagetool/languagetool`) on a Linux VM or Kubernetes pod."
     },
     {
       "@type": "HowToStep",
-      "text": "Configure internal DNS and firewall rules to route local API requests to the newly deployed LanguageTool instance."
+      "text": "Convert files – Batch‑convert exported `.docx` to plain text if needed (e.g., `pandoc -s input.docx -t plain -o output.txt`)."
     },
     {
       "@type": "HowToStep",
-      "text": "Install the LanguageTool browser extensions or desktop plugins across the organization, pointing them to the custom self-hosted server URL."
+      "text": "Run batch checks – Call the LanguageTool REST API (`POST /v2/check`) with each file’s content; store JSON results."
     },
     {
       "@type": "HowToStep",
-      "text": "Deactivate and cancel corporate Grammarly subscriptions once internal testing validates detection parity and performance."
+      "text": "Import results – Use the LanguageTool web UI or custom script to annotate original documents with suggestions, then distribute corrected files to users."
     }
   ]
 }

@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export your existing boards from Trello by navigating to Menu > More > Print and Export > Export to JSON."
+      "text": "Export from Trello: In Trello, open the board menu → *More* → *Print and Export* → *Export JSON*. Save the `.json` file."
     },
     {
       "@type": "HowToStep",
-      "text": "Provision a production-ready Linux server and deploy WeKan using the official Docker Compose configuration."
+      "text": "Prepare WeKan instance: Deploy WeKan via Docker (`docker run -d -p 8080:80 wekanteam/wekan`) or your preferred method and create an empty board."
     },
     {
       "@type": "HowToStep",
-      "text": "Access your WeKan instance admin panel and create a new user workspace that mirrors your Trello organization layout."
+      "text": "Import using the community script: Clone the `wekan-import-trello` repo, run `node import.js --file board.json --url http://your‑wekan.local/api` to push cards, lists, and members."
     },
     {
       "@type": "HowToStep",
-      "text": "Use WeKan's built-in import utility to upload the Trello JSON export file directly into your new boards."
+      "text": "Validate data: Check that labels, attachments, and comments appear correctly; adjust any custom fields manually."
     },
     {
       "@type": "HowToStep",
-      "text": "Verify that lists, cards, labels, and member assignments transferred accurately before inviting your team."
+      "text": "Switch users: Update Slack/Email notifications to point to the new WeKan URL and de‑provision Trello accounts."
     }
   ]
 }

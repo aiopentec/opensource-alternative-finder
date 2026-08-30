@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export from Typeform: In the Typeform dashboard, navigate to *Results → Export* and download responses as a CSV file."
+      "text": "Export data from Typeform: In the Typeform dashboard, go to *Results → Export* and download responses as a CSV file (or JSON via the API)."
     },
     {
       "@type": "HowToStep",
-      "text": "Prepare data: Map CSV columns to Formbricks’ `responses` schema (question_id, answer, respondent_id, timestamp)."
+      "text": "Prepare the target schema: Map Typeform fields to Formbricks question IDs; create a CSV/JSON file matching Formbricks’ import format."
     },
     {
       "@type": "HowToStep",
-      "text": "Set up Formbricks: Deploy the Docker compose stack on your server, configure the PostgreSQL database, and run the initial migration script."
+      "text": "Set up Formbricks: Deploy the Docker compose stack or use the Helm chart on your Kubernetes cluster; configure PostgreSQL and environment variables."
     },
     {
       "@type": "HowToStep",
-      "text": "Import data: Use Formbricks’ CLI tool `fb-import` (`fb-import --file responses.csv --survey-id <id>`) to bulk‑load the CSV."
+      "text": "Import responses: Use the Formbricks CLI command `formbricks import --file responses.csv` or call the `/api/v1/responses/bulk` endpoint with your prepared JSON."
     },
     {
       "@type": "HowToStep",
-      "text": "Validate & go live: Verify imported responses in the admin UI, update any webhooks or API endpoints, and deactivate the Typeform form."
+      "text": "Validate and go live: Run sanity checks on imported data, update any webhooks, and replace Typeform embed code with the Formbricks widget script."
     }
   ]
 }

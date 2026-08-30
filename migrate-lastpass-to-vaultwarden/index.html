@@ -24,23 +24,19 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Log into your LastPass account, navigate to Advanced Options, and select Export."
+      "text": "Export from LastPass – In the LastPass vault, use *Advanced Options → Export* to download a CSV file containing all entries."
     },
     {
       "@type": "HowToStep",
-      "text": "Export your vault data as an unencrypted CSV file."
+      "text": "Convert CSV to Bitwarden JSON – Use the open‑source tool `lastpass-to-bitwarden` (available on GitHub) or the Bitwarden CLI `bw import csv` to transform the CSV into a Bitwarden‑compatible JSON file."
     },
     {
       "@type": "HowToStep",
-      "text": "Set up and run your Vaultwarden server instance via Docker and log into the web vault using the official Bitwarden client."
+      "text": "Set up Vaultwarden – Deploy the latest Vaultwarden Docker image on a Linux server, configure a PostgreSQL or SQLite database, and secure it with TLS."
     },
     {
       "@type": "HowToStep",
-      "text": "Go to Tools > Import Data in your Vaultwarden web vault."
-    },
-    {
-      "@type": "HowToStep",
-      "text": "Select LastPass (csv) from the format dropdown, upload your CSV file, and click Import."
+      "text": "Import into Vaultwarden – Log into the Vaultwarden web UI as the admin, navigate to *Tools → Import Data*, select the Bitwarden JSON file, and start the import. Verify that all entries appear correctly, then decommission LastPass accounts."
     }
   ]
 }

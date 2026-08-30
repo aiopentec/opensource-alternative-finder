@@ -24,19 +24,19 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export your subscriber lists, tags, and campaign history from Mailchimp as CSV files."
+      "text": "Export contacts from Mailchimp via the *Audience → Export Audience* feature; download the CSV file."
     },
     {
       "@type": "HowToStep",
-      "text": "Set up a PostgreSQL database and deploy Listmonk using Docker on your preferred cloud server or VPS."
+      "text": "Prepare the CSV to match Listmonk’s import schema (email, name, tags). Remove any unsupported columns."
     },
     {
       "@type": "HowToStep",
-      "text": "Configure an external SMTP relay (such as Amazon SES, Postmark, or Mailgun) within Listmonk for transactional and bulk email delivery."
+      "text": "Set up Listmonk on a server (Docker compose is the quickest) and run the built‑in migration script: `listmonk import --type=csv --file=mailchimp_export.csv`."
     },
     {
       "@type": "HowToStep",
-      "text": "Import your Mailchimp CSV subscriber export directly into Listmonk via the web dashboard, mapping custom attributes and lists accordingly."
+      "text": "Recreate campaigns manually in Listmonk using its templating system or import HTML templates."
     }
   ]
 }
