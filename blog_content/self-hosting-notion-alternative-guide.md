@@ -1,6 +1,6 @@
 # The Complete Guide to Self-Hosting a Notion Alternative in 2026
 
-Notion crossed 100 million users in 2025. It also quietly moved Notion AI out of standalone add-on pricing and bundled it exclusively into the Business plan, raising the effective cost of AI access for teams from $8/user/month to $15–$20/user/month. For a 20-person team, that's a jump from $1,920/year to $3,600–$4,800/year — just to keep the AI features that were available on every plan before.
+Notion crossed 100 million users in 2025. It also quietly moved Notion AI out of standalone add-on pricing and bundled it exclusively into the Business plan, raising the effective cost of AI access for teams from $8/user/month to $20/user/month. For a 20-person team, that's a jump from $1,920/year to $4,800/year — just to keep the AI features that were available on every plan before.
 
 The per-seat model compounds the problem. Notion charges per member, so every new hire adds to the annual bill. At 50 people on Business, you're paying $9,000–$12,000/year for a workspace that stores your notes and databases.
 
@@ -14,7 +14,7 @@ Notion's current pricing, verified as of June 2026:
 
 - **Free**: Unlimited pages and blocks for personal use, 7-day page history, 5MB file upload limit, 10 guests
 - **Plus**: $10/user/month (annual) — unlimited file uploads, 30-day version history, unlimited guests
-- **Business**: $15–$20/user/month (annual) — Notion AI included, private teamspaces, SAML SSO, 90-day page history
+- **Business**: $20/user/month (annual) — Notion AI included, private teamspaces, SAML SSO, 90-day page history
 - **Enterprise**: Custom pricing — advanced security, SCIM provisioning, dedicated support
 
 The key change in early 2026: Notion AI is no longer a standalone add-on available on any plan. It's now bundled exclusively into Business and Enterprise. Teams that were paying $10/user/month on Plus and adding $8/user/month for AI now need Business to maintain that workflow — at nearly double the previous cost.
@@ -23,10 +23,10 @@ Here's what that looks like at different team sizes on the Business plan:
 
 | Team Size | Monthly Cost | Annual Cost |
 |---|---|---|
-| 10 people | $150–$200/month | $1,800–$2,400/year |
-| 25 people | $375–$500/month | $4,500–$6,000/year |
-| 50 people | $750–$1,000/month | $9,000–$12,000/year |
-| 100 people | $1,500–$2,000/month | $18,000–$24,000/year |
+| 10 people | $200/month | $2,400/year |
+| 25 people | $500/month | $6,000/year |
+| 50 people | $1,000/month | $12,000/year |
+| 100 people | $2,000/month | $24,000/year |
 
 Beyond the per-seat cost, there's the data dependency. Everything your team writes in Notion lives on Notion's servers. For most teams that's fine. For teams in regulated industries — healthcare, legal, finance, government — it's often a compliance problem.
 
