@@ -10,7 +10,7 @@ This article breaks down what Slack actually costs at different team sizes, whic
 
 ## 1. What Slack Actually Costs in 2026
 
-Slack's current published pricing, verified as of June 2026:
+Slack's pricing as of August 2026 (always confirm current rates at slack.com/pricing before budgeting):
 
 - **Free**: 90-day message history, 1 active integration, 1:1 calls only
 - **Pro**: $7.25/user/month (annual) or $8.75/month (monthly) — unlimited history, unlimited integrations, group calls
