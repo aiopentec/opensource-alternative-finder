@@ -10,7 +10,7 @@ The good news: the alternatives in 2026 are genuinely good. This article compare
 
 ## 1. What Jira Actually Costs in 2026
 
-Jira Software's current pricing, verified as of June 2026:
+Jira Software's pricing as of August 2026 (always confirm current rates at atlassian.com/software/jira/pricing before budgeting):
 
 - **Free**: Up to 10 users, unlimited projects, basic roadmaps
 - **Standard**: $7.91/user/month (annual) — advanced permissions, audit logs, 250GB storage
