@@ -10,16 +10,16 @@ This article breaks down why teams are making the move, what Penpot actually del
 
 ## 1. What Figma Costs in 2026 (And Why It Pushed Teams to Look)
 
-Figma's current pricing structure, verified as of mid-2026:
+Figma's pricing as of August 2026 (always confirm current rates at figma.com/pricing before budgeting):
 
 - **Starter**: Free — up to 3 design files and 3 FigJam boards, unlimited personal drafts
-- **Professional**: $15/editor/month (annual) or $20/month (monthly) — unlimited files, team libraries
+- **Professional**: $16/editor/month (annual) or $20/month (monthly) — unlimited files, team libraries
 - **Organization**: $55/editor/month (annual only) — design system branching, org-wide libraries, private plugins
 - **Enterprise**: $90/editor/month (annual only) — SSO, advanced security, dedicated support
 
-The per-seat model means costs scale linearly with headcount. A 10-person design team on Professional runs $1,800/year. A 20-person team on Organization hits $13,200/year. At Enterprise, a 50-seat contract starts at $54,000/year before negotiation.
+The per-seat model means costs scale linearly with headcount. A 10-person design team on Professional runs $1,920/year. A 20-person team on Organization hits $13,200/year. At Enterprise, a 50-seat contract starts at $54,000/year before negotiation.
 
-Three specific changes drove the most frustration. First, the Professional full seat price rose from $12 to $15/month (annual) — a 25% increase — with some users reporting 30% or higher depending on their renewal timing. Second, Dev Mode, which previously allowed developers to inspect design files for free, was folded into paid seats. Developer teams that had been using inspect-only access without paying editor fees suddenly faced a $12/month Dev seat per developer. Third, FigJam and Figma Slides were force-bundled into every paid seat, meaning teams pay for tools they don't use.
+Three specific changes drove the most frustration. First, the Professional full seat price rose from $12 to $16/month (annual) — a 33% increase — with some users reporting even more depending on their renewal timing. Second, Dev Mode, which previously allowed developers to inspect design files for free, was folded into paid seats. Developer teams that had been using inspect-only access without paying editor fees suddenly faced a $12/month Dev seat per developer. Third, FigJam and Figma Slides were force-bundled into every paid seat, meaning teams pay for tools they don't use.
 
 The combination of forced bundling and meaningful price increases, arriving within a short window, pushed procurement teams at budget-conscious organizations to evaluate alternatives for the first time since Figma became the dominant tool.
 
