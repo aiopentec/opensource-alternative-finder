@@ -669,6 +669,19 @@ def strip_meta_block(content: str) -> str:
     return cleaned
 
 
+MIN_CONTENT_WORDS = 150
+
+
+def _content_is_valid(raw_content: str) -> bool:
+    """True if raw_content, after stripping the trailing meta block, has
+    enough real words to be a genuine comparison rather than an empty or
+    metadata-only response."""
+    if not raw_content:
+        return False
+    cleaned = strip_meta_block(raw_content)
+    return len(cleaned.split()) >= MIN_CONTENT_WORDS
+
+
 def generate_comparison(prop_key: str, oss_key: str) -> Dict:
     global GROQ_QUOTA_EXHAUSTED
     prompt        = build_prompt(prop_key, oss_key)
@@ -679,9 +692,13 @@ def generate_comparison(prop_key: str, oss_key: str) -> Dict:
 
     if not GROQ_QUOTA_EXHAUSTED:
         try:
-            content = generate_with_groq(prompt)
-            provider_used = 'groq'
-            logger.info(f"    Generated with Groq")
+            candidate = generate_with_groq(prompt)
+            if _content_is_valid(candidate):
+                content = candidate
+                provider_used = 'groq'
+                logger.info(f"    Generated with Groq")
+            else:
+                logger.warning(f"    Groq returned empty/too-short content -- trying Gemini...")
         except GroqQuotaExhausted as e:
             logger.warning(f"    {e}")
             GROQ_QUOTA_EXHAUSTED = True
@@ -691,9 +708,13 @@ def generate_comparison(prop_key: str, oss_key: str) -> Dict:
 
     if content is None:
         try:
-            content = generate_with_gemini(prompt)
-            provider_used = 'gemini'
-            logger.info(f"    Generated with Gemini")
+            candidate = generate_with_gemini(prompt)
+            if _content_is_valid(candidate):
+                content = candidate
+                provider_used = 'gemini'
+                logger.info(f"    Generated with Gemini")
+            else:
+                logger.warning(f"    Gemini returned empty/too-short content -- using template...")
         except Exception as e:
             logger.warning(f"    Gemini unavailable ({type(e).__name__}) -- using template...")
 
@@ -728,7 +749,7 @@ def generate_comparison(prop_key: str, oss_key: str) -> Dict:
         'publish_date':        publish_date,
         'provider':            provider_used,
         'generated_at':        datetime.utcnow().isoformat() + 'Z',
-        'status':              'generated'
+        'status':              'generated' if len(clean_content.split()) >= MIN_CONTENT_WORDS else 'failed'
     }
 
 
