@@ -14,17 +14,17 @@ Slack's current published pricing, verified as of June 2026:
 
 - **Free**: 90-day message history, 1 active integration, 1:1 calls only
 - **Pro**: $7.25/user/month (annual) or $8.75/month (monthly) — unlimited history, unlimited integrations, group calls
-- **Business+**: $12.50–$15/user/month (annual) — SSO, SAML, compliance exports, 99.99% SLA
+- **Business+**: $15/user/month (annual) — SSO, SAML, compliance exports, 99.99% SLA
 - **Enterprise Grid**: Custom pricing — multi-workspace management, DLP, eDiscovery
 
 The per-seat model means costs scale directly with headcount. Here's what that looks like in practice:
 
 | Team Size | Pro (annual) | Business+ (annual) |
 |---|---|---|
-| 10 people | $870/year | $1,500–$1,800/year |
-| 25 people | $2,175/year | $3,750–$4,500/year |
-| 50 people | $4,350/year | $7,500–$9,000/year |
-| 100 people | $8,700/year | $15,000–$18,000/year |
+| 10 people | $870/year | $1,800/year |
+| 25 people | $2,175/year | $4,500/year |
+| 50 people | $4,350/year | $9,000/year |
+| 100 people | $8,700/year | $18,000/year |
 
 Three costs that don't appear on the pricing page make the real number higher.
 
@@ -32,7 +32,7 @@ Three costs that don't appear on the pricing page make the real number higher.
 
 **Guest seat billing.** External collaborators on Slack Connect may count toward paid seats depending on your plan. This catches teams off guard when contractors and agency partners start accumulating on the billing page.
 
-**The SSO gate.** SAML single sign-on — the feature that lets you manage Slack access through your existing identity provider — requires Business+ at $12.50–$15/user/month. For teams already paying for Okta or Entra ID, this is a significant forced upgrade just to use infrastructure they already have.
+**The SSO gate.** SAML single sign-on — the feature that lets you manage Slack access through your existing identity provider — requires Business+ at $15/user/month. For teams already paying for Okta or Entra ID, this is a significant forced upgrade just to use infrastructure they already have.
 
 ---
 
