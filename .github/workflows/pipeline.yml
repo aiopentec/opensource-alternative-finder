@@ -218,7 +218,7 @@ jobs:
           fi
       - name: Audit Migrate Page Content
         run: |
-          python3 scripts/thin_content_audit.py --dir site --threshold 200 --csv data/audit_report.csv
+          python3 scripts/thin_content_audit.py --dir site --threshold 200 --comparison-threshold 400 --csv data/audit_report.csv
       - name: Add ads.txt
         run: echo "google.com, pub-4633315697698743, DIRECT, f08c47fec0942fa0" > site/ads.txt
 
