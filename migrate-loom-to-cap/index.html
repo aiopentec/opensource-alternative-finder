@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export recordings from Loom: Use Loom’s bulk export feature to download videos as `.mp4` files and metadata as a CSV manifest."
+      "text": "Export from Loom: In Loom’s dashboard, select “All videos,” click “Export,” and download recordings as MP4 files (bulk ZIP available). Export analytics as CSV if needed."
     },
     {
       "@type": "HowToStep",
-      "text": "Prepare the Cap server: Deploy the latest Cap Docker image on a Linux VM, configure storage (e.g., S3‑compatible bucket) and enable TLS."
+      "text": "Prepare Cap Server: Provision a Linux VM or Kubernetes cluster, install Docker, and run Cap’s official `docker-compose.yml` or Helm chart. Configure storage (e.g., S3‑compatible bucket) and TLS."
     },
     {
       "@type": "HowToStep",
-      "text": "Import assets: Run Cap’s `cap-import` CLI, pointing it at the folder of `.mp4` files and the CSV manifest; the tool creates corresponding records in the database."
+      "text": "Import Media: Use Cap’s CLI tool `cap-import` (bundled with the server) to bulk‑upload the MP4 files. The command accepts a directory path and automatically creates video entries."
     },
     {
       "@type": "HowToStep",
-      "text": "Recreate sharing links: Map Loom share URLs to Cap’s public link format using a simple script that reads the CSV and updates your internal documentation."
+      "text": "Migrate Metadata (optional): Convert Loom CSV to Cap’s JSON schema using the provided `loom2cap.py` script, then run `cap-import --metadata`."
     },
     {
       "@type": "HowToStep",
-      "text": "Validate and cut over: Verify playback, permissions, and webhook functionality; then disable Loom accounts and point users to the new Cap portal."
+      "text": "Update Links & Integrations: Replace Loom URLs in documentation and internal tools with the new Cap URLs, and re‑configure any custom Webhooks to point at Cap’s endpoint."
     }
   ]
 }

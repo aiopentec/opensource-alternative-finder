@@ -24,19 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export all contacts, accounts, deals, and notes from Zoho CRM into CSV format using the built-in data backup tool."
+      "text": "Export all contacts, leads, accounts, and deals from Zoho CRM into CSV format using the built-in Data Administration export tool."
     },
     {
       "@type": "HowToStep",
-      "text": "Prepare your target Vtiger CRM self-hosted database schema and ensure all custom fields map correctly to the Zoho export headers."
+      "text": "Prepare your Vtiger CRM database schema and ensure custom fields match the exact column headers of your Zoho CSV export files."
     },
     {
       "@type": "HowToStep",
-      "text": "Use Vtiger's native administration import wizard or custom PHP migration scripts to ingest the CSV files into Vtiger CRM."
+      "text": "Use Vtiger CRM's native Module Import tool (or administrative migration scripts for open-source instances) to upload and map your CSV data records."
     },
     {
       "@type": "HowToStep",
-      "text": "Verify data integrity, check relationship links between contacts and accounts, and test user permission roles before cutting over production users."
+      "text": "Verify relational integrity by checking that imported deals correctly link to their respective contacts and accounts within Vtiger."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Reconfigure outbound email servers, web-to-lead forms, and third-party API integrations to point directly to your Vtiger environment."
     }
   ]
 }

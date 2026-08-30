@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export data from Salesforce: Use Salesforce’s Data Export service to download Leads, Contacts, Accounts, and Opportunities as CSV files."
+      "text": "Export data from Salesforce – Use Salesforce’s Data Export Service or Data Loader to export Leads, Accounts, Contacts, Opportunities, and custom objects as CSV files."
     },
     {
       "@type": "HowToStep",
-      "text": "Transform CSV structure: Map Salesforce fields to EspoCRM’s schema (e.g., `AccountName` → `Account.name`). A simple Python script or Excel can handle the mapping."
+      "text": "Clean & map fields – Align Salesforce column names to EspoCRM entity fields (e.g., `Account Name` → `Account.name`). Remove unused columns to keep the import lean."
     },
     {
       "@type": "HowToStep",
-      "text": "Prepare EspoCRM import: Install the “Import” module from the EspoCRM Marketplace if not already present."
+      "text": "Prepare EspoCRM – Install the latest EspoCRM version on your server, enable the “Import” module, and create any custom entity extensions needed to hold Salesforce‑specific data."
     },
     {
       "@type": "HowToStep",
-      "text": "Import CSV files: In EspoCRM, navigate to *Administration → Import* and upload each CSV, selecting the appropriate entity type. Validate the preview and run the import."
+      "text": "Import CSV files – Use EspoCRM’s built‑in Import Wizard (or the REST API for bulk loads) to upload each CSV, selecting the appropriate entity and mapping columns. Validate import logs for errors."
     },
     {
       "@type": "HowToStep",
-      "text": "Verify and adjust: Run spot‑checks on records, re‑assign owners, and recreate any custom workflows using EspoCRM’s Process Builder."
+      "text": "Verify & go live – Run spot checks on a sample of records, re‑establish any integrations (e.g., email sync), and deactivate Salesforce user accounts once confidence is established."
     }
   ]
 }

@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export User Data: Export user files and folder structures from Dropbox using the official Dropbox desktop sync client or bulk download features."
+      "text": "Export Data from Dropbox: Use the official Dropbox web interface or archive tools to download your organization's folder structure, files, and metadata."
     },
     {
       "@type": "HowToStep",
-      "text": "Provision the Server: Set up a secure Linux server (Ubuntu/Debian recommended), configure a web server (Apache/Nginx), and install Nextcloud via Docker or a native package."
+      "text": "Provision Nextcloud Server: Set up a secure Linux server, configure the required web stack (PHP, Apache/Nginx, Database), and install the latest stable release of Nextcloud."
     },
     {
       "@type": "HowToStep",
-      "text": "Import Files: Transfer the exported files into the respective Nextcloud user directories or upload them via the Nextcloud WebDAV interface."
+      "text": "Import Files via WebDAV or Command Line: Transfer the downloaded file directories into the Nextcloud data directory or upload them via the Nextcloud WebDAV interface."
     },
     {
       "@type": "HowToStep",
-      "text": "Rescan Files: Run the Nextcloud occ command-line tool (`occ files:scan --all`) to index the imported files into the Nextcloud database."
+      "text": "Rescan File Index: Run the Nextcloud occ file scanner command (`sudo -u www-data php occ files:scan --all`) to register the imported files into the Nextcloud database."
     },
     {
       "@type": "HowToStep",
-      "text": "Onboard Users: Recreate user accounts in Nextcloud, configure authentication (LDAP/Active Directory if applicable), and distribute the Nextcloud desktop and mobile sync clients."
+      "text": "Configure User Accounts: Recreate user accounts and assign storage quotas and permissions matching your previous Dropbox configuration."
     }
   ]
 }

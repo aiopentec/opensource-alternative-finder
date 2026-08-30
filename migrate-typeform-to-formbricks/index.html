@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export your data from Typeform using their built-in export tool (Settings → Export)"
+      "text": "Export from Typeform: In the Typeform dashboard, navigate to *Results → Export* and download responses as a CSV file."
     },
     {
       "@type": "HowToStep",
-      "text": "Set up Formbricks on your own server or use their hosted option"
+      "text": "Prepare data: Map CSV columns to Formbricks’ `responses` schema (question_id, answer, respondent_id, timestamp)."
     },
     {
       "@type": "HowToStep",
-      "text": "Import your exported data into Formbricks following their import documentation"
+      "text": "Set up Formbricks: Deploy the Docker compose stack on your server, configure the PostgreSQL database, and run the initial migration script."
     },
     {
       "@type": "HowToStep",
-      "text": "Invite your team members and recreate your workspace structure"
+      "text": "Import data: Use Formbricks’ CLI tool `fb-import` (`fb-import --file responses.csv --survey-id <id>`) to bulk‑load the CSV."
     },
     {
       "@type": "HowToStep",
-      "text": "Run both tools in parallel for 1–2 weeks before fully switching"
+      "text": "Validate & go live: Verify imported responses in the admin UI, update any webhooks or API endpoints, and deactivate the Typeform form."
     }
   ]
 }

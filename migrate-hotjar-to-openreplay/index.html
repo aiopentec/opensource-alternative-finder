@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export your data from Hotjar using their built-in export tool (Settings → Export)"
+      "text": "Audit Hotjar usage – list all active recordings, heatmaps, and surveys; note the site IDs."
     },
     {
       "@type": "HowToStep",
-      "text": "Set up OpenReplay on your own server or use their hosted option"
+      "text": "Export data – use Hotjar’s API to download recordings and heatmap data as JSON/CSV files."
     },
     {
       "@type": "HowToStep",
-      "text": "Import your exported data into OpenReplay following their import documentation"
+      "text": "Provision OpenReplay – spin up the Docker compose stack (or Helm chart) on your infrastructure and configure PostgreSQL + ClickHouse storage."
     },
     {
       "@type": "HowToStep",
-      "text": "Invite your team members and recreate your workspace structure"
+      "text": "Replace tracking code – remove the Hotjar script tag and add the OpenReplay JavaScript SDK (`@openreplay/tracker`) with your project ID."
     },
     {
       "@type": "HowToStep",
-      "text": "Run both tools in parallel for 1–2 weeks before fully switching"
+      "text": "Validate – replay a sample of sessions in the OpenReplay UI, compare event fidelity, and decommission Hotjar once confidence is established."
     }
   ]
 }

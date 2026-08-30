@@ -24,19 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export your existing workspace data from Slack using the built-in workspace data export tool, which outputs a standardized ZIP archive containing JSON files and user-uploaded media."
+      "text": "Export Slack data: In Slack admin settings, generate a workspace export (JSON zip file)."
     },
     {
       "@type": "HowToStep",
-      "text": "Provision a dedicated Linux server (such as Ubuntu LTS) and complete the official Zulip self-hosted installation script."
+      "text": "Prepare Zulip server: Deploy a Zulip instance via Docker or use the managed cloud offering; ensure PostgreSQL is running."
     },
     {
       "@type": "HowToStep",
-      "text": "Use Zulip's built-in migration utility (`import_slack.py`) to process the Slack JSON export archive and map user accounts."
+      "text": "Convert export: Use Zulip’s `import_slack` script (Python) to transform Slack JSON into Zulip’s import format."
     },
     {
       "@type": "HowToStep",
-      "text": "Verify the imported streams, topics, and message histories within your new Zulip instance before inviting your team."
+      "text": "Run the import: Execute `./manage.py import_slack <path-to-converted-json>` on the Zulip server."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Validate and train: Verify channel mappings, invite users, and run a short onboarding session on threaded topics."
     }
   ]
 }

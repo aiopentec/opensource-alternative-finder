@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Configure Sentry-Compatible SDKs: Update your application's Sentry SDK configuration to point the `dsn` endpoint to your new GlitchTip instance URL while retaining the existing SDK packages."
+      "text": "Deploy a GlitchTip instance using Docker and PostgreSQL on your internal infrastructure."
     },
     {
       "@type": "HowToStep",
-      "text": "Export Sentry Data (Optional): Use Sentry's API to export historical issue data or project configurations if migration of past error states is strictly required."
+      "text": "Update your application's error-tracking configuration to point the Sentry SDK `dsn` and `traces_sample_rate` to your new GlitchTip endpoint URL."
     },
     {
       "@type": "HowToStep",
-      "text": "Provision GlitchTip Infrastructure: Deploy GlitchTip using its official Docker Compose configuration, ensuring your PostgreSQL and Redis instances are properly secured and backed up."
+      "text": "Export team members and alert rules from Sentry manually, as automated direct migration tools for configuration are limited."
     },
     {
       "@type": "HowToStep",
-      "text": "Recreate Projects and Alerts: Set up your organization, projects, and notification integrations (such as Slack or email) within the GlitchTip dashboard."
+      "text": "Verify event ingestion by triggering a test exception in your application and confirming it appears in the GlitchTip dashboard."
     },
     {
       "@type": "HowToStep",
-      "text": "Verify Ingestion: Trigger a test exception in your staging environment to confirm errors appear correctly in the GlitchTip dashboard, then deploy the updated SDK configuration to production."
+      "text": "Decommission your Sentry project once traffic stabilization and alerting parity are confirmed."
     }
   ]
 }

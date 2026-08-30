@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export chat history from Discord using community-maintained migration tools (such as `discord-chat-exporter` to output JSON or HTML)."
+      "text": "Export Discord data: In Server Settings → Overview, click *Export Data* to download a ZIP containing JSON files for messages, channels, and user lists."
     },
     {
       "@type": "HowToStep",
-      "text": "Provision and configure your Matrix homeserver (Synapse) and point your domain to the server."
+      "text": "Set up a Matrix homeserver: Deploy Synapse (or Dendrite) on a VM or container, configure TLS, and create an admin account."
     },
     {
       "@type": "HowToStep",
-      "text": "Create user accounts on your Element homeserver for all migrating team members."
+      "text": "Convert JSON to Matrix format: Use the open‑source tool `discord2matrix` (available on GitHub) to transform Discord JSON into the Matrix import schema."
     },
     {
       "@type": "HowToStep",
-      "text": "Utilize Matrix import scripts or community migration utilities to ingest exported Discord channel archives into corresponding Matrix rooms where historical data retention is required."
+      "text": "Import into Synapse: Run `synapse_port_db --import-json /path/to/converted.json` to load channels and messages."
     },
     {
       "@type": "HowToStep",
-      "text": "Direct users to log into the new Element client using their homeserver credentials and decommission the Discord server."
+      "text": "Invite users: Send registration links or use bulk user creation scripts; optionally bridge existing Discord voice channels via the Matrix Discord bridge for a transitional period."
     }
   ]
 }

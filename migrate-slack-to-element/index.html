@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export Slack data: In Slack Admin → Workspace Settings, request a full export; Slack provides a ZIP containing JSON files for messages, channels, and files."
+      "text": "Export Slack data – In Slack admin settings, generate a JSON export of all channels, messages, and files."
     },
     {
       "@type": "HowToStep",
-      "text": "Set up a Matrix homeserver: Deploy Synapse (or use Element’s managed cloud) with TLS, a PostgreSQL backend, and enable the `room_import` module."
+      "text": "Set up a Matrix homeserver – Deploy Synapse (or Dendrite) on your infrastructure, configure TLS, and enable the `m.room.message` import module."
     },
     {
       "@type": "HowToStep",
-      "text": "Convert Slack JSON to Matrix format: Use the open‑source `slack2matrix` script to map Slack channels to Matrix rooms and users to Matrix IDs."
+      "text": "Convert JSON to Matrix format – Use the open‑source `slack2matrix` script to map Slack channels to Matrix rooms and messages to `m.room.message` events."
     },
     {
       "@type": "HowToStep",
-      "text": "Import rooms: Run `synapse_port_db --import-room <room_json>` for each converted room, or use the `matrix-commander` tool for bulk import."
+      "text": "Import into Element – Run Synapse’s `import_room` command with the converted data files."
     },
     {
       "@type": "HowToStep",
-      "text": "Invite users and train: Create Element accounts for all Slack users, send invitation links, and provide a short onboarding session covering federation and encryption basics."
+      "text": "Invite users & train – Create user accounts, distribute Element client links, and run a brief onboarding session on encryption and federation basics."
     }
   ]
 }

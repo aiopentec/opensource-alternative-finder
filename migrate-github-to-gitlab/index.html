@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export repository data, pull requests, issues, and wiki pages from GitHub using the GitHub REST API or built-in repository archiving tools."
+      "text": "Export repositories from GitHub – use `git clone --mirror` or GitHub’s archive export (ZIP) for each repo."
     },
     {
       "@type": "HowToStep",
-      "text": "Prepare the GitLab target environment by provisioning a self-hosted instance or configuring a GitLab SaaS project group."
+      "text": "Create a new project in GitLab – via the UI or API, choose “Import project” and select “GitHub”."
     },
     {
       "@type": "HowToStep",
-      "text": "Use the built-in GitLab GitHub Importer tool (`/import/github`) by authenticating with a GitHub Personal Access Token to map users and transfer repositories."
+      "text": "Import issues and pull requests – generate a GitHub export (`github-backup` tool) and feed it to GitLab’s import API (`/import/github`)."
     },
     {
       "@type": "HowToStep",
-      "text": "Update GitHub Actions workflows to GitLab CI `.gitlab-yml` pipeline syntax and reconfigure webhook integrations."
+      "text": "Migrate CI/CD pipelines – translate GitHub Actions YAML to `.gitlab-ci.yml` manually or with the GitHub‑to‑GitLab CI conversion script."
     },
     {
       "@type": "HowToStep",
-      "text": "Verify repository integrity, access controls, and automated pipeline execution before cutting DNS or team access over to GitLab."
+      "text": "Update DNS and webhooks – point your custom domain to GitLab, and reconfigure any external services (e.g., Slack, Jira) to use the new GitLab webhooks."
     }
   ]
 }
