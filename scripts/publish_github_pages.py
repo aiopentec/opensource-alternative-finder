@@ -14,7 +14,7 @@ Patches applied:
 Usage: python scripts/publish_github_pages.py
 """
 
-import hashlib, json, logging, os, re
+import hashlib, json, logging, os, re, shutil
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List
@@ -2582,7 +2582,6 @@ def ping_indexnow(all_comparisons: List[Dict]):
 
 
 def build_quiz_page(site_dir: str):
-    import shutil
     quiz_dir = Path(site_dir) / 'quiz'
     quiz_dir.mkdir(exist_ok=True)
     src = Path(__file__).parent.parent / 'quiz.html'
@@ -4809,13 +4808,13 @@ Open Source Alternative Finder · Updated {updated} · <a href="../privacy/">Pri
         f.write(index_html)
 
     # Static files
-    with open(Path(site_dir) / 'favicon.ico', 'wb') as f:
-        f.write(b'')
+    favicon_src = Path(__file__).parent.parent / "assets" / "favicon.ico"
+    if favicon_src.exists():
+        shutil.copy(favicon_src, Path(site_dir) / 'favicon.ico')
     # Default social-share image (og:image / twitter:image). Used by the
     # homepage and comparison-page templates below; twitter:card was set to
     # summary_large_image sitewide but had no image to back it, so shares
     # were rendering blank.
-    import shutil
     og_default_src = Path(__file__).parent.parent / "assets" / "og-default.png"
     if og_default_src.exists():
         shutil.copy(og_default_src, Path(site_dir) / 'og-default.png')
