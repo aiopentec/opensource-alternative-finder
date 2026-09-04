@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Linear to Plane (September 02, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Linear to Plane (September 04, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Linear to Plane. Export your data, set up Plane, and switch your team — save Free / $8/user/month per month.">
   <meta name="keywords" content="migrate Linear to Plane, Linear to Plane migration, how to switch from Linear, Plane migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-linear-to-plane/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Linear to Plane (September 02, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Linear to Plane (September 04, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Linear to Plane. Export your data, set up Plane, and switch your team — save Free / $8/user/month per month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-linear-to-plane/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export your existing Linear issues, cycles, and project data using Linear's built-in JSON data export feature or third-party extraction tools."
+      "text": "Export data from Linear: In Linear, navigate to Settings → Export and download the JSON archive (or CSV for issues)."
     },
     {
       "@type": "HowToStep",
-      "text": "Spin up your self-hosted Plane instance using the official Docker Compose setup guide and configure your environment variables."
+      "text": "Prepare the Plane environment: Deploy Plane using Docker or your preferred Kubernetes helm chart, ensuring the database is reachable."
     },
     {
       "@type": "HowToStep",
-      "text": "Access the Plane admin dashboard and utilize the native data import wizard or API scripts to ingest your exported Linear JSON payload."
+      "text": "Transform the export: Use Plane’s provided `linear-import` script (available in the `plane/tools` repo) to convert Linear JSON/CSV into Plane’s CSV schema."
     },
     {
       "@type": "HowToStep",
-      "text": "Map your legacy Linear workflow states, labels, and user accounts to the corresponding Plane attributes within the migration interface."
+      "text": "Import into Plane: Run `plane import --type issues --file transformed_issues.csv` via the CLI or use the web UI’s CSV import feature."
     },
     {
       "@type": "HowToStep",
-      "text": "Verify imported project integrity, invite your engineering team members, and update your GitHub or GitLab webhook integrations to point to your new Plane instance."
+      "text": "Validate and go live: Verify that projects, issues, and statuses appear correctly; re‑configure webhooks and integrations, then point your team to the new Plane URL."
     }
   ]
 }
@@ -96,7 +96,7 @@
     <span class="hero-badge">💰 Save Free / $8/user/month/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     <span class="hero-badge">🖥️ Setup: Easy (~30 mins)</span>
-    <span class="hero-badge">📅 September 02, 2026</span>
+    <span class="hero-badge">📅 September 04, 2026</span>
   </div>
 </div>
 <div class="content">

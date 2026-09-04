@@ -317,7 +317,7 @@
     <span class="hero-badge">🤖 AI-Researched Daily</span>
     <span class="hero-badge">🖥️ Setup: Varies</span>
     <span class="hero-badge">👥 Remote teams</span>
-    <span class="hero-badge">📅 April 04, 2026</span>
+    <span class="hero-badge">📅 June 21, 2026</span>
   </div>
 </div>
 
@@ -376,67 +376,89 @@
   <div class="card">
     <h1>Loom vs Cap (2026)</h1>
 <h2>Overview</h2>
-Loom is a cloud‑based video messaging platform that lets teams record, share, and comment on short videos. Cap is an open‑source, self‑hosted alternative that provides the same core recording and sharing functionality but runs on your own infrastructure. The comparison helps product, engineering, and support teams decide whether to stay with Loom’s hosted service or move to Cap for cost control and data ownership. Teams typically switch to gain full control over video data and eliminate per‑seat licensing fees.
+Loom is a cloud‑based video messaging platform that lets users record, share, and embed short videos for asynchronous communication. Cap is an open‑source, self‑hosted video collaboration suite that offers similar recording and sharing capabilities but gives organizations full control over data and deployment. Teams that need tighter data governance, on‑premise hosting, or a cost‑effective scaling model are the primary audience for this comparison. The key reason to switch is to replace Loom’s SaaS pricing and proprietary lock‑in with Cap’s free, self‑hosted model while retaining core video messaging features.
 <h2>Key Differences</h2>
 <ul>
-<li><strong>Cost:</strong> Loom charges $12.50‑$14.99 per active user per month; Cap is free to use, with only server‑hosting expenses.  </li>
-<li><strong>Data Ownership:</strong> Loom stores videos on its SaaS platform; Cap stores them on your own servers, giving you complete ownership.  </li>
-<li><strong>Setup Complexity:</strong> Loom requires only an account sign‑up; Cap needs server provisioning, Docker/Kubernetes deployment, and SSL configuration.  </li>
-<li><strong>Scalability:</strong> Loom scales automatically on its cloud; Cap’s scalability depends on your infrastructure planning and load‑balancing setup.  </li>
-<li><strong>Feature/Integration:</strong> Loom offers native integrations with Slack, Notion, and G Suite; Cap provides a REST API and Webhooks but no out‑of‑the‑box Slack app.</li>
+<li><strong>Cost:</strong> Loom charges $12.50–$14.99 per active user per month; Cap is free to use (only server infrastructure costs).  </li>
+<li><strong>Data Ownership:</strong> Loom stores all recordings on its own cloud; Cap stores data on the organization’s servers, giving full ownership and compliance control.  </li>
+<li><strong>Setup Complexity:</strong> Loom requires only a browser extension or app; Cap demands provisioning a Linux server, Docker/Kubernetes setup, and TLS configuration.  </li>
+<li><strong>Scalability:</strong> Loom scales automatically but costs rise linearly with users; Cap can be horizontally scaled on existing infrastructure, incurring only hardware or cloud expense.  </li>
+<li><strong>Feature/Integration:</strong> Loom integrates natively with Slack, Notion, and Gmail; Cap provides a REST API and Webhooks but lacks built‑in Slack integration, requiring custom development.</li>
 </ul>
 <h2>Pricing Comparison</h2>
 <div class="table-wrapper"><table>
 <thead><tr><th>Aspect</th><th>Loom</th><th>Cap</th></tr></thead><tbody>
-<tr><td>Base Cost</td><td>Free / $12.50‑$14.99 /user/month</td><td>Free (self‑hosted)</td></tr>
+<tr><td>Base Cost</td><td>Free / $12.50‑$14.99/user/mo</td><td>Free (self‑hosted)</td></tr>
 <tr><td>License</td><td>Proprietary</td><td>AGPL 3.0</td></tr>
 <tr><td>Self‑hosting</td><td>Not available</td><td>Available</td></tr>
-<tr><td>Per‑user cost at 50 users</td><td>≈ $13.99 / user → $699.5 /month</td><td>$0 / user → server cost only</td></tr>
-<tr><td>Per‑user cost at 200 users</td><td>≈ $13.99 / user → $2,798 /month</td><td>$0 / user → server cost only</td></tr>
+<tr><td>Per‑user cost at 50 users</td><td>≈ $687.50 /mo (average $13.75)</td><td>$0 /mo (server cost only)</td></tr>
+<tr><td>Per‑user cost at 200 users</td><td>≈ $2,750 /mo (average $13.75)</td><td>$0 /mo (server cost only)</td></tr>
 </tbody></table></div>
 <h2>Pros and Cons</h2>
-<h3>Loom</h3>
-<strong>Pros</strong>
+<p><strong>Loom</strong>
 <ul>
-<li>Instant cloud deployment, no IT overhead.  </li>
-<li>High‑quality video compression and adaptive streaming.  </li>
-<li>Rich native integrations (Slack, Notion, G Suite).  </li>
-<li>Robust analytics dashboard for video views and engagement.  </li>
-<li>Reliable 99.9 % SLA backed by a commercial provider.</li>
+<li>Pros  </li>
 </ul>
-<p><strong>Cons</strong>
+  - Extremely low entry friction; browser‑based recorder works instantly.  
+  - Robust native integrations with major SaaS tools.  
+  - Automatic video transcoding and CDN delivery.  
+  - Reliable uptime backed by a commercial SLA.  
 <ul>
-<li>Per‑seat fees add up quickly for large teams.  </li>
-<li>Videos are stored on Loom’s servers; limited export options.  </li>
-<li>Limited customization of UI/branding.  </li>
-<li>No on‑premise deployment for regulated industries.</li>
-</ul></p>
-<h3>Cap</h3>
-<strong>Pros</strong>
-<ul>
-<li>Zero licensing cost; only infrastructure spend.  </li>
-<li>Full data sovereignty—videos reside on your hardware.  </li>
-<li>Customizable UI and extensible plugin architecture.  </li>
-<li>Open‑source community contributes integrations and bug fixes.  </li>
-<li>Self‑hosted deployment can be placed behind corporate firewalls.</li>
+<li>Cons  </li>
 </ul>
-<p><strong>Cons</strong>
+  - Recurring per‑user fees become costly at scale.  
+  - Recordings are stored on Loom’s servers, limiting compliance options.  
+  - Limited export formats (MP4 only, no bulk export).  
+  - Feature set is locked behind proprietary roadmap.</p>
+<p><strong>Cap</strong>
 <ul>
-<li>Requires DevOps expertise to install, secure, and maintain.  </li>
-<li>Lacks built‑in Slack/Notion integrations; must be built via API.  </li>
-<li>Scaling beyond a few hundred users may need additional engineering.  </li>
-<li>Documentation is community‑driven and can be inconsistent.  </li>
-</ul></p>
+<li>Pros  </li>
+</ul>
+  - Zero licensing cost; only infrastructure expenses.  
+  - Full data sovereignty; recordings stay on‑premise or in a private cloud.  
+  - Open‑source community contributes plugins and security patches.  
+  - Self‑hosted deployment can be containerized for easy scaling.  
+<ul>
+<li>Cons  </li>
+</ul>
+  - Requires technical staff for installation, TLS, and maintenance.  
+  - No out‑of‑the‑box Slack or Gmail integration; custom work needed.  
+  - UI is less polished than Loom’s commercial product.  
+  - Documentation is community‑driven and may lag behind releases.</p>
 <h2>When to Choose Each</h2>
-<strong>Loom</strong> is ideal for fast‑moving startups, sales teams, and customer‑success groups that need a ready‑to‑use video communication tool without any infrastructure commitment. Its seamless integrations and SaaS reliability let small‑to‑medium teams (5‑200 users) focus on content creation rather than ops.
-<p><strong>Cap</strong> fits engineering, security‑focused, or regulated organizations that require complete control over video assets and want to eliminate recurring per‑seat fees. It shines for medium‑to‑large teams (50‑500+ users) that already operate self‑hosted services and have the bandwidth to manage Docker/Kubernetes deployments.</p>
+<strong>Loom</strong> is ideal for small to medium teams (5‑100 members) that prioritize speed of adoption, need seamless integration with existing SaaS tools, and are comfortable with a SaaS expense model. It shines in fast‑moving environments like sales, support, and product demos where the convenience of a hosted service outweighs data‑control concerns.
+<p><strong>Cap</strong> fits organizations with 50‑500+ users that must keep video data behind a firewall for regulatory or IP reasons, have in‑house DevOps resources, and seek to eliminate per‑user SaaS fees. It is also suited for enterprises planning to embed video messaging into custom portals or internal knowledge bases via its API.</p>
 <h2>Migration Path</h2>
 <ol>
-<li><strong>Export from Loom:</strong> In Loom’s UI, select “Download video” to obtain MP4 files; use the “Export CSV” option for metadata (title, description, view count).  </li>
-<li><strong>Prepare Server:</strong> Provision a Linux VM (e.g., Ubuntu 22.04) and install Docker Engine. Pull the official Cap image: <code>docker pull capvideo/cap:latest</code>.  </li>
-<li><strong>Configure Storage:</strong> Mount a persistent volume for video files and set up an external PostgreSQL database for metadata.  </li>
-<li><strong>Import Videos:</strong></li>
+<li><strong>Export recordings from Loom</strong> – Use Loom’s “Download all videos” feature to obtain a ZIP archive of MP4 files and a CSV manifest containing metadata.  </li>
+<li><strong>Provision a Cap server</strong> – Deploy the official Docker Compose stack on a Linux VM or Kubernetes cluster, configure TLS, and set up storage (e.g., S3 or local volume).  </li>
+<li><strong>Import recordings</strong> – Run Cap’s <code>cap-import</code> CLI tool, pointing it to the MP4 archive and the CSV manifest; the tool creates corresponding video objects and preserves titles and timestamps.  </li>
+<li><strong>Recreate sharing links</strong> – Map Loom share URLs to Cap’s public URLs using a simple redirect script or update documentation manually.  </li>
+<li><strong>Validate and decommission</strong> – Verify playback, permissions, and analytics in Cap, then cancel Loom subscriptions and shut down the Loom accounts.</li>
 </ol>
+<h2>Our Take</h2>
+Cap is production‑ready for most mid‑size to large enterprises in 2026. The core recording, storage, and playback engine is stable, the Docker/Kubernetes deployment model is well‑documented, and the active open‑source community releases security patches on a monthly cadence. Organizations with a capable DevOps team can run Cap at scale without the recurring SaaS fees that Loom imposes.
+<p>A notable technical limitation is the lack of native Slack integration. While Cap offers a REST API and Webhooks, teams that rely on one‑click “share to Slack” will need to develop a custom bot or middleware, adding engineering effort and potential maintenance overhead. Additionally, Cap’s UI still trails Loom’s polish, which may affect adoption among non‑technical users.</p>
+<p>Recommendation: Switch to Cap if you need full data control, have ≥ 50 active video users, and can allocate engineering resources for setup and custom integrations. Keep Loom if you prioritize instant usability, need out‑of‑the‑box Slack/Gmail links, or lack the staff to manage self‑hosting.</p>
+<h2>Who Should Switch</h2>
+<ul>
+<li><strong>Compliance‑driven teams (≥ 50 users)</strong> that must store video data on‑premise for GDPR or HIPAA reasons.  </li>
+<li><strong>Large enterprises (200+ users)</strong> looking to cut SaaS spend and already run Kubernetes clusters.  </li>
+<li><strong>Product documentation groups</strong> that need an API to embed videos into internal portals and don’t use Slack sharing.  </li>
+<li><strong>Remote‑first startups (30‑80 users)</strong> with a dedicated DevOps engineer who can handle Docker deployment.  </li>
+<li><strong>Education institutions</strong> that want a free, self‑hosted solution for faculty and student video communication, and don’t need Loom’s premium editing tools.</li>
+</ul>
+<h2>FAQ</h2>
+<h3>How does Cap’s video quality compare to Loom’s?</h3>
+Cap records in the same 1080p MP4 format as Loom and uses FFmpeg for transcoding, so visual quality is comparable. The main difference lies in CDN delivery; Loom leverages a global CDN, while Cap’s delivery speed depends on the organization’s network setup.
+<h3>Can I migrate existing Loom analytics to Cap?</h3>
+No, Cap does not import Loom view or engagement metrics. You can export the CSV manifest for basic metadata, but detailed analytics must be rebuilt using Cap’s own tracking or third‑party tools.
+<h3>Does Cap support mobile recording like Loom’s iOS/Android apps?</h3>
+Cap provides a web‑based recorder that works on modern mobile browsers, but it lacks dedicated native iOS or Android apps. Users can still record on phones, though the experience is less streamlined.
+<h3>Is there a limit to storage on a self‑hosted Cap instance?</h3>
+No built‑in storage cap; capacity is limited only by the underlying hardware or cloud storage you provision. You can attach additional volumes or object storage as needed.
+<h3>Will switching to Cap affect my existing video sharing links?</h3>
+Yes. Loom links point to Loom’s CDN and will break after migration. Cap generates its own URLs, so you’ll need to update documentation or set up redirects to preserve external references.
   </div>
 
   
