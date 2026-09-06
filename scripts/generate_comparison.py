@@ -293,13 +293,24 @@ def generate_with_groq(prompt: str, retries: int = 2) -> str:
                 json={
                     'model': 'openai/gpt-oss-120b',
                     'messages': [{'role': 'user', 'content': prompt}],
-                    'max_tokens': 2500,
+                    'max_tokens': 4000,
                     'temperature': 0.6
                 },
                 timeout=30
             )
             response.raise_for_status()
-            return response.json()['choices'][0]['message']['content']
+            choice = response.json()['choices'][0]
+            if choice.get('finish_reason') == 'length':
+                # Response was cut off mid-generation, not a clean completion.
+                # Accepting this silently is what shipped pages with content
+                # that stops mid-sentence (e.g. a 5-step Migration Path with
+                # only step 1, cut off before the closing punctuation).
+                raise ValueError(
+                    "Groq response truncated (finish_reason=length) — "
+                    "treating as a failure so the fallback chain runs instead "
+                    "of caching incomplete content"
+                )
+            return choice['message']['content']
         except requests.exceptions.HTTPError as e:
             last_error = e
             if response.status_code == 429:
@@ -334,11 +345,21 @@ def generate_with_gemini(prompt: str) -> str:
     response = requests.post(
         f'https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key={api_key}',
         headers={'Content-Type': 'application/json'},
-        json={'contents': [{'parts': [{'text': prompt}]}]},
+        json={
+            'contents': [{'parts': [{'text': prompt}]}],
+            'generationConfig': {'maxOutputTokens': 4000},
+        },
         timeout=30
     )
     response.raise_for_status()
-    return response.json()['candidates'][0]['content']['parts'][0]['text']
+    candidate = response.json()['candidates'][0]
+    if candidate.get('finishReason') == 'MAX_TOKENS':
+        raise ValueError(
+            "Gemini response truncated (finishReason=MAX_TOKENS) — "
+            "treating as a failure so it falls through to the template engine "
+            "instead of caching incomplete content"
+        )
+    return candidate['content']['parts'][0]['text']
 
 
 TEMPLATE_DETAILS = {
@@ -669,19 +690,6 @@ def strip_meta_block(content: str) -> str:
     return cleaned
 
 
-MIN_CONTENT_WORDS = 150
-
-
-def _content_is_valid(raw_content: str) -> bool:
-    """True if raw_content, after stripping the trailing meta block, has
-    enough real words to be a genuine comparison rather than an empty or
-    metadata-only response."""
-    if not raw_content:
-        return False
-    cleaned = strip_meta_block(raw_content)
-    return len(cleaned.split()) >= MIN_CONTENT_WORDS
-
-
 def generate_comparison(prop_key: str, oss_key: str) -> Dict:
     global GROQ_QUOTA_EXHAUSTED
     prompt        = build_prompt(prop_key, oss_key)
@@ -692,13 +700,9 @@ def generate_comparison(prop_key: str, oss_key: str) -> Dict:
 
     if not GROQ_QUOTA_EXHAUSTED:
         try:
-            candidate = generate_with_groq(prompt)
-            if _content_is_valid(candidate):
-                content = candidate
-                provider_used = 'groq'
-                logger.info(f"    Generated with Groq")
-            else:
-                logger.warning(f"    Groq returned empty/too-short content -- trying Gemini...")
+            content = generate_with_groq(prompt)
+            provider_used = 'groq'
+            logger.info(f"    Generated with Groq")
         except GroqQuotaExhausted as e:
             logger.warning(f"    {e}")
             GROQ_QUOTA_EXHAUSTED = True
@@ -708,13 +712,9 @@ def generate_comparison(prop_key: str, oss_key: str) -> Dict:
 
     if content is None:
         try:
-            candidate = generate_with_gemini(prompt)
-            if _content_is_valid(candidate):
-                content = candidate
-                provider_used = 'gemini'
-                logger.info(f"    Generated with Gemini")
-            else:
-                logger.warning(f"    Gemini returned empty/too-short content -- using template...")
+            content = generate_with_gemini(prompt)
+            provider_used = 'gemini'
+            logger.info(f"    Generated with Gemini")
         except Exception as e:
             logger.warning(f"    Gemini unavailable ({type(e).__name__}) -- using template...")
 
@@ -749,7 +749,7 @@ def generate_comparison(prop_key: str, oss_key: str) -> Dict:
         'publish_date':        publish_date,
         'provider':            provider_used,
         'generated_at':        datetime.utcnow().isoformat() + 'Z',
-        'status':              'generated' if len(clean_content.split()) >= MIN_CONTENT_WORDS else 'failed'
+        'status':              'generated'
     }
 
 
