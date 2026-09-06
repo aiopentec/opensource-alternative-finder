@@ -97,7 +97,9 @@ Respond with ONLY valid JSON (no markdown fences, no preamble, no text before or
 }}
 
 Include 5-6 items in "steps" (covering export, setup, import, team onboarding, and cutover), 3 items in "challenges", and 3 items in "faq".
-Total content across all fields should be 500-700 words. Be concrete and specific to {prop} and {oss} — avoid generic phrasing that could apply to any software migration. No markdown formatting inside the JSON string values."""
+Total content across all fields should be 500-700 words. Be concrete and specific to {prop} and {oss} — avoid generic phrasing that could apply to any software migration. No markdown formatting inside the JSON string values.
+
+Do NOT begin the intro with the sentence pattern "Migrating from [X] to [Y] is a/an/the [adjective] move for [audience] seeking/looking to [escape/reclaim]..." — this exact structure has been overused across other pages on this site and reads as templated. Instead, open with one of: a specific dollar-figure comparison, a concrete scenario a team would recognize, a pointed question, or a direct statement of the single biggest reason someone searches for this specific migration. Vary the opening structure — it should not be predictable from having read another migration guide on this site."""
 
 
 GROQ_QUOTA_EXHAUSTED = False  # set once we see a long retry-after — see generate_with_groq
