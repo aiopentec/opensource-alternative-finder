@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Microsoft Teams to Mattermost (September 05, 2026) — Step-by-Step Guide</title>
-  <meta name="description" content="Complete step-by-step guide to migrating from Microsoft Teams to Mattermost. Export your data, set up Mattermost, and switch your team — save Free / $6-$22/user/month per month.">
+  <title>How to Migrate from Microsoft Teams to Mattermost (September 06, 2026) — Step-by-Step Guide</title>
+  <meta name="description" content="Complete step-by-step guide to migrating from Microsoft Teams to Mattermost. Export your data, set up Mattermost, and switch your team — save Free / $6-$22/user/month.">
   <meta name="keywords" content="migrate Microsoft Teams to Mattermost, Microsoft Teams to Mattermost migration, how to switch from Microsoft Teams, Mattermost migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-microsoft-teams-to-mattermost/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Microsoft Teams to Mattermost (September 05, 2026) — Step-by-Step Guide">
-  <meta property="og:description" content="Complete step-by-step guide to migrating from Microsoft Teams to Mattermost. Export your data, set up Mattermost, and switch your team — save Free / $6-$22/user/month per month.">
+  <meta property="og:title" content="How to Migrate from Microsoft Teams to Mattermost (September 06, 2026) — Step-by-Step Guide">
+  <meta property="og:description" content="Complete step-by-step guide to migrating from Microsoft Teams to Mattermost. Export your data, set up Mattermost, and switch your team — save Free / $6-$22/user/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-microsoft-teams-to-mattermost/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
   <script type="application/ld+json">
@@ -19,28 +19,24 @@
   "@context": "https://schema.org",
   "@type": "HowTo",
   "name": "How to Migrate from Microsoft Teams to Mattermost",
-  "description": "Complete step-by-step guide to migrating from Microsoft Teams to Mattermost. Export your data, set up Mattermost, and switch your team — save Free / $6-$22/user/month per month.",
+  "description": "Complete step-by-step guide to migrating from Microsoft Teams to Mattermost. Export your data, set up Mattermost, and switch your team — save Free / $6-$22/user/month.",
   "totalTime": "~30 mins",
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export Teams data – Use the Microsoft Graph API to export chat history and channel metadata to JSON (or CSV for simple lists)."
+      "text": "Export team data, user profiles, and channel history from Microsoft Teams using the Microsoft Graph API or third-party enterprise compliance export tools."
     },
     {
       "@type": "HowToStep",
-      "text": "Prepare Mattermost server – Install the latest Mattermost Enterprise edition on a Linux VM or Kubernetes cluster; configure TLS and LDAP if needed."
+      "text": "Provision a production server environment and deploy the Mattermost instance using Docker or Kubernetes backed by a PostgreSQL database."
     },
     {
       "@type": "HowToStep",
-      "text": "Import users – Upload a CSV of user accounts via the Mattermost System Console → Users → Import."
+      "text": "Map exported user accounts to Mattermost users and use the `mattermost import bulk` command-line tool to ingest JSON-formatted message history and channel structures."
     },
     {
       "@type": "HowToStep",
-      "text": "Migrate channels – Run the `mmctl import` command with the exported JSON files; map Teams channels to Mattermost teams/channels."
-    },
-    {
-      "@type": "HowToStep",
-      "text": "Validate and go live – Verify message integrity, re‑assign permissions, and decommission Teams licenses after user acceptance testing."
+      "text": "Configure integrations, authentication providers (SAML/LDAP), and invite users to authenticate against the new Mattermost server."
     }
   ]
 }
@@ -93,10 +89,10 @@
   <div class="tag">📦 Migration Guide</div>
   <h1>How to Migrate from Microsoft Teams to Mattermost</h1>
   <div class="hero-meta">
-    <span class="hero-badge">💰 Save Free / $6-$22/user/month/month</span>
+    <span class="hero-badge">💰 Save Free / $6-$22/user/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     <span class="hero-badge">🖥️ Setup: Easy (~30 mins)</span>
-    <span class="hero-badge">📅 September 05, 2026</span>
+    <span class="hero-badge">📅 September 06, 2026</span>
   </div>
 </div>
 <div class="content">

@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Discord to Element (September 05, 2026) — Step-by-Step Guide</title>
-  <meta name="description" content="Complete step-by-step guide to migrating from Discord to Element. Export your data, set up Element, and switch your team — save Free / $9.99/month per month.">
+  <title>How to Migrate from Discord to Element (September 06, 2026) — Step-by-Step Guide</title>
+  <meta name="description" content="Complete step-by-step guide to migrating from Discord to Element. Export your data, set up Element, and switch your team — save Free / $9.99/month.">
   <meta name="keywords" content="migrate Discord to Element, Discord to Element migration, how to switch from Discord, Element migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-discord-to-element/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Discord to Element (September 05, 2026) — Step-by-Step Guide">
-  <meta property="og:description" content="Complete step-by-step guide to migrating from Discord to Element. Export your data, set up Element, and switch your team — save Free / $9.99/month per month.">
+  <meta property="og:title" content="How to Migrate from Discord to Element (September 06, 2026) — Step-by-Step Guide">
+  <meta property="og:description" content="Complete step-by-step guide to migrating from Discord to Element. Export your data, set up Element, and switch your team — save Free / $9.99/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-discord-to-element/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
   <script type="application/ld+json">
@@ -19,24 +19,28 @@
   "@context": "https://schema.org",
   "@type": "HowTo",
   "name": "How to Migrate from Discord to Element",
-  "description": "Complete step-by-step guide to migrating from Discord to Element. Export your data, set up Element, and switch your team — save Free / $9.99/month per month.",
+  "description": "Complete step-by-step guide to migrating from Discord to Element. Export your data, set up Element, and switch your team — save Free / $9.99/month.",
   "totalTime": "~2 hours",
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export Discord data – Request a GDPR export from Discord Settings; the result is a ZIP containing JSON files for messages, channels, and user data."
+      "text": "Export Discord data – In Discord, go to *User Settings → Privacy & Safety → Request Data*. Discord delivers a ZIP containing JSON files of messages, channels, and user info."
     },
     {
       "@type": "HowToStep",
-      "text": "Prepare a Matrix homeserver – Deploy Synapse (Docker or native) and create an admin user. Ensure storage capacity for the incoming JSON."
+      "text": "Set up a Matrix homeserver – Deploy Synapse (Docker or native) or another Matrix server, configure domain and TLS."
     },
     {
       "@type": "HowToStep",
-      "text": "Convert JSON to Matrix format – Use the open‑source tool `discord‑to‑matrix-import` (available on GitHub) which maps Discord channels to Matrix rooms and messages to MSC2716 event format."
+      "text": "Convert Discord JSON to Matrix format – Use the open‑source tool `discord2matrix` (available on GitHub) to map Discord channels to Matrix rooms and messages to events."
     },
     {
       "@type": "HowToStep",
-      "text": "Import into Element – Run Synapse’s `matrix‑msc2716‑import` script pointing at the converted files. Verify room memberships and invite users to the new Element instance."
+      "text": "Import into the homeserver – Run Synapse’s `./manage.py import_room` command with the generated Matrix JSON files."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Invite users to Element – Send invitation links or share the homeserver URL; users can log in with existing SSO or create new Matrix accounts."
     }
   ]
 }
@@ -89,10 +93,10 @@
   <div class="tag">📦 Migration Guide</div>
   <h1>How to Migrate from Discord to Element</h1>
   <div class="hero-meta">
-    <span class="hero-badge">💰 Save Free / $9.99/month/month</span>
+    <span class="hero-badge">💰 Save Free / $9.99/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     <span class="hero-badge">🖥️ Setup: Moderate (~2 hours)</span>
-    <span class="hero-badge">📅 September 05, 2026</span>
+    <span class="hero-badge">📅 September 06, 2026</span>
   </div>
 </div>
 <div class="content">

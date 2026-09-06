@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Slack to Zulip (September 05, 2026) — Step-by-Step Guide</title>
-  <meta name="description" content="Complete step-by-step guide to migrating from Slack to Zulip. Export your data, set up Zulip, and switch your team — save $7.25-$15/user/month per month.">
+  <title>How to Migrate from Slack to Zulip (September 06, 2026) — Step-by-Step Guide</title>
+  <meta name="description" content="Complete step-by-step guide to migrating from Slack to Zulip. Export your data, set up Zulip, and switch your team — save $7.25-$15/user/month.">
   <meta name="keywords" content="migrate Slack to Zulip, Slack to Zulip migration, how to switch from Slack, Zulip migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-slack-to-zulip/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Slack to Zulip (September 05, 2026) — Step-by-Step Guide">
-  <meta property="og:description" content="Complete step-by-step guide to migrating from Slack to Zulip. Export your data, set up Zulip, and switch your team — save $7.25-$15/user/month per month.">
+  <meta property="og:title" content="How to Migrate from Slack to Zulip (September 06, 2026) — Step-by-Step Guide">
+  <meta property="og:description" content="Complete step-by-step guide to migrating from Slack to Zulip. Export your data, set up Zulip, and switch your team — save $7.25-$15/user/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-slack-to-zulip/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
   <script type="application/ld+json">
@@ -19,28 +19,28 @@
   "@context": "https://schema.org",
   "@type": "HowTo",
   "name": "How to Migrate from Slack to Zulip",
-  "description": "Complete step-by-step guide to migrating from Slack to Zulip. Export your data, set up Zulip, and switch your team — save $7.25-$15/user/month per month.",
+  "description": "Complete step-by-step guide to migrating from Slack to Zulip. Export your data, set up Zulip, and switch your team — save $7.25-$15/user/month.",
   "totalTime": "~1-2 hours",
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export Slack data – In Slack Admin → Workspace Settings, request a JSON export (includes messages, files, and user metadata)."
+      "text": "Export from Slack: In the Slack admin console, generate a workspace export (JSON zip) via *Settings → Import/Export*."
     },
     {
       "@type": "HowToStep",
-      "text": "Set up Zulip server – Deploy the official Docker image or use the provided Ansible playbook on a Linux VM."
+      "text": "Prepare Zulip Server: Deploy Zulip using Docker (`docker-compose up -d`) or use the managed cloud offering; ensure email and OAuth are configured."
     },
     {
       "@type": "HowToStep",
-      "text": "Convert export – Use Zulip’s `import_slack.py` script (part of the `zulip-import-export` repo) to translate Slack JSON into Zulip’s import format."
+      "text": "Convert Export: Use Zulip’s `slack_import` script (`python manage.py import_slack <export.zip>`) to map channels to streams and threads to topics."
     },
     {
       "@type": "HowToStep",
-      "text": "Run the import – Execute `./manage.py import` on the Zulip instance with the converted data directory."
+      "text": "Validate Data: Verify that messages, files, and user accounts appear correctly; adjust any custom emoji or bot mappings."
     },
     {
       "@type": "HowToStep",
-      "text": "Validate and onboard – Verify channel structures, invite users, and decommission the Slack workspace once all critical data is confirmed in Zulip."
+      "text": "Switch Users: Update DNS or send invitation links; decommission Slack after confirming all critical workflows operate in Zulip."
     }
   ]
 }
@@ -93,10 +93,10 @@
   <div class="tag">📦 Migration Guide</div>
   <h1>How to Migrate from Slack to Zulip</h1>
   <div class="hero-meta">
-    <span class="hero-badge">💰 Save $7.25-$15/user/month/month</span>
+    <span class="hero-badge">💰 Save $7.25-$15/user/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     <span class="hero-badge">🖥️ Setup: Moderate (~1-2 hours)</span>
-    <span class="hero-badge">📅 September 05, 2026</span>
+    <span class="hero-badge">📅 September 06, 2026</span>
   </div>
 </div>
 <div class="content">
