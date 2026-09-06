@@ -14,7 +14,7 @@ Patches applied:
 Usage: python scripts/publish_github_pages.py
 """
 
-import hashlib, json, logging, os, re, shutil
+import json, logging, os, re
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List
@@ -1427,8 +1427,11 @@ def build_migration_page(site_dir: str, comp: dict, updated: str):
     diff = HOSTING_DIFFICULTY.get(oss_key, {})
     diff_badge = f'<span class="hero-badge">🖥️ Setup: {diff.get("label","Varies")} ({diff.get("time","varies")})</span>' if diff else ''
 
+    _raw_pricing = str(comp.get('proprietary_pricing', 'money'))
+    pricing_per_month = _raw_pricing if _raw_pricing.rstrip().endswith('/month') else f"{_raw_pricing}/month"
+
     seo_title = f"How to Migrate from {prop_name} to {oss_name} ({updated}) — Step-by-Step Guide"
-    seo_desc  = f"Complete step-by-step guide to migrating from {prop_name} to {oss_name}. Export your data, set up {oss_name}, and switch your team — save {comp.get('proprietary_pricing','money')} per month."
+    seo_desc  = f"Complete step-by-step guide to migrating from {prop_name} to {oss_name}. Export your data, set up {oss_name}, and switch your team — save {pricing_per_month}."
     canonical = f"{SITE_BASE_URL}/{migrate_slug}/"
 
     howto_schema = {
@@ -1508,7 +1511,7 @@ def build_migration_page(site_dir: str, comp: dict, updated: str):
   <div class="tag">📦 Migration Guide</div>
   <h1>How to Migrate from {prop_name} to {oss_name}</h1>
   <div class="hero-meta">
-    <span class="hero-badge">💰 Save {comp.get('proprietary_pricing','money')}/month</span>
+    <span class="hero-badge">💰 Save {pricing_per_month}</span>
     <span class="hero-badge">🔓 Own your data</span>
     {diff_badge}
     <span class="hero-badge">📅 {updated}</span>
@@ -2250,7 +2253,7 @@ def build_about_page(site_dir: str, updated: str):
       <li>
         <div class="step-text">
           <strong>The whole cycle repeats every 24 hours</strong>
-          <span>No human reviews each page individually before it goes live, but every page is checked automatically: a content-quality audit measures unique word count against the same threshold AdSense uses to define "thin content," and the pipeline refuses to deploy if any page falls short. Beyond that, quality control is in the prompt design, the structured data inputs, and the fallback logic. If something is still wrong, it gets corrected when reported.</span>
+          <span>No human reviews each page before it goes live. The quality control is in the prompt design, the structured data inputs, and the fallback logic — not manual editorial oversight. If something is wrong, it gets corrected when reported.</span>
         </div>
       </li>
     </ol>
@@ -2281,7 +2284,7 @@ def build_about_page(site_dir: str, updated: str):
       <li>No one has personally tested every tool on this site. The comparisons are AI-generated from public data, not from hands-on user experience with each product.</li>
       <li>Pricing figures are scraped and AI-summarised. They may lag behind recent changes. Always verify at the official website before making a purchasing or migration decision.</li>
       <li>The "Our Take" and "FAQ" sections are AI opinions based on publicly available information — not expert human analysis.</li>
-      <li>No human reviews each page individually before it publishes, though an automated content-quality check runs before every deploy and blocks publishing if a page falls below the minimum-content threshold. That check verifies length, not accuracy — errors of substance can still appear. When reported, they are corrected within 24 hours.</li>
+      <li>No human reviews each page before it publishes. Errors can and do appear. When they are reported, they are corrected within 24 hours.</li>
     </ul>
     <p>If you find an error, please <a href="https://github.com/aiopentec/opensource-alternative-finder/issues" target="_blank" rel="noopener">open a GitHub issue</a> or email <a href="mailto:openaltshub@gmail.com">openaltshub@gmail.com</a>.</p>
   </div>
@@ -2582,6 +2585,7 @@ def ping_indexnow(all_comparisons: List[Dict]):
 
 
 def build_quiz_page(site_dir: str):
+    import shutil
     quiz_dir = Path(site_dir) / 'quiz'
     quiz_dir.mkdir(exist_ok=True)
     src = Path(__file__).parent.parent / 'quiz.html'
@@ -3274,33 +3278,6 @@ def build_blog(site_dir: str, all_comparisons: List[Dict], updated: str):
     today_fmt = datetime.utcnow().strftime('%B %d, %Y')
     year      = datetime.utcnow().strftime('%Y')
 
-    # ── Per-post publish/modified date tracking ──────────────────────────
-    # datePublished and dateModified should reflect when a post's content
-    # actually first appeared / last changed, not today's date on every
-    # rebuild. State persists in data/cache/, which the pipeline already
-    # commits back to the repo.
-    blog_state_path = Path('data/cache/blog_state.json')
-    if blog_state_path.exists():
-        with open(blog_state_path) as f:
-            blog_state = json.load(f)
-    else:
-        blog_state = {}
-
-    def get_blog_dates(slug: str, content_file: Path):
-        if content_file.exists():
-            content_hash = hashlib.sha256(content_file.read_bytes()).hexdigest()[:16]
-        else:
-            content_hash = 'no-file'
-        prev = blog_state.get(slug)
-        if prev:
-            published = prev.get('published', today)
-            modified = today if prev.get('hash') != content_hash else prev.get('modified', published)
-        else:
-            published = today
-            modified = today
-        blog_state[slug] = {'hash': content_hash, 'published': published, 'modified': modified}
-        return published, modified
-
     POST_TEMPLATES = [
         {'slug':'why-teams-are-switching-from-figma-to-penpot','comp_key':'figma-vs-penpot','title':f'Why Design Teams Are Switching from Figma to Penpot in {year}','hero':'The Adobe acquisition attempt changed everything. Here\'s why thousands of design teams are moving to Penpot — and what the migration actually looks like.','tags':['design','figma','penpot','open-source'],'read_time':'5 min read'},
         {'slug':'true-cost-of-slack-for-growing-teams','comp_key':'slack-vs-mattermost','title':f'The True Cost of Slack for Growing Teams in {year} (And What to Do About It)','hero':'Slack\'s per-seat pricing sounds reasonable at 5 people. At 50 it\'s a different story. Here\'s the real maths — and a free alternative that\'s good enough for most teams.','tags':['communication','slack','mattermost','saas-costs'],'read_time':'4 min read'},
@@ -3314,11 +3291,6 @@ def build_blog(site_dir: str, all_comparisons: List[Dict], updated: str):
 
     comp_by_slug = {c.get('slug',''): c for c in all_comparisons}
     posts_built  = []
-
-    def _save_blog_state():
-        blog_state_path.parent.mkdir(parents=True, exist_ok=True)
-        with open(blog_state_path, 'w') as f:
-            json.dump(blog_state, f, indent=2)
 
     for tmpl in POST_TEMPLATES:
         post_dir = blog_dir / tmpl['slug']
@@ -3337,7 +3309,6 @@ def build_blog(site_dir: str, all_comparisons: List[Dict], updated: str):
 
         repo_root = Path.cwd()
         content_file = repo_root / 'blog_content' / f"{tmpl['slug']}.md"
-        post_published, post_modified = get_blog_dates(tmpl['slug'], content_file)
         body_sections = ''
         if content_file.exists():
             raw_md = content_file.read_text(encoding='utf-8')
@@ -3421,7 +3392,7 @@ def build_blog(site_dir: str, all_comparisons: List[Dict], updated: str):
   <meta property="og:description" content="{seo_desc}">
   <meta property="og:url" content="{canonical}">
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"Article","headline":"{tmpl['title']}","description":"{seo_desc}","dateModified":"{post_modified}","datePublished":"{post_published}","author":{{"@type":"Organization","name":"Open Source Alternative Finder"}},"publisher":{{"@type":"Organization","name":"Open Source Alternative Finder","url":"{SITE_BASE_URL}"}}}}
+  {{"@context":"https://schema.org","@type":"Article","headline":"{tmpl['title']}","description":"{seo_desc}","dateModified":"{today}","datePublished":"{today}","author":{{"@type":"Organization","name":"Open Source Alternative Finder"}},"publisher":{{"@type":"Organization","name":"Open Source Alternative Finder","url":"{SITE_BASE_URL}"}}}}
   </script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-FGB481RVVS"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','G-FGB481RVVS');</script>
@@ -3546,7 +3517,6 @@ def build_blog(site_dir: str, all_comparisons: List[Dict], updated: str):
     with open(blog_dir / 'index.html', 'w') as f:
         f.write(blog_index)
     logger.info(f"   📝 blog/ — {len(posts_built)} posts + index")
-    _save_blog_state()
     return posts_built
 
 
@@ -4529,34 +4499,6 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
     updated   = datetime.utcnow().strftime('%B %d, %Y')
     iso_date  = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
 
-    # ── Per-comparison freshness tracking ────────────────────────────────
-    # dateModified should only advance when a comparison's actual facts
-    # change, not on every pipeline run. State persists in data/cache/,
-    # which the pipeline already commits back to the repo.
-    freshness_state_path = Path('data/cache/freshness_state.json')
-    if freshness_state_path.exists():
-        with open(freshness_state_path) as f:
-            freshness_state = json.load(f)
-    else:
-        freshness_state = {}
-
-    def get_last_verified(comp: Dict) -> str:
-        slug = comp.get('slug', '')
-        fingerprint = '|'.join([
-            str(comp.get('proprietary_pricing', '')),
-            str(comp.get('oss_pricing', '')),
-            str(comp.get('oss_stars', '')),
-            str(comp.get('oss_website', '')),
-            str(comp.get('proprietary_website', '')),
-        ])
-        prev = freshness_state.get(slug)
-        if prev and prev.get('fingerprint') == fingerprint:
-            last_verified = prev.get('last_verified', iso_date)
-        else:
-            last_verified = iso_date
-        freshness_state[slug] = {'fingerprint': fingerprint, 'last_verified': last_verified}
-        return last_verified
-
     data_dir = Path(site_dir) / 'data'
     data_dir.mkdir(exist_ok=True)
     with open(data_dir / 'comparisons.json', 'w') as f:
@@ -4687,15 +4629,13 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
     </div>
   </div>"""
 
-        last_verified = get_last_verified(comp)
-
         page_html = COMPARISON_PAGE.format(
             title=comp['title'],
             seo_title=seo_title,
             seo_description=seo_desc,
             canonical_url=canonical,
             site_base_url=SITE_BASE_URL,
-            iso_date=last_verified,
+            iso_date=iso_date,
             category_slug=category,
             category_label=cat_label,
             category_icon=cat_icon,
@@ -4760,10 +4700,6 @@ def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
     </div>
   </div>"""
 
-    freshness_state_path.parent.mkdir(parents=True, exist_ok=True)
-    with open(freshness_state_path, 'w') as f:
-        json.dump(freshness_state, f, indent=2)
-
     # Category index pages
     for category in categories:
         cat_comps = [c for c in all_comparisons if c.get('category', 'general') == category]
@@ -4808,13 +4744,13 @@ Open Source Alternative Finder · Updated {updated} · <a href="../privacy/">Pri
         f.write(index_html)
 
     # Static files
-    favicon_src = Path(__file__).parent.parent / "assets" / "favicon.ico"
-    if favicon_src.exists():
-        shutil.copy(favicon_src, Path(site_dir) / 'favicon.ico')
+    with open(Path(site_dir) / 'favicon.ico', 'wb') as f:
+        f.write(b'')
     # Default social-share image (og:image / twitter:image). Used by the
     # homepage and comparison-page templates below; twitter:card was set to
     # summary_large_image sitewide but had no image to back it, so shares
     # were rendering blank.
+    import shutil
     og_default_src = Path(__file__).parent.parent / "assets" / "og-default.png"
     if og_default_src.exists():
         shutil.copy(og_default_src, Path(site_dir) / 'og-default.png')
@@ -4827,31 +4763,6 @@ Open Source Alternative Finder · Updated {updated} · <a href="../privacy/">Pri
         f.write("# CNAME is auto-generated by the pipeline. Do not edit manually.\n")
     with open(Path(site_dir) / 'robots.txt', 'w') as f:
         f.write(f"User-agent: *\nAllow: /\nSitemap: {SITE_BASE_URL}/sitemap.xml\n")
-    llms_txt = f"""# Open Source Alternative Finder
-
-> Comparison data for {len(all_comparisons)} proprietary SaaS tools against verified \
-open-source alternatives: pricing, self-hosting difficulty, migration steps, and licensing.
-
-Every comparison page includes a pricing table, a self-hosting difficulty rating, \
-step-by-step migration steps, and an FAQ. Structured data (schema.org Article, \
-SoftwareApplication, FAQPage, HowTo) is embedded on every page.
-
-## Data
-- Full dataset (JSON, all {len(all_comparisons)} comparisons): {SITE_BASE_URL}/data/comparisons.json
-- Pricing/adoption statistics: {SITE_BASE_URL}/stats/
-
-## Key pages
-- Home / full comparison index: {SITE_BASE_URL}/
-- About this project, methodology, and how content is generated: {SITE_BASE_URL}/about/
-- Categories: {', '.join(sorted(categories))}
-
-## Notes for automated systems
-Pricing figures are scraped from official sources and AI-summarized; they may lag \
-behind recent vendor changes. Always verify current pricing at the vendor's own site \
-before citing a specific number. Full pipeline source: https://github.com/aiopentec/opensource-alternative-finder
-"""
-    with open(Path(site_dir) / 'llms.txt', 'w') as f:
-        f.write(llms_txt)
     with open(Path(site_dir) / 'ads.txt', 'w') as f:
         f.write("google.com, pub-4633315697698743, DIRECT, f08c47fec0942fa0\n")
 
