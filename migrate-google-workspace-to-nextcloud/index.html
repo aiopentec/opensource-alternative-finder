@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Google Workspace to Nextcloud (September 07, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Google Workspace to Nextcloud (September 08, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Google Workspace to Nextcloud. Export your data, set up Nextcloud, and switch your team — save $6-$18/user/month.">
   <meta name="keywords" content="migrate Google Workspace to Nextcloud, Google Workspace to Nextcloud migration, how to switch from Google Workspace, Nextcloud migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-google-workspace-to-nextcloud/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Google Workspace to Nextcloud (September 07, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Google Workspace to Nextcloud (September 08, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Google Workspace to Nextcloud. Export your data, set up Nextcloud, and switch your team — save $6-$18/user/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-google-workspace-to-nextcloud/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,7 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export your data from Google Workspace in its standard export format, review Nextcloud import documentation, and plan a pilot period where both tools run in parallel."
+      "text": "Export existing user data from Google Workspace using Google Takeout or the Data Migration Service to generate standard MIME formats (EML for mail, ICS for calendars, and standard Microsoft/PDF formats for documents)."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Provision a production-grade Linux server, install Nextcloud via Docker or native packages, and connect it to your existing identity provider (LDAP/SAML)."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Import user accounts, calendars, and contacts using Nextcloud's built-in migration tools and CalDAV/CardDAV synchronization clients."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Upload file repositories using the Nextcloud desktop client or the `occ files:scan` command-line utility to index pre-loaded directory structures."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Decommission Google Workspace user licenses only after verifying that all shared permissions, file links, and synchronization cycles function as expected on the Nextcloud instance."
     }
   ]
 }
@@ -80,7 +96,7 @@
     <span class="hero-badge">💰 Save $6-$18/user/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     <span class="hero-badge">🖥️ Setup: Moderate (~1-2 hours)</span>
-    <span class="hero-badge">📅 September 07, 2026</span>
+    <span class="hero-badge">📅 September 08, 2026</span>
   </div>
 </div>
 <div class="content">
