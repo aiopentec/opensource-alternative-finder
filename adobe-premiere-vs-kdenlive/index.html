@@ -35,7 +35,7 @@
     "headline": "Adobe Premiere Pro vs Kdenlive",
     "description": "Is Kdenlive a good free alternative to Adobe Premiere Pro? Detailed comparison of pricing ($20.99-$54.99/month), features, self-hosting difficulty, and migration guide. Save money by switching to open source.",
     "image": "https://osalfinder.com/og-default.png",
-    "dateModified": "2026-09-09T11:10:38Z",
+    "dateModified": "2026-09-09T11:33:25Z",
     "author": {
       "@type": "Organization",
       "name": "Open Source Alternative Finder",
@@ -535,7 +535,8 @@ No official paid enterprise support tier or SLA exists for Kdenlive. Users rely 
 </button>
 <script>
 (function() {
-  const saved = localStorage.getItem('theme');
+  let saved = null;
+  try { saved = localStorage.getItem('theme'); } catch (e) { /* localStorage unavailable (e.g. restricted browsing) — default to light */ }
   if (saved) { document.documentElement.setAttribute('data-theme', saved); }
   if (saved === 'dark') { const el = document.getElementById('dark-icon'); if (el) el.textContent = '☀️'; }
 })();
@@ -543,7 +544,7 @@ function toggleDark() {
   const html = document.documentElement;
   const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   html.setAttribute('data-theme', next);
-  localStorage.setItem('theme', next);
+  try { localStorage.setItem('theme', next); } catch (e) { /* can't persist — toggle still works for this page view */ }
   document.getElementById('dark-icon').textContent = next === 'dark' ? '☀️' : '🌙';
 }
 </script>

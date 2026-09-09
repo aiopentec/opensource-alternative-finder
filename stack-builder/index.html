@@ -215,7 +215,8 @@ const TOOLS = [
 
 // ── Dark mode (shared preference) ────────────────────────
 (function(){
-  const s = localStorage.getItem('theme');
+  let s = null;
+  try { s = localStorage.getItem('theme'); } catch (e) { /* localStorage unavailable (e.g. restricted browsing) — default to light */ }
   if (s) { document.documentElement.setAttribute('data-theme', s); }
   if (s === 'dark') { const e = document.getElementById('dark-icon'); if (e) e.textContent = '☀️'; }
 })();
@@ -223,7 +224,7 @@ function toggleDark() {
   const h = document.documentElement;
   const n = h.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   h.setAttribute('data-theme', n);
-  localStorage.setItem('theme', n);
+  try { localStorage.setItem('theme', n); } catch (e) { /* can't persist — toggle still works for this page view */ }
   document.getElementById('dark-icon').textContent = n === 'dark' ? '☀️' : '🌙';
 }
 

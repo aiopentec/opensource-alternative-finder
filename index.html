@@ -96,7 +96,7 @@
     .search-bar-inner { max-width: 1200px; margin: 0 auto; display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
     .search-input { flex: 1; padding: 0.55rem 1rem; border: 2px solid var(--border); border-radius: 8px; font-size: 0.9rem; min-width: 200px; }
     .search-input:focus { outline: none; border-color: var(--blue); }
-    .filter-btn { padding: 0.4rem 1rem; border-radius: 20px; border: 2px solid var(--border); background: #fff; cursor: pointer; font-size: 0.82rem; font-weight: 600; color: var(--text-muted); transition: all 0.15s; }
+    .filter-btn { padding: 0.4rem 1rem; border-radius: 20px; border: 2px solid var(--border); background: #fff; cursor: pointer; font-size: 0.82rem; font-weight: 600; color: var(--text-muted); transition: all 0.15s; text-decoration: none; display: inline-block; }
     .filter-btn:hover, .filter-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
     .filter-label { font-size: 0.82rem; font-weight: 700; color: var(--text-muted); white-space: nowrap; }
     .grid { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
@@ -178,13 +178,13 @@
     <input class="search-input" type="search" placeholder="🔎  Search tools... (e.g. Slack, Notion, Figma)" oninput="handleSearch(this.value)" aria-label="Search comparisons">
     <span class="filter-label">Filter:</span>
     <button class="filter-btn active" onclick="filterCards('all', this)">All</button>
-    <button class="filter-btn" onclick="filterCards('communication', this)">💬 Communication (8)</button>
-<button class="filter-btn" onclick="filterCards('design', this)">🎨 Design (14)</button>
-<button class="filter-btn" onclick="filterCards('developer-tools', this)">⚙️ Developer Tools (6)</button>
-<button class="filter-btn" onclick="filterCards('file-storage', this)">☁️ File Storage (2)</button>
-<button class="filter-btn" onclick="filterCards('productivity', this)">📝 Productivity (27)</button>
-<button class="filter-btn" onclick="filterCards('project-management', this)">📋 Project Management (5)</button>
-<button class="filter-btn" onclick="filterCards('video-conferencing', this)">🎥 Video Conferencing (1)</button>
+    <a href="communication/" class="filter-btn">💬 Communication (8)</a>
+<a href="design/" class="filter-btn">🎨 Design (14)</a>
+<a href="developer-tools/" class="filter-btn">⚙️ Developer Tools (6)</a>
+<a href="file-storage/" class="filter-btn">☁️ File Storage (2)</a>
+<a href="productivity/" class="filter-btn">📝 Productivity (27)</a>
+<a href="project-management/" class="filter-btn">📋 Project Management (5)</a>
+<a href="video-conferencing/" class="filter-btn">🎥 Video Conferencing (1)</a>
   </div>
 </div>
 
@@ -1940,7 +1940,8 @@ function applyFilters(query) {
 
 // ── Dark mode ──────────────────────────────────────────────────────────
 (function() {
-  const saved = localStorage.getItem('theme');
+  let saved = null;
+  try { saved = localStorage.getItem('theme'); } catch (e) { /* localStorage unavailable (e.g. restricted browsing) — default to light */ }
   if (saved) document.documentElement.setAttribute('data-theme', saved);
   if (saved === 'dark') { const el = document.getElementById('dark-icon'); if (el) el.textContent = '☀️'; }
 })();
@@ -1948,7 +1949,7 @@ function toggleDark() {
   const html = document.documentElement;
   const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   html.setAttribute('data-theme', next);
-  localStorage.setItem('theme', next);
+  try { localStorage.setItem('theme', next); } catch (e) { /* can't persist — toggle still works for this page view */ }
   document.getElementById('dark-icon').textContent = next === 'dark' ? '☀️' : '🌙';
 }
 </script>

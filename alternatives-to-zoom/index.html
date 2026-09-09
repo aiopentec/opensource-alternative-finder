@@ -155,7 +155,7 @@
 </footer>
 <button class="dark-toggle" onclick="toggleDark()" title="Toggle dark mode"><span id="dark-icon">🌙</span> Dark</button>
 <script>
-(function(){const s=localStorage.getItem('theme');if(s){document.documentElement.setAttribute('data-theme',s);if(s==='dark'){const e=document.getElementById('dark-icon');if(e)e.textContent='☀️';}}})();
-function toggleDark(){const h=document.documentElement;const n=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',n);localStorage.setItem('theme',n);document.getElementById('dark-icon').textContent=n==='dark'?'☀️':'🌙';}
+(function(){let s=null;try{s=localStorage.getItem('theme');}catch(e){}if(s){document.documentElement.setAttribute('data-theme',s);if(s==='dark'){const e=document.getElementById('dark-icon');if(e)e.textContent='☀️';}}})();
+function toggleDark(){const h=document.documentElement;const n=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',n);try{localStorage.setItem('theme',n);}catch(e){}document.getElementById('dark-icon').textContent=n==='dark'?'☀️':'🌙';}
 </script>
 </body></html>
