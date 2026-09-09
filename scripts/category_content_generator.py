@@ -243,6 +243,7 @@ def generate_for_category(category, tool_pairs, mock=False):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--slugs", default=None, help="Comma-separated list of specific category slugs to (re)generate")
+    ap.add_argument("--limit", type=int, default=None, help="Only process this many categories (unset/0 = all remaining)")
     ap.add_argument("--force", action="store_true", help="Regenerate even if already cached")
     ap.add_argument("--mock", action="store_true", help="Offline dry run — no API calls, writes placeholder content")
     ap.add_argument("--sleep", type=float, default=8.0, help="Seconds to sleep between API calls")
@@ -264,6 +265,9 @@ def main():
     if not todo:
         logger.info("Nothing to do — all categories already cached. Use --force to regenerate.")
         return
+
+    if args.limit and args.limit > 0:
+        todo = todo[:args.limit]
 
     logger.info(f"Generating expanded content for {len(todo)} categor{'y' if len(todo)==1 else 'ies'}{' [MOCK MODE]' if args.mock else ''}")
 
