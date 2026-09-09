@@ -92,13 +92,21 @@ def audit(site_dir: str, threshold: int, pattern: str = "migrate-*", dirs: str =
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dir", default="site", help="Site output folder (default: site)")
-    ap.add_argument("--threshold", type=int, default=200, help="Thin-content word threshold (default: 200)")
-    ap.add_argument("--csv", default=None, help="Optional path to write a CSV report")
+    ap.add_argument("--threshold", type=int, default=200, help="Thin-content word threshold for --pattern/--dirs pages (default: 200)")
+    ap.add_argument("--csv", default=None, help="Optional path to write a combined CSV report")
     ap.add_argument("--pattern", default="migrate-*", help="Glob pattern for page directories under --dir (default: migrate-*)")
     ap.add_argument("--dirs", default=None, help="Comma-separated explicit directory names instead of --pattern (e.g. for category pages, which don't share a common prefix)")
+    ap.add_argument("--comparison-threshold", type=int, default=None, help="If set, additionally audit comparison pages (--comparison-pattern) at this word threshold, combined into the same report")
+    ap.add_argument("--comparison-pattern", default="*-vs-*", help="Glob pattern for comparison page directories (default: *-vs-*)")
     args = ap.parse_args()
 
     results = audit(args.dir, args.threshold, pattern=args.pattern, dirs=args.dirs)
+
+    if args.comparison_threshold is not None:
+        comparison_results = audit(args.dir, args.comparison_threshold, pattern=args.comparison_pattern)
+        results = results + comparison_results
+
+    results.sort(key=lambda r: r["word_count"])
 
     thin = [r for r in results if r["thin"]]
     ok = [r for r in results if not r["thin"]]
@@ -113,7 +121,10 @@ def main():
 
     print("-" * 65)
     print(f"Total pages:   {len(results)}")
-    print(f"Thin (< {args.threshold}): {len(thin)}")
+    if args.comparison_threshold is not None:
+        print(f"Thin (migrate < {args.threshold}, comparison < {args.comparison_threshold}): {len(thin)}")
+    else:
+        print(f"Thin (< {args.threshold}): {len(thin)}")
     print(f"OK:            {len(ok)}")
     print(f"Median words:  {median}")
 
