@@ -870,7 +870,8 @@ COMPARISON_PAGE = """<!DOCTYPE html>
 </button>
 <script>
 (function() {{
-  const saved = localStorage.getItem('theme');
+  let saved = null;
+  try {{ saved = localStorage.getItem('theme'); }} catch (e) {{ /* localStorage unavailable (e.g. restricted browsing) — default to light */ }}
   if (saved) {{ document.documentElement.setAttribute('data-theme', saved); }}
   if (saved === 'dark') {{ const el = document.getElementById('dark-icon'); if (el) el.textContent = '☀️'; }}
 }})();
@@ -878,7 +879,7 @@ function toggleDark() {{
   const html = document.documentElement;
   const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   html.setAttribute('data-theme', next);
-  localStorage.setItem('theme', next);
+  try {{ localStorage.setItem('theme', next); }} catch (e) {{ /* can't persist — toggle still works for this page view */ }}
   document.getElementById('dark-icon').textContent = next === 'dark' ? '☀️' : '🌙';
 }}
 </script>
@@ -979,7 +980,7 @@ INDEX_PAGE = """<!DOCTYPE html>
     .search-bar-inner {{ max-width: 1200px; margin: 0 auto; display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }}
     .search-input {{ flex: 1; padding: 0.55rem 1rem; border: 2px solid var(--border); border-radius: 8px; font-size: 0.9rem; min-width: 200px; }}
     .search-input:focus {{ outline: none; border-color: var(--blue); }}
-    .filter-btn {{ padding: 0.4rem 1rem; border-radius: 20px; border: 2px solid var(--border); background: #fff; cursor: pointer; font-size: 0.82rem; font-weight: 600; color: var(--text-muted); transition: all 0.15s; }}
+    .filter-btn {{ padding: 0.4rem 1rem; border-radius: 20px; border: 2px solid var(--border); background: #fff; cursor: pointer; font-size: 0.82rem; font-weight: 600; color: var(--text-muted); transition: all 0.15s; text-decoration: none; display: inline-block; }}
     .filter-btn:hover, .filter-btn.active {{ background: var(--blue); color: #fff; border-color: var(--blue); }}
     .filter-label {{ font-size: 0.82rem; font-weight: 700; color: var(--text-muted); white-space: nowrap; }}
     .grid {{ max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }}
@@ -1192,7 +1193,8 @@ function applyFilters(query) {{
 
 // ── Dark mode ──────────────────────────────────────────────────────────
 (function() {{
-  const saved = localStorage.getItem('theme');
+  let saved = null;
+  try {{ saved = localStorage.getItem('theme'); }} catch (e) {{ /* localStorage unavailable (e.g. restricted browsing) — default to light */ }}
   if (saved) document.documentElement.setAttribute('data-theme', saved);
   if (saved === 'dark') {{ const el = document.getElementById('dark-icon'); if (el) el.textContent = '☀️'; }}
 }})();
@@ -1200,7 +1202,7 @@ function toggleDark() {{
   const html = document.documentElement;
   const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   html.setAttribute('data-theme', next);
-  localStorage.setItem('theme', next);
+  try {{ localStorage.setItem('theme', next); }} catch (e) {{ /* can't persist — toggle still works for this page view */ }}
   document.getElementById('dark-icon').textContent = next === 'dark' ? '☀️' : '🌙';
 }}
 </script>
@@ -3773,8 +3775,8 @@ def build_alternatives_pages(site_dir: str, all_comparisons: List[Dict], updated
 </footer>
 <button class="dark-toggle" onclick="toggleDark()" title="Toggle dark mode"><span id="dark-icon">🌙</span> Dark</button>
 <script>
-(function(){{const s=localStorage.getItem('theme');if(s){{document.documentElement.setAttribute('data-theme',s);if(s==='dark'){{const e=document.getElementById('dark-icon');if(e)e.textContent='☀️';}}}}}})();
-function toggleDark(){{const h=document.documentElement;const n=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',n);localStorage.setItem('theme',n);document.getElementById('dark-icon').textContent=n==='dark'?'☀️':'🌙';}}
+(function(){{let s=null;try{{s=localStorage.getItem('theme');}}catch(e){{}}if(s){{document.documentElement.setAttribute('data-theme',s);if(s==='dark'){{const e=document.getElementById('dark-icon');if(e)e.textContent='☀️';}}}}}})();
+function toggleDark(){{const h=document.documentElement;const n=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',n);try{{localStorage.setItem('theme',n);}}catch(e){{}}document.getElementById('dark-icon').textContent=n==='dark'?'☀️':'🌙';}}
 </script>
 </body></html>"""
 
@@ -4144,8 +4146,8 @@ tools.<span class="c-green">forEach</span>(slug => {{
   <span id="dark-icon">🌙</span> Dark
 </button>
 <script>
-(function(){{const s=localStorage.getItem('theme');if(s){{document.documentElement.setAttribute('data-theme',s);if(s==='dark'){{const e=document.getElementById('dark-icon');if(e)e.textContent='☀️';}}}}  }})();
-function toggleDark(){{const h=document.documentElement;const n=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',n);localStorage.setItem('theme',n);document.getElementById('dark-icon').textContent=n==='dark'?'☀️':'🌙';}}
+(function(){{let s=null;try{{s=localStorage.getItem('theme');}}catch(e){{}}if(s){{document.documentElement.setAttribute('data-theme',s);if(s==='dark'){{const e=document.getElementById('dark-icon');if(e)e.textContent='☀️';}}}}  }})();
+function toggleDark(){{const h=document.documentElement;const n=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',n);try{{localStorage.setItem('theme',n);}}catch(e){{}}document.getElementById('dark-icon').textContent=n==='dark'?'☀️':'🌙';}}
 </script>
 </body>
 </html>"""
@@ -4355,7 +4357,8 @@ def build_stack_builder_page(site_dir: str, all_comparisons: List[Dict], updated
 
 // ── Dark mode (shared preference) ────────────────────────
 (function(){{
-  const s = localStorage.getItem('theme');
+  let s = null;
+  try {{ s = localStorage.getItem('theme'); }} catch (e) {{ /* localStorage unavailable (e.g. restricted browsing) — default to light */ }}
   if (s) {{ document.documentElement.setAttribute('data-theme', s); }}
   if (s === 'dark') {{ const e = document.getElementById('dark-icon'); if (e) e.textContent = '☀️'; }}
 }})();
@@ -4363,7 +4366,7 @@ function toggleDark() {{
   const h = document.documentElement;
   const n = h.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   h.setAttribute('data-theme', n);
-  localStorage.setItem('theme', n);
+  try {{ localStorage.setItem('theme', n); }} catch (e) {{ /* can't persist — toggle still works for this page view */ }}
   document.getElementById('dark-icon').textContent = n === 'dark' ? '☀️' : '🌙';
 }}
 
@@ -4841,7 +4844,7 @@ footer{{margin-top:3rem;color:var(--text-muted);font-size:0.85rem;border-top:1px
             f.write(cat_page)
 
     filter_buttons = '\n'.join(
-        f'<button class="filter-btn" onclick="filterCards(\'{cat}\', this)">{CATEGORY_ICONS.get(cat,"🔧")} {cat.replace("-"," ").title()} ({category_page_counts.get(cat, 0)})</button>'
+        f'<a href="{cat}/" class="filter-btn" onclick="filterCards(\'{cat}\', this); return false;">{CATEGORY_ICONS.get(cat,"🔧")} {cat.replace("-"," ").title()} ({category_page_counts.get(cat, 0)})</a>'
         for cat in categories
     )
 
