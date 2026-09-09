@@ -1,0 +1,100 @@
+name: Expand Category Page Content
+
+# Manual-trigger only. There are only 7 categories, so --limit matters far
+# less here than on the migrate-page version of this workflow — but it's
+# kept for consistency, and it's a cheap way to test on 1-2 categories
+# before running all 7. Safe to re-run — categories already in
+# data/cache/category_content.json are skipped unless you check "force".
+#
+# To regenerate one or a few specific categories (e.g. fixing a typo),
+# fill in "slugs" as a comma-separated list of category slugs (e.g.
+# "communication,design") and check "force" — this targets only those
+# categories regardless of what "limit" says.
+#
+# The commit step runs even if generation partially fails or times out
+# (if: always()), so whatever succeeded before a failure still gets saved
+# instead of being lost.
+
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Only process this many categories (blank or 0 = all remaining)"
+        required: false
+        default: ""
+      force:
+        description: "Regenerate even categories that already have cached content"
+        required: false
+        default: false
+        type: boolean
+      slugs:
+        description: "Comma-separated slugs to target specifically (e.g. communication,design) — leave blank to process normally"
+        required: false
+        default: ""
+
+jobs:
+  expand:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -q -r requirements.txt
+
+      - name: Generate expanded content
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          ARGS=""
+          if [ -n "${{ inputs.slugs }}" ]; then
+            ARGS="$ARGS --slugs ${{ inputs.slugs }}"
+          elif [ -n "${{ inputs.limit }}" ] && [ "${{ inputs.limit }}" != "0" ]; then
+            ARGS="$ARGS --limit ${{ inputs.limit }}"
+          fi
+          if [ "${{ inputs.force }}" = "true" ]; then
+            ARGS="$ARGS --force"
+          fi
+          python3 scripts/category_content_generator.py $ARGS
+
+      - name: Rebuild site locally (for audit only — not deployed from here)
+        if: always()
+        env:
+          SITE_BASE_URL: https://osalfinder.com
+        run: |
+          mkdir -p .cache/publish
+          cp data/cache/comparisons_*.json .cache/publish/ 2>/dev/null || true
+          python3 scripts/publish_github_pages.py
+
+      - name: Audit category page word counts
+        if: always()
+        run: |
+          python3 scripts/thin_content_audit.py --dir site \
+            --dirs communication,productivity,developer-tools,design,project-management,file-storage,video-conferencing \
+            --threshold 200 --csv data/category_audit_report.csv | tee category_audit_output.txt
+          {
+            echo "## Category Page Content Audit"
+            echo ""
+            echo '```'
+            cat category_audit_output.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Commit updated content cache and audit report
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/cache/category_content.json data/category_audit_report.csv
+          git diff --staged --quiet && echo "Nothing new to commit" || git commit -m "Expand category page content [skip ci]"
+          git push || echo "Nothing to push"
