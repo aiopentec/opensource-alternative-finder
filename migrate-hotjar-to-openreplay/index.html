@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export Hotjar recordings – use Hotjar’s “Export CSV” for session metadata and “Export JSON” for heatmap data (available in Business tier)."
+      "text": "Export Hotjar data – use Hotjar’s “Export CSV” feature for heatmaps and recordings metadata."
     },
     {
       "@type": "HowToStep",
-      "text": "Set up OpenReplay – deploy the Docker Compose stack or Helm chart on your Kubernetes cluster; configure PostgreSQL and ClickHouse."
+      "text": "Provision OpenReplay – spin up the Docker Compose stack or Helm chart on your preferred environment."
     },
     {
       "@type": "HowToStep",
-      "text": "Transform data – write a conversion script (Node.js or Python) that maps Hotjar JSON fields to OpenReplay’s `session_events` schema."
+      "text": "Configure storage – attach ClickHouse for recordings and PostgreSQL for metadata."
     },
     {
       "@type": "HowToStep",
-      "text": "Import into OpenReplay – use the `openreplay-cli import --format json` command to bulk‑load the transformed files."
+      "text": "Replace the script – remove the Hotjar snippet from your pages and insert the OpenReplay JavaScript SDK (`@openreplay/tracker`)."
     },
     {
       "@type": "HowToStep",
-      "text": "Validate & switch tracking – replace the Hotjar script tag with the OpenReplay SDK snippet, run a parallel test for 1 week, then retire Hotjar."
+      "text": "Validate – run a smoke test on a staging domain, compare session lengths, and ensure GDPR consent banners still trigger correctly."
     }
   ]
 }

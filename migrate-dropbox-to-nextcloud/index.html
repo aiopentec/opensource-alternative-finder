@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export Data: Export existing file structures and metadata from Dropbox using a direct WebDAV connection or by downloading bulk archives in ZIP format."
+      "text": "Export from Dropbox: Use Dropbox’s “Export” feature to download all files as a ZIP archive or enable the “Dropbox Team Export” to receive a .tar.gz bundle via the admin console."
     },
     {
       "@type": "HowToStep",
-      "text": "Provision Server: Set up a dedicated Linux server (Ubuntu or Debian recommended) with Docker or a native LAMP stack, ensuring adequate storage and SSL certificates."
+      "text": "Prepare Nextcloud Server: Install the latest Nextcloud version on your chosen Linux host, configure storage (e.g., S3, NFS) and enable the “External storage” app for bulk import."
     },
     {
       "@type": "HowToStep",
-      "text": "Install Nextcloud: Deploy the Nextcloud instance via Docker Compose or the official installation script, configuring your preferred database (PostgreSQL or MySQL)."
+      "text": "Import Data: In the Nextcloud web UI, go to *Settings → Administration → External storage* and select “Local” to point to the extracted folder, or use the `occ files:scan --all` CLI command to index the uploaded files."
     },
     {
       "@type": "HowToStep",
-      "text": "Import Files: Transfer exported files into the Nextcloud data directory or use the Nextcloud OCC command-line tool (`files:scan`) to index imported files directly into the database."
+      "text": "Migrate Users & Permissions: Export the user list from Dropbox (CSV) and import it via the “User Import” app or the `occ user:add` CLI script, then map group memberships manually."
     },
     {
       "@type": "HowToStep",
-      "text": "Client Rollout: Deploy the Nextcloud desktop and mobile synchronization clients to end-users and authenticate against your server instance."
+      "text": "Validate & Switch: Verify file integrity, adjust sharing links, and decommission Dropbox accounts once all users confirm access in Nextcloud."
     }
   ]
 }

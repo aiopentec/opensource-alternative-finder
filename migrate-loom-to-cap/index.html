@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export from Loom: Use Loom’s “Download All” feature to export videos as MP4 files and metadata as CSV."
+      "text": "Export recordings from Loom – use Loom’s “Download MP4” option or bulk export via the Loom API (JSON list of video URLs)."
     },
     {
       "@type": "HowToStep",
-      "text": "Set up Cap server: Deploy Cap via Docker Compose or Helm chart on your chosen infrastructure."
+      "text": "Prepare a storage bucket on your server (e.g., S3‑compatible or local filesystem) that Cap will use as its media repository."
     },
     {
       "@type": "HowToStep",
-      "text": "Import videos: Run Cap’s `cap-import` CLI, pointing it to the MP4 folder and the CSV metadata file."
+      "text": "Upload MP4 files to the bucket, preserving original filenames for traceability."
     },
     {
       "@type": "HowToStep",
-      "text": "Recreate permissions: Map Loom team members to Cap user accounts using the bulk‑import JSON endpoint."
+      "text": "Import into Cap – run Cap’s `cap-cli import --source /path/to/mp4 --metadata loom_export.json` to register videos in the database."
     },
     {
       "@type": "HowToStep",
-      "text": "Validate and cut over: Verify playback, comments, and access controls; then disable Loom sharing links and point users to the new Cap URLs."
+      "text": "Recreate sharing links – use Cap’s API to generate share URLs and optionally notify users via email or Slack webhook."
     }
   ]
 }

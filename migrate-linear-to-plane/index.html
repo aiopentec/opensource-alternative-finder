@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export your existing Linear issues, cycles, and project data using Linear's native JSON or CSV export feature in the workspace settings."
+      "text": "In Linear, navigate to Settings → Export and download the JSON export of all issues, epics, and cycles."
     },
     {
       "@type": "HowToStep",
-      "text": "Provision a production-ready Docker instance or Kubernetes cluster to host your target Plane deployment."
+      "text": "Set up a Plane instance (Docker compose or Kubernetes) and ensure the database is reachable."
     },
     {
       "@type": "HowToStep",
-      "text": "Use Plane's administrative import utility or API endpoints to map Linear's schema fields (states, priorities, cycles) to Plane's database structure."
+      "text": "Install Plane’s CLI (`pip install plane-cli`) and run `plane import --format json --file linear-export.json`."
     },
     {
       "@type": "HowToStep",
-      "text": "Verify migrated issues, user assignments, and attachments within Plane to ensure data integrity."
+      "text": "Verify imported projects, re‑assign users, and map Linear’s custom states to Plane’s status columns."
     },
     {
       "@type": "HowToStep",
-      "text": "Cut over your engineering team by updating webhook integrations in GitHub/GitLab and revoking Linear access."
+      "text": "Deactivate Linear accounts and point team members to the new Plane URL."
     }
   ]
 }

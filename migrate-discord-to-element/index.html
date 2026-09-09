@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export Discord data – Use Discord’s built‑in “Export Data” feature to download a JSON archive of messages, channels, and user info."
+      "text": "Export Discord data – Use Discord’s GDPR data request to download a JSON archive of messages, channels, and user info."
     },
     {
       "@type": "HowToStep",
-      "text": "Set up a Matrix homeserver – Deploy Synapse (or another Matrix server) on a VM or container, configure TLS, and create an admin account."
+      "text": "Prepare Element server – Deploy a Synapse instance (Docker or native) and enable the `matrix-org/matrix-archiver` import tool."
     },
     {
       "@type": "HowToStep",
-      "text": "Convert JSON to Matrix format – Run the open‑source `discord2matrix` script (available on GitHub) to transform Discord JSON into Matrix Event JSON."
+      "text": "Convert format – Run the `matrix-archiver` script to transform Discord JSON into Matrix Event JSON."
     },
     {
       "@type": "HowToStep",
-      "text": "Import into Element – Use Synapse’s `admin_api` endpoint (`/rooms/{room_id}/messages`) or the `matrix-archive-import` tool to ingest the converted events."
+      "text": "Import into Element – Use Synapse’s `importer` (`./manage.py import_rooms`) to load the converted data into your homeserver."
     },
     {
       "@type": "HowToStep",
-      "text": "Invite users and decommission Discord – Send invitation links to your team, train them on Element’s UI, and disable the Discord workspace once adoption is confirmed."
+      "text": "Invite users & set up bridges – Create Element accounts for all Discord members, send invitation links, and configure any needed bridges (e.g., Slack ↔ Matrix) to preserve workflow continuity."
     }
   ]
 }

@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export from Slack: In the Slack admin console, generate a workspace export (JSON zip) that includes messages, files, and channel metadata."
+      "text": "Export Slack data – In Slack admin settings, generate a JSON export of all channels, messages, and files."
     },
     {
       "@type": "HowToStep",
-      "text": "Set up a Matrix homeserver: Deploy Synapse (or another Matrix server) on your preferred infrastructure; configure TLS and user authentication (e.g., LDAP or SSO)."
+      "text": "Set up a Matrix homeserver – Deploy Synapse (or Dendrite) on your chosen infrastructure, configure TLS and domain."
     },
     {
       "@type": "HowToStep",
-      "text": "Map Slack users to Matrix IDs: Use a CSV mapping file to associate each Slack email with a Matrix `@user:yourdomain.com` account."
+      "text": "Install the Element client – Provide users with the web, desktop, or mobile app pointing to your homeserver."
     },
     {
       "@type": "HowToStep",
-      "text": "Import data: Run the `matrix-synapse-import` tool (or the Element “Import from Slack” script) to ingest the JSON export into the homeserver, preserving channel structure as Matrix rooms."
+      "text": "Import Slack JSON – Use the `matrix-synapse-import` tool (or community script) to ingest channels and messages into Synapse."
     },
     {
       "@type": "HowToStep",
-      "text": "Onboard and train: Invite users to the new Element instance, provide onboarding docs, and gradually decommission Slack channels after verification."
+      "text": "Configure bridges – Add Matrix‑Slack, Matrix‑GitHub, or other bridges to preserve workflow integrations, then decommission Slack access."
     }
   ]
 }

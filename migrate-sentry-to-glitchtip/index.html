@@ -24,23 +24,19 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Keep your existing Sentry SDKs installed in your application codebase, as GlitchTip uses the exact same client protocol."
+      "text": "Export existing alert rules and project configurations from Sentry where applicable, noting that direct schema migration tools are limited due to differing underlying databases."
     },
     {
       "@type": "HowToStep",
-      "text": "Deploy GlitchTip to your internal infrastructure using Docker and configure your database and environment variables."
+      "text": "Deploy GlitchTip using its official Docker Compose configuration and provision a dedicated PostgreSQL database."
     },
     {
       "@type": "HowToStep",
-      "text": "Update your application's `DSN` environment variable to point to your new GlitchTip instance URL instead of Sentry."
+      "text": "Update your application error tracking initialization code by replacing your Sentry DSN with your new GlitchTip DSN, keeping the existing Sentry SDKs since GlitchTip uses a compatible ingestion protocol."
     },
     {
       "@type": "HowToStep",
-      "text": "Export your user accounts, team structures, and alert rules from Sentry (where supported) or recreate them manually in GlitchTip."
-    },
-    {
-      "@type": "HowToStep",
-      "text": "Verify incoming exceptions in the GlitchTip dashboard, test alert channels, and decommission your Sentry project once traffic is stable."
+      "text": "Test event capture by triggering a manual exception in your staging environment to verify that errors populate correctly in the GlitchTip dashboard."
     }
   ]
 }

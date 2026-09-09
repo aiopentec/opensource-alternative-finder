@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export environment variables and build settings from your Netlify dashboard into a secure local file."
+      "text": "Export site configuration – In Netlify, go to *Site settings → Build & deploy → Deploy contexts* and download the `netlify.toml` and environment variable list as JSON."
     },
     {
       "@type": "HowToStep",
-      "text": "Provision a clean Ubuntu VPS on your preferred cloud provider and install Coolify via the automated shell script."
+      "text": "Provision a Coolify server – Spin up a VPS (e.g., 2 vCPU, 4 GB RAM) and install Docker, then follow Coolify’s one‑click install script."
     },
     {
       "@type": "HowToStep",
-      "text": "Connect your Git repository (GitHub or GitLab) to Coolify and configure your build commands and output directories to match your Netlify configuration."
+      "text": "Create a new project – In Coolify’s UI, click *Add Project*, select *Git repository*, and paste the repository URL."
     },
     {
       "@type": "HowToStep",
-      "text": "Update your domain name DNS records (A and CNAME records) to point from Netlify's edge to your new Coolify server IP address."
+      "text": "Import build settings – Convert the `netlify.toml` into a Docker Compose file; Coolify can import this via the *Import Docker Compose* option."
     },
     {
       "@type": "HowToStep",
-      "text": "Verify the deployment, issue an SSL certificate via Coolify's built-in Let's Encrypt integration, and decommission your Netlify site."
+      "text": "Validate and switch DNS – Verify the deployment works, then update your domain’s DNS records to point to Coolify’s load balancer or IP address."
     }
   ]
 }

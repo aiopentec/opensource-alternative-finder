@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export repositories from GitHub using `git clone --mirror <repo>` or the GitHub Archive (ZIP) for each repo."
+      "text": "Export your GitHub repository data, issues, pull requests, and wiki contents using the GitHub API or migration tools."
     },
     {
       "@type": "HowToStep",
-      "text": "Export issues, pull requests, and wiki via the GitHub API to JSON (use `github-backup` or `gh export`)."
+      "text": "Prepare your target GitLab instance (cloud or self-hosted) and configure organization permissions and user access mapping."
     },
     {
       "@type": "HowToStep",
-      "text": "Create a GitLab project and import the repository using GitLab’s “Import project from GitHub” OAuth flow or the “Repository import” UI with the mirrored repo URL."
+      "text": "Use the native GitLab GitHub importer to import repositories, pull requests, and issue histories directly into your GitLab workspace."
     },
     {
       "@type": "HowToStep",
-      "text": "Import issues and pull requests using GitLab’s API (`POST /projects/:id/import/issues`) with the previously exported JSON."
+      "text": "Rewrite your GitHub Actions workflows (`.github/workflows`) into GitLab CI/CD pipelines (`.gitlab-ci.yml`)."
     },
     {
       "@type": "HowToStep",
-      "text": "Validate CI/CD pipelines by translating GitHub Actions workflows (`.github/workflows/*.yml`) to `.gitlab-ci.yml` and run a test pipeline in GitLab."
+      "text": "Update your local Git remotes from GitHub to GitLab and verify pipeline execution and webhook functionality."
     }
   ]
 }

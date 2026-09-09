@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export from Slack – In the Slack admin console, request a workspace export; Slack provides a ZIP file containing JSON files for channels, messages, and files."
+      "text": "Export from Slack: In the Slack admin console, request a workspace export; Slack provides a ZIP file containing JSON files for each channel."
     },
     {
       "@type": "HowToStep",
-      "text": "Prepare Zulip Server – Install the latest stable Zulip version on a Linux VM (Docker or native) and create an admin account."
+      "text": "Prepare Zulip server: Deploy a Zulip instance (Docker quick‑start or cloud tier) and ensure the `zulip-import` tool is installed."
     },
     {
       "@type": "HowToStep",
-      "text": "Convert Export – Use the `zulip-import` tool (`./manage.py import_slack <path-to-export.zip>`) which maps Slack JSON to Zulip’s data model."
+      "text": "Convert format: Use the `zulip-import` script to ingest the Slack JSON export; the tool maps channels to streams and threads to topics automatically."
     },
     {
       "@type": "HowToStep",
-      "text": "Validate – Verify that channels, threads, and file attachments appear correctly in Zulip; run a small pilot with a subset of users."
+      "text": "Validate data: Check that messages, files, and user accounts appear correctly; fix any permission issues."
     },
     {
       "@type": "HowToStep",
-      "text": "Switch Over – Update DNS or internal links, deactivate Slack access, and provide training on Zulip’s threading and notification settings."
+      "text": "Switch users: Update DNS or send invitation links, decommission the Slack workspace, and provide onboarding docs for the threaded UI."
     }
   ]
 }

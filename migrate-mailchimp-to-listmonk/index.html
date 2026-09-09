@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export from Mailchimp: In Mailchimp, navigate to *Audience → All contacts → Export Audience* and download the CSV file containing email, name, and merge fields."
+      "text": "Export from Mailchimp – In Mailchimp, navigate to *Audience → All contacts → Export Audience* and download the CSV file containing email, name, tags, and merge fields."
     },
     {
       "@type": "HowToStep",
-      "text": "Prepare Listmonk schema: Install Listmonk, run the migration script, and create a new audience (list) via the admin UI."
+      "text": "Prepare the CSV – Ensure column headers match Listmonk’s import schema (`email`, `name`, `attributes` as JSON). Remove any unsupported custom fields."
     },
     {
       "@type": "HowToStep",
-      "text": "Transform CSV (if needed): Ensure column headers match Listmonk’s required fields (`email`, `name`, `attributes`). Use a simple script (Python/pandas) to rename or drop columns."
+      "text": "Set up Listmonk – Deploy Listmonk via Docker (`docker run -d -p 9000:80 -v /data:/app/data listmonk/listmonk`). Configure your SMTP relay and database."
     },
     {
       "@type": "HowToStep",
-      "text": "Import into Listmonk: Use the Listmonk API endpoint `POST /api/subscribers` with the CSV payload or the built‑in CSV import tool in the admin dashboard."
+      "text": "Import contacts – Use Listmonk’s web UI or CLI: `listmonk import --file contacts.csv --list-id 1`. Verify the import count and resolve any errors."
     },
     {
       "@type": "HowToStep",
-      "text": "Validate & Test: Send a test campaign from Listmonk to a small segment to verify deliverability, link tracking, and unsubscribe handling before full rollout."
+      "text": "Recreate campaigns – Export Mailchimp campaign templates as HTML, import them into Listmonk’s template library, and map automation triggers using Listmonk’s webhook system."
     }
   ]
 }

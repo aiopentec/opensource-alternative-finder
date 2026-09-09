@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export Data from Salesforce: Use Salesforce’s Data Export service to download contacts, accounts, leads, and opportunities as CSV files."
+      "text": "Export existing accounts, contacts, opportunities, and custom objects from Salesforce into CSV format using the Salesforce Data Loader or reporting tools."
     },
     {
       "@type": "HowToStep",
-      "text": "Clean & Map Fields: Align Salesforce column names to Dolibarr’s import schema (e.g., `AccountName` → `company_name`)."
+      "text": "Set up a production-ready Dolibarr instance on a secure LAMP server and enable the required core modules (Third Parties, Proposals, Invoices)."
     },
     {
       "@type": "HowToStep",
-      "text": "Set Up Dolibarr Instance: Install Dolibarr on a Linux server, enable the “Companies/Contacts” and “Projects/Opportunities” modules."
+      "text": "Map Salesforce data fields to Dolibarr database schemas using the built-in Dolibarr Mass Import tool."
     },
     {
       "@type": "HowToStep",
-      "text": "Import CSV Files: Use Dolibarr’s built‑in “Import” tool (Administration → Import) for each entity, selecting the appropriate CSV and mapping file."
+      "text": "Import the mapped CSV files into Dolibarr in the correct relational order: Companies first, then Contacts, followed by Products and Open Invoices."
     },
     {
       "@type": "HowToStep",
-      "text": "Validate & Adjust: Run spot checks, fix any mismatches, and configure user permissions; then decommission the Salesforce subscription."
+      "text": "Validate imported data integrity, configure user permissions, and test notification triggers before cutting over operations."
     }
   ]
 }

@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Audit your existing codebase for OpenAI SDK imports and replace client initialization strings with the Ollama local endpoint URL (`http://localhost:11434`)."
+      "text": "Audit existing OpenAI API calls in your codebase to identify endpoints used for chat completions, embeddings, and structured outputs."
     },
     {
       "@type": "HowToStep",
-      "text": "Export your prompt templates and system instructions from your configuration files, noting that proprietary JSON schemas or function-calling implementations may require minor syntax adjustments for open-weights models."
+      "text": "Install Ollama locally or on a staging server, and pull your target open-weights model using `ollama pull [model-name]`."
     },
     {
       "@type": "HowToStep",
-      "text": "Download and install Ollama, then pull your target open-weights model using the CLI command corresponding to your desired model (e.g., `ollama pull llama3`)."
+      "text": "Update your application's API base URL configuration from `https://api.openai.com/v1` to your local Ollama endpoint (`http://localhost:11434/v1`)."
     },
     {
       "@type": "HowToStep",
-      "text": "Update your application environment variables to point to the local Ollama API port instead of the OpenAI API base URL."
+      "text": "Swap the OpenAI SDK client initialization or update your code to handle open-weights model responses, ensuring any proprietary OpenAI features like Assistants API are refactored."
     },
     {
       "@type": "HowToStep",
-      "text": "Run integration tests to validate output formatting, token limits, and latency under local execution conditions."
+      "text": "Benchmark latency, memory consumption, and output quality against your production requirements before cutting over production traffic."
     }
   ]
 }
