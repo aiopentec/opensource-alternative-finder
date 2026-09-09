@@ -4844,7 +4844,7 @@ footer{{margin-top:3rem;color:var(--text-muted);font-size:0.85rem;border-top:1px
             f.write(cat_page)
 
     filter_buttons = '\n'.join(
-        f'<a href="{cat}/" class="filter-btn" onclick="filterCards(\'{cat}\', this); return false;">{CATEGORY_ICONS.get(cat,"🔧")} {cat.replace("-"," ").title()} ({category_page_counts.get(cat, 0)})</a>'
+        f'<a href="{cat}/" class="filter-btn">{CATEGORY_ICONS.get(cat,"🔧")} {cat.replace("-"," ").title()} ({category_page_counts.get(cat, 0)})</a>'
         for cat in categories
     )
 
