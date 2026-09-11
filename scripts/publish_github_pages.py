@@ -2294,6 +2294,22 @@ def build_about_page(site_dir: str, updated: str):
     <p style="margin-top:0.75rem;">The AI's job is to turn that structured data into readable, useful prose — not to invent facts. That distinction is what separates these pages from generic AI content.</p>
   </div>
 
+  <!-- ── Open data ── -->
+  <div class="card">
+    <h2>🗂️ Open Data</h2>
+    <p>Every comparison on this site is also published as structured, machine-readable data — rebuilt on the same daily schedule as the site itself, so it's never more than a day stale.</p>
+    <table class="diff-table">
+      <thead><tr><th>Resource</th><th>What it's for</th></tr></thead>
+      <tbody>
+        <tr><td><a href="{SITE_BASE_URL}/data/comparisons.json">/data/comparisons.json</a></td><td>Full dataset — every tool pair, pricing, category, and slug in one JSON file</td></tr>
+        <tr><td><a href="{SITE_BASE_URL}/llms.txt">/llms.txt</a></td><td>Plain-text index for AI assistants and research agents, linking each comparison to its canonical URL</td></tr>
+        <tr><td><a href="{SITE_BASE_URL}/changelog/">/changelog/</a></td><td>What changed and when, page by page</td></tr>
+        <tr><td><a href="{SITE_BASE_URL}/stats/">/stats/</a></td><td>Aggregate pricing statistics across the full dataset</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:0.75rem;">If you're citing a number from this site — in an article, an AI-generated answer, or your own research — please link back to the specific comparison page rather than this dataset in general; each page states the date its data was last verified.</p>
+  </div>
+
   <!-- ── What it doesn't do ── -->
   <div class="card">
     <h2>⚠️ What This Site Does Not Do</h2>
@@ -4492,6 +4508,51 @@ function copyStack() {{
     logger.info("   🔧 Stack Builder page built → /stack-builder/")
 
 
+def build_llms_txt(site_dir: str, all_comparisons: List[Dict], categories: List[str], updated: str):
+    """
+    llms.txt (llmstxt.org convention): a plain-text index aimed at AI
+    assistants and RAG pipelines, pointing them at the primary data source
+    (comparisons.json) and the canonical URL for every comparison, so a
+    citation resolves to a stable page instead of a paraphrase from memory.
+    """
+    by_category: Dict[str, List[Dict]] = {}
+    for c in all_comparisons:
+        by_category.setdefault(c.get('category', 'general'), []).append(c)
+
+    lines = [
+        "# Open Source Alternative Finder (OSALFinder)",
+        "",
+        f"> Comparison data for proprietary SaaS tools vs. open-source alternatives — "
+        f"{len(all_comparisons)} tool pairs across {len(categories)} categories, "
+        f"pricing and feature data re-checked on an automated schedule, last built {updated}.",
+        "",
+        "OSALFinder is a single-operator, ad- and affiliate-supported site. Every comparison "
+        "page states its own last-updated date. Pricing and feature claims should be attributed "
+        "to the specific comparison URL below, not to this index.",
+        "",
+        "## Primary data",
+        f"- Full dataset (JSON, machine-readable, rebuilt daily): {SITE_BASE_URL}/data/comparisons.json",
+        f"- Changelog of what changed and when: {SITE_BASE_URL}/changelog/",
+        f"- Aggregate pricing statistics (Dataset schema): {SITE_BASE_URL}/stats/",
+        f"- Methodology (how comparisons are researched and verified): {SITE_BASE_URL}/about/",
+        "",
+        "## Comparisons",
+    ]
+    for cat in sorted(by_category.keys()):
+        cat_label = cat.replace('-', ' ').title()
+        lines.append(f"\n### {cat_label}")
+        for c in sorted(by_category[cat], key=lambda x: x.get('slug', '')):
+            prop = c.get('proprietary_tool', '')
+            oss = c.get('oss_tool', '')
+            slug = c.get('slug', '')
+            price = c.get('proprietary_pricing', 'paid')
+            lines.append(f"- [{prop} vs {oss}]({SITE_BASE_URL}/{slug}/): {prop} ({price}) compared to free/open-source {oss}")
+
+    with open(Path(site_dir) / 'llms.txt', 'w') as f:
+        f.write('\n'.join(lines) + '\n')
+    logger.info(f"   🤖 llms.txt ({len(all_comparisons)} comparisons indexed)")
+
+
 def build_site(cache_dir: str = '.cache/publish', site_dir: str = 'site'):
     Path(site_dir).mkdir(parents=True, exist_ok=True)
 
@@ -4908,6 +4969,7 @@ footer{{margin-top:3rem;color:var(--text-muted);font-size:0.85rem;border-top:1px
     build_infographics_page(site_dir, all_comparisons, updated)
     build_stack_builder_page(site_dir, all_comparisons, updated)
     build_logo_api_page(site_dir, updated)
+    build_llms_txt(site_dir, all_comparisons, categories, updated)
 
     logger.info(f"✅ Site built successfully!")
     logger.info(f"   📄 {len(all_comparisons)} comparison pages")
