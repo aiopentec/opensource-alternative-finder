@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Google Workspace to Nextcloud (September 13, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Google Workspace to Nextcloud (September 14, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Google Workspace to Nextcloud. Export your data, set up Nextcloud, and switch your team — save $6-$18/user/month.">
   <meta name="keywords" content="migrate Google Workspace to Nextcloud, Google Workspace to Nextcloud migration, how to switch from Google Workspace, Nextcloud migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-google-workspace-to-nextcloud/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Google Workspace to Nextcloud (September 13, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Google Workspace to Nextcloud (September 14, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Google Workspace to Nextcloud. Export your data, set up Nextcloud, and switch your team — save $6-$18/user/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-google-workspace-to-nextcloud/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export existing emails, calendars, and contacts from Google Workspace using Google Takeout or IMAP/CalDAV sync tools."
+      "text": "Export data from Google Workspace: Use Google Takeout or the Admin console to export Gmail (MBOX), Drive (ZIP/Folder), Calendar (ICS), and Contacts (CSV)."
     },
     {
       "@type": "HowToStep",
-      "text": "Download or export Google Docs, Sheets, and Slides into standard open formats (DOCX, XLSX, PPTX) or PDF."
+      "text": "Prepare the Nextcloud server: Install the latest Nextcloud LTS version, enable the Files, Calendar, Contacts, and Talk apps, and configure external storage if needed."
     },
     {
       "@type": "HowToStep",
-      "text": "Provision and secure a production-ready Linux server running Nextcloud with an external database (PostgreSQL/MySQL) and SSL certificates."
+      "text": "Import files: Use the Nextcloud Web UI or the `occ files:scan` CLI to ingest the Drive ZIP archives; the `files_external` app can mount Google Drive temporarily for direct copy."
     },
     {
       "@type": "HowToStep",
-      "text": "Import users, calendars, and contacts into Nextcloud using Nextcloud's command-line interface (OCC) or administration dashboard."
+      "text": "Migrate mail: Deploy the Nextcloud Mail app and import MBOX files via the IMAP sync tool (`imapsync`) to map Gmail accounts to Nextcloud mail accounts."
     },
     {
       "@type": "HowToStep",
-      "text": "Upload converted document files and shared folders into Nextcloud via the web interface or Nextcloud desktop client."
+      "text": "Sync calendars and contacts: Upload the exported ICS and CSV files through the Calendar and Contacts apps, respectively, or use the `nextcloud-caldav-sync` script for bulk imports. Verify permissions and run a pilot with a small user group before full rollout."
     }
   ]
 }
@@ -96,7 +96,7 @@
     <span class="hero-badge">💰 Save $6-$18/user/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     <span class="hero-badge">🖥️ Setup: Moderate (~1-2 hours)</span>
-    <span class="hero-badge">📅 September 13, 2026</span>
+    <span class="hero-badge">📅 September 14, 2026</span>
   </div>
 </div>
 <div class="content">

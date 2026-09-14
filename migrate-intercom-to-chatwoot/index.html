@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Intercom to Chatwoot (September 13, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Intercom to Chatwoot (September 14, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Intercom to Chatwoot. Export your data, set up Chatwoot, and switch your team — save $39-$139+/month.">
   <meta name="keywords" content="migrate Intercom to Chatwoot, Intercom to Chatwoot migration, how to switch from Intercom, Chatwoot migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-intercom-to-chatwoot/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Intercom to Chatwoot (September 13, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Intercom to Chatwoot (September 14, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Intercom to Chatwoot. Export your data, set up Chatwoot, and switch your team — save $39-$139+/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-intercom-to-chatwoot/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export data from Intercom: Use Intercom’s *Data Export* tool to download conversations, users, and tags as a ZIP containing CSV files."
+      "text": "Export Data from Intercom: Use Intercom’s Data Export API or the UI to download conversations, users, and tags in JSON or CSV format."
     },
     {
       "@type": "HowToStep",
-      "text": "Transform CSV to Chatwoot format: Map Intercom fields to Chatwoot’s `conversations.csv` schema (e.g., `user_id`, `message`, `created_at`). Simple Python scripts can automate this step."
+      "text": "Transform the Export: Map Intercom fields to Chatwoot’s schema (e.g., `user_id → contact_id`, `conversation → inbox_message`). A simple Python script can handle the conversion."
     },
     {
       "@type": "HowToStep",
-      "text": "Set up a Chatwoot instance: Deploy via Docker (`docker-compose up -d`) on a VPS or Kubernetes cluster, configure the database, and enable the required channels (e.g., WhatsApp)."
+      "text": "Set Up Chatwoot Server: Deploy Chatwoot via Docker Compose or Kubernetes, configure PostgreSQL, Redis, and enable HTTPS."
     },
     {
       "@type": "HowToStep",
-      "text": "Import using Chatwoot’s import API: POST the transformed CSV to `/api/v1/import/conversations` with an admin token. Verify that attachments are uploaded to the correct storage bucket."
+      "text": "Import into Chatwoot: Use Chatwoot’s CSV import tool (Settings → Import) or the `/api/v1/import` endpoint to ingest the transformed data."
     },
     {
       "@type": "HowToStep",
-      "text": "Test and go live: Run a parallel pilot, route a subset of traffic to Chatwoot, and monitor for missing data or UI issues before fully decommissioning Intercom."
+      "text": "Validate and Cut Over: Test a subset of conversations, update website snippets to point to the new Chatwoot widget, and de‑activate the Intercom integration."
     }
   ]
 }
@@ -96,7 +96,7 @@
     <span class="hero-badge">💰 Save $39-$139+/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     
-    <span class="hero-badge">📅 September 13, 2026</span>
+    <span class="hero-badge">📅 September 14, 2026</span>
   </div>
 </div>
 <div class="content">
