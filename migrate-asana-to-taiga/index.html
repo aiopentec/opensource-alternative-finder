@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Asana to Taiga (September 16, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Asana to Taiga (September 17, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Asana to Taiga. Export your data, set up Taiga, and switch your team — save Free / $10.99+/user/month.">
   <meta name="keywords" content="migrate Asana to Taiga, Asana to Taiga migration, how to switch from Asana, Taiga migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-asana-to-taiga/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Asana to Taiga (September 16, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Asana to Taiga (September 17, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Asana to Taiga. Export your data, set up Taiga, and switch your team — save Free / $10.99+/user/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-asana-to-taiga/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,19 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export project data from Asana in CSV or JSON format using Asana's native export tools or third-party API scripts."
+      "text": "Export from Asana: In Asana, navigate to *Export/Print* → *JSON* (or CSV for tasks) and download the project archive."
     },
     {
       "@type": "HowToStep",
-      "text": "Provision a production server and deploy Taiga using the official Taiga Docker setup guides."
+      "text": "Prepare Taiga instance: Deploy Taiga using Docker (`docker-compose up -d`) or on a Kubernetes cluster; ensure PostgreSQL is running."
     },
     {
       "@type": "HowToStep",
-      "text": "Use the community-maintained `taiga-import` scripts or write custom Python scripts to parse the Asana CSV export and map tasks, milestones, and users into the Taiga database via the Taiga REST API."
+      "text": "Transform data: Write a small script (Python/Node) to map Asana JSON fields to Taiga’s import schema (projects, user stories, tasks)."
     },
     {
       "@type": "HowToStep",
-      "text": "Verify imported user accounts, backlogs, and attachments inside Taiga before cutting off team access to Asana."
+      "text": "Import into Taiga: Use Taiga’s built‑in import endpoint (`/api/v1/import`) or the `taiga-importer` CLI tool to load the transformed JSON."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Validate & train: Verify that epics, sprints, and attachments appear correctly; run a short training session for users on Taiga’s board layout and workflow rules."
     }
   ]
 }
@@ -92,7 +96,7 @@
     <span class="hero-badge">💰 Save Free / $10.99+/user/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     <span class="hero-badge">🖥️ Setup: Moderate (~1-2 hours)</span>
-    <span class="hero-badge">📅 September 16, 2026</span>
+    <span class="hero-badge">📅 September 17, 2026</span>
   </div>
 </div>
 <div class="content">
