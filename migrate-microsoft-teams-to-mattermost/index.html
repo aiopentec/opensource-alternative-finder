@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Microsoft Teams to Mattermost (September 17, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Microsoft Teams to Mattermost (September 18, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Microsoft Teams to Mattermost. Export your data, set up Mattermost, and switch your team — save Free / $6-$22/user/month.">
   <meta name="keywords" content="migrate Microsoft Teams to Mattermost, Microsoft Teams to Mattermost migration, how to switch from Microsoft Teams, Mattermost migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-microsoft-teams-to-mattermost/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Microsoft Teams to Mattermost (September 17, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Microsoft Teams to Mattermost (September 18, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Microsoft Teams to Mattermost. Export your data, set up Mattermost, and switch your team — save Free / $6-$22/user/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-microsoft-teams-to-mattermost/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export Teams data – Use the Microsoft 365 Compliance Center to run a Content Search and export chat history as a JSON .zip file."
+      "text": "Export Teams data – Use the Microsoft Teams Export API to generate JSON files for chat messages and a CSV for channel metadata."
     },
     {
       "@type": "HowToStep",
-      "text": "Prepare Mattermost – Install the latest Mattermost Enterprise edition on your chosen infrastructure and enable the import plugin."
+      "text": "Prepare Mattermost instance – Install the latest Mattermost Enterprise (or open‑source) version on your chosen server and enable the Import/Export plugin."
     },
     {
       "@type": "HowToStep",
-      "text": "Convert format – Run the provided `mmctl import teams` utility to transform Teams JSON into Mattermost’s import schema."
+      "text": "Convert formats – Run the provided `teams2mm` conversion script (available on Mattermost GitHub) to transform Teams JSON/CSV into Mattermost’s import format."
     },
     {
       "@type": "HowToStep",
-      "text": "Import users and channels – Execute `mattermost import load` with the converted files; verify channel mappings and user IDs."
+      "text": "Import into Mattermost – In the System Console, navigate to *Data Management → Import* and upload the converted archive. Verify channel structures and user mappings."
     },
     {
       "@type": "HowToStep",
-      "text": "Validate and cut over – Test a pilot group, adjust permissions, then point all client devices to the new Mattermost URL and decommission Teams licenses."
+      "text": "Validate and cut over – Test messaging, file access, and integrations; then point users to the new Mattermost URL and decommission Teams licenses."
     }
   ]
 }
@@ -96,7 +96,7 @@
     <span class="hero-badge">💰 Save Free / $6-$22/user/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     <span class="hero-badge">🖥️ Setup: Easy (~30 mins)</span>
-    <span class="hero-badge">📅 September 17, 2026</span>
+    <span class="hero-badge">📅 September 18, 2026</span>
   </div>
 </div>
 <div class="content">
