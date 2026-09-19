@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Loom to Cap (September 18, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Loom to Cap (September 19, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Loom to Cap. Export your data, set up Cap, and switch your team — save Free / $12.50-$14.99/user/month.">
   <meta name="keywords" content="migrate Loom to Cap, Loom to Cap migration, how to switch from Loom, Cap migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-loom-to-cap/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Loom to Cap (September 18, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Loom to Cap (September 19, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Loom to Cap. Export your data, set up Cap, and switch your team — save Free / $12.50-$14.99/user/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-loom-to-cap/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export videos from Loom – Use Loom’s “Download all videos” feature to obtain a ZIP containing MP4 files and a CSV manifest (`loom_export.csv`)."
+      "text": "Export from Loom: In Loom’s dashboard, use the “Download all videos” feature to export each video as an MP4 file bundled in a ZIP archive."
     },
     {
       "@type": "HowToStep",
-      "text": "Prepare the Cap server – Install Cap via Docker Compose or your preferred package manager, configure storage (e.g., S3 or local volume), and enable the import API."
+      "text": "Prepare storage: Set up a file share or object bucket on the server that will host Cap (e.g., S3‑compatible storage)."
     },
     {
       "@type": "HowToStep",
-      "text": "Map metadata – Convert the Loom CSV to Cap’s import schema (`cap_import.json`) using a simple script (provided in Cap’s GitHub repo)."
+      "text": "Import to Cap: Run Cap’s `cap-import` CLI tool, pointing it to the directory of MP4 files; the tool creates corresponding records in the Cap database."
     },
     {
       "@type": "HowToStep",
-      "text": "Run the import tool – Execute `cap-cli import --source cap_import.json --videos ./zip_folder`."
+      "text": "Recreate metadata: Export Loom video titles and descriptions via the Loom API (JSON) and import them with `cap-metadata-sync`."
     },
     {
       "@type": "HowToStep",
-      "text": "Validate and update links – Verify that all videos play correctly in Cap and replace Loom URLs in documentation or internal portals with the new Cap URLs."
+      "text": "Update links: Replace Loom URLs in your documentation or internal portals with the new Cap URLs generated during import."
     }
   ]
 }
@@ -96,7 +96,7 @@
     <span class="hero-badge">💰 Save Free / $12.50-$14.99/user/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     
-    <span class="hero-badge">📅 September 18, 2026</span>
+    <span class="hero-badge">📅 September 19, 2026</span>
   </div>
 </div>
 <div class="content">
