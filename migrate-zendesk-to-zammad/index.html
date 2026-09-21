@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Zendesk to Zammad (September 20, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Zendesk to Zammad (September 21, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Zendesk to Zammad. Export your data, set up Zammad, and switch your team — save $19-$115/user/month.">
   <meta name="keywords" content="migrate Zendesk to Zammad, Zendesk to Zammad migration, how to switch from Zendesk, Zammad migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-zendesk-to-zammad/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Zendesk to Zammad (September 20, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Zendesk to Zammad (September 21, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Zendesk to Zammad. Export your data, set up Zammad, and switch your team — save $19-$115/user/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-zendesk-to-zammad/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export tickets from Zendesk – use Zendesk’s built‑in *Ticket Export* (CSV or JSON) from the Admin → Manage → Reports → Export section."
+      "text": "Export from Zendesk – Use Zendesk’s *Export* feature (Admin → Settings → Export) to download tickets, users, and organizations as a JSON file (or CSV for limited fields)."
     },
     {
       "@type": "HowToStep",
-      "text": "Prepare the data – map Zendesk fields (subject, description, status, requester, assignee, tags) to Zammad’s ticket schema; a simple Python script can convert CSV to the Zammad import format."
+      "text": "Prepare the data – Map Zendesk fields to Zammad’s schema (e.g., `requester_id` → `customer_id`). Remove any unsupported custom fields or convert them to tags."
     },
     {
       "@type": "HowToStep",
-      "text": "Set up a Zammad instance – provision a Linux server, install Docker or use the official Debian package, and configure SSL."
+      "text": "Set up Zammad – Provision a Linux server (Ubuntu 22.04 recommended), install Docker or follow the native package guide, and configure PostgreSQL and Elasticsearch."
     },
     {
       "@type": "HowToStep",
-      "text": "Import tickets – run the `zammad-import` CLI tool (`zammad run rails r \"Import::Ticket.perform('path/to/file.csv')\"`)."
+      "text": "Import with Zammad’s import tool – Run `zammad run rake zammad:import:json[PATH_TO_EXPORT.json]` to ingest the JSON dump. Verify that ticket statuses, attachments, and user accounts appear correctly."
     },
     {
       "@type": "HowToStep",
-      "text": "Validate and go live – verify ticket counts, user mappings, and SLA fields; switch DNS/branding to point end‑users to the new portal."
+      "text": "Validate and go live – Conduct a parallel run for 1‑2 weeks, route new inbound tickets to Zammad via email forwarding or API, and decommission the Zendesk instance once confidence is established."
     }
   ]
 }
@@ -96,7 +96,7 @@
     <span class="hero-badge">💰 Save $19-$115/user/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     
-    <span class="hero-badge">📅 September 20, 2026</span>
+    <span class="hero-badge">📅 September 21, 2026</span>
   </div>
 </div>
 <div class="content">
