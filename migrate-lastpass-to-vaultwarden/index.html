@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from LastPass to Vaultwarden (September 25, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from LastPass to Vaultwarden (September 26, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from LastPass to Vaultwarden. Export your data, set up Vaultwarden, and switch your team — save Free / $3-$4/user/month.">
   <meta name="keywords" content="migrate LastPass to Vaultwarden, LastPass to Vaultwarden migration, how to switch from LastPass, Vaultwarden migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-lastpass-to-vaultwarden/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from LastPass to Vaultwarden (September 25, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from LastPass to Vaultwarden (September 26, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from LastPass to Vaultwarden. Export your data, set up Vaultwarden, and switch your team — save Free / $3-$4/user/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-lastpass-to-vaultwarden/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Log into your LastPass account, navigate to Advanced Settings, and select Export. Export your vault data as an unencrypted comma-separated values (`.csv`) file."
+      "text": "Export your LastPass vault: In the LastPass web vault, go to Advanced Options → Export → CSV and download the encrypted file."
     },
     {
       "@type": "HowToStep",
-      "text": "Access your newly deployed Vaultwarden server instance, log into the Web Vault, and navigate to Tools > Import Data."
+      "text": "Prepare a Vaultwarden server: Deploy the official Docker image (`vaultwarden/server:latest`) on a Linux host, configure HTTPS with a valid certificate, and set `ADMIN_TOKEN`."
     },
     {
       "@type": "HowToStep",
-      "text": "Select LastPass (csv) from the format dropdown menu, upload your exported `.csv` file, and execute the import."
+      "text": "Convert CSV to Bitwarden JSON: Use the open‑source tool `lastpass2bitwarden` (available on GitHub) to transform the CSV into a Bitwarden‑compatible JSON file."
     },
     {
       "@type": "HowToStep",
-      "text": "Verify that all folders, logins, secure notes, and attachments transferred correctly to your Vaultwarden vault."
+      "text": "Import into Vaultwarden: Log in to the Vaultwarden web UI as admin, navigate to Tools → Import Data, select Bitwarden JSON, and upload the file."
     },
     {
       "@type": "HowToStep",
-      "text": "Securely delete the temporary `.csv` export file from your local machine, uninstall the LastPass client, and install the official Bitwarden browser extension configured to point to your Vaultwarden server URL."
+      "text": "Validate and roll out: Verify that all entries appear correctly, enforce MFA for all users, and decommission LastPass accounts."
     }
   ]
 }
@@ -96,7 +96,7 @@
     <span class="hero-badge">💰 Save Free / $3-$4/user/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     
-    <span class="hero-badge">📅 September 25, 2026</span>
+    <span class="hero-badge">📅 September 26, 2026</span>
   </div>
 </div>
 <div class="content">
