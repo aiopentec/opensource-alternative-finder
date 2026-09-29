@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Typeform to Formbricks (September 28, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Typeform to Formbricks (September 29, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Typeform to Formbricks. Export your data, set up Formbricks, and switch your team — save Free / $25-$83/month.">
   <meta name="keywords" content="migrate Typeform to Formbricks, Typeform to Formbricks migration, how to switch from Typeform, Formbricks migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-typeform-to-formbricks/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Typeform to Formbricks (September 28, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Typeform to Formbricks (September 29, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Typeform to Formbricks. Export your data, set up Formbricks, and switch your team — save Free / $25-$83/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-typeform-to-formbricks/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export from Typeform: In Typeform, navigate to *Results → Export* and download responses as a CSV file (one file per form)."
+      "text": "Export data from Typeform: In the Typeform dashboard, go to *Results → Export* and download responses as a CSV or JSON file."
     },
     {
       "@type": "HowToStep",
-      "text": "Prepare the database: Set up a PostgreSQL instance for Formbricks and run the provided schema migration scripts (`npm run db:migrate`)."
+      "text": "Prepare the target schema: Map Typeform fields to Formbricks survey fields; ensure required fields match the Formbricks JSON structure."
     },
     {
       "@type": "HowToStep",
-      "text": "Map fields: Create a JSON mapping file that aligns Typeform column headers to Formbricks field IDs."
+      "text": "Set up Formbricks: Deploy the Docker image (`formbricks/formbricks:latest`) on your server or Kubernetes cluster, run the initial migration script, and create a new survey via the admin UI."
     },
     {
       "@type": "HowToStep",
-      "text": "Import using CLI: Run `formbricks import --source csv --file path/to/export.csv --mapping mapping.json`."
+      "text": "Import the data: Use Formbricks’ built‑in CSV import tool (`/admin/import`) or POST the JSON payload to the `/api/v1/responses` endpoint with your API key."
     },
     {
       "@type": "HowToStep",
-      "text": "Validate & reconnect: Verify imported data in the Formbricks UI, then reconfigure any webhooks or API clients to point at the new endpoint."
+      "text": "Validate and go live: Verify response counts, test webhook integrations, and update any front‑end embeds to point to the new Formbricks survey URLs."
     }
   ]
 }
@@ -96,7 +96,7 @@
     <span class="hero-badge">💰 Save Free / $25-$83/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     
-    <span class="hero-badge">📅 September 28, 2026</span>
+    <span class="hero-badge">📅 September 29, 2026</span>
   </div>
 </div>
 <div class="content">
