@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Calendly to Cal.com (September 30, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Calendly to Cal.com (October 01, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Calendly to Cal.com. Export your data, set up Cal.com, and switch your team — save Free / $8-$16/user/month.">
   <meta name="keywords" content="migrate Calendly to Cal.com, Calendly to Cal.com migration, how to switch from Calendly, Cal.com migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-calendly-to-cal-com/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Calendly to Cal.com (September 30, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Calendly to Cal.com (October 01, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Calendly to Cal.com. Export your data, set up Cal.com, and switch your team — save Free / $8-$16/user/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-calendly-to-cal-com/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,19 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export your existing user data, event types, and team configurations from Calendly using their available administrative tools or CSV reports."
+      "text": "Export Calendly data – In Calendly, go to *Settings → Export* and download bookings as a CSV file."
     },
     {
       "@type": "HowToStep",
-      "text": "Provision a production server and deploy the Cal.com open-source application via Docker Compose, configuring your PostgreSQL database and environment variables."
+      "text": "Prepare Cal.com instance – Deploy Cal.com via Docker or your preferred Kubernetes manifest; ensure PostgreSQL is running."
     },
     {
       "@type": "HowToStep",
-      "text": "Re-create your event types, routing forms, and team availability schedules inside the newly deployed Cal.com instance."
+      "text": "Map fields – Align CSV columns (event name, start/end time, participant email) with Cal.com’s `events` table schema."
     },
     {
       "@type": "HowToStep",
-      "text": "Invite your users to the Cal.com platform, have them authenticate their Google or Outlook calendars, and distribute your new scheduling links."
+      "text": "Import using the CLI – Run `calcom import bookings --file bookings.csv` (available in Cal.com v2.5+)."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Validate & redirect – Test a sample of imported events, update DNS or embed codes to point to the new Cal.com booking page, and deactivate Calendly links."
     }
   ]
 }
@@ -92,7 +96,7 @@
     <span class="hero-badge">💰 Save Free / $8-$16/user/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     
-    <span class="hero-badge">📅 September 30, 2026</span>
+    <span class="hero-badge">📅 October 01, 2026</span>
   </div>
 </div>
 <div class="content">

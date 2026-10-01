@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from DocuSign to DocuSeal (September 30, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from DocuSign to DocuSeal (October 01, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from DocuSign to DocuSeal. Export your data, set up DocuSeal, and switch your team — save $15-$65+/user/month.">
   <meta name="keywords" content="migrate DocuSign to DocuSeal, DocuSign to DocuSeal migration, how to switch from DocuSign, DocuSeal migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-docusign-to-docuseal/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from DocuSign to DocuSeal (September 30, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from DocuSign to DocuSeal (October 01, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from DocuSign to DocuSeal. Export your data, set up DocuSeal, and switch your team — save $15-$65+/user/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-docusign-to-docuseal/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export envelopes from DocuSign via the Admin console or API in CSV/JSON format."
+      "text": "Export Documents – In DocuSign, generate a CSV export of envelope metadata and download all completed PDFs via the “Export Completed Documents” feature."
     },
     {
       "@type": "HowToStep",
-      "text": "Map fields: Align DocuSign envelope fields to DocuSeal’s document schema (e.g., signer name, email, signing order)."
+      "text": "Prepare Server – Provision a Linux VM or container host, install Docker, and pull the official DocuSeal image (`docker pull docuseal/docuseal:latest`)."
     },
     {
       "@type": "HowToStep",
-      "text": "Set up DocuSeal on your server (Docker compose or Helm chart) and configure TLS and storage."
+      "text": "Import Data – Use DocuSeal’s CLI tool `docuseal import --format csv --source <path>` to ingest the CSV metadata and associate the PDFs."
     },
     {
       "@type": "HowToStep",
-      "text": "Import data using DocuSeal’s `import-envelope` CLI tool, which accepts the exported CSV/JSON files."
+      "text": "Map Users – Create user accounts in DocuSeal matching DocuSign email addresses; optionally bulk‑create via the `docuseal users import` command."
     },
     {
       "@type": "HowToStep",
-      "text": "Validate by sending test envelopes, confirming signatures, and updating any custom webhook URLs."
+      "text": "Validate & Go Live – Run a pilot with a subset of envelopes, verify signatures, then point your signing URLs to the new DocuSeal instance."
     }
   ]
 }
@@ -96,7 +96,7 @@
     <span class="hero-badge">💰 Save $15-$65+/user/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     
-    <span class="hero-badge">📅 September 30, 2026</span>
+    <span class="hero-badge">📅 October 01, 2026</span>
   </div>
 </div>
 <div class="content">
