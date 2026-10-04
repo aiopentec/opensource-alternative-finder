@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Dropbox to Nextcloud (October 03, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Dropbox to Nextcloud (October 04, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Dropbox to Nextcloud. Export your data, set up Nextcloud, and switch your team — save $9.99-$16.58/user/month.">
   <meta name="keywords" content="migrate Dropbox to Nextcloud, Dropbox to Nextcloud migration, how to switch from Dropbox, Nextcloud migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-dropbox-to-nextcloud/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Dropbox to Nextcloud (October 03, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Dropbox to Nextcloud (October 04, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Dropbox to Nextcloud. Export your data, set up Nextcloud, and switch your team — save $9.99-$16.58/user/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-dropbox-to-nextcloud/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export data from Dropbox – Use the Dropbox “Export” feature to generate a ZIP archive or enable the “Dropbox to CSV” script for metadata; the default format is a flat folder hierarchy in ZIP."
+      "text": "Export existing user accounts, metadata, and directory structures from the Dropbox Admin Console using CSV exports."
     },
     {
       "@type": "HowToStep",
-      "text": "Prepare the Nextcloud server – Install the latest Nextcloud stable release on a Linux VM, configure storage (e.g., S3 or local FS), and enable the “External storage” app for temporary Dropbox mount."
+      "text": "Provision a production-ready Linux server and install Nextcloud alongside a supported database (PostgreSQL/MySQL) and caching layer (Redis)."
     },
     {
       "@type": "HowToStep",
-      "text": "Import using the OCC command – Run `occ files:transfer --source=\"dropbox\"` to pull the ZIP contents directly into user accounts, preserving timestamps and folder structure."
+      "text": "Import user accounts into Nextcloud using the OCC command-line interface tool (`occ user:import`)."
     },
     {
       "@type": "HowToStep",
-      "text": "Validate permissions – Verify that ACLs and sharing links have been recreated; adjust manually where needed."
+      "text": "Transfer file data from Dropbox to the Nextcloud data directory using direct download/upload or rclone, then run `occ files:scan` to index the files."
     },
     {
       "@type": "HowToStep",
-      "text": "Switch users – Update DNS or SSO settings to point to the Nextcloud URL, decommission Dropbox accounts, and provide training on the new UI."
+      "text": "Direct users to install the Nextcloud desktop and mobile clients and authenticate against the new server instance."
     }
   ]
 }
@@ -96,7 +96,7 @@
     <span class="hero-badge">💰 Save $9.99-$16.58/user/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     <span class="hero-badge">🖥️ Setup: Moderate (~1-2 hours)</span>
-    <span class="hero-badge">📅 October 03, 2026</span>
+    <span class="hero-badge">📅 October 04, 2026</span>
   </div>
 </div>
 <div class="content">
