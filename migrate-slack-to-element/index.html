@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Slack to Element (October 07, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Slack to Element (October 08, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Slack to Element. Export your data, set up Element, and switch your team — save $7.25-$15/user/month.">
   <meta name="keywords" content="migrate Slack to Element, Slack to Element migration, how to switch from Slack, Element migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-slack-to-element/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Slack to Element (October 07, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Slack to Element (October 08, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Slack to Element. Export your data, set up Element, and switch your team — save $7.25-$15/user/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-slack-to-element/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export Slack data – In the Slack admin console, generate a workspace export; the output is a ZIP containing JSON files for messages, files, and channel metadata."
+      "text": "Export data from Slack – use Slack’s “Workspace Data Export” to download a JSON archive of channels, messages, and files."
     },
     {
       "@type": "HowToStep",
-      "text": "Prepare an Element server – Deploy Synapse (Matrix homeserver) via Docker, Kubernetes, or a VM, and enable the `slack_import` module."
+      "text": "Set up a Matrix homeserver – deploy Synapse (or Dendrite) on your infrastructure, configure TLS, and create initial admin accounts."
     },
     {
       "@type": "HowToStep",
-      "text": "Convert Slack JSON to Matrix format – Use the open‑source `slack2matrix` script to map channels to rooms and users to Matrix IDs."
+      "text": "Import the JSON – run the `matrix-slack-import` script (available on GitHub) to map Slack channels to Matrix rooms and preserve timestamps."
     },
     {
       "@type": "HowToStep",
-      "text": "Import into Synapse – Run `./manage.py import_json /path/to/converted` to load the converted data into the Element server."
+      "text": "Create Element clients – distribute the Element desktop/web app to users and point them at your homeserver URL."
     },
     {
       "@type": "HowToStep",
-      "text": "Onboard users – Invite existing Slack users via email or SSO, provide them with Element client links, and decommission Slack after verification."
+      "text": "Validate and decommission – verify that all critical conversations migrated, then disable Slack access or downgrade the plan."
     }
   ]
 }
@@ -96,7 +96,7 @@
     <span class="hero-badge">💰 Save $7.25-$15/user/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     <span class="hero-badge">🖥️ Setup: Moderate (~2 hours)</span>
-    <span class="hero-badge">📅 October 07, 2026</span>
+    <span class="hero-badge">📅 October 08, 2026</span>
   </div>
 </div>
 <div class="content">
