@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Sentry to GlitchTip (October 12, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Sentry to GlitchTip (October 13, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Sentry to GlitchTip. Export your data, set up GlitchTip, and switch your team — save Free / $26-$80+/month.">
   <meta name="keywords" content="migrate Sentry to GlitchTip, Sentry to GlitchTip migration, how to switch from Sentry, GlitchTip migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-sentry-to-glitchtip/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Sentry to GlitchTip (October 12, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Sentry to GlitchTip (October 13, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Sentry to GlitchTip. Export your data, set up GlitchTip, and switch your team — save Free / $26-$80+/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-sentry-to-glitchtip/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Deploy a production-ready GlitchTip instance using Docker and configure your PostgreSQL database and environment variables."
+      "text": "Export data from Sentry: Use Sentry’s `sentry-cli export` command to generate a JSON dump of issues and events."
     },
     {
       "@type": "HowToStep",
-      "text": "Update your application error tracking configuration to point the existing Sentry SDK DSN endpoint URL to your new GlitchTip server URL."
+      "text": "Prepare GlitchTip instance: Deploy GlitchTip via the official Docker‑Compose file and configure PostgreSQL storage."
     },
     {
       "@type": "HowToStep",
-      "text": "Export your alert rules and team configurations from Sentry, noting that historical event data migration is generally not supported due to schema differences."
+      "text": "Transform export format: Run the provided `glitchtip-importer` script (available in GlitchTip’s GitHub repo) to convert Sentry JSON to GlitchTip’s schema."
     },
     {
       "@type": "HowToStep",
-      "text": "Recreate your notification integrations (such as Slack, Webhooks, or Email) directly within the GlitchTip admin interface."
+      "text": "Import into GlitchTip: Execute `python manage.py import_issues <converted_file>.json` inside the GlitchTip container."
     },
     {
       "@type": "HowToStep",
-      "text": "Verify event ingestion by triggering a test exception in your staging environment before cutting over production traffic entirely."
+      "text": "Validate and switch DNS/webhooks: Verify that alerts, issue linking, and SDK integrations point to the new GlitchTip endpoint; then decommission the Sentry project."
     }
   ]
 }
@@ -96,7 +96,7 @@
     <span class="hero-badge">💰 Save Free / $26-$80+/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     
-    <span class="hero-badge">📅 October 12, 2026</span>
+    <span class="hero-badge">📅 October 13, 2026</span>
   </div>
 </div>
 <div class="content">

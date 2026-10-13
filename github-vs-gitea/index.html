@@ -35,7 +35,7 @@
     "headline": "GitHub vs Gitea",
     "description": "Gitea is a lightweight self-hosted GitHub alternative. Runs on a Raspberry Pi, takes 20 minutes to set up, and costs nothing. Full feature comparison inside.",
     "image": "https://osalfinder.com/og-default.png",
-    "dateModified": "2026-10-12T14:57:50Z",
+    "dateModified": "2026-10-13T14:06:48Z",
     "author": {
       "@type": "Organization",
       "name": "Open Source Alternative Finder",
@@ -317,7 +317,7 @@
     <span class="hero-badge">🤖 AI-Researched Daily</span>
     <span class="hero-badge">🖥️ Setup: Easy</span>
     <span class="hero-badge">👥 Dev + engineering teams</span>
-    <span class="hero-badge">📅 June 21, 2026</span>
+    <span class="hero-badge">📅 August 01, 2026</span>
   </div>
 </div>
 
@@ -398,89 +398,94 @@
   <div class="card">
     <h1>GitHub vs Gitea (2026)</h1>
 <h2>Overview</h2>
-GitHub and Gitea are web-based Git repository management platforms designed for version control and collaboration. This comparison benefits engineering teams, systems administrators, and organizations deciding between a managed cloud service and a self-hosted, lightweight alternative. The core use case for both is hosting source code, tracking issues, and managing pull requests, while teams typically switch from GitHub to Gitea to regain absolute data ownership and eliminate recurring per-user software licensing costs.
+GitHub and Gitea are web‑based Git hosting platforms that provide source‑code management, pull‑request workflows, and CI/CD integrations. This comparison helps development teams decide whether to stay on the industry‑standard SaaS service (GitHub) or move to a free, self‑hosted alternative (Gitea). The core use case is collaborative software development; teams switch primarily for cost control, data sovereignty, or tighter integration with internal tooling.
 <h2>Key Differences</h2>
 <ul>
-<li><strong>Cost:</strong> GitHub operates on a tiered SaaS pricing model charging per user per month for advanced features, whereas Gitea is free and open-source software with expenses limited entirely to your own hosting infrastructure.</li>
-<li><strong>Data Ownership:</strong> GitHub stores all code, metadata, and user data on Microsoft-owned cloud servers subject to US jurisdiction, while Gitea requires self-hosting, keeping all code and telemetry entirely on your local servers or private cloud.</li>
-<li><strong>Setup Complexity:</strong> GitHub requires zero infrastructure setup with immediate cloud availability, whereas Gitea demands manual deployment, database configuration, reverse proxy setup, and ongoing server maintenance.</li>
-<li><strong>Scalability:</strong> GitHub scales automatically to support millions of concurrent global users with built-in enterprise edge caching, while Gitea's scalability is strictly bound to the hardware resources and tuning of your underlying server.</li>
-<li><strong>Feature Integration:</strong> GitHub includes native Actions runners with massive pre-built marketplace integrations, whereas Gitea uses Gitea Actions (compatible with GitHub Actions syntax) but requires self-hosted runners for execution.</li>
+<li><strong>Cost:</strong> GitHub charges $7–$21 per user per month; Gitea is free software (only server hardware costs).  </li>
+<li><strong>Data ownership:</strong> GitHub stores repositories on its cloud; Gitea gives you full control of the underlying storage.  </li>
+<li><strong>Setup complexity:</strong> GitHub is ready‑to‑use after signup; Gitea requires provisioning a server, installing dependencies, and configuring TLS.  </li>
+<li><strong>Scalability:</strong> GitHub scales automatically to millions of users; Gitea’s scalability depends on your infrastructure and may need manual load‑balancing.  </li>
+<li><strong>Feature / integration:</strong> GitHub includes native GitHub Actions, Dependabot, and advanced security scanning; Gitea offers basic CI via external tools and lacks built‑in code scanning.</li>
 </ul>
 <h2>Pricing Comparison</h2>
 <div class="table-wrapper"><table>
 <thead><tr><th>Aspect</th><th>GitHub</th><th>Gitea</th></tr></thead><tbody>
-<tr><td>Base Cost</td><td>Free / $7-$21/user</td><td>Free (self-hosted)</td></tr>
+<tr><td>Base Cost</td><td>Free / $7‑$21 /user / month</td><td>Free (self‑hosted)</td></tr>
 <tr><td>License</td><td>Proprietary</td><td>MIT</td></tr>
-<tr><td>Self-hosting</td><td>Not available</td><td>Available</td></tr>
-<tr><td>Per-user cost at 50 users</td><td>~$21 to ~$1,260/mo</td><td>$0 (server cost only)</td></tr>
-<tr><td>Per-user cost at 200 users</td><td>~$84 to ~$5,040/mo</td><td>$0 (server cost only)</td></tr>
+<tr><td>Self‑hosting</td><td>Not available</td><td>Available</td></tr>
+<tr><td>Per‑user cost at 50 users</td><td>≈ $4,200 / year (Team plan)</td><td>$0 / year + server cost</td></tr>
+<tr><td>Per‑user cost at 200 users</td><td>≈ $16,800 / year (Team plan)</td><td>$0 / year + server cost</td></tr>
 </tbody></table></div>
 <h2>Pros and Cons</h2>
-<h3>GitHub</h3>
+<p><strong>GitHub</strong>
 <ul>
-<li><strong>Pros:</strong></li>
+<li>Pros  </li>
 </ul>
-  * Zero maintenance infrastructure managed by Microsoft.
-  * Massive ecosystem with millions of third-party integrations and Actions.
-  * Native, global community for open-source collaboration.
-  * Robust built-in security tooling like Dependabot and Secret Scanning.
+  - Massive ecosystem of apps, actions, and community resources.  
+  - Enterprise‑grade security, SAML SSO, and fine‑grained permissions.  
+  - Automatic high availability and global CDN.  
+  - Integrated issue tracker, project boards, and wikis.  
+  - Strong compliance certifications (SOC 2, ISO 27001).</p>
 <ul>
-<li><strong>Cons:</strong></li>
+<li>Cons  </li>
 </ul>
-  * Recurring per-user subscription fees scale up rapidly.
-  * Strict adherence to Microsoft terms of service and content moderation.
-  * Cloud-dependent with no official air-gapped SaaS option.
-  * Telemetry and data residency are controlled by a third party.
-<h3>Gitea</h3>
+  - Per‑user subscription can become expensive at scale.  
+  - Data resides on GitHub’s cloud; limited export granularity.  
+  - Custom server‑side hooks require GitHub Enterprise.  
+  - Pricing tiers can be confusing for mixed‑role teams.  
+  - Vendor lock‑in for advanced GitHub Actions features.
+<p><strong>Gitea</strong>
 <ul>
-<li><strong>Pros:</strong></li>
+<li>Pros  </li>
 </ul>
-  * Extremely low resource footprint, running smoothly on modest hardware.
-  * Complete data sovereignty and local network compatibility.
-  * Fully customizable under the permissive MIT license.
-  * Familiar GitHub-like interface reducing team learning curves.
+  - Completely free and open source under the MIT license.  
+  - Full control of data, backups, and retention policies.  
+  - Lightweight; runs on a single‑core VM with <200 MB RAM.  
+  - Simple UI and easy migration from existing Git repos.  
+  - Extensible via plugins and external CI systems.</p>
 <ul>
-<li><strong>Cons:</strong></li>
+<li>Cons  </li>
 </ul>
-  * Requires internal IT resources for backups, updates, and uptime.
-  * Smaller ecosystem for third-party marketplace integrations.
-  * Advanced enterprise compliance features require manual configuration or Gitea Enterprise.
-  * Native CI/CD (Gitea Actions) requires provisioning and managing runner nodes.
+  - No native CI/CD; relies on external tools like Drone or Jenkins.  
+  - Lacks built‑in advanced security scanning (Dependabot, CodeQL).  
+  - Limited enterprise‑grade support; community‑driven issue resolution.  
+  - Scaling beyond a few hundred users requires manual architecture work.  
+  - UI/UX is less polished than GitHub’s modern interface.
 <h2>When to Choose Each</h2>
-Choose GitHub when your team prioritizes zero infrastructure overhead, relies heavily on the GitHub Actions marketplace, engages in open-source software distribution, and requires enterprise-grade compliance without managing the underlying hardware.
-<p>Choose Gitea when your organization operates in air-gapped or strict regulatory environments, demands absolute control over source code data ownership, wants to eliminate per-user software licensing fees, and possesses the systems administration resources to self-host and maintain web applications.</p>
+<strong>GitHub</strong> is ideal for organizations that need a zero‑maintenance, globally available platform with deep integrations, advanced security features, and a large marketplace of extensions. It serves teams of any size that are comfortable paying per‑seat fees for the convenience of SaaS reliability and compliance guarantees.
+<p><strong>Gitea</strong> fits small‑to‑medium teams (10‑200 developers) that prioritize data sovereignty, want to eliminate recurring SaaS fees, and have in‑house ops capability to host and maintain the service. It is also attractive for internal tooling environments where a lightweight Git server is sufficient and external CI pipelines are already in place.</p>
 <h2>Migration Path</h2>
 <ol>
-<li>Export your repositories, issues, pull requests, and wiki data from GitHub using the official GitHub CLI (<code>gh repo export</code>) or the repository migration API.</li>
-<li>Provision a production server, configure a supported database (PostgreSQL, MySQL, or SQLite), and deploy Gitea via Docker or binary installation.</li>
-<li>Access the Gitea web UI, navigate to the migration dashboard, and input your GitHub personal access token to batch-import repositories and metadata.</li>
-<li>Update your local Git remote URLs to point to your new Gitea instance (<code>git remote set-url origin <gitea-url></code>).</li>
+<li><strong>Export repositories</strong> – Use <code>git clone --mirror <repo_url></code> for each GitHub repository or download the GitHub Archive (<code>.zip</code>) via the UI.  </li>
+<li><strong>Export issues and pull requests</strong> – Generate a JSON dump with GitHub’s REST API (<code>/repos/:owner/:repo/issues?state=all&per_page=100</code>).  </li>
+<li><strong>Set up Gitea</strong> – Deploy Gitea on a VM or container, configure TLS, and create an admin account.  </li>
+<li><strong>Import repositories</strong> – In Gitea, go to <strong>Admin → Migrate Repository</strong>, select “GitHub” as the source, provide the repo URL and a personal access token, and click <strong>Migrate</strong>.  </li>
+<li><strong>Import issues</strong> – Use the community tool <code>gitea-issue-importer</code> to read the JSON dump and create corresponding issues and comments in Gitea.</li>
 </ol>
 <hr>
 <h2>Our Take</h2>
-<p>Gitea is fully production-ready for small-to-medium engineering teams, internal enterprise tooling, and organizations with dedicated systems administration support. It offers a remarkably stable, fast, and resource-efficient Git hosting experience that mirrors the core functionality of modern developer platforms without the bloat. For teams seeking an alternative to public cloud dependency, Gitea provides a robust, self-hosted foundation that handles day-to-day version control and continuous integration reliably.</p>
-<p>However, prospective users must account for one significant technical limitation before switching: Gitea lacks the massive, turnkey third-party integration ecosystem of GitHub. While Gitea Actions handles CI/CD pipelines effectively, specialized integrations for project management, automated security scanning, and third-party developer tools often require custom webhooks, manual API scripting, or lack native support entirely.</p>
-<p>Ultimately, organizations with strict data residency requirements, air-gapped environments, or a desire to cut SaaS costs should switch to Gitea, provided they do not rely on GitHub's proprietary marketplace ecosystem. Teams heavily dependent on global open-source community discovery, advanced enterprise compliance automation, and zero-maintenance infrastructure should remain on GitHub.</p>
+<p>Gitea has matured into a production‑ready, self‑hosted Git platform for most development teams. Its lightweight footprint, MIT licensing, and straightforward installation mean that organizations can run a reliable Git server on modest hardware without paying per‑user fees. The core Git operations, pull‑request workflow, and basic issue tracking work flawlessly, and the active community provides regular security patches.</p>
+<p>The most significant technical limitation is the absence of an integrated CI/CD and advanced security scanning suite. Teams that rely on GitHub Actions, Dependabot, or CodeQL will need to provision external CI tools and manually integrate vulnerability scanning, which adds operational overhead and can fragment the development pipeline.</p>
+<p>Recommendation: Switch to Gitea if you have ≤200 developers, already use an external CI system, and require full control over repository data and costs. Do <strong>not</strong> switch if you depend on GitHub‑only features such as native Actions, advanced code‑security analysis, or need enterprise‑grade compliance guarantees out‑of‑the‑box.</p>
 <h2>Who Should Switch</h2>
 <ul>
-<li>Teams of 10 to 100 developers operating in air-gapped networks who do not need GitHub's public open-source discovery network.</li>
-<li>Cost-conscious organizations with 50+ users who do not need GitHub's proprietary Advanced Security secret scanning suite.</li>
-<li>Local government or healthcare IT units managing sensitive internal codebases who do not need third-party SaaS cloud storage.</li>
-<li>Enterprise departments requiring strict local data sovereignty who do not need the GitHub Actions marketplace of pre-built commercial actions.</li>
-<li>Hobbyist or homelab administrators hosting personal projects who do not need paid GitHub Enterprise administration features.</li>
+<li>Startups with 5‑30 engineers that already run Jenkins or Drone for CI.  </li>
+<li>Government or regulated agencies (≤150 users) needing on‑prem data residency.  </li>
+<li>Educational institutions with limited budgets that only need basic issue tracking.  </li>
+<li>Companies migrating from a legacy self‑hosted Git server and want a modern UI without SaaS fees.  </li>
+<li>Small open‑source projects (≤20 contributors) that want a free, community‑driven hosting option.</li>
 </ul>
 <h2>FAQ</h2>
-<h3>Can Gitea run on low-power hardware like a Raspberry Pi?</h3>
-Yes, Gitea is written in Go and has an exceptionally lightweight footprint. It runs smoothly on single-board computers, low-spec VPS instances, and legacy hardware with minimal RAM usage.
-<h3>Does Gitea support CI/CD pipelines out of the box?</h3>
-Yes, Gitea includes Gitea Actions, a built-in CI/CD system compatible with standard GitHub Actions syntax. You must configure and attach at least one runner instance to execute pipeline jobs.
-<h3>How do I handle user authentication in Gitea?</h3>
-Gitea supports local user database authentication alongside robust enterprise integrations including LDAP, Active Directory, OAuth2, and SAML 2.0. This allows seamless single sign-on integration with existing corporate identity providers.
-<h3>Is Gitea completely free to use?</h3>
-The core Gitea platform is open-source and free under the MIT license for unlimited users and repositories. Optional enterprise support tiers are available for organizations requiring dedicated commercial backing.
-<h3>Can I migrate issues and pull requests from GitHub to Gitea?</h3>
-Yes, Gitea features a built-in migration tool that imports repositories, issues, pull requests, labels, and milestones directly from GitHub using a personal access token.
+<h3>Does Gitea support GitHub Actions?</h3>
+No. Gitea does not include a native workflow engine like GitHub Actions; you must integrate an external CI system such as Drone, Jenkins, or GitLab CI.
+<h3>Can I use Gitea for private repositories without paying?</h3>
+Yes. Gitea is free and self‑hosted, so private repositories are unrestricted once you have your own server.
+<h3>Is there a limit on the number of repositories in Gitea?</h3>
+No built‑in limit; the practical ceiling depends on your storage and hardware resources.
+<h3>Does Gitea provide built‑in code security scanning?</h3>
+Not currently. Gitea lacks built‑in tools like Dependabot or CodeQL; you need third‑party scanners and manual integration.
+<h3>How does Gitea handle two‑factor authentication?</h3>
+Gitea supports TOTP (Time‑Based One‑Time Password) and can be configured with external OAuth providers for 2FA, but the feature set is less extensive than GitHub’s security options.
   </div>
 
   
