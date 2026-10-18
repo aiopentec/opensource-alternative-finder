@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Hotjar to OpenReplay (October 17, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Hotjar to OpenReplay (October 18, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Hotjar to OpenReplay. Export your data, set up OpenReplay, and switch your team — save Free / $32-$80+/month.">
   <meta name="keywords" content="migrate Hotjar to OpenReplay, Hotjar to OpenReplay migration, how to switch from Hotjar, OpenReplay migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-hotjar-to-openreplay/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Hotjar to OpenReplay (October 17, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Hotjar to OpenReplay (October 18, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Hotjar to OpenReplay. Export your data, set up OpenReplay, and switch your team — save Free / $32-$80+/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-hotjar-to-openreplay/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export Hotjar data – use Hotjar’s “Export” feature to download heatmaps as PNG, session recordings as MP4, and raw event logs as CSV/JSON."
+      "text": "Export Hotjar recordings: Use Hotjar’s “Export CSV” for session metadata and “Download .json” for individual recordings (available in Business plan)."
     },
     {
       "@type": "HowToStep",
-      "text": "Set up OpenReplay – deploy the Docker compose stack or Helm chart on your preferred server; configure PostgreSQL and Redis as per the docs."
+      "text": "Transform data: Convert Hotjar JSON to OpenReplay’s ingestion format (OpenReplay CLI `hotjar-to-openreplay` tool, open‑source on GitHub)."
     },
     {
       "@type": "HowToStep",
-      "text": "Import recordings – run the `openreplay import` CLI, pointing it at the exported JSON/CSV files; the tool maps Hotjar session IDs to OpenReplay’s schema."
+      "text": "Deploy OpenReplay: Spin up Docker Compose or Helm chart on your preferred cloud/VPS; configure PostgreSQL and ClickHouse."
     },
     {
       "@type": "HowToStep",
-      "text": "Validate – compare a sample of imported sessions in the OpenReplay UI to the original Hotjar recordings to ensure fidelity."
+      "text": "Ingest converted sessions: Run `openreplay import --source hotjar_export.json`."
     },
     {
       "@type": "HowToStep",
-      "text": "Switch tracking script – replace the Hotjar snippet with the OpenReplay SDK in your codebase; monitor for any missing events during the first week."
+      "text": "Validate and switch tracking script: Replace Hotjar snippet with OpenReplay SDK, monitor for data parity over a 2‑week overlap period."
     }
   ]
 }
@@ -96,7 +96,7 @@
     <span class="hero-badge">💰 Save Free / $32-$80+/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     
-    <span class="hero-badge">📅 October 17, 2026</span>
+    <span class="hero-badge">📅 October 18, 2026</span>
   </div>
 </div>
 <div class="content">
