@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Discord to Element (October 19, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Discord to Element (October 20, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Discord to Element. Export your data, set up Element, and switch your team — save Free / $9.99/month.">
   <meta name="keywords" content="migrate Discord to Element, Discord to Element migration, how to switch from Discord, Element migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-discord-to-element/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Discord to Element (October 19, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Discord to Element (October 20, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Discord to Element. Export your data, set up Element, and switch your team — save Free / $9.99/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-discord-to-element/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export Discord data – Use Discord’s built‑in “Export Data” feature to download a ZIP containing JSON files of messages, channels, and user info."
+      "text": "Export Discord data – In Discord Settings → “Privacy & Safety,” request a data export; the result is a JSON archive of messages, channels, and users."
     },
     {
       "@type": "HowToStep",
-      "text": "Set up a Matrix homeserver – Deploy Synapse (or another Matrix server) on your preferred infrastructure and configure TLS."
+      "text": "Set up an Element homeserver – Deploy Synapse (or Dendrite) on a VM, configure TLS, and create an admin user."
     },
     {
       "@type": "HowToStep",
-      "text": "Convert JSON to Matrix format – Run the open‑source `discord2matrix` conversion script, which maps Discord channels to Matrix rooms and preserves timestamps."
+      "text": "Convert JSON to Matrix format – Use the open‑source tool `discord2matrix` (available on GitHub) to transform Discord JSON into Matrix Event JSON."
     },
     {
       "@type": "HowToStep",
-      "text": "Import into Element – Use Synapse’s `import_room` admin API to load the converted room data."
+      "text": "Import into Synapse – Run Synapse’s `importer` script: `python -m synapse.app.importer --config-path homeserver.yaml --file discord_export.json`."
     },
     {
       "@type": "HowToStep",
-      "text": "Invite users – Create Element accounts for all former Discord members, share the homeserver address, and optionally enable Single Sign‑On (SSO) for seamless login."
+      "text": "Invite users – Send email invitations with temporary passwords; users log in via the Element web or desktop client and join the migrated rooms."
     }
   ]
 }
@@ -96,7 +96,7 @@
     <span class="hero-badge">💰 Save Free / $9.99/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     <span class="hero-badge">🖥️ Setup: Moderate (~2 hours)</span>
-    <span class="hero-badge">📅 October 19, 2026</span>
+    <span class="hero-badge">📅 October 20, 2026</span>
   </div>
 </div>
 <div class="content">

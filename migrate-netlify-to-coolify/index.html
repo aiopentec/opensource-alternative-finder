@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Netlify to Coolify (October 19, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Netlify to Coolify (October 20, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Netlify to Coolify. Export your data, set up Coolify, and switch your team — save Free / $19-$99/month.">
   <meta name="keywords" content="migrate Netlify to Coolify, Netlify to Coolify migration, how to switch from Netlify, Coolify migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-netlify-to-coolify/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Netlify to Coolify (October 19, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Netlify to Coolify (October 20, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Netlify to Coolify. Export your data, set up Coolify, and switch your team — save Free / $19-$99/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-netlify-to-coolify/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export Netlify site configuration – download the `netlify.toml` file and any `netlify.yml` workflow definitions from the site settings."
+      "text": "Export Netlify configuration – run `netlifyctl site:download --site-id <id> --output netlify-export.zip` to retrieve `netlify.toml`, build settings, and environment variables."
     },
     {
       "@type": "HowToStep",
-      "text": "Provision a Coolify server – spin up a VPS (e.g., DigitalOcean droplet) with Docker installed and run the official Coolify Docker installer."
+      "text": "Provision a Coolify server – spin up a VM (e.g., DigitalOcean droplet) and install Docker, then run `curl -fsSL https://coolify.io/install.sh | sh`."
     },
     {
       "@type": "HowToStep",
-      "text": "Create a new project in Coolify – import the Git repository, then map the `netlify.toml` build commands to Coolify’s “Build & Deploy” stage."
+      "text": "Create a new project in Coolify – import the `netlify.toml` as a Docker Compose file via the UI or CLI (`coolify import --file netlify-export.zip`)."
     },
     {
       "@type": "HowToStep",
-      "text": "Migrate environment variables – copy Netlify’s env vars into Coolify’s project settings; ensure secret handling matches your security policy."
+      "text": "Migrate environment variables – copy them from the Netlify dashboard into Coolify’s secret store."
     },
     {
       "@type": "HowToStep",
-      "text": "Test and switch DNS – verify the deployment on Coolify’s preview URL, then update your domain’s DNS records to point to the Coolify server’s IP or configured CDN."
+      "text": "Test and switch DNS – point your domain’s CNAME/A records to the Coolify‑managed load balancer, verify the site, then disable the Netlify site."
     }
   ]
 }
@@ -96,7 +96,7 @@
     <span class="hero-badge">💰 Save Free / $19-$99/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     
-    <span class="hero-badge">📅 October 19, 2026</span>
+    <span class="hero-badge">📅 October 20, 2026</span>
   </div>
 </div>
 <div class="content">
