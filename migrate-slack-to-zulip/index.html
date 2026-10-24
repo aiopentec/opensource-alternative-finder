@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Slack to Zulip (October 23, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Slack to Zulip (October 24, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Slack to Zulip. Export your data, set up Zulip, and switch your team — save $7.25-$15/user/month.">
   <meta name="keywords" content="migrate Slack to Zulip, Slack to Zulip migration, how to switch from Slack, Zulip migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-slack-to-zulip/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Slack to Zulip (October 23, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Slack to Zulip (October 24, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Slack to Zulip. Export your data, set up Zulip, and switch your team — save $7.25-$15/user/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-slack-to-zulip/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export from Slack – In the Slack admin console, generate a workspace export (JSON format) that includes all channels, messages, and files."
+      "text": "Export data from Slack – Use Slack’s “Workspace Settings → Import/Export” to download a JSON archive of all channels and messages."
     },
     {
       "@type": "HowToStep",
-      "text": "Prepare Zulip server – Set up a Zulip instance (Docker or native install) and ensure the `zulip-import` tool is installed (`pip install zulip-import`)."
+      "text": "Prepare Zulip server – Install the latest stable Zulip release on a Linux VM or container, configure DNS and TLS."
     },
     {
       "@type": "HowToStep",
-      "text": "Convert export – Run `zulip-import import-slack <path‑to‑export>.json` to translate Slack JSON into Zulip’s import format."
+      "text": "Convert Slack JSON – Run Zulip’s `import-slack` script (`./manage.py import_slack <path_to_json>`) to transform Slack data into Zulip’s format."
     },
     {
       "@type": "HowToStep",
-      "text": "Import into Zulip – Execute `zulip-import import <converted‑data>` on the Zulip server; the tool creates users, streams, and topics automatically."
+      "text": "Import into Zulip – Execute `./manage.py import_slack` on the Zulip server; verify channels, users, and threads appear correctly."
     },
     {
       "@type": "HowToStep",
-      "text": "Validate and go live – Verify channel mappings, test message integrity, update DNS or SSO settings, and inform users of the new login URL."
+      "text": "Post‑migration – Invite users to the new Zulip instance, set up required integrations (e.g., GitHub webhook), and decommission Slack after a transition period."
     }
   ]
 }
@@ -96,7 +96,7 @@
     <span class="hero-badge">💰 Save $7.25-$15/user/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     <span class="hero-badge">🖥️ Setup: Moderate (~1-2 hours)</span>
-    <span class="hero-badge">📅 October 23, 2026</span>
+    <span class="hero-badge">📅 October 24, 2026</span>
   </div>
 </div>
 <div class="content">
