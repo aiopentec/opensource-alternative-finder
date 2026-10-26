@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from GitHub to GitLab (October 25, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from GitHub to GitLab (October 26, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from GitHub to GitLab. Export your data, set up GitLab, and switch your team — save Free / $7-$21/user/month.">
   <meta name="keywords" content="migrate GitHub to GitLab, GitHub to GitLab migration, how to switch from GitHub, GitLab migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-github-to-gitlab/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from GitHub to GitLab (October 25, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from GitHub to GitLab (October 26, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from GitHub to GitLab. Export your data, set up GitLab, and switch your team — save Free / $7-$21/user/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-github-to-gitlab/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export your GitHub repositories, issues, pull requests, and wiki data using the GitHub REST API or automated repository export tools."
+      "text": "Export from GitHub: Use GitHub’s `Repository archive` feature to download a repository as a `.zip` or `.tar.gz` containing the `.git` history."
     },
     {
       "@type": "HowToStep",
-      "text": "Prepare your target GitLab instance (SaaS or self-hosted) and configure administrative access."
+      "text": "Prepare GitLab: Install GitLab Community Edition (or use GitLab SaaS) and create an empty project for each repository."
     },
     {
       "@type": "HowToStep",
-      "text": "Use the native GitLab GitHub importer tool via personal access tokens to migrate repositories, pull requests, and comments in bulk."
+      "text": "Import: In GitLab, select Import project → GitHub and authenticate with a personal access token, or use the `gitlab-import` CLI to push the `.git` bundle directly (`git push --mirror`)."
     },
     {
       "@type": "HowToStep",
-      "text": "Update local Git remotes across your development teams to point to the new GitLab repository URLs."
+      "text": "Migrate Issues & PRs: Export issues and pull requests via GitHub’s GraphQL API to JSON, then import them with GitLab’s `issues_import` and `merge_requests_import` Rake tasks."
     },
     {
       "@type": "HowToStep",
-      "text": "Translate and rewrite your GitHub Actions workflows into GitLab CI (`.gitlab-ci.ek`) pipeline configuration files."
+      "text": "Validate & Switch DNS: Verify code, CI pipelines, and permissions; update remote URLs for developers (`git remote set-url origin <gitlab-url>`)."
     }
   ]
 }
@@ -96,7 +96,7 @@
     <span class="hero-badge">💰 Save Free / $7-$21/user/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     <span class="hero-badge">🖥️ Setup: Advanced (~3-4 hours)</span>
-    <span class="hero-badge">📅 October 25, 2026</span>
+    <span class="hero-badge">📅 October 26, 2026</span>
   </div>
 </div>
 <div class="content">
