@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Zoom to Jitsi Meet (October 29, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Zoom to Jitsi Meet (October 30, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Zoom to Jitsi Meet. Export your data, set up Jitsi Meet, and switch your team — save Free / $13.33+/user/month.">
   <meta name="keywords" content="migrate Zoom to Jitsi Meet, Zoom to Jitsi Meet migration, how to switch from Zoom, Jitsi Meet migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-zoom-to-jitsi/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Zoom to Jitsi Meet (October 29, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Zoom to Jitsi Meet (October 30, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Zoom to Jitsi Meet. Export your data, set up Jitsi Meet, and switch your team — save Free / $13.33+/user/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-zoom-to-jitsi/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export Zoom data – use Zoom’s “Account Management → Export” to download CSV files of users, meetings, and recordings."
+      "text": "Export Zoom meeting metadata – use Zoom’s “Export Account Data” feature to download CSV files containing meeting IDs, titles, and participant lists."
     },
     {
       "@type": "HowToStep",
-      "text": "Provision Jitsi server – spin up a Docker‑Compose deployment on a VM (minimum 2 vCPU, 4 GB RAM) and configure a valid TLS certificate."
+      "text": "Set up a Jitsi Meet server – provision a Linux VM, install Docker, and run the official `jitsi/docker-jitsi-meet` stack with a valid TLS certificate."
     },
     {
       "@type": "HowToStep",
-      "text": "Migrate user accounts – import the CSV into your identity provider (e.g., LDAP) that Jitsi authenticates against; no direct Jitsi import tool exists."
+      "text": "Configure authentication – enable JWT or LDAP in `prosody` to mirror Zoom’s user management."
     },
     {
       "@type": "HowToStep",
-      "text": "Transfer recordings – download Zoom MP4 files and upload them to the Jitsi Jibri storage bucket or an external archive."
+      "text": "Create recurring rooms – script the CSV data with a simple Bash/Python loop that calls Jitsi’s REST API (or uses `curl`) to generate room URLs and share them via your calendar system."
     },
     {
       "@type": "HowToStep",
-      "text": "Update calendar invites – replace Zoom links with Jitsi Meet URLs; most calendar platforms accept a simple URL change without additional scripting."
+      "text": "Validate and train – run pilot meetings, verify audio/video quality, and provide quick‑start guides to end users."
     }
   ]
 }
@@ -96,7 +96,7 @@
     <span class="hero-badge">💰 Save Free / $13.33+/user/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     <span class="hero-badge">🖥️ Setup: Easy (~30 mins)</span>
-    <span class="hero-badge">📅 October 29, 2026</span>
+    <span class="hero-badge">📅 October 30, 2026</span>
   </div>
 </div>
 <div class="content">

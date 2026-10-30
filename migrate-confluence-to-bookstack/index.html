@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Confluence to BookStack (October 29, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Confluence to BookStack (October 30, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Confluence to BookStack. Export your data, set up BookStack, and switch your team — save $5.75-$11/user/month.">
   <meta name="keywords" content="migrate Confluence to BookStack, Confluence to BookStack migration, how to switch from Confluence, BookStack migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-confluence-to-bookstack/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Confluence to BookStack (October 29, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Confluence to BookStack (October 30, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Confluence to BookStack. Export your data, set up BookStack, and switch your team — save $5.75-$11/user/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-confluence-to-bookstack/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export from Confluence: In each space, use Space Settings → Content Tools → Export → XML to download a full XML dump."
+      "text": "Export from Confluence: In Confluence Cloud, go to *Space Settings → Content Tools → Export* and choose XML export for the entire space."
     },
     {
       "@type": "HowToStep",
-      "text": "Prepare the server: Install BookStack on a LAMP/LEMP stack, configure database, and enable the `confluence2bookstack` import script (available on GitHub)."
+      "text": "Prepare the XML: Unzip the export; the file `export.xml` contains pages, attachments, and metadata."
     },
     {
       "@type": "HowToStep",
-      "text": "Run the import: Execute `php artisan bookstack:import-confluence path/to/export.xml`. The script maps spaces to books, pages to chapters/pages, and preserves attachments."
+      "text": "Install BookStack import script: Clone the community `bookstack-confluence-import` repository and follow its README to place the XML file in the script’s `input` folder."
     },
     {
       "@type": "HowToStep",
-      "text": "Validate content: Review imported pages for formatting issues, broken links, and missing macros; adjust manually or with a custom script."
+      "text": "Run the importer: Execute `php import.php` on the server; the script converts Confluence pages to BookStack books, chapters, and pages, preserving hierarchy and attachments."
     },
     {
       "@type": "HowToStep",
-      "text": "Switch users: Update internal documentation links, decommission Confluence access, and train users on BookStack’s navigation and markdown editor."
+      "text": "Validate and adjust: Review imported content in BookStack, fix any formatting issues, and configure user accounts/permissions to match the previous Confluence setup."
     }
   ]
 }
@@ -96,7 +96,7 @@
     <span class="hero-badge">💰 Save $5.75-$11/user/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     
-    <span class="hero-badge">📅 October 29, 2026</span>
+    <span class="hero-badge">📅 October 30, 2026</span>
   </div>
 </div>
 <div class="content">

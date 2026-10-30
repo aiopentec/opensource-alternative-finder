@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Framer to Plasmic (October 29, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Framer to Plasmic (October 30, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Framer to Plasmic. Export your data, set up Plasmic, and switch your team — save Free / $15-$35/month.">
   <meta name="keywords" content="migrate Framer to Plasmic, Framer to Plasmic migration, how to switch from Framer, Plasmic migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-framer-to-plasmic/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Framer to Plasmic (October 29, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Framer to Plasmic (October 30, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Framer to Plasmic. Export your data, set up Plasmic, and switch your team — save Free / $15-$35/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-framer-to-plasmic/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Audit Components: Inventory your Framer components, layouts, and CMS collections to map them into equivalent React components or design system elements."
+      "text": "Export from Framer: In Framer, open each project and use File → Export → React Code (ZIP) to download the generated component bundle."
     },
     {
       "@type": "HowToStep",
-      "text": "Initialize Plasmic: Set up Plasmic within your existing Next.js, React, or Gatsby repository using the official Plasmic CLI and codegen tools."
+      "text": "Prepare a Plasmic project: Create a new Plasmic workspace via the CLI (`npx @plasmicapp/cli init`) and push an empty Git repo to your CI system."
     },
     {
       "@type": "HowToStep",
-      "text": "Register Custom Code: Register your existing React components and design tokens inside Plasmic Studio so designers can utilize your exact codebase primitives."
+      "text": "Import assets: Place the exported JSX files into the `src/components` folder of the Plasmic repo and run `plasmic sync` to register them as Plasmic components."
     },
     {
       "@type": "HowToStep",
-      "text": "Rebuild Layouts: Visually reconstruct your pages inside Plasmic Studio, binding them to your application data sources, APIs, and CMS."
+      "text": "Map data sources: Replace Framer’s built‑in data bindings with Plasmic’s GraphQL queries or static props, updating any API keys accordingly."
     },
     {
       "@type": "HowToStep",
-      "text": "Deploy Code: Commit the generated Plasmic code and components into your repository and deploy via your standard CI/CD pipeline (e.g., Vercel, AWS)."
+      "text": "Deploy: Build the Plasmic server (`docker build . -t plasmic-server`) and point your domain to the new host; verify that all interactive prototypes work as expected."
     }
   ]
 }
@@ -96,7 +96,7 @@
     <span class="hero-badge">💰 Save Free / $15-$35/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     
-    <span class="hero-badge">📅 October 29, 2026</span>
+    <span class="hero-badge">📅 October 30, 2026</span>
   </div>
 </div>
 <div class="content">
