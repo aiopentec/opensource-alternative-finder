@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Netlify to Coolify (November 02, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Netlify to Coolify (November 03, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Netlify to Coolify. Export your data, set up Coolify, and switch your team — save Free / $19-$99/month.">
   <meta name="keywords" content="migrate Netlify to Coolify, Netlify to Coolify migration, how to switch from Netlify, Coolify migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-netlify-to-coolify/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Netlify to Coolify (November 02, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Netlify to Coolify (November 03, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Netlify to Coolify. Export your data, set up Coolify, and switch your team — save Free / $19-$99/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-netlify-to-coolify/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export your existing static assets, build settings, and environment variables from your Netlify dashboard."
+      "text": "Export Netlify site – Use Netlify’s “Site Settings → Build & Deploy → Deploy Context → Download deploy” to obtain the static build folder and any serverless function ZIPs."
     },
     {
       "@type": "HowToStep",
-      "text": "Provision a fresh Linux virtual private server (Ubuntu 22.04+ recommended) and run the automated Coolify installation script via SSH."
+      "text": "Provision Coolify server – Spin up a VPS (minimum 2 vCPU, 4 GB RAM) and install Docker Engine, then deploy the Coolify Docker Compose stack per the official docs."
     },
     {
       "@type": "HowToStep",
-      "text": "Access the Coolify web interface, link your GitHub or GitLab repository containing your application code, and specify your build command and output directory."
+      "text": "Create a new Coolify project – In the Coolify UI, add a Git repository, select “Static Site” or “Docker Compose” template, and upload the exported build folder as a static asset or define a Dockerfile for functions."
     },
     {
       "@type": "HowToStep",
-      "text": "Configure your custom domain's DNS records to point directly to your Coolify server's IP address instead of Netlify's name servers."
+      "text": "Configure environment variables & DNS – Replicate Netlify’s environment variables in Coolify’s Settings → Env, and point your domain’s A/ CNAME records to the Coolify server’s IP."
     },
     {
       "@type": "HowToStep",
-      "text": "Trigger your first deployment in Coolify and verify that your application runs correctly with all required environment variables loaded."
+      "text": "Validate and cut over – Run a full test build, verify assets and functions, then disable Netlify’s DNS and enable the Coolify endpoint."
     }
   ]
 }
@@ -96,7 +96,7 @@
     <span class="hero-badge">💰 Save Free / $19-$99/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     
-    <span class="hero-badge">📅 November 02, 2026</span>
+    <span class="hero-badge">📅 November 03, 2026</span>
   </div>
 </div>
 <div class="content">
