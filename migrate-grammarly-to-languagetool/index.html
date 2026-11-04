@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Grammarly to LanguageTool (November 03, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Grammarly to LanguageTool (November 04, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Grammarly to LanguageTool. Export your data, set up LanguageTool, and switch your team — save Free / $12-$15/month.">
   <meta name="keywords" content="migrate Grammarly to LanguageTool, Grammarly to LanguageTool migration, how to switch from Grammarly, LanguageTool migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-grammarly-to-languagetool/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Grammarly to LanguageTool (November 03, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Grammarly to LanguageTool (November 04, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Grammarly to LanguageTool. Export your data, set up LanguageTool, and switch your team — save Free / $12-$15/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-grammarly-to-languagetool/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export existing user glossaries and custom dictionary terms from Grammarly via the admin settings panel (CSV format)."
+      "text": "Export Grammarly data – Use Grammarly’s “Download your data” feature to export all documents as a ZIP of plain‑text (`.txt`) files."
     },
     {
       "@type": "HowToStep",
-      "text": "Deploy the LanguageTool server instance internally using the official Docker container on your organization's infrastructure."
+      "text": "Set up LanguageTool server – Deploy the Docker image (`languagetool/languagetool`) on a VM or Kubernetes cluster; configure the HTTP API port."
     },
     {
       "@type": "HowToStep",
-      "text": "Configure internal client applications and browser extensions to point API requests to your private LanguageTool server URL."
+      "text": "Convert documents – If needed, batch‑convert the exported `.txt` files to the LanguageTool API’s JSON format using a simple Python script (`txt → {\"text\": \"...\"})."
     },
     {
       "@type": "HowToStep",
-      "text": "Import your exported glossary terms and custom enterprise rules into the LanguageTool rule management interface."
+      "text": "Import via API – Send each JSON payload to `POST /v2/check` on your LanguageTool instance; store the returned suggestions in your internal review system."
     },
     {
       "@type": "HowToStep",
-      "text": "De-provision Grammarly enterprise licenses once user onboarding and extension routing are verified."
+      "text": "Validate & train – Review a sample of migrated documents, adjust custom rules, and decommission Grammarly accounts."
     }
   ]
 }
@@ -96,7 +96,7 @@
     <span class="hero-badge">💰 Save Free / $12-$15/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     
-    <span class="hero-badge">📅 November 03, 2026</span>
+    <span class="hero-badge">📅 November 04, 2026</span>
   </div>
 </div>
 <div class="content">
