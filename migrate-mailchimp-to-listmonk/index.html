@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Mailchimp to Listmonk (November 23, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Mailchimp to Listmonk (November 24, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Mailchimp to Listmonk. Export your data, set up Listmonk, and switch your team — save Free / $13-$350+/month.">
   <meta name="keywords" content="migrate Mailchimp to Listmonk, Mailchimp to Listmonk migration, how to switch from Mailchimp, Listmonk migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-mailchimp-to-listmonk/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Mailchimp to Listmonk (November 23, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Mailchimp to Listmonk (November 24, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Mailchimp to Listmonk. Export your data, set up Listmonk, and switch your team — save Free / $13-$350+/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-mailchimp-to-listmonk/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export from Mailchimp: In Mailchimp, navigate to *Audience → All contacts → Export Audience* and download the CSV file containing email, name, and merge fields."
+      "text": "Export contacts from Mailchimp – use the *Audience > Export Audience* feature to download a CSV file containing email, name, tags, and merge fields."
     },
     {
       "@type": "HowToStep",
-      "text": "Prepare Listmonk DB: Install Listmonk on a server, create a PostgreSQL database, and run `listmonk import --type=csv --file=mailchimp_export.csv`."
+      "text": "Prepare the CSV for Listmonk – ensure column headers match Listmonk’s import schema (`email`, `name`, `tags`, plus any custom fields)."
     },
     {
       "@type": "HowToStep",
-      "text": "Map Fields: During import, map Mailchimp columns to Listmonk’s subscriber schema (e.g., `EMAIL` → `email`, `FNAME` → `first_name`)."
+      "text": "Set up Listmonk – provision a server (Docker compose recommended), run the `listmonk` container, and create an admin account."
     },
     {
       "@type": "HowToStep",
-      "text": "Validate: Use Listmonk’s UI to verify subscriber counts, opt‑in status, and segment assignments."
+      "text": "Import the CSV – navigate to *Subscribers > Import* in the Listmonk UI or call the `/api/subscribers/import` endpoint with the CSV payload."
     },
     {
       "@type": "HowToStep",
-      "text": "Switch Sending Domain: Update DNS SPF/DKIM records to point to Listmonk’s sending IP, then configure your sending domain in Listmonk’s settings."
+      "text": "Recreate campaigns – copy HTML templates into Listmonk’s template manager, map merge fields, and schedule your first campaign."
     }
   ]
 }
@@ -96,7 +96,7 @@
     <span class="hero-badge">💰 Save Free / $13-$350+/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     <span class="hero-badge">🖥️ Setup: Easy (~20 mins)</span>
-    <span class="hero-badge">📅 November 23, 2026</span>
+    <span class="hero-badge">📅 November 24, 2026</span>
   </div>
 </div>
 <div class="content">

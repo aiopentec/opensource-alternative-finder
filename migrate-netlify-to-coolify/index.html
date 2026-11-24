@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Netlify to Coolify (November 23, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Netlify to Coolify (November 24, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Netlify to Coolify. Export your data, set up Coolify, and switch your team — save Free / $19-$99/month.">
   <meta name="keywords" content="migrate Netlify to Coolify, Netlify to Coolify migration, how to switch from Netlify, Coolify migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-netlify-to-coolify/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Netlify to Coolify (November 23, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Netlify to Coolify (November 24, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Netlify to Coolify. Export your data, set up Coolify, and switch your team — save Free / $19-$99/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-netlify-to-coolify/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,7 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export your data from Netlify in its standard export format, review Coolify import documentation, and plan a pilot period where both tools run in parallel."
+      "text": "Export Netlify configuration – download the `netlify.toml` file and the generated `build.zip` (contains the static assets and serverless function bundles)."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Create a Git repository – push the exported source code and `netlify.toml` to a new repo on GitHub/GitLab/Bitbucket."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Set up Coolify server – provision a VM (or use existing Kubernetes node), install Docker, then run `docker run -d -p 3000:3000 coollabsio/coolify`."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Import project – in Coolify UI, click Add Application → Import from Git, select the repo, and map the `build` folder to a static site container or to a custom Dockerfile for serverless equivalents."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Validate and switch DNS – test the preview URL, ensure environment variables and redirects are replicated, then update your domain’s CNAME to point at Coolify’s load balancer."
     }
   ]
 }
@@ -80,7 +96,7 @@
     <span class="hero-badge">💰 Save Free / $19-$99/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     
-    <span class="hero-badge">📅 November 23, 2026</span>
+    <span class="hero-badge">📅 November 24, 2026</span>
   </div>
 </div>
 <div class="content">
