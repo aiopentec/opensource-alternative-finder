@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Confluence to BookStack (November 24, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Confluence to BookStack (November 25, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Confluence to BookStack. Export your data, set up BookStack, and switch your team — save $5.75-$11/user/month.">
   <meta name="keywords" content="migrate Confluence to BookStack, Confluence to BookStack migration, how to switch from Confluence, BookStack migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-confluence-to-bookstack/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Confluence to BookStack (November 24, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Confluence to BookStack (November 25, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Confluence to BookStack. Export your data, set up BookStack, and switch your team — save $5.75-$11/user/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-confluence-to-bookstack/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,7 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export your data from Confluence in its standard export format, review BookStack import documentation, and plan a pilot period where both tools run in parallel."
+      "text": "Export from Confluence – Use Confluence’s built‑in “Space Export” to generate an XML dump of each space."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Convert to Markdown – Run the open‑source `confluence2markdown` script (available on GitHub) to transform XML pages into Markdown files."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Prepare BookStack – Set up a BookStack instance (Docker or LAMP) and create the target “books” that will house the imported pages."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Import – Use BookStack’s “Import from Markdown” feature (or the `php artisan bookstack:import` CLI) to bulk‑load the converted files."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Validate & Adjust – Review imported pages for broken links, image paths, and permission gaps; adjust roles and navigation as needed."
     }
   ]
 }
@@ -80,7 +96,7 @@
     <span class="hero-badge">💰 Save $5.75-$11/user/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     
-    <span class="hero-badge">📅 November 24, 2026</span>
+    <span class="hero-badge">📅 November 25, 2026</span>
   </div>
 </div>
 <div class="content">

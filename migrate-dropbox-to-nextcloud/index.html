@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Dropbox to Nextcloud (November 24, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Dropbox to Nextcloud (November 25, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Dropbox to Nextcloud. Export your data, set up Nextcloud, and switch your team — save $9.99-$16.58/user/month.">
   <meta name="keywords" content="migrate Dropbox to Nextcloud, Dropbox to Nextcloud migration, how to switch from Dropbox, Nextcloud migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-dropbox-to-nextcloud/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Dropbox to Nextcloud (November 24, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Dropbox to Nextcloud (November 25, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Dropbox to Nextcloud. Export your data, set up Nextcloud, and switch your team — save $9.99-$16.58/user/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-dropbox-to-nextcloud/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,23 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export data from Dropbox – Use Dropbox’s “Export” feature to download all files as a ZIP archive or enable the “Dropbox Team Folder” export to generate a CSV manifest of metadata."
+      "text": "Export data from Dropbox – Use Dropbox’s “Export” feature to generate a ZIP archive or a .csv manifest of all files and folder metadata."
     },
     {
       "@type": "HowToStep",
-      "text": "Prepare the Nextcloud server – Install the latest stable Nextcloud version on a Linux VM, configure storage (e.g., S3, local disks), and enable the “External storage” app if you plan to keep a hybrid setup."
+      "text": "Prepare the Nextcloud server – Install the latest Nextcloud LTS release on a Linux VM, configure storage (e.g., S3 or local disks), and enable the “External storage” app for temporary Dropbox mounts if needed."
     },
     {
       "@type": "HowToStep",
-      "text": "Import files – Upload the ZIP archive via the web UI or use the `occ files:scan --all` command after placing files in the data directory. For bulk metadata, use the “Import” app (available in the Nextcloud App Store) to read the CSV manifest."
+      "text": "Import with the Nextcloud Importer – Deploy the official `nextcloud-import` CLI tool (available via Composer) and point it at the ZIP archive; the tool restores files, timestamps, and basic sharing information."
     },
     {
       "@type": "HowToStep",
-      "text": "Recreate sharing permissions – Map Dropbox share links to Nextcloud shares manually or script the conversion using the Nextcloud API."
+      "text": "Validate permissions – Review user accounts, group memberships, and sharing links; adjust ACLs using the admin console or occ commands."
     },
     {
       "@type": "HowToStep",
-      "text": "Validate and cut over – Verify file integrity, test collaboration features, and point users to the new Nextcloud URL. Deactivate Dropbox accounts once all users confirm successful migration."
+      "text": "Switch client sync – Deploy the Nextcloud desktop client to all users, de‑provision the Dropbox client, and monitor sync health for 7 days before full cut‑over."
     }
   ]
 }
@@ -96,7 +96,7 @@
     <span class="hero-badge">💰 Save $9.99-$16.58/user/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     <span class="hero-badge">🖥️ Setup: Moderate (~1-2 hours)</span>
-    <span class="hero-badge">📅 November 24, 2026</span>
+    <span class="hero-badge">📅 November 25, 2026</span>
   </div>
 </div>
 <div class="content">
