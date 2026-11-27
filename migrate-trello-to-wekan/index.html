@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Migrate from Trello to WeKan (November 25, 2026) — Step-by-Step Guide</title>
+  <title>How to Migrate from Trello to WeKan (November 27, 2026) — Step-by-Step Guide</title>
   <meta name="description" content="Complete step-by-step guide to migrating from Trello to WeKan. Export your data, set up WeKan, and switch your team — save Free / $5+/user/month.">
   <meta name="keywords" content="migrate Trello to WeKan, Trello to WeKan migration, how to switch from Trello, WeKan migration guide">
   <link rel="canonical" href="https://osalfinder.com/migrate-trello-to-wekan/">
   <meta name="robots" content="index, follow">
   <meta name="google-adsense-account" content="ca-pub-4633315697698743">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="How to Migrate from Trello to WeKan (November 25, 2026) — Step-by-Step Guide">
+  <meta property="og:title" content="How to Migrate from Trello to WeKan (November 27, 2026) — Step-by-Step Guide">
   <meta property="og:description" content="Complete step-by-step guide to migrating from Trello to WeKan. Export your data, set up WeKan, and switch your team — save Free / $5+/user/month.">
   <meta property="og:url" content="https://osalfinder.com/migrate-trello-to-wekan/">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633315697698743" crossorigin="anonymous"></script>
@@ -24,7 +24,23 @@
   "step": [
     {
       "@type": "HowToStep",
-      "text": "Export Trello boards as JSON, then use WeKan Trello importer in Settings to recreate boards, lists, and cards."
+      "text": "In Trello, open the board menu → More → Print and Export → Export JSON to download the board’s JSON file."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Set up a WeKan server (Docker recommended) and ensure the database is running."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Use the community tool wekan-import (available via npm) to import the JSON: `npx wekan-import --file board.json --url http://your‑wekan.local`."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Verify card fields, members, and attachments; re‑attach any large files manually if they exceed the import size limit."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Invite users to the new WeKan instance and de‑activate the Trello board to avoid duplicate work."
     }
   ]
 }
@@ -80,7 +96,7 @@
     <span class="hero-badge">💰 Save Free / $5+/user/month</span>
     <span class="hero-badge">🔓 Own your data</span>
     <span class="hero-badge">🖥️ Setup: Easy (~20 mins)</span>
-    <span class="hero-badge">📅 November 25, 2026</span>
+    <span class="hero-badge">📅 November 27, 2026</span>
   </div>
 </div>
 <div class="content">
